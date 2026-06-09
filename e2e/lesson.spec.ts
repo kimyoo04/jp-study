@@ -21,6 +21,23 @@ test('complete a cold-start lesson and persist progress', async ({ page }) => {
   await expect(page.getByText('레슨 1회 완료')).toBeVisible()
 })
 
+test('sound toggle flips state and persists across reload', async ({ page }) => {
+  // Fresh Playwright context already starts with empty storage; no clear needed
+  // (clearing on every load would also wipe state on reload and break this test).
+  await page.goto('./')
+
+  const toggle = page.getByRole('button', { name: '효과음 끄기' }) // on by default -> label says "끄기"
+  await expect(toggle).toBeVisible()
+  await toggle.click()
+
+  // Now off -> label flips to "켜기".
+  const toggleOff = page.getByRole('button', { name: '효과음 켜기' })
+  await expect(toggleOff).toBeVisible()
+
+  await page.reload()
+  await expect(page.getByRole('button', { name: '효과음 켜기' })).toBeVisible()
+})
+
 test('second lesson quizzes introduced glyphs and grades the pick', async ({ page }) => {
   await page.addInitScript(() => localStorage.clear())
   await page.goto('./')

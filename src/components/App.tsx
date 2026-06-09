@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { HIRAGANA } from '../data/kana'
 import { useProgress } from '../hooks/useProgress'
+import { useSettings } from '../hooks/useSettings'
 import { applyAnswer, introducedCard, newCard, selectLessonKana, type LessonItem } from '../lib/srs'
 import { Home } from './Home'
 import { Lesson } from './Lesson'
@@ -10,6 +11,7 @@ type Screen = 'home' | 'lesson' | 'complete'
 
 export function App() {
   const { progress, persistent, update } = useProgress()
+  const { settings, toggleSfx } = useSettings()
   const [screen, setScreen] = useState<Screen>('home')
   const [items, setItems] = useState<LessonItem[]>([])
   const [lastScore, setLastScore] = useState({ correct: 0, total: 0 })
@@ -48,7 +50,13 @@ export function App() {
   return (
     <div className="app">
       {screen === 'home' && (
-        <Home progress={progress} persistent={persistent} onStart={startLesson} />
+        <Home
+          progress={progress}
+          persistent={persistent}
+          sfx={settings.sfx}
+          onToggleSfx={toggleSfx}
+          onStart={startLesson}
+        />
       )}
       {screen === 'lesson' && (
         <Lesson items={items} onExit={() => setScreen('home')} onComplete={finishLesson} />

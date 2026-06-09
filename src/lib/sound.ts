@@ -2,8 +2,15 @@
 // scaffold, and instant (<100ms) since there's nothing to fetch. Gated behind the
 // first user gesture by lazily creating the AudioContext.
 let ctx: AudioContext | null = null
+let enabled = true
+
+/** Toggle all sound effects on/off (TTS pronunciation is unaffected). */
+export function setSfxEnabled(on: boolean): void {
+  enabled = on
+}
 
 function audio(): AudioContext | null {
+  if (!enabled) return null
   if (typeof window === 'undefined') return null
   if (!ctx) {
     const AC = window.AudioContext || (window as any).webkitAudioContext

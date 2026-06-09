@@ -4,10 +4,12 @@ import { learnedCount, type Progress } from '../lib/srs'
 interface Props {
   progress: Progress
   persistent: boolean
+  sfx: boolean
+  onToggleSfx: () => void
   onStart: () => void
 }
 
-export function Home({ progress, persistent, onStart }: Props) {
+export function Home({ progress, persistent, sfx, onToggleSfx, onStart }: Props) {
   const total = HIRAGANA.length
   const learned = learnedCount(progress)
   const pct = Math.round((learned / total) * 100)
@@ -15,6 +17,14 @@ export function Home({ progress, persistent, onStart }: Props) {
   return (
     <main className="screen home">
       <header className="home-head">
+        <button
+          className="sfx-toggle"
+          onClick={onToggleSfx}
+          aria-pressed={sfx}
+          aria-label={sfx ? '효과음 끄기' : '효과음 켜기'}
+        >
+          {sfx ? '🔊' : '🔇'}
+        </button>
         <h1 className="logo">にほんご Pocket</h1>
         <p className="tagline">히라가나부터, 한 손으로</p>
       </header>

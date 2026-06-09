@@ -52,6 +52,19 @@ body {
 }
 .home-head {
   text-align: center;
+  position: relative;
+}
+.sfx-toggle {
+  position: absolute;
+  top: -8px;
+  right: 0;
+  background: var(--surface);
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 20px;
+  cursor: pointer;
 }
 .logo {
   font-size: 28px;
