@@ -8,6 +8,7 @@
   --muted: #a4a6c8;
   --correct: #3ddc84;
   --wrong: #ff5c7c;
+  --track: #14152b; /* empty progress groove — darker than surface so 0% reads as empty */
   --radius: 16px;
 }
 
@@ -118,9 +119,10 @@ body {
 }
 .progress-bar {
   height: 14px;
-  background: var(--surface-2);
+  background: var(--track);
   border-radius: 999px;
   overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 .progress-bar.slim {
   height: 8px;
