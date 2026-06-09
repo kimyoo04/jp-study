@@ -1,0 +1,249 @@
+:root {
+  --bg: #0f1020;
+  --surface: #1b1c3a;
+  --surface-2: #26284d;
+  --primary: #7c5cff;
+  --primary-press: #6647e6;
+  --text: #f4f4ff;
+  --muted: #a4a6c8;
+  --correct: #3ddc84;
+  --wrong: #ff5c7c;
+  --radius: 16px;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  overscroll-behavior: none;
+}
+
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 20px calc(24px + env(safe-area-inset-bottom));
+  gap: 20px;
+}
+
+/* ---- Home ---- */
+.home {
+  justify-content: center;
+}
+.home-head {
+  text-align: center;
+}
+.logo {
+  font-size: 28px;
+  margin: 0 0 4px;
+}
+.tagline {
+  color: var(--muted);
+  margin: 0;
+}
+.banner {
+  background: #3a2a00;
+  color: #ffd27c;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 14px;
+  text-align: center;
+}
+.progress-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.progress-bar {
+  height: 14px;
+  background: var(--surface-2);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress-bar.slim {
+  height: 8px;
+  flex: 1;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+.progress-sub {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+/* ---- Buttons ---- */
+.btn-primary,
+.btn-ghost {
+  border: none;
+  border-radius: var(--radius);
+  font-size: 17px;
+  font-weight: 700;
+  padding: 16px;
+  min-height: 56px;
+  cursor: pointer;
+  width: 100%;
+}
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 0 var(--primary-press);
+}
+.btn-primary:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 var(--primary-press);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--muted);
+  box-shadow: none;
+}
+.link {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 22px;
+  cursor: pointer;
+  padding: 4px 10px;
+}
+
+/* ---- Lesson ---- */
+.lesson-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.counter {
+  color: var(--muted);
+  font-size: 13px;
+  min-width: 34px;
+  text-align: right;
+}
+.card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  text-align: center;
+}
+.prompt-label {
+  color: var(--muted);
+  margin: 0;
+}
+.glyph.big {
+  font-size: 110px;
+  line-height: 1;
+  font-weight: 600;
+}
+.romaji {
+  font-size: 28px;
+  color: var(--primary);
+  font-weight: 700;
+}
+.big-audio {
+  font-size: 40px;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: var(--surface);
+}
+.options {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 8px;
+}
+.opt {
+  background: var(--surface);
+  color: var(--text);
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  font-size: 24px;
+  font-weight: 700;
+  padding: 20px;
+  min-height: 72px;
+  cursor: pointer;
+  transition:
+    transform 0.05s,
+    background 0.15s;
+}
+.opt:active {
+  transform: scale(0.97);
+}
+.opt.correct {
+  background: var(--correct);
+  color: #04210f;
+  border-color: var(--correct);
+}
+.opt.wrong {
+  background: var(--wrong);
+  color: #2b0410;
+  border-color: var(--wrong);
+  animation: shake 0.3s;
+}
+.opt.dim {
+  opacity: 0.4;
+}
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-6px);
+  }
+  75% {
+    transform: translateX(6px);
+  }
+}
+
+/* ---- Complete ---- */
+.complete {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.celebrate {
+  font-size: 72px;
+}
+.score {
+  font-size: 20px;
+  color: var(--muted);
+}
+.complete .btn-primary,
+.complete .btn-ghost {
+  max-width: 280px;
+}
