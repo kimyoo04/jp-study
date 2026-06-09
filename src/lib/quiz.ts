@@ -4,7 +4,7 @@
 import type { Kana } from '../data/kana'
 import { HIRAGANA, ROW_OF } from '../data/kana'
 
-export type QType = 'read' | 'listen'
+export type QType = 'read' | 'listen' | 'meaning'
 
 export interface Question {
   qtype: QType

@@ -1,8 +1,11 @@
 // Hiragana — gojūon (五十音) order. Each inner array is one row (행),
 // reused by both lesson sequencing and distractor selection (same-row first).
+import { WORD_ROWS, WORDS } from './words'
+
 export interface Kana {
   kana: string
   romaji: string
+  meaning?: string // present for word decks; absent for kana
 }
 
 export const HIRAGANA_ROWS: Kana[][] = [
@@ -195,24 +198,28 @@ export const KATAKANA_ROWS: Kana[][] = ALL_ROWS.map((row) =>
 /** All katakana (base + dakuten + yoon) flattened in teaching order. */
 export const KATAKANA: Kana[] = KATAKANA_ROWS.flat()
 
-/** Row lookup for a given kana char (both scripts) — used by distractor selection. */
+/** Row lookup for a given kana char (all scripts + words) — used by distractor selection. */
 export const ROW_OF: Record<string, Kana[]> = (() => {
   const map: Record<string, Kana[]> = {}
-  for (const row of [...ALL_ROWS, ...KATAKANA_ROWS]) for (const k of row) map[k.kana] = row
+  for (const row of [...ALL_ROWS, ...KATAKANA_ROWS, ...WORD_ROWS])
+    for (const k of row) map[k.kana] = row
   return map
 })()
 
 // ---- Decks ----------------------------------------------------------------
-export type DeckId = 'hiragana' | 'katakana'
+export type DeckId = 'hiragana' | 'katakana' | 'words'
+export type DeckKind = 'kana' | 'words'
 
 export interface Deck {
   id: DeckId
   label: string
+  kind: DeckKind // 'kana' -> quiz reads romaji; 'words' -> quiz reads meaning
   rows: Kana[][]
   kana: Kana[] // teaching order; also the distractor pool for this deck
 }
 
 export const DECKS: Deck[] = [
-  { id: 'hiragana', label: 'ひらがな', rows: ALL_ROWS, kana: HIRAGANA },
-  { id: 'katakana', label: 'カタカナ', rows: KATAKANA_ROWS, kana: KATAKANA },
+  { id: 'hiragana', label: 'ひらがな', kind: 'kana', rows: ALL_ROWS, kana: HIRAGANA },
+  { id: 'katakana', label: 'カタカナ', kind: 'kana', rows: KATAKANA_ROWS, kana: KATAKANA },
+  { id: 'words', label: '단어', kind: 'words', rows: WORD_ROWS, kana: WORDS },
 ]

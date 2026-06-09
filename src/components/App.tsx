@@ -1,10 +1,16 @@
 import { useMemo, useState } from 'react'
-import { DECKS, type Deck } from '../data/kana'
+import { DECKS, type Deck, type Kana } from '../data/kana'
 import { useProgress } from '../hooks/useProgress'
 import { useSettings } from '../hooks/useSettings'
-import { applyAnswer, introducedCard, newCard, selectLessonKana, type LessonItem } from '../lib/srs'
+import {
+  applyAnswer,
+  introducedCard,
+  newCard,
+  selectLessonKana,
+  type LessonItem,
+} from '../lib/srs'
 import { Home } from './Home'
-import { Lesson } from './Lesson'
+import { Lesson, type LessonResult } from './Lesson'
 import { Complete } from './Complete'
 
 type Screen = 'home' | 'lesson' | 'complete'
@@ -15,7 +21,7 @@ export function App() {
   const [deck, setDeck] = useState<Deck>(DECKS[0])
   const [screen, setScreen] = useState<Screen>('home')
   const [items, setItems] = useState<LessonItem[]>([])
-  const [lastScore, setLastScore] = useState({ correct: 0, total: 0 })
+  const [results, setResults] = useState<LessonResult[]>([])
 
   // The lesson count this lesson will produce when finished.
   const base = useMemo(() => progress.lessonsDone + 1, [progress.lessonsDone])
@@ -27,14 +33,22 @@ export function App() {
     setScreen('lesson')
   }
 
-  function finishLesson(results: { kana: string; mode: LessonItem['mode']; correct: boolean }[]) {
+  // Review only the given kana (e.g. the ones missed last lesson), all as quizzes.
+  function startReview(kana: Kana[]) {
+    if (kana.length === 0) return
+    setItems(kana.map((k) => ({ kana: k, mode: 'quiz' })))
+    setScreen('lesson')
+  }
+
+  function finishLesson(lessonResults: LessonResult[]) {
     const kana = { ...progress.kana }
-    for (const r of results) {
+    for (const r of lessonResults) {
+      const key = r.kana.kana
       if (r.mode === 'intro') {
-        kana[r.kana] = introducedCard(base)
+        kana[key] = introducedCard(base)
       } else {
-        const card = kana[r.kana] ?? newCard(progress.lessonsDone)
-        kana[r.kana] = applyAnswer(card, r.correct, base)
+        const card = kana[key] ?? newCard(progress.lessonsDone)
+        kana[key] = applyAnswer(card, r.correct, base)
       }
     }
     update({
@@ -43,10 +57,11 @@ export function App() {
       lessonsDone: base,
       lastPlayed: new Date().toISOString().slice(0, 10),
     })
-    const graded = results.filter((r) => r.mode === 'quiz')
-    setLastScore({ correct: graded.filter((r) => r.correct).length, total: graded.length })
+    setResults(lessonResults)
     setScreen('complete')
   }
+
+  const wrong = results.filter((r) => r.mode === 'quiz' && !r.correct).map((r) => r.kana)
 
   return (
     <div className="app">
@@ -65,12 +80,19 @@ export function App() {
         <Lesson
           items={items}
           pool={deck.kana}
+          deckKind={deck.kind}
           onExit={() => setScreen('home')}
           onComplete={finishLesson}
         />
       )}
       {screen === 'complete' && (
-        <Complete score={lastScore} onAgain={startLesson} onHome={() => setScreen('home')} />
+        <Complete
+          results={results}
+          wrong={wrong}
+          onReview={() => startReview(wrong)}
+          onAgain={startLesson}
+          onHome={() => setScreen('home')}
+        />
       )}
     </div>
   )

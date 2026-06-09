@@ -1,0 +1,33 @@
+import { describe, expect, it } from 'vitest'
+import { ROW_OF } from './kana'
+import { WORDS, WORD_ROWS } from './words'
+
+describe('words data', () => {
+  it('every word has kana, romaji, and a Korean meaning', () => {
+    for (const w of WORDS) {
+      expect(w.kana.length).toBeGreaterThan(0)
+      expect(w.romaji.length).toBeGreaterThan(0)
+      expect(w.meaning, `${w.kana} missing meaning`).toBeTruthy()
+    }
+  })
+
+  it('has no duplicate words', () => {
+    const chars = WORDS.map((w) => w.kana)
+    expect(new Set(chars).size).toBe(chars.length)
+  })
+
+  it('registers word rows in ROW_OF for distractor grouping', () => {
+    // いち is in the numbers row; its distractors should be other numbers.
+    const row = ROW_OF['いち']
+    expect(row).toBeDefined()
+    expect(row.some((k) => k.kana === 'に')).toBe(true)
+    expect(row.some((k) => k.kana === 'こんにちは')).toBe(false)
+  })
+
+  it('groups into the expected rows', () => {
+    expect(WORD_ROWS).toHaveLength(4) // 인사말 / 숫자 / 생활 / 시간
+    expect(WORD_ROWS[1].map((w) => w.meaning)).toEqual([
+      '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+    ])
+  })
+})
