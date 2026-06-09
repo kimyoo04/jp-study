@@ -17,6 +17,14 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
 html,
 body,
 #root {
@@ -117,6 +125,7 @@ body {
   justify-content: space-between;
   font-weight: 600;
   margin-bottom: 10px;
+  font-variant-numeric: tabular-nums;
 }
 .progress-bar {
   height: 14px;
@@ -187,6 +196,7 @@ body {
   font-size: 13px;
   min-width: 34px;
   text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 .card {
   flex: 1;
