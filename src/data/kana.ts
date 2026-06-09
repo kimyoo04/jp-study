@@ -181,9 +181,38 @@ export const HIRAGANA: Kana[] = ALL_ROWS.flat()
 /** Base 46 only — kept for callers that need the core set. */
 export const HIRAGANA_BASE: Kana[] = HIRAGANA_ROWS.flat()
 
-/** Row lookup for a given kana char — used by distractor selection. */
+// Katakana is structurally identical to hiragana, so we derive it by the fixed
+// Unicode offset (hiragana + 0x60) instead of re-typing 104 entries. Same rows,
+// same romaji — single source of truth.
+function toKatakana(s: string): string {
+  return [...s].map((c) => String.fromCodePoint(c.codePointAt(0)! + 0x60)).join('')
+}
+
+export const KATAKANA_ROWS: Kana[][] = ALL_ROWS.map((row) =>
+  row.map((k) => ({ kana: toKatakana(k.kana), romaji: k.romaji })),
+)
+
+/** All katakana (base + dakuten + yoon) flattened in teaching order. */
+export const KATAKANA: Kana[] = KATAKANA_ROWS.flat()
+
+/** Row lookup for a given kana char (both scripts) — used by distractor selection. */
 export const ROW_OF: Record<string, Kana[]> = (() => {
   const map: Record<string, Kana[]> = {}
-  for (const row of ALL_ROWS) for (const k of row) map[k.kana] = row
+  for (const row of [...ALL_ROWS, ...KATAKANA_ROWS]) for (const k of row) map[k.kana] = row
   return map
 })()
+
+// ---- Decks ----------------------------------------------------------------
+export type DeckId = 'hiragana' | 'katakana'
+
+export interface Deck {
+  id: DeckId
+  label: string
+  rows: Kana[][]
+  kana: Kana[] // teaching order; also the distractor pool for this deck
+}
+
+export const DECKS: Deck[] = [
+  { id: 'hiragana', label: 'ひらがな', rows: ALL_ROWS, kana: HIRAGANA },
+  { id: 'katakana', label: 'カタカナ', rows: KATAKANA_ROWS, kana: KATAKANA },
+]

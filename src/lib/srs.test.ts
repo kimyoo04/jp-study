@@ -7,6 +7,7 @@ import {
   introducedCard,
   isDue,
   learnedCount,
+  learnedCountFor,
   newCard,
   nextBox,
   selectLessonKana,
@@ -75,6 +76,22 @@ describe('learnedCount', () => {
       う: { box: 2, dueLesson: 0, seen: 2, correct: 1 },
     }
     expect(learnedCount(p)).toBe(2)
+  })
+
+  it('learnedCountFor restricts to the given deck', () => {
+    const p = emptyProgress()
+    p.kana = {
+      あ: { box: 3, dueLesson: 0, seen: 4, correct: 3 }, // hiragana, learned
+      ア: { box: 4, dueLesson: 0, seen: 5, correct: 5 }, // katakana, learned
+      イ: { box: 1, dueLesson: 0, seen: 1, correct: 0 }, // katakana, not yet
+    }
+    expect(learnedCountFor(p, [{ kana: 'あ', romaji: 'a' }])).toBe(1)
+    expect(
+      learnedCountFor(p, [
+        { kana: 'ア', romaji: 'a' },
+        { kana: 'イ', romaji: 'i' },
+      ]),
+    ).toBe(1)
   })
 })
 

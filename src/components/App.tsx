@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { HIRAGANA } from '../data/kana'
+import { DECKS, type Deck } from '../data/kana'
 import { useProgress } from '../hooks/useProgress'
 import { useSettings } from '../hooks/useSettings'
 import { applyAnswer, introducedCard, newCard, selectLessonKana, type LessonItem } from '../lib/srs'
@@ -12,6 +12,7 @@ type Screen = 'home' | 'lesson' | 'complete'
 export function App() {
   const { progress, persistent, update } = useProgress()
   const { settings, toggleSfx } = useSettings()
+  const [deck, setDeck] = useState<Deck>(DECKS[0])
   const [screen, setScreen] = useState<Screen>('home')
   const [items, setItems] = useState<LessonItem[]>([])
   const [lastScore, setLastScore] = useState({ correct: 0, total: 0 })
@@ -20,7 +21,7 @@ export function App() {
   const base = useMemo(() => progress.lessonsDone + 1, [progress.lessonsDone])
 
   function startLesson() {
-    const next = selectLessonKana(progress, HIRAGANA)
+    const next = selectLessonKana(progress, deck.kana)
     if (next.length === 0) return
     setItems(next)
     setScreen('lesson')
@@ -53,13 +54,20 @@ export function App() {
         <Home
           progress={progress}
           persistent={persistent}
+          deck={deck}
+          onSelectDeck={setDeck}
           sfx={settings.sfx}
           onToggleSfx={toggleSfx}
           onStart={startLesson}
         />
       )}
       {screen === 'lesson' && (
-        <Lesson items={items} onExit={() => setScreen('home')} onComplete={finishLesson} />
+        <Lesson
+          items={items}
+          pool={deck.kana}
+          onExit={() => setScreen('home')}
+          onComplete={finishLesson}
+        />
       )}
       {screen === 'complete' && (
         <Complete score={lastScore} onAgain={startLesson} onHome={() => setScreen('home')} />

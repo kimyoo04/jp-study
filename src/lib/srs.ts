@@ -74,6 +74,11 @@ export function learnedCount(progress: Progress): number {
   return Object.values(progress.kana).filter((c) => c.box >= LEARNED_BOX).length
 }
 
+/** Learned count restricted to a single deck's kana set. */
+export function learnedCountFor(progress: Progress, deckKana: Kana[]): number {
+  return deckKana.filter((k) => (progress.kana[k.kana]?.box ?? 0) >= LEARNED_BOX).length
+}
+
 export type LessonMode = 'intro' | 'quiz'
 export interface LessonItem {
   kana: Kana

@@ -38,6 +38,20 @@ test('sound toggle flips state and persists across reload', async ({ page }) => 
   await expect(page.getByRole('button', { name: '효과음 켜기' })).toBeVisible()
 })
 
+test('katakana deck teaches katakana glyphs', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('tab', { name: 'カタカナ' }).click()
+  await expect(page.getByRole('tab', { name: 'カタカナ' })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  )
+  await page.getByRole('button', { name: '시작하기' }).click()
+
+  // First katakana intro card should show ア (not あ).
+  await expect(page.getByText('새 글자')).toBeVisible()
+  await expect(page.locator('.glyph.big')).toHaveText('ア')
+})
+
 test('second lesson quizzes introduced glyphs and grades the pick', async ({ page }) => {
   await page.addInitScript(() => localStorage.clear())
   await page.goto('./')

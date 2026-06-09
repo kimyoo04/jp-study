@@ -82,6 +82,29 @@ body {
   font-size: 14px;
   text-align: center;
 }
+.deck-switch {
+  display: flex;
+  gap: 6px;
+  background: var(--surface);
+  border-radius: 999px;
+  padding: 5px;
+}
+.deck-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 17px;
+  font-weight: 700;
+  padding: 12px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.deck-tab.active {
+  background: var(--primary);
+  color: white;
+}
+
 .progress-card {
   background: var(--surface);
   border-radius: var(--radius);

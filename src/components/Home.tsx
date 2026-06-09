@@ -1,17 +1,27 @@
-import { HIRAGANA } from '../data/kana'
-import { learnedCount, type Progress } from '../lib/srs'
+import { DECKS, type Deck } from '../data/kana'
+import { learnedCountFor, type Progress } from '../lib/srs'
 
 interface Props {
   progress: Progress
   persistent: boolean
+  deck: Deck
+  onSelectDeck: (d: Deck) => void
   sfx: boolean
   onToggleSfx: () => void
   onStart: () => void
 }
 
-export function Home({ progress, persistent, sfx, onToggleSfx, onStart }: Props) {
-  const total = HIRAGANA.length
-  const learned = learnedCount(progress)
+export function Home({
+  progress,
+  persistent,
+  deck,
+  onSelectDeck,
+  sfx,
+  onToggleSfx,
+  onStart,
+}: Props) {
+  const total = deck.kana.length
+  const learned = learnedCountFor(progress, deck.kana)
   const pct = Math.round((learned / total) * 100)
 
   return (
@@ -35,9 +45,23 @@ export function Home({ progress, persistent, sfx, onToggleSfx, onStart }: Props)
         </div>
       )}
 
+      <div className="deck-switch" role="tablist" aria-label="문자 선택">
+        {DECKS.map((d) => (
+          <button
+            key={d.id}
+            role="tab"
+            aria-selected={d.id === deck.id}
+            className={d.id === deck.id ? 'deck-tab active' : 'deck-tab'}
+            onClick={() => onSelectDeck(d)}
+          >
+            {d.label}
+          </button>
+        ))}
+      </div>
+
       <section className="progress-card">
         <div className="progress-label">
-          <span>히라가나</span>
+          <span>{deck.label}</span>
           <span>
             {learned} / {total}
           </span>
@@ -51,7 +75,7 @@ export function Home({ progress, persistent, sfx, onToggleSfx, onStart }: Props)
       </section>
 
       <button className="btn-primary" onClick={onStart}>
-        {progress.lessonsDone > 0 ? '오늘의 레슨' : '시작하기'}
+        {learned > 0 ? '오늘의 레슨' : '시작하기'}
       </button>
     </main>
   )

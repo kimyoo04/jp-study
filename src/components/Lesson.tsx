@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react'
 import type { Kana } from '../data/kana'
-import { HIRAGANA } from '../data/kana'
 import type { LessonItem } from '../lib/srs'
 import { buildQuestion, isCorrect, type Question, type QType } from '../lib/quiz'
 import { hasJaVoice, primeSpeech, speak } from '../lib/speak'
@@ -8,6 +7,7 @@ import { playCorrect, playWrong } from '../lib/sound'
 
 interface Props {
   items: LessonItem[]
+  pool: Kana[] // distractor pool for the active deck
   onComplete: (
     results: { kana: string; mode: LessonItem['mode']; correct: boolean }[],
   ) => void
@@ -19,7 +19,7 @@ interface Step {
   question?: Question
 }
 
-export function Lesson({ items, onComplete, onExit }: Props) {
+export function Lesson({ items, pool, onComplete, onExit }: Props) {
   // Assign question types up front (round-robin read/listen; drop listen if no voice).
   const steps = useMemo<Step[]>(() => {
     const voice = hasJaVoice()
@@ -27,9 +27,9 @@ export function Lesson({ items, onComplete, onExit }: Props) {
     return items.map((item) => {
       if (item.mode === 'intro') return { item }
       const qtype: QType = !voice ? 'read' : quizN++ % 2 === 0 ? 'read' : 'listen'
-      return { item, question: buildQuestion(item.kana, qtype, HIRAGANA) }
+      return { item, question: buildQuestion(item.kana, qtype, pool) }
     })
-  }, [items])
+  }, [items, pool])
 
   const [index, setIndex] = useState(0)
   const [phase, setPhase] = useState<'answer' | 'feedback'>('answer')
