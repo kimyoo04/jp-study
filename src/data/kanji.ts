@@ -400,6 +400,94 @@ export const KANJI_ROWS: Kana[][] = [
     { kana: '門', romaji: 'もん・かど', meaning: '문' },
     { kana: '戸', romaji: 'と・こ', meaning: '문 / 집' },
   ],
+  // 날씨 / 계절 2
+  [
+    { kana: '雪', romaji: 'ゆき・せつ', meaning: '눈(雪)' },
+    { kana: '雲', romaji: 'くも・うん', meaning: '구름' },
+    { kana: '星', romaji: 'ほし・せい', meaning: '별' },
+    { kana: '晴', romaji: 'は-れる・せい', meaning: '맑다 / 개다' },
+    { kana: '曇', romaji: 'くも-る・どん', meaning: '흐리다' },
+    { kana: '温', romaji: 'あたた-かい・おん', meaning: '따뜻하다 / 온도' },
+    { kana: '冷', romaji: 'つめ-たい・れい', meaning: '차갑다' },
+    { kana: '季', romaji: 'き', meaning: '계절' },
+  ],
+  // 동물
+  [
+    { kana: '犬', romaji: 'いぬ・けん', meaning: '개' },
+    { kana: '猫', romaji: 'ねこ・びょう', meaning: '고양이' },
+    { kana: '鳥', romaji: 'とり・ちょう', meaning: '새' },
+    { kana: '牛', romaji: 'うし・ぎゅう', meaning: '소' },
+    { kana: '馬', romaji: 'うま・ば', meaning: '말' },
+    { kana: '羊', romaji: 'ひつじ・よう', meaning: '양' },
+    { kana: '虫', romaji: 'むし・ちゅう', meaning: '벌레' },
+    { kana: '鳴', romaji: 'な-く・めい', meaning: '울다 / 소리내다' },
+  ],
+  // 식재료 2
+  [
+    { kana: '葉', romaji: 'は・よう', meaning: '잎' },
+    { kana: '根', romaji: 'ね・こん', meaning: '뿌리' },
+    { kana: '実', romaji: 'み・じつ', meaning: '열매 / 실제' },
+    { kana: '種', romaji: 'たね・しゅ', meaning: '씨 / 종류' },
+    { kana: '麦', romaji: 'むぎ・ばく', meaning: '보리' },
+    { kana: '豆', romaji: 'まめ・とう', meaning: '콩' },
+    { kana: '塩', romaji: 'しお・えん', meaning: '소금' },
+    { kana: '砂', romaji: 'すな・さ', meaning: '모래' },
+  ],
+  // 신체 3
+  [
+    { kana: '指', romaji: 'ゆび・し', meaning: '손가락' },
+    { kana: '背', romaji: 'せ・はい', meaning: '등 / 키' },
+    { kana: '胸', romaji: 'むね・きょう', meaning: '가슴' },
+    { kana: '腹', romaji: 'はら・ふく', meaning: '배' },
+    { kana: '腰', romaji: 'こし・よう', meaning: '허리' },
+    { kana: '肩', romaji: 'かた・けん', meaning: '어깨' },
+    { kana: '骨', romaji: 'ほね・こつ', meaning: '뼈' },
+    { kana: '皮', romaji: 'かわ・ひ', meaning: '가죽 / 피부' },
+  ],
+  // 동작 3
+  [
+    { kana: '座', romaji: 'すわ-る・ざ', meaning: '앉다' },
+    { kana: '喜', romaji: 'よろこ-ぶ・き', meaning: '기뻐하다' },
+    { kana: '遊', romaji: 'あそ-ぶ・ゆう', meaning: '놀다' },
+    { kana: '育', romaji: 'そだ-てる・いく', meaning: '기르다' },
+    { kana: '飼', romaji: 'か-う・し', meaning: '기르다(동물)' },
+    { kana: '払', romaji: 'はら-う・ふつ', meaning: '지불하다' },
+    { kana: '貯', romaji: 'ちょ', meaning: '저축하다' },
+    { kana: '増', romaji: 'ふ-える・ぞう', meaning: '늘다' },
+  ],
+  // 성격 / 성질
+  [
+    { kana: '優', romaji: 'やさ-しい・ゆう', meaning: '상냥하다 / 뛰어나다' },
+    { kana: '親', romaji: 'した-しい・しん', meaning: '친하다 / 부모' },
+    { kana: '厳', romaji: 'きび-しい・げん', meaning: '엄하다' },
+    { kana: '静', romaji: 'しず-か・せい', meaning: '조용하다' },
+    { kana: '賢', romaji: 'かしこ-い・けん', meaning: '현명하다' },
+    { kana: '真', romaji: 'ま・しん', meaning: '참 / 진실' },
+    { kana: '正', romaji: 'ただ-しい・せい', meaning: '바르다 / 옳다' },
+    { kana: '悪', romaji: 'わる-い・あく', meaning: '나쁘다' },
+  ],
+  // 장소 / 시설
+  [
+    { kana: '公', romaji: 'こう・おおやけ', meaning: '공공' },
+    { kana: '園', romaji: 'えん・その', meaning: '동산 / 정원' },
+    { kana: '図', romaji: 'ず・と', meaning: '그림 / 도' },
+    { kana: '館', romaji: 'かん・やかた', meaning: '건물 / 관' },
+    { kana: '局', romaji: 'きょく', meaning: '국 (부서)' },
+    { kana: '室', romaji: 'しつ・むろ', meaning: '방' },
+    { kana: '階', romaji: 'かい', meaning: '층 / 계단' },
+    { kana: '庭', romaji: 'にわ・てい', meaning: '정원 / 마당' },
+  ],
+  // 추상 3
+  [
+    { kana: '続', romaji: 'つづ-く・ぞく', meaning: '계속되다' },
+    { kana: '変', romaji: 'か-わる・へん', meaning: '변하다 / 이상하다' },
+    { kana: '化', romaji: 'か・ば-ける', meaning: '되다 / 화하다' },
+    { kana: '必', romaji: 'かなら-ず・ひつ', meaning: '반드시' },
+    { kana: '要', romaji: 'い-る・よう', meaning: '필요 / 요점' },
+    { kana: '主', romaji: 'しゅ・おも', meaning: '주된 / 주인' },
+    { kana: '客', romaji: 'きゃく・かく', meaning: '손님' },
+    { kana: '様', romaji: 'さま・よう', meaning: '님 / 모양' },
+  ],
 ]
 
 /** All N5 kanji flattened in teaching order. */
