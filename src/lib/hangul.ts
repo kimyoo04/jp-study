@@ -1,8 +1,10 @@
 // 가나 → 한국어 발음 표기 변환. 회화 덱에서 일본어 문장 아래에
 // 한국어로 읽는 법을 보여주기 위해 사용한다.
-// 표기 규칙(국내 일본어 교재 관례):
-//   っ → 앞 글자에 ㅅ받침 (ちょっと → 춋토)
-//   ん → 앞 글자에 ㄴ받침 (おねがいします → 오네가이시마스, みんな → 민나)
+// 표기 규칙(국내 일본어 교재 관례, 발음 동화 반영):
+//   っ → 뒤 자음에 동화: か행 앞 ㄱ받침(がっこう → 각코우),
+//        ぱ/ば행 앞 ㅂ받침(いっぱい → 입파이), 그 외 ㅅ받침(ちょっと → 촛토)
+//   ん → 뒤 자음에 동화: ま/ば/ぱ행 앞 ㅁ받침(さんぽ → 삼포),
+//        か/が행 앞 ㅇ받침(げんき → 겡키), 그 외 ㄴ받침(みんな → 민나)
 //   ー → 장음 부호 '-' 유지 (メニュー → 메뉴-)
 
 const DIGRAPHS: Record<string, string> = {
@@ -47,8 +49,33 @@ const SINGLES: Record<string, string> = {
 }
 
 const HANGUL_BASE = 0xac00
+const JONG_GIYEOK = 1 // ㄱ
 const JONG_NIEUN = 4 // ㄴ
+const JONG_MIEUM = 16 // ㅁ
+const JONG_BIEUP = 17 // ㅂ
 const JONG_SIOS = 19 // ㅅ
+const JONG_IEUNG = 21 // ㅇ
+
+// 뒤 글자의 첫 자음에 따라 받침이 동화된다 (디그래프도 첫 글자만 보면 됨).
+const K_ROW = 'かきくけこがぎぐげご'
+const PB_ROW = 'ぱぴぷぺぽばびぶべぼ'
+const M_ROW = 'まみむめも'
+
+// ん의 받침: ま/ば/ぱ행 앞 ㅁ, か/が행 앞 ㅇ, 그 외(어말 포함) ㄴ
+function nasalJong(next: string | undefined): number {
+  if (!next) return JONG_NIEUN
+  if (M_ROW.includes(next) || PB_ROW.includes(next)) return JONG_MIEUM
+  if (K_ROW.includes(next)) return JONG_IEUNG
+  return JONG_NIEUN
+}
+
+// っ의 받침: か/が행 앞 ㄱ, ぱ/ば행 앞 ㅂ, 그 외 ㅅ
+function sokuonJong(next: string | undefined): number {
+  if (!next) return JONG_SIOS
+  if (K_ROW.includes(next)) return JONG_GIYEOK
+  if (PB_ROW.includes(next)) return JONG_BIEUP
+  return JONG_SIOS
+}
 
 // 받침 없는 한글 음절에 받침을 붙인다. 붙일 수 없으면 대체 글자를 출력한다.
 function attachJong(out: string[], jong: number, fallback: string) {
@@ -78,9 +105,9 @@ export function kanaToHangul(text: string): string {
       out.push(DIGRAPHS[pair])
       i++
     } else if (ch === 'っ') {
-      attachJong(out, JONG_SIOS, '읏')
+      attachJong(out, sokuonJong(chars[i + 1]), '읏')
     } else if (ch === 'ん') {
-      attachJong(out, JONG_NIEUN, '응')
+      attachJong(out, nasalJong(chars[i + 1]), '응')
     } else if (ch === 'ー') {
       out.push('-')
     } else if (SINGLES[ch]) {
