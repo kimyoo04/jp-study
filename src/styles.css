@@ -107,16 +107,23 @@ body {
   background: var(--surface);
   border-radius: 999px;
   padding: 5px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  /* fade the right edge to hint there are more decks to scroll to */
+  -webkit-mask-image: linear-gradient(to right, #000 88%, transparent);
+  mask-image: linear-gradient(to right, #000 88%, transparent);
+}
+.deck-switch::-webkit-scrollbar {
+  display: none;
 }
 .deck-tab {
-  flex: 1;
-  min-width: 0;
+  flex: 0 0 auto;
   border: none;
   background: transparent;
   color: var(--muted);
   font-size: 14px;
   font-weight: 700;
-  padding: 11px 6px;
+  padding: 11px 14px;
   border-radius: 999px;
   cursor: pointer;
   white-space: nowrap;

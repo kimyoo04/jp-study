@@ -3,6 +3,7 @@
 import { WORD_ROWS, WORDS } from './words'
 import { LOANWORD_ROWS, LOANWORDS } from './loanwords'
 import { GRAMMAR_ROWS, GRAMMAR } from './grammar'
+import { PHRASE_ROWS, PHRASES } from './phrases'
 
 export interface Kana {
   kana: string
@@ -204,13 +205,20 @@ export const KATAKANA: Kana[] = KATAKANA_ROWS.flat()
 /** Row lookup for a given kana char (all scripts + words) — used by distractor selection. */
 export const ROW_OF: Record<string, Kana[]> = (() => {
   const map: Record<string, Kana[]> = {}
-  for (const row of [...ALL_ROWS, ...KATAKANA_ROWS, ...WORD_ROWS, ...LOANWORD_ROWS, ...GRAMMAR_ROWS])
+  for (const row of [
+    ...ALL_ROWS,
+    ...KATAKANA_ROWS,
+    ...WORD_ROWS,
+    ...LOANWORD_ROWS,
+    ...GRAMMAR_ROWS,
+    ...PHRASE_ROWS,
+  ])
     for (const k of row) map[k.kana] = row
   return map
 })()
 
 // ---- Decks ----------------------------------------------------------------
-export type DeckId = 'hiragana' | 'katakana' | 'words' | 'loanwords' | 'grammar'
+export type DeckId = 'hiragana' | 'katakana' | 'words' | 'loanwords' | 'grammar' | 'phrases'
 // 'kana' -> quiz reads romaji; 'words'/'sentence' -> quiz reads meaning.
 // 'sentence' additionally renders smaller and shows the grammar pattern (note).
 export type DeckKind = 'kana' | 'words' | 'sentence'
@@ -229,4 +237,5 @@ export const DECKS: Deck[] = [
   { id: 'words', label: '단어', kind: 'words', rows: WORD_ROWS, kana: WORDS },
   { id: 'loanwords', label: '외래어', kind: 'words', rows: LOANWORD_ROWS, kana: LOANWORDS },
   { id: 'grammar', label: '문법', kind: 'sentence', rows: GRAMMAR_ROWS, kana: GRAMMAR },
+  { id: 'phrases', label: '회화', kind: 'sentence', rows: PHRASE_ROWS, kana: PHRASES },
 ]
