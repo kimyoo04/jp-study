@@ -2,6 +2,7 @@
 // reused by both lesson sequencing and distractor selection (same-row first).
 import { WORD_ROWS, WORDS } from './words'
 import { LOANWORD_ROWS, LOANWORDS } from './loanwords'
+import { COUNTER_ROWS, COUNTERS } from './counters'
 import { GRAMMAR_ROWS, GRAMMAR } from './grammar'
 import { PHRASE_ROWS, PHRASES } from './phrases'
 import { KANJI_ROWS, KANJI } from './kanji'
@@ -211,6 +212,7 @@ export const ROW_OF: Record<string, Kana[]> = (() => {
     ...KATAKANA_ROWS,
     ...WORD_ROWS,
     ...LOANWORD_ROWS,
+    ...COUNTER_ROWS,
     ...GRAMMAR_ROWS,
     ...PHRASE_ROWS,
     ...KANJI_ROWS,
@@ -225,6 +227,7 @@ export type DeckId =
   | 'katakana'
   | 'words'
   | 'loanwords'
+  | 'counters'
   | 'grammar'
   | 'phrases'
   | 'kanji'
@@ -270,6 +273,10 @@ const LOANWORD_CATS = [
   '자동차 / 교통 3',
   '디저트 / 간식 3', 'IT / 통신 3', '단위 / 수량', '생활용품 3', '쇼핑 / 패션 4',
 ]
+const COUNTER_CATS = [
+  '개수 〜つ', '사람 〜人', '날짜 1〜10일', '날짜 / 기간', '시간 〜時', '분 〜分',
+  '장 〜枚', '병/자루 〜本', '잔 〜杯 / 개 〜個', '마리 〜匹', '횟수 〜回', '나이 〜歳', '월 〜月',
+]
 const KANJI_CATS = [
   '숫자 1', '숫자 2 / 돈', '요일 / 시간', '사람 / 크기', '위치', '방위 / 자연', '신체 / 기본',
   '동사 1', '동사 2 / 생활', '형용사 / 정도', '명사 1', '명사 2', '시간 / 날짜 2', '가족',
@@ -288,6 +295,7 @@ export const DECKS: Deck[] = [
   { id: 'katakana', label: 'カタカナ', kind: 'kana', rows: KATAKANA_ROWS, kana: KATAKANA },
   { id: 'words', label: '단어', kind: 'words', rows: WORD_ROWS, kana: WORDS, catLabels: WORD_CATS },
   { id: 'loanwords', label: '외래어', kind: 'words', rows: LOANWORD_ROWS, kana: LOANWORDS, catLabels: LOANWORD_CATS },
+  { id: 'counters', label: '조수사', kind: 'words', rows: COUNTER_ROWS, kana: COUNTERS, catLabels: COUNTER_CATS },
   { id: 'grammar', label: '문법', kind: 'sentence', rows: GRAMMAR_ROWS, kana: GRAMMAR },
   { id: 'phrases', label: '회화', kind: 'sentence', rows: PHRASE_ROWS, kana: PHRASES },
   { id: 'kanji', label: '한자', kind: 'kanji', rows: KANJI_ROWS, kana: KANJI, catLabels: KANJI_CATS },
