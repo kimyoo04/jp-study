@@ -246,6 +246,42 @@ export const GRAMMAR_ROWS: Kana[][] = [
     { kana: 'かのじょは りょうりが じょうずです', romaji: 'kanojo wa ryouri ga jouzu desu', meaning: '그녀는 요리를 잘합니다', note: '～が じょうずです / へたです (잘함/못함)' },
     { kana: 'わたしは うたが へたです', romaji: 'watashi wa uta ga heta desu', meaning: '저는 노래를 못합니다', note: '～が じょうずです / へたです (잘함/못함)' },
   ],
+  // ～つもりです : ~할 작정입니다
+  [
+    { kana: 'にほんに いく つもりです', romaji: 'nihon ni iku tsumori desu', meaning: '일본에 갈 작정입니다', note: '～つもりです (~할 작정입니다)' },
+    { kana: 'あした やすむ つもりです', romaji: 'ashita yasumu tsumori desu', meaning: '내일 쉴 작정입니다', note: '～つもりです (~할 작정입니다)' },
+    { kana: 'べんきょうする つもりです', romaji: 'benkyou suru tsumori desu', meaning: '공부할 작정입니다', note: '～つもりです (~할 작정입니다)' },
+  ],
+  // ～なります : ~해집니다 / ~가 됩니다
+  [
+    { kana: 'さむく なります', romaji: 'samuku narimasu', meaning: '추워집니다', note: '～なります (~해집니다 / ~가 됩니다)' },
+    { kana: 'げんきに なります', romaji: 'genki ni narimasu', meaning: '건강해집니다', note: '～なります (~해집니다 / ~가 됩니다)' },
+    { kana: 'せんせいに なります', romaji: 'sensei ni narimasu', meaning: '선생님이 됩니다', note: '～なります (~해집니다 / ~가 됩니다)' },
+  ],
+  // ～たら : ~하면 (조건)
+  [
+    { kana: 'あめが ふったら いきません', romaji: 'ame ga futtara ikimasen', meaning: '비가 오면 안 갑니다', note: '～たら (~하면, 조건)' },
+    { kana: 'やすかったら かいます', romaji: 'yasukattara kaimasu', meaning: '싸면 삽니다', note: '～たら (~하면, 조건)' },
+    { kana: 'じかんが あったら あいましょう', romaji: 'jikan ga attara aimashou', meaning: '시간이 있으면 만납시다', note: '～たら (~하면, 조건)' },
+  ],
+  // ～ので : ~때문에 / ~라서
+  [
+    { kana: 'さむいので コートを きます', romaji: 'samui node kooto o kimasu', meaning: '추워서 코트를 입습니다', note: '～ので (~때문에 / ~라서)' },
+    { kana: 'いそがしいので いけません', romaji: 'isogashii node ikemasen', meaning: '바빠서 못 갑니다', note: '～ので (~때문에 / ~라서)' },
+    { kana: 'おいしいので すきです', romaji: 'oishii node suki desu', meaning: '맛있어서 좋아합니다', note: '～ので (~때문에 / ~라서)' },
+  ],
+  // ～のが すきです : ~하는 것을 좋아합니다
+  [
+    { kana: 'ほんを よむのが すきです', romaji: 'hon o yomu no ga suki desu', meaning: '책 읽는 것을 좋아합니다', note: '～のが すきです (~하는 것을 좋아합니다)' },
+    { kana: 'うたを うたうのが すきです', romaji: 'uta o utau no ga suki desu', meaning: '노래 부르는 것을 좋아합니다', note: '～のが すきです (~하는 것을 좋아합니다)' },
+    { kana: 'りょうりを つくるのが すきです', romaji: 'ryouri o tsukuru no ga suki desu', meaning: '요리하는 것을 좋아합니다', note: '～のが すきです (~하는 것을 좋아합니다)' },
+  ],
+  // ～まえに : ~하기 전에
+  [
+    { kana: 'ねる まえに はを みがきます', romaji: 'neru mae ni ha o migakimasu', meaning: '자기 전에 이를 닦습니다', note: '～まえに (~하기 전에)' },
+    { kana: 'たべる まえに てを あらいます', romaji: 'taberu mae ni te o araimasu', meaning: '먹기 전에 손을 씻습니다', note: '～まえに (~하기 전에)' },
+    { kana: 'いく まえに でんわします', romaji: 'iku mae ni denwa shimasu', meaning: '가기 전에 전화합니다', note: '～まえに (~하기 전에)' },
+  ],
 ]
 
 /** All example sentences flattened in teaching order. */

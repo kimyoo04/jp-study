@@ -31,7 +31,7 @@ describe('words data', () => {
     ])
   })
 
-  it('has a substantial vocabulary (>= 120 words)', () => {
-    expect(WORDS.length).toBeGreaterThanOrEqual(120)
+  it('has a substantial vocabulary (>= 180 words)', () => {
+    expect(WORDS.length).toBeGreaterThanOrEqual(180)
   })
 })

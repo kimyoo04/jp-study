@@ -198,6 +198,74 @@ export const WORD_ROWS: Kana[][] = [
     { kana: 'つくえ', romaji: 'tsukue', meaning: '책상' },
     { kana: 'いす', romaji: 'isu', meaning: '의자' },
   ],
+  // 과일 / 채소
+  [
+    { kana: 'りんご', romaji: 'ringo', meaning: '사과' },
+    { kana: 'みかん', romaji: 'mikan', meaning: '귤' },
+    { kana: 'ぶどう', romaji: 'budou', meaning: '포도' },
+    { kana: 'いちご', romaji: 'ichigo', meaning: '딸기' },
+    { kana: 'すいか', romaji: 'suika', meaning: '수박' },
+    { kana: 'もも', romaji: 'momo', meaning: '복숭아' },
+    { kana: 'たまねぎ', romaji: 'tamanegi', meaning: '양파' },
+    { kana: 'にんじん', romaji: 'ninjin', meaning: '당근' },
+  ],
+  // 교통
+  [
+    { kana: 'でんしゃ', romaji: 'densha', meaning: '전철' },
+    { kana: 'くるま', romaji: 'kuruma', meaning: '자동차' },
+    { kana: 'ひこうき', romaji: 'hikouki', meaning: '비행기' },
+    { kana: 'ふね', romaji: 'fune', meaning: '배(船)' },
+    { kana: 'じてんしゃ', romaji: 'jitensha', meaning: '자전거' },
+    { kana: 'ちかてつ', romaji: 'chikatetsu', meaning: '지하철' },
+    { kana: 'みち', romaji: 'michi', meaning: '길' },
+    { kana: 'きっぷ', romaji: 'kippu', meaning: '표(승차권)' },
+  ],
+  // 동사 3
+  [
+    { kana: 'わかる', romaji: 'wakaru', meaning: '알다 / 이해하다' },
+    { kana: 'おしえる', romaji: 'oshieru', meaning: '가르치다' },
+    { kana: 'ならう', romaji: 'narau', meaning: '배우다' },
+    { kana: 'おぼえる', romaji: 'oboeru', meaning: '외우다' },
+    { kana: 'わすれる', romaji: 'wasureru', meaning: '잊다' },
+    { kana: 'つくる', romaji: 'tsukuru', meaning: '만들다' },
+    { kana: 'あそぶ', romaji: 'asobu', meaning: '놀다' },
+    { kana: 'およぐ', romaji: 'oyogu', meaning: '수영하다' },
+    { kana: 'はしる', romaji: 'hashiru', meaning: '달리다' },
+    { kana: 'あるく', romaji: 'aruku', meaning: '걷다' },
+  ],
+  // 형용사 3
+  [
+    { kana: 'ふるい', romaji: 'furui', meaning: '낡다 / 오래되다' },
+    { kana: 'むずかしい', romaji: 'muzukashii', meaning: '어렵다' },
+    { kana: 'やさしい', romaji: 'yasashii', meaning: '쉽다 / 친절하다' },
+    { kana: 'たのしい', romaji: 'tanoshii', meaning: '즐겁다' },
+    { kana: 'さびしい', romaji: 'sabishii', meaning: '외롭다' },
+    { kana: 'いそがしい', romaji: 'isogashii', meaning: '바쁘다' },
+    { kana: 'げんき', romaji: 'genki', meaning: '건강함 / 기운참' },
+    { kana: 'ひま', romaji: 'hima', meaning: '한가함' },
+  ],
+  // 사람
+  [
+    { kana: 'かぞく', romaji: 'kazoku', meaning: '가족' },
+    { kana: 'こども', romaji: 'kodomo', meaning: '아이' },
+    { kana: 'おとな', romaji: 'otona', meaning: '어른' },
+    { kana: 'おとこ', romaji: 'otoko', meaning: '남자' },
+    { kana: 'おんな', romaji: 'onna', meaning: '여자' },
+    { kana: 'あかちゃん', romaji: 'akachan', meaning: '아기' },
+    { kana: 'がくせい', romaji: 'gakusei', meaning: '학생' },
+    { kana: 'かいしゃいん', romaji: 'kaishain', meaning: '회사원' },
+  ],
+  // 추상 / 생활 2
+  [
+    { kana: 'しごと', romaji: 'shigoto', meaning: '일 / 직업' },
+    { kana: 'べんきょう', romaji: 'benkyou', meaning: '공부' },
+    { kana: 'りょこう', romaji: 'ryokou', meaning: '여행' },
+    { kana: 'やすみ', romaji: 'yasumi', meaning: '휴일 / 방학' },
+    { kana: 'なまえ', romaji: 'namae', meaning: '이름' },
+    { kana: 'ことば', romaji: 'kotoba', meaning: '말 / 단어' },
+    { kana: 'こえ', romaji: 'koe', meaning: '목소리' },
+    { kana: 'いろ', romaji: 'iro', meaning: '색' },
+  ],
 ]
 
 /** All words flattened in teaching order. */

@@ -107,6 +107,53 @@ export const LOANWORD_ROWS: Kana[][] = [
     { kana: 'ポケット', romaji: 'poketto', meaning: '주머니' },
     { kana: 'サイズ', romaji: 'saizu', meaning: '사이즈' },
   ],
+  // 음식 / 음료 3
+  [
+    { kana: 'コーラ', romaji: 'koora', meaning: '콜라' },
+    { kana: 'ミルク', romaji: 'miruku', meaning: '우유' },
+    { kana: 'ワイン', romaji: 'wain', meaning: '와인' },
+    { kana: 'トマト', romaji: 'tomato', meaning: '토마토' },
+    { kana: 'カレー', romaji: 'karee', meaning: '카레' },
+    { kana: 'ラーメン', romaji: 'raamen', meaning: '라멘' },
+    { kana: 'パスタ', romaji: 'pasuta', meaning: '파스타' },
+    { kana: 'ステーキ', romaji: 'suteeki', meaning: '스테이크' },
+  ],
+  // 나라 2
+  [
+    { kana: 'イギリス', romaji: 'igirisu', meaning: '영국' },
+    { kana: 'スペイン', romaji: 'supein', meaning: '스페인' },
+    { kana: 'ロシア', romaji: 'roshia', meaning: '러시아' },
+    { kana: 'インド', romaji: 'indo', meaning: '인도' },
+    { kana: 'オーストラリア', romaji: 'oosutoraria', meaning: '호주' },
+    { kana: 'ブラジル', romaji: 'burajiru', meaning: '브라질' },
+  ],
+  // 스포츠 3
+  [
+    { kana: 'マラソン', romaji: 'marason', meaning: '마라톤' },
+    { kana: 'スキー', romaji: 'sukii', meaning: '스키' },
+    { kana: 'ボクシング', romaji: 'bokushingu', meaning: '복싱' },
+    { kana: 'サーフィン', romaji: 'saafin', meaning: '서핑' },
+    { kana: 'ジョギング', romaji: 'jogingu', meaning: '조깅' },
+    { kana: 'ヨガ', romaji: 'yoga', meaning: '요가' },
+  ],
+  // 직장 / 학교
+  [
+    { kana: 'クラス', romaji: 'kurasu', meaning: '반 / 수업' },
+    { kana: 'レポート', romaji: 'repooto', meaning: '리포트' },
+    { kana: 'ミーティング', romaji: 'miitingu', meaning: '미팅' },
+    { kana: 'プロジェクト', romaji: 'purojekuto', meaning: '프로젝트' },
+    { kana: 'グループ', romaji: 'guruupu', meaning: '그룹' },
+    { kana: 'メンバー', romaji: 'menbaa', meaning: '멤버' },
+  ],
+  // 색 / 추상
+  [
+    { kana: 'ピンク', romaji: 'pinku', meaning: '핑크' },
+    { kana: 'オレンジ', romaji: 'orenji', meaning: '오렌지색' },
+    { kana: 'グレー', romaji: 'guree', meaning: '회색' },
+    { kana: 'デザイン', romaji: 'dezain', meaning: '디자인' },
+    { kana: 'イメージ', romaji: 'imeeji', meaning: '이미지' },
+    { kana: 'アイデア', romaji: 'aidea', meaning: '아이디어' },
+  ],
 ]
 
 /** All loanwords flattened in teaching order. */
