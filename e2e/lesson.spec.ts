@@ -117,7 +117,7 @@ test('category selection scopes the deck to one theme', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('tab', { name: '한자' }).click()
   // Whole deck first.
-  await expect(page.locator('.progress-label')).toContainText('/ 500')
+  await expect(page.locator('.progress-label')).toContainText('/ 540')
   // Pick the "숫자 1" category (8 kanji).
   await page.locator('.cat-select select').selectOption('숫자 1')
   await expect(page.locator('.progress-label')).toContainText('/ 8')

@@ -438,6 +438,61 @@ export const LOANWORD_ROWS: Kana[][] = [
     { kana: 'ハイウェイ', romaji: 'haiwei', meaning: '고속도로' },
     { kana: 'ナンバー', romaji: 'nanbaa', meaning: '번호' },
   ],
+  // 디저트 / 간식 3
+  [
+    { kana: 'スイーツ', romaji: 'suiitsu', meaning: '디저트 / 스위츠' },
+    { kana: 'ポテト', romaji: 'poteto', meaning: '감자 / 포테이토' },
+    { kana: 'フライドポテト', romaji: 'furaidopoteto', meaning: '감자튀김' },
+    { kana: 'マカロン', romaji: 'makaron', meaning: '마카롱' },
+    { kana: 'パンケーキ', romaji: 'pankeeki', meaning: '팬케이크' },
+    { kana: 'クレープ', romaji: 'kureepu', meaning: '크레이프' },
+    { kana: 'タルト', romaji: 'taruto', meaning: '타르트' },
+    { kana: 'ゼリー', romaji: 'zerii', meaning: '젤리' },
+  ],
+  // IT / 통신 3
+  [
+    { kana: 'ダウンロード', romaji: 'daunroodo', meaning: '다운로드' },
+    { kana: 'アップロード', romaji: 'appuroodo', meaning: '업로드' },
+    { kana: 'クリック', romaji: 'kurikku', meaning: '클릭' },
+    { kana: 'スクロール', romaji: 'sukurooru', meaning: '스크롤' },
+    { kana: 'フォルダ', romaji: 'foruda', meaning: '폴더' },
+    { kana: 'ウェブ', romaji: 'webu', meaning: '웹' },
+    { kana: 'オンライン', romaji: 'onrain', meaning: '온라인' },
+    { kana: 'ブログ', romaji: 'burogu', meaning: '블로그' },
+  ],
+  // 단위 / 수량
+  [
+    { kana: 'パーセント', romaji: 'paasento', meaning: '퍼센트' },
+    { kana: 'グラム', romaji: 'guramu', meaning: '그램' },
+    { kana: 'キロ', romaji: 'kiro', meaning: '킬로' },
+    { kana: 'メートル', romaji: 'meetoru', meaning: '미터' },
+    { kana: 'センチ', romaji: 'senchi', meaning: '센티미터' },
+    { kana: 'リットル', romaji: 'rittoru', meaning: '리터' },
+    { kana: 'カップ', romaji: 'kappu', meaning: '컵 (계량)' },
+    { kana: 'ダース', romaji: 'daasu', meaning: '다스 / 12개' },
+  ],
+  // 생활용품 3
+  [
+    { kana: 'ストロー', romaji: 'sutoroo', meaning: '빨대' },
+    { kana: 'ナプキン', romaji: 'napukin', meaning: '냅킨' },
+    { kana: 'ペットボトル', romaji: 'pettobotoru', meaning: '페트병' },
+    { kana: 'バケツ', romaji: 'baketsu', meaning: '양동이' },
+    { kana: 'ホース', romaji: 'hoosu', meaning: '호스' },
+    { kana: 'スポンジ', romaji: 'suponji', meaning: '스펀지' },
+    { kana: 'ペンキ', romaji: 'penki', meaning: '페인트' },
+    { kana: 'ドライバー', romaji: 'doraibaa', meaning: '드라이버 (공구)' },
+  ],
+  // 쇼핑 / 패션 4
+  [
+    { kana: 'レジ', romaji: 'reji', meaning: '계산대' },
+    { kana: 'レシート', romaji: 'reshiito', meaning: '영수증' },
+    { kana: 'セール', romaji: 'seeru', meaning: '세일' },
+    { kana: 'ブランド', romaji: 'burando', meaning: '브랜드' },
+    { kana: 'スーツ', romaji: 'suutsu', meaning: '정장' },
+    { kana: 'ハイヒール', romaji: 'haihiiru', meaning: '하이힐' },
+    { kana: 'リボン', romaji: 'ribon', meaning: '리본' },
+    { kana: 'ベビーカー', romaji: 'bebiikaa', meaning: '유모차' },
+  ],
 ]
 
 /** All loanwords flattened in teaching order. */

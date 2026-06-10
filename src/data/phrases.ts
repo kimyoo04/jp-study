@@ -804,6 +804,39 @@ export const PHRASE_ROWS: Kana[][] = [
     { kana: 'つきましたら れんらくして', romaji: 'tsukimashitara renraku shite', meaning: '도착하면 연락해요', note: '배웅' },
     { kana: 'また よりましょう', romaji: 'mata yorimashou', meaning: '또 들러요', note: '배웅' },
   ],
+  // 주유소 / 차
+  [
+    { kana: 'まんたんに して ください', romaji: 'mantan ni shite kudasai', meaning: '가득 채워 주세요', note: '주유소 / 차' },
+    { kana: 'ガソリンが すくないです', romaji: 'gasorin ga sukunai desu', meaning: '기름이 얼마 없어요', note: '주유소 / 차' },
+    { kana: 'ちかくに ガソリンスタンドは ありますか', romaji: 'chikaku ni gasorin sutando wa arimasu ka', meaning: '근처에 주유소 있어요?', note: '주유소 / 차' },
+    { kana: 'せんしゃも おねがいします', romaji: 'sensha mo onegai shimasu', meaning: '세차도 부탁해요', note: '주유소 / 차' },
+    { kana: 'タイヤの くうきを みて ください', romaji: 'taiya no kuuki o mite kudasai', meaning: '타이어 공기 좀 봐 주세요', note: '주유소 / 차' },
+    { kana: 'まんたんで いくらですか', romaji: 'mantan de ikura desu ka', meaning: '가득 채우면 얼마예요?', note: '주유소 / 차' },
+    { kana: 'エンジンの ちょうしが へんです', romaji: 'enjin no choushi ga hen desu', meaning: '엔진 상태가 이상해요', note: '주유소 / 차' },
+    { kana: 'ちゅうしゃじょうは どこですか', romaji: 'chuushajou wa doko desu ka', meaning: '주차장은 어디예요?', note: '주유소 / 차' },
+  ],
+  // 편의점 2
+  [
+    { kana: 'これ あたためますか', romaji: 'kore atatamemasu ka', meaning: '이거 데워 드릴까요?', note: '편의점 2' },
+    { kana: 'はい おねがいします', romaji: 'hai onegai shimasu', meaning: '네, 부탁해요', note: '편의점 2' },
+    { kana: 'ふくろは ひとつで いいです', romaji: 'fukuro wa hitotsu de ii desu', meaning: '봉투는 하나면 돼요', note: '편의점 2' },
+    { kana: 'おはしを つけて ください', romaji: 'ohashi o tsukete kudasai', meaning: '젓가락 넣어 주세요', note: '편의점 2' },
+    { kana: 'エーティーエムは どこですか', romaji: 'eetiiemu wa doko desu ka', meaning: 'ATM은 어디예요?', note: '편의점 2' },
+    { kana: 'レシートは いりません', romaji: 'reshiito wa irimasen', meaning: '영수증은 필요 없어요', note: '편의점 2' },
+    { kana: 'こおりを ついかで おねがいします', romaji: 'koori o tsuika de onegai shimasu', meaning: '얼음 추가로 부탁해요', note: '편의점 2' },
+    { kana: 'ポイントカードは ありません', romaji: 'pointo kaado wa arimasen', meaning: '포인트카드 없어요', note: '편의점 2' },
+  ],
+  // 날씨 예보
+  [
+    { kana: 'あしたは あめの よほうです', romaji: 'ashita wa ame no yohou desu', meaning: '내일은 비 예보예요', note: '날씨 예보' },
+    { kana: 'きょうは かいせいです', romaji: 'kyou wa kaisei desu', meaning: '오늘은 쾌청해요', note: '날씨 예보' },
+    { kana: 'ごごから くもりです', romaji: 'gogo kara kumori desu', meaning: '오후부터 흐려요', note: '날씨 예보' },
+    { kana: 'たいふうが きて います', romaji: 'taifuu ga kite imasu', meaning: '태풍이 오고 있어요', note: '날씨 예보' },
+    { kana: 'きおんが さがります', romaji: 'kion ga sagarimasu', meaning: '기온이 내려가요', note: '날씨 예보' },
+    { kana: 'あつさに きを つけて ください', romaji: 'atsusa ni ki o tsukete kudasai', meaning: '더위 조심하세요', note: '날씨 예보' },
+    { kana: 'ゆきが ふるかも しれません', romaji: 'yuki ga furu kamo shiremasen', meaning: '눈이 올지도 몰라요', note: '날씨 예보' },
+    { kana: 'かさを もって いった ほうが いいです', romaji: 'kasa o motte itta hou ga ii desu', meaning: '우산 가져가는 게 좋아요', note: '날씨 예보' },
+  ],
 ]
 
 /** All conversational phrases flattened in teaching order. */

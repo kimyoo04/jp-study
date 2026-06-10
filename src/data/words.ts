@@ -798,6 +798,50 @@ export const WORD_ROWS: Kana[][] = [
     { kana: 'しゅう', romaji: 'shuu', meaning: '주(week)' },
     { kana: 'ねんれい', romaji: 'nenrei', meaning: '나이' },
   ],
+  // 동사 13
+  [
+    { kana: 'えらぶ', romaji: 'erabu', meaning: '고르다' },
+    { kana: 'かんじる', romaji: 'kanjiru', meaning: '느끼다' },
+    { kana: 'くらべる', romaji: 'kuraberu', meaning: '비교하다' },
+    { kana: 'ことわる', romaji: 'kotowaru', meaning: '거절하다' },
+    { kana: 'たしかめる', romaji: 'tashikameru', meaning: '확인하다' },
+    { kana: 'つづける', romaji: 'tsuzukeru', meaning: '계속하다' },
+    { kana: 'とりかえる', romaji: 'torikaeru', meaning: '교환하다' },
+    { kana: 'もうしこむ', romaji: 'moushikomu', meaning: '신청하다' },
+  ],
+  // 동사 14
+  [
+    { kana: 'あつかう', romaji: 'atsukau', meaning: '다루다' },
+    { kana: 'うけとる', romaji: 'uketoru', meaning: '받다 / 수령하다' },
+    { kana: 'えがく', romaji: 'egaku', meaning: '그리다' },
+    { kana: 'かたづける', romaji: 'katazukeru', meaning: '정리하다' },
+    { kana: 'くりかえす', romaji: 'kurikaesu', meaning: '반복하다' },
+    { kana: 'すすめる', romaji: 'susumeru', meaning: '추천하다 / 진행하다' },
+    { kana: 'ためる', romaji: 'tameru', meaning: '모으다' },
+    { kana: 'ふやす', romaji: 'fuyasu', meaning: '늘리다' },
+  ],
+  // 형용사 / 상태 6
+  [
+    { kana: 'ありがたい', romaji: 'arigatai', meaning: '고맙다' },
+    { kana: 'おさない', romaji: 'osanai', meaning: '어리다' },
+    { kana: 'かしこい', romaji: 'kashikoi', meaning: '영리하다' },
+    { kana: 'けわしい', romaji: 'kewashii', meaning: '험하다' },
+    { kana: 'すばやい', romaji: 'subayai', meaning: '재빠르다' },
+    { kana: 'たのもしい', romaji: 'tanomoshii', meaning: '믿음직하다' },
+    { kana: 'とぼしい', romaji: 'toboshii', meaning: '부족하다' },
+    { kana: 'めずらしい', romaji: 'mezurashii', meaning: '드물다' },
+  ],
+  // 추상 / 생활 4
+  [
+    { kana: 'きぼう', romaji: 'kibou', meaning: '희망' },
+    { kana: 'きろく', romaji: 'kiroku', meaning: '기록' },
+    { kana: 'けいかく', romaji: 'keikaku', meaning: '계획' },
+    { kana: 'しゅだん', romaji: 'shudan', meaning: '수단' },
+    { kana: 'せいこう', romaji: 'seikou', meaning: '성공' },
+    { kana: 'しっぱい', romaji: 'shippai', meaning: '실패' },
+    { kana: 'もくひょう', romaji: 'mokuhyou', meaning: '목표' },
+    { kana: 'げんいん', romaji: 'gen-in', meaning: '원인' },
+  ],
 ]
 
 /** All words flattened in teaching order. */

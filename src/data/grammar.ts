@@ -889,6 +889,39 @@ export const GRAMMAR_ROWS: Kana[][] = [
     { kana: 'たのしいと おもいます', romaji: 'tanoshii to omoimasu', meaning: '즐겁다고 생각합니다', note: '～と おもいます (~라고 생각합니다)' },
     { kana: 'それは ちがうと おもいます', romaji: 'sore wa chigau to omoimasu', meaning: '그건 다르다고 생각합니다', note: '～と おもいます (~라고 생각합니다)' },
   ],
+  // ～ばあいは : ~경우에는
+  [
+    { kana: 'あめの ばあいは ちゅうしします', romaji: 'ame no baai wa chuushi shimasu', meaning: '비가 올 경우에는 중지합니다', note: '～ばあいは (~경우에는)' },
+    { kana: 'おくれる ばあいは でんわして ください', romaji: 'okureru baai wa denwa shite kudasai', meaning: '늦을 경우에는 전화해 주세요', note: '～ばあいは (~경우에는)' },
+    { kana: 'わからない ばあいは きいて ください', romaji: 'wakaranai baai wa kiite kudasai', meaning: '모를 경우에는 물어봐 주세요', note: '～ばあいは (~경우에는)' },
+    { kana: 'じかんが ない ばあいは あしたでも いいです', romaji: 'jikan ga nai baai wa ashita demo ii desu', meaning: '시간이 없을 경우에는 내일이라도 됩니다', note: '～ばあいは (~경우에는)' },
+    { kana: 'みちが こむ ばあいは でんしゃが はやいです', romaji: 'michi ga komu baai wa densha ga hayai desu', meaning: '길이 막힐 경우에는 전철이 빠릅니다', note: '～ばあいは (~경우에는)' },
+    { kana: 'よやくが いっぱいの ばあいは また きます', romaji: 'yoyaku ga ippai no baai wa mata kimasu', meaning: '예약이 다 찼을 경우에는 다시 옵니다', note: '～ばあいは (~경우에는)' },
+    { kana: 'もんだいが ある ばあいは れんらくして ください', romaji: 'mondai ga aru baai wa renraku shite kudasai', meaning: '문제가 있을 경우에는 연락해 주세요', note: '～ばあいは (~경우에는)' },
+    { kana: 'やすみの ばあいは メールします', romaji: 'yasumi no baai wa meeru shimasu', meaning: '쉬는 경우에는 메일하겠습니다', note: '～ばあいは (~경우에는)' },
+  ],
+  // ～たびに : ~할 때마다
+  [
+    { kana: 'この うたを きく たびに かのじょを おもいだします', romaji: 'kono uta o kiku tabi ni kanojo o omoidashimasu', meaning: '이 노래를 들을 때마다 그녀를 떠올립니다', note: '～たびに (~할 때마다)' },
+    { kana: 'はるが くる たびに さくらを みます', romaji: 'haru ga kuru tabi ni sakura o mimasu', meaning: '봄이 올 때마다 벚꽃을 봅니다', note: '～たびに (~할 때마다)' },
+    { kana: 'かれに あう たびに げんきに なります', romaji: 'kare ni au tabi ni genki ni narimasu', meaning: '그를 만날 때마다 기운이 납니다', note: '～たびに (~할 때마다)' },
+    { kana: 'りょこうの たびに しゃしんを とります', romaji: 'ryokou no tabi ni shashin o torimasu', meaning: '여행할 때마다 사진을 찍습니다', note: '～たびに (~할 때마다)' },
+    { kana: 'この みせに くる たびに おなじ ものを たのみます', romaji: 'kono mise ni kuru tabi ni onaji mono o tanomimasu', meaning: '이 가게에 올 때마다 같은 걸 주문합니다', note: '～たびに (~할 때마다)' },
+    { kana: 'しけんの たびに きんちょうします', romaji: 'shiken no tabi ni kinchou shimasu', meaning: '시험 때마다 긴장합니다', note: '～たびに (~할 때마다)' },
+    { kana: 'かれに あう たびに しんせつだと おもいます', romaji: 'kare ni au tabi ni shinsetsu da to omoimasu', meaning: '그를 만날 때마다 친절하다고 생각합니다', note: '～たびに (~할 때마다)' },
+    { kana: 'あきの たびに この まちを おもいだします', romaji: 'aki no tabi ni kono machi o omoidashimasu', meaning: '가을마다 이 동네를 떠올립니다', note: '～たびに (~할 때마다)' },
+  ],
+  // ～おかげで : ~덕분에
+  [
+    { kana: 'あなたの おかげで せいこうしました', romaji: 'anata no okage de seikou shimashita', meaning: '당신 덕분에 성공했습니다', note: '～おかげで (~덕분에)' },
+    { kana: 'せんせいの おかげで ごうかくしました', romaji: 'sensei no okage de goukaku shimashita', meaning: '선생님 덕분에 합격했습니다', note: '～おかげで (~덕분에)' },
+    { kana: 'ともだちの おかげで たのしかったです', romaji: 'tomodachi no okage de tanoshikatta desu', meaning: '친구 덕분에 즐거웠습니다', note: '～おかげで (~덕분에)' },
+    { kana: 'くすりの おかげで よく なりました', romaji: 'kusuri no okage de yoku narimashita', meaning: '약 덕분에 나았습니다', note: '～おかげで (~덕분에)' },
+    { kana: 'てんきの おかげで いい しゃしんが とれました', romaji: 'tenki no okage de ii shashin ga toremashita', meaning: '날씨 덕분에 좋은 사진을 찍었습니다', note: '～おかげで (~덕분에)' },
+    { kana: 'みんなの おかげで おわりました', romaji: 'minna no okage de owarimashita', meaning: '모두 덕분에 끝났습니다', note: '～おかげで (~덕분에)' },
+    { kana: 'ちずの おかげで まよいませんでした', romaji: 'chizu no okage de mayoimasen deshita', meaning: '지도 덕분에 헤매지 않았습니다', note: '～おかげで (~덕분에)' },
+    { kana: 'れんしゅうの おかげで じょうずに なりました', romaji: 'renshuu no okage de jouzu ni narimashita', meaning: '연습 덕분에 능숙해졌습니다', note: '～おかげで (~덕분에)' },
+  ],
 ]
 
 /** All example sentences flattened in teaching order. */

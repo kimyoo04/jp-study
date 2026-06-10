@@ -693,6 +693,61 @@ export const KANJI_ROWS: Kana[][] = [
     { kana: '満', romaji: 'み-ちる・まん', meaning: '차다 / 가득' },
     { kana: '欠', romaji: 'か-ける・けつ', meaning: '빠지다 / 결' },
   ],
+  // 추상 / 사물 4
+  [
+    { kana: '例', romaji: 'れい', meaning: '예 / 보기' },
+    { kana: '件', romaji: 'けん', meaning: '건 / 사항' },
+    { kana: '案', romaji: 'あん', meaning: '안 / 생각' },
+    { kana: '容', romaji: 'よう', meaning: '내용 / 담다' },
+    { kana: '性', romaji: 'せい', meaning: '성질 / 성' },
+    { kana: '段', romaji: 'だん', meaning: '단계 / 계단' },
+    { kana: '列', romaji: 'れつ', meaning: '줄 / 열' },
+    { kana: '課', romaji: 'か', meaning: '과 / 부서' },
+  ],
+  // 동사 11
+  [
+    { kana: '加', romaji: 'くわ-える・か', meaning: '더하다' },
+    { kana: '減', romaji: 'へ-る・げん', meaning: '줄다' },
+    { kana: '越', romaji: 'こ-える・えつ', meaning: '넘다' },
+    { kana: '込', romaji: 'こ-む', meaning: '붐비다 / 넣다' },
+    { kana: '抜', romaji: 'ぬ-く・ばつ', meaning: '빼다 / 뽑다' },
+    { kana: '戻', romaji: 'もど-る', meaning: '되돌아가다' },
+    { kana: '求', romaji: 'もと-める・きゅう', meaning: '구하다 / 요구' },
+    { kana: '述', romaji: 'の-べる・じゅつ', meaning: '진술하다' },
+  ],
+  // 동사 12
+  [
+    { kana: '招', romaji: 'まね-く・しょう', meaning: '초대하다' },
+    { kana: '達', romaji: 'たつ', meaning: '도달하다 / ~들' },
+    { kana: '訪', romaji: 'おとず-れる・ほう', meaning: '방문하다' },
+    { kana: '留', romaji: 'と-める・りゅう', meaning: '머무르다' },
+    { kana: '申', romaji: 'もう-す・しん', meaning: '말씀드리다' },
+    { kana: '寄', romaji: 'よ-る・き', meaning: '들르다 / 기대다' },
+    { kana: '設', romaji: 'もう-ける・せつ', meaning: '설치하다' },
+    { kana: '提', romaji: 'てい', meaning: '제출 / 제안' },
+  ],
+  // 상태 / 형용 5
+  [
+    { kana: '似', romaji: 'に-る・じ', meaning: '닮다' },
+    { kana: '余', romaji: 'あま-る・よ', meaning: '남다' },
+    { kana: '失', romaji: 'うしな-う・しつ', meaning: '잃다' },
+    { kana: '過', romaji: 'す-ぎる・か', meaning: '지나다 / 지나치다' },
+    { kana: '仮', romaji: 'かり・か', meaning: '임시 / 가짜' },
+    { kana: '任', romaji: 'まか-せる・にん', meaning: '맡기다' },
+    { kana: '因', romaji: 'よ-る・いん', meaning: '원인' },
+    { kana: '果', romaji: 'は-たす・か', meaning: '결과 / 열매' },
+  ],
+  // 사회 / 일 2
+  [
+    { kana: '関', romaji: 'かか-る・かん', meaning: '관계 / 관문' },
+    { kana: '係', romaji: 'かかり・けい', meaning: '담당 / 관계' },
+    { kana: '査', romaji: 'さ', meaning: '조사' },
+    { kana: '構', romaji: 'かま-う・こう', meaning: '구성 / 상관' },
+    { kana: '績', romaji: 'せき', meaning: '성적 / 실적' },
+    { kana: '較', romaji: 'かく', meaning: '비교' },
+    { kana: '材', romaji: 'ざい', meaning: '재료' },
+    { kana: '然', romaji: 'ぜん・ねん', meaning: '그러하다 / 자연' },
+  ],
 ]
 
 /** All N5 kanji flattened in teaching order. */
