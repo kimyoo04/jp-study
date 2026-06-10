@@ -54,10 +54,12 @@ export function primeSpeech(): void {
 /**
  * Speak a study item. For kanji the `kana` field is a lone CJK glyph whose
  * reading is ambiguous to TTS, so we voice the `romaji` field (the hiragana
- * reading). Every other deck stores speakable Japanese in `kana`.
+ * reading). Multi-reading kanji use '・' as a separator (し・よん), which TTS
+ * would vocalize — swap it for a pause. Every other deck stores speakable
+ * Japanese in `kana`.
  */
 export function speakItem(item: { kana: string; romaji: string }, isKanji: boolean): void {
-  speak(isKanji ? item.romaji : item.kana)
+  speak(isKanji ? item.romaji.replace(/・/g, '、') : item.kana)
 }
 
 export function speak(text: string): void {

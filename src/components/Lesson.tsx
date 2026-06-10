@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import type { Deck, DeckKind, Kana } from '../data/kana'
 import type { LessonItem, LessonMode } from '../lib/srs'
-import { buildQuestion, isCorrect, pickQType, type Question } from '../lib/quiz'
+import { buildQuestion, isCorrect, optionText, pickQType, type Question } from '../lib/quiz'
 import { hasJaVoice, primeSpeech, speakItem } from '../lib/speak'
 import { kanaToHangul } from '../lib/hangul'
 import { playCorrect, playWrong } from '../lib/sound'
@@ -49,7 +49,7 @@ export function Lesson({ items, pool, deck, listenMode, onComplete, onExit }: Pr
     return items.map((item) => {
       if (item.mode === 'intro') return { item }
       const qtype = pickQType(deck.kind, listenMode, voice, quizN++)
-      return { item, question: buildQuestion(item.kana, qtype, pool) }
+      return { item, question: buildQuestion(item.kana, qtype, deck.kind, pool) }
     })
   }, [items, pool, deck.kind, listenMode])
 
@@ -183,7 +183,7 @@ function ExitConfirm({ onStay, onLeave }: { onStay: () => void; onLeave: () => v
       <div className="modal">
         <p className="modal-title">나가시겠어요?</p>
         <p className="modal-body">나가면 이번 레슨 진도가 사라져요.</p>
-        <button className="btn-primary" onClick={onStay}>
+        <button className="btn-primary" onClick={onStay} autoFocus>
           계속하기
         </button>
         <button className="btn-ghost" onClick={onLeave}>
@@ -216,10 +216,9 @@ function Quiz({
   const { qtype } = question
   // In listen mode kana decks still pick the glyph; word/kanji/sentence decks
   // pick the Korean meaning (you only have the sound to go on).
-  const listenPickGlyph = deckKind === 'kana'
   const label =
     qtype === 'listen'
-      ? listenPickGlyph
+      ? deckKind === 'kana'
         ? '소리를 듣고 글자를 고르세요'
         : '소리를 듣고 뜻을 고르세요'
       : qtype === 'meaning'
@@ -235,9 +234,13 @@ function Quiz({
       {qtype === 'listen' ? (
         <>
           <p className="prompt-label">{label}</p>
-          <button className="btn-ghost big-audio" onClick={onReplay}>
+          <button className="btn-ghost big-audio" onClick={onReplay} aria-label="다시 듣기">
             🔊
           </button>
+          {phase === 'feedback' && (
+            // Reveal what was heard so the sound gets tied to its glyph.
+            <div className={glyphClassFor(deckKind)}>{question.answer.kana}</div>
+          )}
         </>
       ) : (
         <>
@@ -259,14 +262,7 @@ function Quiz({
                   ? 'opt wrong'
                   : 'opt dim'
               : 'opt'
-          const text =
-            qtype === 'listen'
-              ? listenPickGlyph
-                ? opt.kana
-                : opt.meaning
-              : qtype === 'meaning'
-                ? opt.meaning
-                : opt.romaji
+          const text = optionText(opt, qtype, deckKind)
           const mark =
             phase === 'feedback' && isAnswer
               ? '✓'
@@ -291,6 +287,13 @@ function Quiz({
           )
         })}
       </div>
+
+      <p className="sr-only" role="status">
+        {phase === 'feedback' &&
+          (picked?.kana === question.answer.kana
+            ? '정답'
+            : `오답. 정답은 ${optionText(question.answer, qtype, deckKind)}`)}
+      </p>
 
       {phase === 'feedback' && (
         <button className="btn-primary" onClick={onContinue}>

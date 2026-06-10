@@ -26,7 +26,20 @@ export function pickQType(
 export interface Question {
   qtype: QType
   answer: Kana
-  options: Kana[] // includes the answer; render romaji (read) or kana (listen)
+  options: Kana[] // includes the answer; render via optionText()
+}
+
+/**
+ * The text an option renders for this question type. Also the identity used to
+ * keep options apart: two kana can share a romaji (じ/ぢ -> "ji") or a Korean
+ * meaning (かく/にがい -> "쓰다"), and showing the same text twice makes one
+ * "correct-looking" option silently wrong.
+ */
+export function optionText(opt: Kana, qtype: QType, deckKind: DeckKind): string {
+  if (qtype === 'read') return opt.romaji
+  if (qtype === 'meaning') return opt.meaning ?? ''
+  // listen: kana decks pick the glyph; other decks pick the meaning.
+  return deckKind === 'kana' ? opt.kana : (opt.meaning ?? '')
 }
 
 type Rng = () => number
@@ -40,29 +53,46 @@ function shuffle<T>(arr: T[], rng: Rng): T[] {
   return a
 }
 
-/** Pick `count` distractors for `answer`: same row first, then global fill. */
+/**
+ * Pick `count` distractors for `answer`: same row first, then global fill.
+ * `textOf` is the displayed text — candidates that would render identically to
+ * the answer (or to an already-picked distractor) are skipped.
+ */
 export function pickDistractors(
   answer: Kana,
   count: number,
   pool: Kana[] = HIRAGANA,
   rng: Rng = Math.random,
+  textOf: (k: Kana) => string = (k) => k.kana,
 ): Kana[] {
   const sameRow = (ROW_OF[answer.kana] ?? []).filter((k) => k.kana !== answer.kana)
   const others = pool.filter(
     (k) => k.kana !== answer.kana && !sameRow.some((s) => s.kana === k.kana),
   )
   const ordered = [...shuffle(sameRow, rng), ...shuffle(others, rng)]
-  return ordered.slice(0, count)
+
+  const seenTexts = new Set([textOf(answer)])
+  const picked: Kana[] = []
+  for (const k of ordered) {
+    if (picked.length >= count) break
+    const text = textOf(k)
+    if (seenTexts.has(text)) continue
+    seenTexts.add(text)
+    picked.push(k)
+  }
+  return picked
 }
 
 export function buildQuestion(
   answer: Kana,
   qtype: QType,
+  deckKind: DeckKind = 'kana',
   pool: Kana[] = HIRAGANA,
   rng: Rng = Math.random,
   optionCount = 4,
 ): Question {
-  const distractors = pickDistractors(answer, optionCount - 1, pool, rng)
+  const textOf = (k: Kana) => optionText(k, qtype, deckKind)
+  const distractors = pickDistractors(answer, optionCount - 1, pool, rng, textOf)
   const options = shuffle([answer, ...distractors], rng)
   return { qtype, answer, options }
 }

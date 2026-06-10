@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { HIRAGANA, ROW_OF } from '../data/kana'
-import { buildQuestion, isCorrect, pickDistractors, pickQType } from './quiz'
+import { DECKS, HIRAGANA, ROW_OF } from '../data/kana'
+import { buildQuestion, isCorrect, optionText, pickDistractors, pickQType } from './quiz'
 
 // Deterministic rng for stable assertions.
 function seeded(seed: number): () => number {
@@ -39,16 +39,37 @@ describe('pickDistractors', () => {
 
 describe('buildQuestion', () => {
   it('produces 4 options including the answer', () => {
-    const q = buildQuestion(A, 'read', HIRAGANA, seeded(2))
+    const q = buildQuestion(A, 'read', 'kana', HIRAGANA, seeded(2))
     expect(q.options).toHaveLength(4)
     expect(q.options.some((o) => o.kana === 'あ')).toBe(true)
   })
 
   it('isCorrect matches only the answer', () => {
-    const q = buildQuestion(A, 'listen', HIRAGANA, seeded(5))
+    const q = buildQuestion(A, 'listen', 'kana', HIRAGANA, seeded(5))
     expect(isCorrect(q, A)).toBe(true)
     const wrong = q.options.find((o) => o.kana !== 'あ')!
     expect(isCorrect(q, wrong)).toBe(false)
+  })
+
+  it('never offers ぢ as a distractor for じ in a read quiz (both "ji")', () => {
+    const ji = HIRAGANA.find((k) => k.kana === 'じ')!
+    for (let seed = 1; seed <= 50; seed++) {
+      const q = buildQuestion(ji, 'read', 'kana', HIRAGANA, seeded(seed))
+      expect(q.options.filter((o) => o.romaji === 'ji')).toHaveLength(1)
+    }
+  })
+
+  it('never shows two options with the same display text, on any deck item', () => {
+    // Two kana can share a romaji (じ/ぢ) or a Korean meaning (かく/にがい
+    // both "쓰다") — rendering both makes a correct-looking option wrong.
+    for (const d of DECKS) {
+      const qtype = d.kind === 'kana' ? 'read' : 'meaning'
+      d.kana.forEach((k, i) => {
+        const q = buildQuestion(k, qtype, d.kind, d.kana, seeded(i + 1))
+        const texts = q.options.map((o) => optionText(o, qtype, d.kind))
+        expect(new Set(texts).size, `${d.id}:${k.kana} -> ${texts.join('|')}`).toBe(texts.length)
+      })
+    }
   })
 })
 

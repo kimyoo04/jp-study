@@ -644,9 +644,9 @@ export const GRAMMAR_ROWS: Kana[][] = [
   ],
   // ～ています (추가 예문 2)
   [
-    { kana: 'ともだちを まって います', romaji: 'tomodachi o matte imasu', meaning: '친구를 기다리고 있습니다', note: '～ています (~하고 있습니다, 진행/상태)' },
+    { kana: 'こどもが あそんで います', romaji: 'kodomo ga asonde imasu', meaning: '아이가 놀고 있습니다', note: '～ています (~하고 있습니다, 진행/상태)' },
     { kana: 'しごとを して います', romaji: 'shigoto o shite imasu', meaning: '일을 하고 있습니다', note: '～ています (~하고 있습니다, 진행/상태)' },
-    { kana: 'ほんを よんで います', romaji: 'hon o yonde imasu', meaning: '책을 읽고 있습니다', note: '～ています (~하고 있습니다, 진행/상태)' },
+    { kana: 'でんわを かけて います', romaji: 'denwa o kakete imasu', meaning: '전화를 걸고 있습니다', note: '～ています (~하고 있습니다, 진행/상태)' },
   ],
   // ～てから (추가 예문)
   [

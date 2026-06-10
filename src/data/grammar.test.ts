@@ -19,8 +19,9 @@ describe('grammar data', () => {
     }
   })
 
-  it('has no duplicate sentences', () => {
-    const s = GRAMMAR.map((g) => g.kana)
+  it('has no duplicate sentences, even modulo spacing', () => {
+    // 'ほんを よんでいます' vs 'ほんを よんで います' are the same card twice.
+    const s = GRAMMAR.map((g) => g.kana.replace(/[ 、]/g, ''))
     expect(new Set(s).size).toBe(s.length)
   })
 
