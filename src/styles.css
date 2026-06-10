@@ -224,6 +224,22 @@ body {
   font-weight: 600;
   text-align: center;
 }
+.glyph.sentence {
+  font-size: 30px;
+  line-height: 1.4;
+  font-weight: 600;
+  text-align: center;
+  max-width: 340px;
+}
+.pattern {
+  background: var(--surface-2);
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 15px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  text-align: center;
+}
 .romaji {
   font-size: 28px;
   color: var(--primary);

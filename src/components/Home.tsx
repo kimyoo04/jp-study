@@ -6,6 +6,8 @@ interface Props {
   persistent: boolean
   deck: Deck
   onSelectDeck: (d: Deck) => void
+  weakCount: number
+  onReviewWeak: () => void
   sfx: boolean
   onToggleSfx: () => void
   onStart: () => void
@@ -16,6 +18,8 @@ export function Home({
   persistent,
   deck,
   onSelectDeck,
+  weakCount,
+  onReviewWeak,
   sfx,
   onToggleSfx,
   onStart,
@@ -77,6 +81,11 @@ export function Home({
       <button className="btn-primary" onClick={onStart}>
         {learned > 0 ? '오늘의 레슨' : '시작하기'}
       </button>
+      {weakCount > 0 && (
+        <button className="btn-ghost" onClick={onReviewWeak}>
+          약한 것만 복습 ({weakCount})
+        </button>
+      )}
     </main>
   )
 }

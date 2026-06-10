@@ -68,6 +68,34 @@ test('loanwords deck teaches katakana loanwords', async ({ page }) => {
   await expect(page.locator('.glyph.word')).toHaveText('コーヒー')
 })
 
+test('grammar deck teaches example sentences with a pattern', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('tab', { name: '문법' }).click()
+  await page.getByRole('button', { name: '시작하기' }).click()
+  await expect(page.getByText('예문')).toBeVisible()
+  await expect(page.locator('.pattern')).toContainText('～は～です')
+  await expect(page.locator('.glyph.sentence')).toHaveText('わたしは がくせいです')
+})
+
+test('home shows "review weak" after missing items, scoped to seen-not-learned', async ({
+  page,
+}) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: '시작하기' }).click()
+  for (let i = 0; i < 6; i++) await page.getByRole('button', { name: '다음' }).click()
+  await page.getByRole('button', { name: '한 판 더' }).click()
+  // Miss the first, get the rest right.
+  await page.locator('.opt:not([data-correct])').first().click()
+  await page.getByRole('button', { name: '계속' }).click()
+  for (let i = 0; i < 5; i++) {
+    await page.locator('button[data-correct="true"]').first().click()
+    await page.getByRole('button', { name: '계속' }).click()
+  }
+  await page.getByRole('button', { name: '홈으로' }).click()
+  // The missed glyph is now weak -> Home offers a weak-review button.
+  await expect(page.getByRole('button', { name: /약한 것만 복습/ })).toBeVisible()
+})
+
 test('complete screen shows review button after a wrong answer', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: '시작하기' }).click()

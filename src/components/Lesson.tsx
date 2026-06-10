@@ -33,7 +33,7 @@ export function Lesson({ items, pool, deckKind, onComplete, onExit }: Props) {
     return items.map((item) => {
       if (item.mode === 'intro') return { item }
       let qtype: QType
-      if (deckKind === 'words') qtype = 'meaning'
+      if (deckKind !== 'kana') qtype = 'meaning'
       else qtype = !voice ? 'read' : quizN++ % 2 === 0 ? 'read' : 'listen'
       return { item, question: buildQuestion(item.kana, qtype, pool) }
     })
@@ -45,7 +45,9 @@ export function Lesson({ items, pool, deckKind, onComplete, onExit }: Props) {
   const [results, setResults] = useState<LessonResult[]>([])
 
   const step = steps[index]
-  const isWord = deckKind === 'words'
+  const isSentence = deckKind === 'sentence'
+  const glyphClass = isSentence ? 'glyph sentence' : deckKind === 'words' ? 'glyph word' : 'glyph big'
+  const introLabel = isSentence ? '예문' : deckKind === 'words' ? '새 단어' : '새 글자'
   const progressPct = Math.round((index / steps.length) * 100)
 
   function record(correct: boolean): LessonResult[] {
@@ -100,10 +102,13 @@ export function Lesson({ items, pool, deckKind, onComplete, onExit }: Props) {
 
       {step.item.mode === 'intro' ? (
         <section className="card intro">
-          <p className="prompt-label">{isWord ? '새 단어' : '새 글자'}</p>
-          <div className={isWord ? 'glyph word' : 'glyph big'}>{step.item.kana.kana}</div>
+          {isSentence && step.item.kana.note && (
+            <div className="pattern">{step.item.kana.note}</div>
+          )}
+          <p className="prompt-label">{introLabel}</p>
+          <div className={glyphClass}>{step.item.kana.kana}</div>
           <div className="romaji">{step.item.kana.romaji}</div>
-          {isWord && step.item.kana.meaning && (
+          {step.item.kana.meaning && deckKind !== 'kana' && (
             <div className="meaning">{step.item.kana.meaning}</div>
           )}
           <button
@@ -122,7 +127,8 @@ export function Lesson({ items, pool, deckKind, onComplete, onExit }: Props) {
       ) : (
         <Quiz
           question={step.question!}
-          isWord={isWord}
+          glyphClass={glyphClass}
+          isSentence={isSentence}
           phase={phase}
           picked={picked}
           onPick={onPick}
@@ -135,14 +141,16 @@ export function Lesson({ items, pool, deckKind, onComplete, onExit }: Props) {
 
 function Quiz({
   question,
-  isWord,
+  glyphClass,
+  isSentence,
   phase,
   picked,
   onPick,
   onContinue,
 }: {
   question: Question
-  isWord: boolean
+  glyphClass: string
+  isSentence: boolean
   phase: 'answer' | 'feedback'
   picked: Kana | null
   onPick: (k: Kana) => void
@@ -153,7 +161,9 @@ function Quiz({
     qtype === 'listen'
       ? '소리를 듣고 글자를 고르세요'
       : qtype === 'meaning'
-        ? '이 단어의 뜻은?'
+        ? isSentence
+          ? '이 문장의 뜻은?'
+          : '이 단어의 뜻은?'
         : '이 글자의 읽기는?'
 
   return (
@@ -168,7 +178,7 @@ function Quiz({
       ) : (
         <>
           <p className="prompt-label">{label}</p>
-          <div className={isWord ? 'glyph word' : 'glyph big'}>{question.answer.kana}</div>
+          <div className={glyphClass}>{question.answer.kana}</div>
         </>
       )}
 

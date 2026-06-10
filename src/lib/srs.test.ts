@@ -8,6 +8,7 @@ import {
   isDue,
   learnedCount,
   learnedCountFor,
+  weakItems,
   newCard,
   nextBox,
   selectLessonKana,
@@ -76,6 +77,24 @@ describe('learnedCount', () => {
       う: { box: 2, dueLesson: 0, seen: 2, correct: 1 },
     }
     expect(learnedCount(p)).toBe(2)
+  })
+
+  it('weakItems returns seen-but-not-learned, worst first', () => {
+    const p = emptyProgress()
+    p.kana = {
+      あ: { box: 3, dueLesson: 0, seen: 5, correct: 5 }, // learned -> excluded
+      い: { box: 2, dueLesson: 0, seen: 4, correct: 3 }, // weak
+      う: { box: 1, dueLesson: 0, seen: 4, correct: 1 }, // weaker (lower box)
+      え: { box: 1, dueLesson: 0, seen: 0, correct: 0 }, // never seen -> excluded
+    }
+    const deck = [
+      { kana: 'あ', romaji: 'a' },
+      { kana: 'い', romaji: 'i' },
+      { kana: 'う', romaji: 'u' },
+      { kana: 'え', romaji: 'e' },
+    ]
+    const weak = weakItems(p, deck)
+    expect(weak.map((k) => k.kana)).toEqual(['う', 'い']) // lowest box first
   })
 
   it('learnedCountFor restricts to the given deck', () => {

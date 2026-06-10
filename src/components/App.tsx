@@ -7,6 +7,7 @@ import {
   introducedCard,
   newCard,
   selectLessonKana,
+  weakItems,
   type LessonItem,
 } from '../lib/srs'
 import { Home } from './Home'
@@ -71,6 +72,8 @@ export function App() {
           persistent={persistent}
           deck={deck}
           onSelectDeck={setDeck}
+          weakCount={weakItems(progress, deck.kana).length}
+          onReviewWeak={() => startReview(weakItems(progress, deck.kana))}
           sfx={settings.sfx}
           onToggleSfx={toggleSfx}
           onStart={startLesson}

@@ -79,6 +79,25 @@ export function learnedCountFor(progress: Progress, deckKana: Kana[]): number {
   return deckKana.filter((k) => (progress.kana[k.kana]?.box ?? 0) >= LEARNED_BOX).length
 }
 
+/**
+ * Weakest items in a deck: seen at least once but not yet learned (box < 3),
+ * worst first (lowest box, then most misses). Used by the Home "review weak" button.
+ */
+export function weakItems(progress: Progress, deckKana: Kana[], limit = LESSON_SIZE): Kana[] {
+  return deckKana
+    .filter((k) => {
+      const c = progress.kana[k.kana]
+      return c && c.seen > 0 && c.box < LEARNED_BOX
+    })
+    .sort((a, b) => {
+      const ca = progress.kana[a.kana]
+      const cb = progress.kana[b.kana]
+      if (ca.box !== cb.box) return ca.box - cb.box
+      return cb.seen - cb.correct - (ca.seen - ca.correct)
+    })
+    .slice(0, limit)
+}
+
 export type LessonMode = 'intro' | 'quiz'
 export interface LessonItem {
   kana: Kana
