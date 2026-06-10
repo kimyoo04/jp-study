@@ -24,15 +24,14 @@ describe('words data', () => {
     expect(row.some((k) => k.kana === 'こんにちは')).toBe(false)
   })
 
-  it('groups into the expected rows', () => {
-    // 인사말 / 숫자 / 생활 / 시간 / 색깔 / 음식 / 동물 / 가족 / 동사 / 형용사 / 요일
-    expect(WORD_ROWS).toHaveLength(11)
+  it('groups into themed rows with numbers intact', () => {
+    expect(WORD_ROWS.length).toBeGreaterThanOrEqual(11)
     expect(WORD_ROWS[1].map((w) => w.meaning)).toEqual([
       '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
     ])
   })
 
-  it('has a substantial vocabulary (>= 70 words)', () => {
-    expect(WORDS.length).toBeGreaterThanOrEqual(70)
+  it('has a substantial vocabulary (>= 120 words)', () => {
+    expect(WORDS.length).toBeGreaterThanOrEqual(120)
   })
 })

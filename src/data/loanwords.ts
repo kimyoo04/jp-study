@@ -50,6 +50,63 @@ export const LOANWORD_ROWS: Kana[][] = [
     { kana: 'ドア', romaji: 'doa', meaning: '문' },
     { kana: 'ベッド', romaji: 'beddo', meaning: '침대' },
   ],
+  // 음식 2
+  [
+    { kana: 'ハンバーガー', romaji: 'hanbaagaa', meaning: '햄버거' },
+    { kana: 'ピザ', romaji: 'piza', meaning: '피자' },
+    { kana: 'サラダ', romaji: 'sarada', meaning: '샐러드' },
+    { kana: 'スープ', romaji: 'suupu', meaning: '수프' },
+    { kana: 'ヨーグルト', romaji: 'yooguruto', meaning: '요거트' },
+    { kana: 'チョコレート', romaji: 'chokoreeto', meaning: '초콜릿' },
+    { kana: 'バナナ', romaji: 'banana', meaning: '바나나' },
+  ],
+  // 나라
+  [
+    { kana: 'アメリカ', romaji: 'amerika', meaning: '미국' },
+    { kana: 'カナダ', romaji: 'kanada', meaning: '캐나다' },
+    { kana: 'フランス', romaji: 'furansu', meaning: '프랑스' },
+    { kana: 'ドイツ', romaji: 'doitsu', meaning: '독일' },
+    { kana: 'イタリア', romaji: 'itaria', meaning: '이탈리아' },
+    { kana: 'タイ', romaji: 'tai', meaning: '태국' },
+  ],
+  // 취미 / 스포츠 2
+  [
+    { kana: 'バスケット', romaji: 'basuketto', meaning: '농구' },
+    { kana: 'バレー', romaji: 'baree', meaning: '배구' },
+    { kana: 'ゴルフ', romaji: 'gorufu', meaning: '골프' },
+    { kana: 'ダンス', romaji: 'dansu', meaning: '댄스' },
+    { kana: 'ピアノ', romaji: 'piano', meaning: '피아노' },
+    { kana: 'ギター', romaji: 'gitaa', meaning: '기타' },
+  ],
+  // 생활 물건
+  [
+    { kana: 'テーブル', romaji: 'teeburu', meaning: '테이블' },
+    { kana: 'ソファー', romaji: 'sofaa', meaning: '소파' },
+    { kana: 'カーテン', romaji: 'kaaten', meaning: '커튼' },
+    { kana: 'タオル', romaji: 'taoru', meaning: '수건' },
+    { kana: 'コップ', romaji: 'koppu', meaning: '컵' },
+    { kana: 'ナイフ', romaji: 'naifu', meaning: '나이프' },
+    { kana: 'フォーク', romaji: 'fooku', meaning: '포크' },
+    { kana: 'スプーン', romaji: 'supuun', meaning: '숟가락' },
+  ],
+  // 현대 / IT
+  [
+    { kana: 'アプリ', romaji: 'apuri', meaning: '앱' },
+    { kana: 'サイト', romaji: 'saito', meaning: '사이트' },
+    { kana: 'パスワード', romaji: 'pasuwaado', meaning: '비밀번호' },
+    { kana: 'カード', romaji: 'kaado', meaning: '카드' },
+    { kana: 'チケット', romaji: 'chiketto', meaning: '티켓' },
+    { kana: 'カレンダー', romaji: 'karendaa', meaning: '달력' },
+  ],
+  // 의류 2
+  [
+    { kana: 'コート', romaji: 'kooto', meaning: '코트' },
+    { kana: 'セーター', romaji: 'seetaa', meaning: '스웨터' },
+    { kana: 'ネクタイ', romaji: 'nekutai', meaning: '넥타이' },
+    { kana: 'ベルト', romaji: 'beruto', meaning: '벨트' },
+    { kana: 'ポケット', romaji: 'poketto', meaning: '주머니' },
+    { kana: 'サイズ', romaji: 'saizu', meaning: '사이즈' },
+  ],
 ]
 
 /** All loanwords flattened in teaching order. */

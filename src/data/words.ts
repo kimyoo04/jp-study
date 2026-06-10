@@ -119,6 +119,85 @@ export const WORD_ROWS: Kana[][] = [
     { kana: 'どようび', romaji: 'doyoubi', meaning: '토요일' },
     { kana: 'にちようび', romaji: 'nichiyoubi', meaning: '일요일' },
   ],
+  // 신체
+  [
+    { kana: 'あたま', romaji: 'atama', meaning: '머리' },
+    { kana: 'かお', romaji: 'kao', meaning: '얼굴' },
+    { kana: 'みみ', romaji: 'mimi', meaning: '귀' },
+    { kana: 'くち', romaji: 'kuchi', meaning: '입' },
+    { kana: 'おなか', romaji: 'onaka', meaning: '배' },
+    { kana: 'あし', romaji: 'ashi', meaning: '다리 / 발' },
+    { kana: 'ゆび', romaji: 'yubi', meaning: '손가락' },
+    { kana: 'かみ', romaji: 'kami', meaning: '머리카락' },
+  ],
+  // 자연 / 날씨
+  [
+    { kana: 'そら', romaji: 'sora', meaning: '하늘' },
+    { kana: 'やま', romaji: 'yama', meaning: '산' },
+    { kana: 'かわ', romaji: 'kawa', meaning: '강' },
+    { kana: 'うみ', romaji: 'umi', meaning: '바다' },
+    { kana: 'あめ', romaji: 'ame', meaning: '비' },
+    { kana: 'ゆき', romaji: 'yuki', meaning: '눈(雪)' },
+    { kana: 'かぜ', romaji: 'kaze', meaning: '바람' },
+    { kana: 'はな', romaji: 'hana', meaning: '꽃' },
+  ],
+  // 장소
+  [
+    { kana: 'みせ', romaji: 'mise', meaning: '가게' },
+    { kana: 'びょういん', romaji: 'byouin', meaning: '병원' },
+    { kana: 'ぎんこう', romaji: 'ginkou', meaning: '은행' },
+    { kana: 'こうえん', romaji: 'kouen', meaning: '공원' },
+    { kana: 'としょかん', romaji: 'toshokan', meaning: '도서관' },
+    { kana: 'くうこう', romaji: 'kuukou', meaning: '공항' },
+    { kana: 'へや', romaji: 'heya', meaning: '방' },
+    { kana: 'まち', romaji: 'machi', meaning: '마을 / 동네' },
+  ],
+  // 동사 2
+  [
+    { kana: 'かう', romaji: 'kau', meaning: '사다' },
+    { kana: 'あう', romaji: 'au', meaning: '만나다' },
+    { kana: 'まつ', romaji: 'matsu', meaning: '기다리다' },
+    { kana: 'はなす', romaji: 'hanasu', meaning: '말하다' },
+    { kana: 'きく', romaji: 'kiku', meaning: '듣다 / 묻다' },
+    { kana: 'おきる', romaji: 'okiru', meaning: '일어나다' },
+    { kana: 'ねる', romaji: 'neru', meaning: '자다' },
+    { kana: 'あらう', romaji: 'arau', meaning: '씻다' },
+    { kana: 'はたらく', romaji: 'hataraku', meaning: '일하다' },
+    { kana: 'やすむ', romaji: 'yasumu', meaning: '쉬다' },
+  ],
+  // 형용사 2
+  [
+    { kana: 'いい', romaji: 'ii', meaning: '좋다' },
+    { kana: 'わるい', romaji: 'warui', meaning: '나쁘다' },
+    { kana: 'ながい', romaji: 'nagai', meaning: '길다' },
+    { kana: 'みじかい', romaji: 'mijikai', meaning: '짧다' },
+    { kana: 'はやい', romaji: 'hayai', meaning: '빠르다 / 이르다' },
+    { kana: 'おそい', romaji: 'osoi', meaning: '느리다 / 늦다' },
+    { kana: 'ちかい', romaji: 'chikai', meaning: '가깝다' },
+    { kana: 'とおい', romaji: 'tooi', meaning: '멀다' },
+  ],
+  // 위치
+  [
+    { kana: 'うえ', romaji: 'ue', meaning: '위' },
+    { kana: 'した', romaji: 'shita', meaning: '아래' },
+    { kana: 'なか', romaji: 'naka', meaning: '안' },
+    { kana: 'そと', romaji: 'soto', meaning: '밖' },
+    { kana: 'まえ', romaji: 'mae', meaning: '앞' },
+    { kana: 'うしろ', romaji: 'ushiro', meaning: '뒤' },
+    { kana: 'みぎ', romaji: 'migi', meaning: '오른쪽' },
+    { kana: 'ひだり', romaji: 'hidari', meaning: '왼쪽' },
+  ],
+  // 물건
+  [
+    { kana: 'ほん', romaji: 'hon', meaning: '책' },
+    { kana: 'くつ', romaji: 'kutsu', meaning: '신발' },
+    { kana: 'ふく', romaji: 'fuku', meaning: '옷' },
+    { kana: 'とけい', romaji: 'tokei', meaning: '시계' },
+    { kana: 'かさ', romaji: 'kasa', meaning: '우산' },
+    { kana: 'かぎ', romaji: 'kagi', meaning: '열쇠' },
+    { kana: 'つくえ', romaji: 'tsukue', meaning: '책상' },
+    { kana: 'いす', romaji: 'isu', meaning: '의자' },
+  ],
 ]
 
 /** All words flattened in teaching order. */

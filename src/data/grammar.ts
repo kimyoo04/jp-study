@@ -210,6 +210,42 @@ export const GRAMMAR_ROWS: Kana[][] = [
     { kana: 'テレビを みながら たべます', romaji: 'terebi o minagara tabemasu', meaning: '텔레비전을 보면서 먹습니다', note: '～ながら (~하면서)' },
     { kana: 'あるきながら はなします', romaji: 'arukinagara hanashimasu', meaning: '걸으면서 이야기합니다', note: '～ながら (~하면서)' },
   ],
+  // ～た ことが あります : ~한 적이 있습니다 (경험)
+  [
+    { kana: 'にほんに いったことが あります', romaji: 'nihon ni itta koto ga arimasu', meaning: '일본에 간 적이 있습니다', note: '～た ことが あります (~한 적이 있습니다, 경험)' },
+    { kana: 'すしを たべたことが あります', romaji: 'sushi o tabeta koto ga arimasu', meaning: '초밥을 먹은 적이 있습니다', note: '～た ことが あります (~한 적이 있습니다, 경험)' },
+    { kana: 'ふじさんを みたことが あります', romaji: 'fujisan o mita koto ga arimasu', meaning: '후지산을 본 적이 있습니다', note: '～た ことが あります (~한 적이 있습니다, 경험)' },
+  ],
+  // ～ほうが いいです : ~하는 편이 좋습니다 (충고)
+  [
+    { kana: 'やすんだ ほうが いいです', romaji: 'yasunda hou ga ii desu', meaning: '쉬는 편이 좋습니다', note: '～ほうが いいです (~하는 편이 좋습니다, 충고)' },
+    { kana: 'びょういんに いった ほうが いいです', romaji: 'byouin ni itta hou ga ii desu', meaning: '병원에 가는 편이 좋습니다', note: '～ほうが いいです (~하는 편이 좋습니다, 충고)' },
+    { kana: 'はやく ねた ほうが いいです', romaji: 'hayaku neta hou ga ii desu', meaning: '일찍 자는 편이 좋습니다', note: '～ほうが いいです (~하는 편이 좋습니다, 충고)' },
+  ],
+  // ～すぎます : 너무 ~합니다
+  [
+    { kana: 'たべすぎました', romaji: 'tabesugimashita', meaning: '너무 먹었습니다', note: '～すぎます (너무 ~합니다)' },
+    { kana: 'たかすぎます', romaji: 'takasugimasu', meaning: '너무 비쌉니다', note: '～すぎます (너무 ~합니다)' },
+    { kana: 'のみすぎました', romaji: 'nomisugimashita', meaning: '너무 마셨습니다', note: '～すぎます (너무 ~합니다)' },
+  ],
+  // ～でしょう : ~일 것입니다 (추측)
+  [
+    { kana: 'あした あめが ふるでしょう', romaji: 'ashita ame ga furu deshou', meaning: '내일 비가 올 것입니다', note: '～でしょう (~일 것입니다, 추측)' },
+    { kana: 'かれは こないでしょう', romaji: 'kare wa konai deshou', meaning: '그는 안 올 것입니다', note: '～でしょう (~일 것입니다, 추측)' },
+    { kana: 'あした さむいでしょう', romaji: 'ashita samui deshou', meaning: '내일 추울 것입니다', note: '～でしょう (~일 것입니다, 추측)' },
+  ],
+  // ～かもしれません : ~일지도 모릅니다
+  [
+    { kana: 'あめが ふるかもしれません', romaji: 'ame ga furu kamoshiremasen', meaning: '비가 올지도 모릅니다', note: '～かもしれません (~일지도 모릅니다)' },
+    { kana: 'おくれるかもしれません', romaji: 'okureru kamoshiremasen', meaning: '늦을지도 모릅니다', note: '～かもしれません (~일지도 모릅니다)' },
+    { kana: 'たかいかもしれません', romaji: 'takai kamoshiremasen', meaning: '비쌀지도 모릅니다', note: '～かもしれません (~일지도 모릅니다)' },
+  ],
+  // ～が じょうずです / へたです : 잘함 / 못함
+  [
+    { kana: 'かれは えいごが じょうずです', romaji: 'kare wa eigo ga jouzu desu', meaning: '그는 영어를 잘합니다', note: '～が じょうずです / へたです (잘함/못함)' },
+    { kana: 'かのじょは りょうりが じょうずです', romaji: 'kanojo wa ryouri ga jouzu desu', meaning: '그녀는 요리를 잘합니다', note: '～が じょうずです / へたです (잘함/못함)' },
+    { kana: 'わたしは うたが へたです', romaji: 'watashi wa uta ga heta desu', meaning: '저는 노래를 못합니다', note: '～が じょうずです / へたです (잘함/못함)' },
+  ],
 ]
 
 /** All example sentences flattened in teaching order. */

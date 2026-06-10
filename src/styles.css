@@ -232,6 +232,8 @@ body {
   line-height: 1.1;
   font-weight: 600;
   text-align: center;
+  max-width: 340px;
+  overflow-wrap: anywhere;
 }
 .glyph.sentence {
   font-size: 30px;
