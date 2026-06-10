@@ -576,6 +576,123 @@ export const KANJI_ROWS: Kana[][] = [
     { kana: '期', romaji: 'き', meaning: '시기 / 기간' },
     { kana: '限', romaji: 'かぎ-る・げん', meaning: '한정 / 한계' },
   ],
+  // 지리
+  [
+    { kana: '地', romaji: 'ち・じ', meaning: '땅' },
+    { kana: '球', romaji: 'たま・きゅう', meaning: '공 / 구(球)' },
+    { kana: '界', romaji: 'かい', meaning: '경계 / 세계' },
+    { kana: '区', romaji: 'く', meaning: '구역' },
+    { kana: '島', romaji: 'しま・とう', meaning: '섬' },
+    { kana: '岸', romaji: 'きし・がん', meaning: '해안' },
+    { kana: '岩', romaji: 'いわ・がん', meaning: '바위' },
+    { kana: '谷', romaji: 'たに・こく', meaning: '골짜기' },
+  ],
+  // 자연 3
+  [
+    { kana: '畑', romaji: 'はたけ', meaning: '밭' },
+    { kana: '泉', romaji: 'いずみ・せん', meaning: '샘' },
+    { kana: '湖', romaji: 'みずうみ・こ', meaning: '호수' },
+    { kana: '波', romaji: 'なみ・は', meaning: '파도' },
+    { kana: '流', romaji: 'なが-れる・りゅう', meaning: '흐르다' },
+    { kana: '油', romaji: 'あぶら・ゆ', meaning: '기름' },
+    { kana: '炭', romaji: 'すみ・たん', meaning: '숯 / 탄' },
+    { kana: '鉄', romaji: 'てつ', meaning: '철' },
+  ],
+  // 물질 / 재료
+  [
+    { kana: '銅', romaji: 'どう', meaning: '구리' },
+    { kana: '板', romaji: 'いた・はん', meaning: '판자' },
+    { kana: '糸', romaji: 'いと・し', meaning: '실' },
+    { kana: '布', romaji: 'ぬの・ふ', meaning: '천' },
+    { kana: '革', romaji: 'かわ・かく', meaning: '가죽' },
+    { kana: '綿', romaji: 'わた・めん', meaning: '솜 / 면' },
+    { kana: '毛', romaji: 'け・もう', meaning: '털' },
+    { kana: '玉', romaji: 'たま・ぎょく', meaning: '구슬' },
+  ],
+  // 동작 5
+  [
+    { kana: '建', romaji: 'た-てる・けん', meaning: '짓다 / 세우다' },
+    { kana: '包', romaji: 'つつ-む・ほう', meaning: '싸다' },
+    { kana: '結', romaji: 'むす-ぶ・けつ', meaning: '묶다 / 맺다' },
+    { kana: '解', romaji: 'と-く・かい', meaning: '풀다' },
+    { kana: '折', romaji: 'お-る・せつ', meaning: '접다 / 꺾다' },
+    { kana: '並', romaji: 'なら-ぶ・へい', meaning: '나란히' },
+    { kana: '混', romaji: 'ま-ぜる・こん', meaning: '섞다' },
+    { kana: '焼', romaji: 'や-く・しょう', meaning: '굽다 / 태우다' },
+  ],
+  // 요리 동작
+  [
+    { kana: '煮', romaji: 'に-る・しゃ', meaning: '끓이다 / 조리다' },
+    { kana: '蒸', romaji: 'む-す・じょう', meaning: '찌다' },
+    { kana: '凍', romaji: 'こお-る・とう', meaning: '얼다' },
+    { kana: '沸', romaji: 'わ-く・ふつ', meaning: '끓다' },
+    { kana: '漬', romaji: 'つ-ける・し', meaning: '절이다 / 담그다' },
+    { kana: '詰', romaji: 'つ-める・きつ', meaning: '채우다' },
+    { kana: '盛', romaji: 'も-る・せい', meaning: '담다 / 번성' },
+    { kana: '量', romaji: 'はか-る・りょう', meaning: '재다 / 양' },
+  ],
+  // 사회 / 법
+  [
+    { kana: '政', romaji: 'せい・まつりごと', meaning: '정치' },
+    { kana: '治', romaji: 'おさ-める・ち', meaning: '다스리다' },
+    { kana: '法', romaji: 'ほう', meaning: '법' },
+    { kana: '制', romaji: 'せい', meaning: '제도' },
+    { kana: '規', romaji: 'き', meaning: '규칙' },
+    { kana: '則', romaji: 'そく', meaning: '법칙' },
+    { kana: '権', romaji: 'けん', meaning: '권리' },
+    { kana: '義', romaji: 'ぎ', meaning: '의로움 / 의미' },
+  ],
+  // 사고 / 판단
+  [
+    { kana: '想', romaji: 'そう', meaning: '생각 / 상상' },
+    { kana: '念', romaji: 'ねん', meaning: '생각 / 마음' },
+    { kana: '識', romaji: 'しき', meaning: '알다 / 의식' },
+    { kana: '観', romaji: 'かん', meaning: '보다 / 관점' },
+    { kana: '察', romaji: 'さつ', meaning: '살피다' },
+    { kana: '判', romaji: 'はん', meaning: '판단' },
+    { kana: '断', romaji: 'だん・た-つ', meaning: '끊다 / 판단' },
+    { kana: '評', romaji: 'ひょう', meaning: '평가' },
+  ],
+  // 감각 2
+  [
+    { kana: '視', romaji: 'し', meaning: '보다 / 시각' },
+    { kana: '聴', romaji: 'ちょう・き-く', meaning: '듣다' },
+    { kana: '触', romaji: 'ふ-れる・しょく', meaning: '닿다 / 만지다' },
+    { kana: '香', romaji: 'か・こう', meaning: '향기' },
+    { kana: '響', romaji: 'ひび-く・きょう', meaning: '울리다' },
+    { kana: '騒', romaji: 'さわ-ぐ・そう', meaning: '시끄럽다' },
+    { kana: '黙', romaji: 'だま-る・もく', meaning: '잠잠하다' },
+    { kana: '鈍', romaji: 'にぶ-い・どん', meaning: '둔하다' },
+  ],
+  // 사람 / 관계 2
+  [
+    { kana: '私', romaji: 'わたし・し', meaning: '나 / 사적' },
+    { kana: '彼', romaji: 'かれ・ひ', meaning: '그(他)' },
+    { kana: '皆', romaji: 'みな・かい', meaning: '모두' },
+    { kana: '互', romaji: 'たが-い・ご', meaning: '서로' },
+    { kana: '共', romaji: 'とも・きょう', meaning: '함께' },
+    { kana: '与', romaji: 'あた-える・よ', meaning: '주다' },
+    { kana: '個', romaji: 'こ', meaning: '개(個)' },
+    { kana: '群', romaji: 'む-れ・ぐん', meaning: '무리' },
+  ],
+  // 시간 / 빈도 3
+  [
+    { kana: '久', romaji: 'ひさ-しい・きゅう', meaning: '오래되다' },
+    { kana: '永', romaji: 'なが-い・えい', meaning: '영원' },
+    { kana: '常', romaji: 'つね・じょう', meaning: '항상' },
+    { kana: '普', romaji: 'ふ', meaning: '보통' },
+    { kana: '再', romaji: 'さい・ふたた-び', meaning: '다시' },
+    { kana: '突', romaji: 'とつ・つ-く', meaning: '갑자기 / 찌르다' },
+    { kana: '偶', romaji: 'ぐう', meaning: '우연 / 짝' },
+    { kana: '頻', romaji: 'ひん', meaning: '빈번' },
+  ],
+  // 상태 / 마무리
+  [
+    { kana: '完', romaji: 'かん', meaning: '완성' },
+    { kana: '残', romaji: 'のこ-る・ざん', meaning: '남다' },
+    { kana: '満', romaji: 'み-ちる・まん', meaning: '차다 / 가득' },
+    { kana: '欠', romaji: 'か-ける・けつ', meaning: '빠지다 / 결' },
+  ],
 ]
 
 /** All N5 kanji flattened in teaching order. */
