@@ -133,6 +133,34 @@ body {
   color: white;
 }
 
+.cat-select {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 8px 14px;
+}
+.cat-select-label {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  flex: 0 0 auto;
+}
+.cat-select select {
+  flex: 1;
+  min-width: 0;
+  background: var(--surface-2);
+  color: var(--text);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+
 .progress-card {
   background: var(--surface);
   border-radius: var(--radius);

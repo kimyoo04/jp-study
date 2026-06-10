@@ -238,14 +238,84 @@ export interface Deck {
   kind: DeckKind
   rows: Kana[][]
   kana: Kana[] // teaching order; also the distractor pool for this deck
+  catLabels?: string[] // category name per row (row-based decks); 1:1 with rows
 }
+
+export interface Category {
+  name: string
+  kana: Kana[]
+}
+
+// Theme/category label per row for the row-based decks (1:1 with their rows).
+const WORD_CATS = [
+  '인사말', '숫자', '생활', '시간', '색깔', '음식', '동물', '가족', '동사', '형용사',
+  '요일', '신체', '자연 / 날씨', '장소', '동사 2', '형용사 2', '위치', '물건', '과일 / 채소',
+  '교통', '동사 3', '형용사 3', '사람', '추상 / 생활 2', '동사 4', '형용사 4', '자연 2',
+  '식재료', '집 / 방', '빈도 / 시간 2', '동사 5', '동사 6', '맛 / 형용사 5', 'な형용사',
+  '마음 / 몸', '의문사', '부사', '직업 / 사람 2', '학교 / 공부', '동물 2', 'する 동사',
+  '감정 형용사', '색 / 모양', '시간 / 날짜', '방향 / 위치 2', '식사 / 음식 4', '동사 7',
+  'な형용사 / 형용사 7', '추상 / 분야', '사물 2', '동사 8', '형용사 8', '신체 3', '자연 3 / 날씨',
+  '추상 2', '장소 3', '부사 2', '접속사', '동사 9', '색 형용사', '일본 요리', '생활 동작 2',
+  '수량 / 정도', '동사 10', 'な형용사 2', '추상 3', '건강 / 몸', '도구 / 사물 3', '가족 / 관계 2',
+  '동작 / 감정 동사', '위치 / 이동', '시간 3 / 시대',
+]
+const LOANWORD_CATS = [
+  '음식 / 음료', '장소', '기기 / 디지털', '취미 / 스포츠', '의류 / 물건', '음식 2', '나라',
+  '취미 / 스포츠 2', '생활 물건', '현대 / IT', '의류 2', '음식 / 음료 3', '나라 2', '스포츠 3',
+  '직장 / 학교', '색 / 추상', '음식 2', '가전 / 기기 2', '장소 2', '직업 / 사람', '취미 / 일상 2',
+  '음식 3', 'IT / 통신 2', '패션 / 뷰티', '교통 / 여행', '비즈니스 / 추상', '식당 / 메뉴',
+  '가전 / 생활 2', '스포츠 / 취미 4', '음악 / 엔터', '추상 2', '음식 4', '패션 2', '직장 2',
+  '여행 2', '감정 / 추상 3', '음식 5', '기기 3', '장소 3', '뷰티 / 패션 3', '추상 / 일 3',
+  '자동차 / 교통 3',
+]
+const KANJI_CATS = [
+  '숫자 1', '숫자 2 / 돈', '요일 / 시간', '사람 / 크기', '위치', '방위 / 자연', '신체 / 기본',
+  '동사 1', '동사 2 / 생활', '형용사 / 정도', '명사 1', '명사 2', '시간 / 날짜 2', '가족',
+  '동사 3', '동사 4', '형용사 / 상태', '형용사 2 / 날씨', '장소 / 행정', '자연 2', '동사 5',
+  '동사 6', '신체 / 건강 2', '음식 2', '색 / 형용 3', '추상 명사', '사회 / 일', '학교 / 공부 2',
+  '동사 7', '동사 8', '감정', '유무 / 형용 4', '수량 / 순서', '방향 / 위치 2', '추상 2',
+  '물건 / 의류 2', '날씨 / 계절 2', '동물', '식재료 2', '신체 3', '동작 3', '성격 / 성질',
+  '장소 / 시설', '추상 3', '학교 / 공부 3', '직업 / 산업', '돈 / 경제', '교통 / 이동 2',
+  '신체 / 건강 3', '감정 2', '동작 4', '시간 / 순서 2', '지리', '자연 3', '물질 / 재료', '동작 5',
+  '요리 동작', '사회 / 법', '사고 / 판단', '감각 2', '사람 / 관계 2', '시간 / 빈도 3', '상태 / 마무리',
+]
 
 export const DECKS: Deck[] = [
   { id: 'hiragana', label: 'ひらがな', kind: 'kana', rows: ALL_ROWS, kana: HIRAGANA },
   { id: 'katakana', label: 'カタカナ', kind: 'kana', rows: KATAKANA_ROWS, kana: KATAKANA },
-  { id: 'words', label: '단어', kind: 'words', rows: WORD_ROWS, kana: WORDS },
-  { id: 'loanwords', label: '외래어', kind: 'words', rows: LOANWORD_ROWS, kana: LOANWORDS },
+  { id: 'words', label: '단어', kind: 'words', rows: WORD_ROWS, kana: WORDS, catLabels: WORD_CATS },
+  { id: 'loanwords', label: '외래어', kind: 'words', rows: LOANWORD_ROWS, kana: LOANWORDS, catLabels: LOANWORD_CATS },
   { id: 'grammar', label: '문법', kind: 'sentence', rows: GRAMMAR_ROWS, kana: GRAMMAR },
   { id: 'phrases', label: '회화', kind: 'sentence', rows: PHRASE_ROWS, kana: PHRASES },
-  { id: 'kanji', label: '한자', kind: 'kanji', rows: KANJI_ROWS, kana: KANJI },
+  { id: 'kanji', label: '한자', kind: 'kanji', rows: KANJI_ROWS, kana: KANJI, catLabels: KANJI_CATS },
 ]
+
+/**
+ * Categories a deck can be filtered to.
+ * - sentence decks (grammar/phrases): grouped by `note` (pattern/situation).
+ * - kana decks: one per gojūon row, labeled by its first glyph.
+ * - words/loanwords/kanji: one per row, labeled by catLabels (deduped on collision).
+ */
+export function deckCategories(deck: Deck): Category[] {
+  if (deck.kind === 'sentence') {
+    const order: string[] = []
+    const map = new Map<string, Kana[]>()
+    for (const k of deck.kana) {
+      const note = k.note ?? '기타'
+      if (!map.has(note)) {
+        map.set(note, [])
+        order.push(note)
+      }
+      map.get(note)!.push(k)
+    }
+    return order.map((name) => ({ name, kana: map.get(name)! }))
+  }
+  const seen = new Map<string, number>()
+  return deck.rows.map((row, i) => {
+    let name = deck.kind === 'kana' ? `${row[0].kana}행` : (deck.catLabels?.[i] ?? `${i + 1}`)
+    const n = seen.get(name) ?? 0
+    seen.set(name, n + 1)
+    if (n > 0) name = `${name} (${n + 1})`
+    return { name, kana: row }
+  })
+}

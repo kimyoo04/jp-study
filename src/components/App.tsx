@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { DECKS, type Deck, type Kana } from '../data/kana'
+import { DECKS, deckCategories, type Deck, type Kana } from '../data/kana'
 import { useProgress } from '../hooks/useProgress'
 import { useSettings } from '../hooks/useSettings'
 import {
@@ -20,15 +20,28 @@ export function App() {
   const { progress, persistent, update } = useProgress()
   const { settings, toggleSfx } = useSettings()
   const [deck, setDeck] = useState<Deck>(DECKS[0])
+  const [categoryName, setCategoryName] = useState<string | null>(null) // null = 전체
   const [screen, setScreen] = useState<Screen>('home')
   const [items, setItems] = useState<LessonItem[]>([])
   const [results, setResults] = useState<LessonResult[]>([])
 
+  const categories = useMemo(() => deckCategories(deck), [deck])
+  // The kana the lesson/progress is scoped to: the chosen category, or the whole deck.
+  const scopeKana = useMemo(() => {
+    const cat = categories.find((c) => c.name === categoryName)
+    return cat ? cat.kana : deck.kana
+  }, [categories, categoryName, deck])
+
   // The lesson count this lesson will produce when finished.
   const base = useMemo(() => progress.lessonsDone + 1, [progress.lessonsDone])
 
+  function selectDeck(d: Deck) {
+    setDeck(d)
+    setCategoryName(null) // reset category when switching decks
+  }
+
   function startLesson() {
-    const next = selectLessonKana(progress, deck.kana)
+    const next = selectLessonKana(progress, scopeKana)
     if (next.length === 0) return
     setItems(next)
     setScreen('lesson')
@@ -63,6 +76,7 @@ export function App() {
   }
 
   const wrong = results.filter((r) => r.mode === 'quiz' && !r.correct).map((r) => r.kana)
+  const weak = weakItems(progress, scopeKana)
 
   return (
     <div className="app">
@@ -71,9 +85,13 @@ export function App() {
           progress={progress}
           persistent={persistent}
           deck={deck}
-          onSelectDeck={setDeck}
-          weakCount={weakItems(progress, deck.kana).length}
-          onReviewWeak={() => startReview(weakItems(progress, deck.kana))}
+          onSelectDeck={selectDeck}
+          categories={categories}
+          categoryName={categoryName}
+          onSelectCategory={setCategoryName}
+          scopeKana={scopeKana}
+          weakCount={weak.length}
+          onReviewWeak={() => startReview(weak)}
           sfx={settings.sfx}
           onToggleSfx={toggleSfx}
           onStart={startLesson}
@@ -82,7 +100,7 @@ export function App() {
       {screen === 'lesson' && (
         <Lesson
           items={items}
-          pool={deck.kana}
+          pool={scopeKana}
           deckKind={deck.kind}
           onExit={() => setScreen('home')}
           onComplete={finishLesson}

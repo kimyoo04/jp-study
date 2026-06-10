@@ -3,6 +3,7 @@ import {
   ALL_ROWS,
   DAKUTEN_ROWS,
   DECKS,
+  deckCategories,
   HIRAGANA,
   HIRAGANA_BASE,
   HIRAGANA_ROWS,
@@ -68,6 +69,37 @@ describe('katakana (derived from hiragana)', () => {
 
   it('katakana chars are present in ROW_OF', () => {
     for (const k of KATAKANA) expect(ROW_OF[k.kana]).toBeDefined()
+  })
+})
+
+describe('deckCategories', () => {
+  it('row-based decks have one category per row, covering all kana, unique names', () => {
+    for (const deck of DECKS.filter((d) => d.kind !== 'sentence')) {
+      const cats = deckCategories(deck)
+      expect(cats.length).toBe(deck.rows.length)
+      expect(cats.reduce((n, c) => n + c.kana.length, 0)).toBe(deck.kana.length)
+      expect(new Set(cats.map((c) => c.name)).size).toBe(cats.length) // names deduped
+    }
+  })
+
+  it('row-based catLabels (when present) line up 1:1 with rows', () => {
+    for (const deck of DECKS) {
+      if (deck.catLabels) expect(deck.catLabels.length).toBe(deck.rows.length)
+    }
+  })
+
+  it('kana deck categories are labeled by their gojūon row', () => {
+    const cats = deckCategories(DECKS[0]) // hiragana
+    expect(cats[0].name).toBe('あ행')
+    expect(cats[0].kana.map((k) => k.kana)).toEqual(['あ', 'い', 'う', 'え', 'お'])
+  })
+
+  it('sentence decks group by note (pattern/situation), covering all items', () => {
+    const grammar = DECKS.find((d) => d.id === 'grammar')!
+    const cats = deckCategories(grammar)
+    expect(cats.reduce((n, c) => n + c.kana.length, 0)).toBe(grammar.kana.length)
+    // every item in a category shares that category's note
+    for (const c of cats) expect(c.kana.every((k) => k.note === c.name)).toBe(true)
   })
 })
 

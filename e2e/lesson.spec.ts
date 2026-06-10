@@ -77,6 +77,19 @@ test('grammar deck teaches example sentences with a pattern', async ({ page }) =
   await expect(page.locator('.glyph.sentence')).toHaveText('わたしは がくせいです')
 })
 
+test('category selection scopes the deck to one theme', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('tab', { name: '한자' }).click()
+  // Whole deck first.
+  await expect(page.locator('.progress-label')).toContainText('/ 500')
+  // Pick the "숫자 1" category (8 kanji).
+  await page.locator('.cat-select select').selectOption('숫자 1')
+  await expect(page.locator('.progress-label')).toContainText('/ 8')
+  // Lessons are now drawn from that category only (starts at 一).
+  await page.getByRole('button', { name: '시작하기' }).click()
+  await expect(page.locator('.glyph.big')).toHaveText('一')
+})
+
 test('kanji deck teaches a kanji with reading and meaning', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('tab', { name: '한자' }).click()

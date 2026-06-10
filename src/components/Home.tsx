@@ -1,4 +1,4 @@
-import { DECKS, type Deck } from '../data/kana'
+import { DECKS, type Category, type Deck, type Kana } from '../data/kana'
 import { learnedCount, learnedCountFor, type Progress } from '../lib/srs'
 
 const TOTAL_ALL = DECKS.reduce((n, d) => n + d.kana.length, 0)
@@ -8,6 +8,10 @@ interface Props {
   persistent: boolean
   deck: Deck
   onSelectDeck: (d: Deck) => void
+  categories: Category[]
+  categoryName: string | null
+  onSelectCategory: (name: string | null) => void
+  scopeKana: Kana[]
   weakCount: number
   onReviewWeak: () => void
   sfx: boolean
@@ -20,16 +24,21 @@ export function Home({
   persistent,
   deck,
   onSelectDeck,
+  categories,
+  categoryName,
+  onSelectCategory,
+  scopeKana,
   weakCount,
   onReviewWeak,
   sfx,
   onToggleSfx,
   onStart,
 }: Props) {
-  const total = deck.kana.length
-  const learned = learnedCountFor(progress, deck.kana)
+  const total = scopeKana.length
+  const learned = learnedCountFor(progress, scopeKana)
   const pct = Math.round((learned / total) * 100)
   const learnedAll = learnedCount(progress)
+  const scopeLabel = categoryName ?? deck.label
 
   return (
     <main className="screen home">
@@ -69,9 +78,24 @@ export function Home({
         ))}
       </div>
 
+      <label className="cat-select">
+        <span className="cat-select-label">카테고리</span>
+        <select
+          value={categoryName ?? ''}
+          onChange={(e) => onSelectCategory(e.target.value || null)}
+        >
+          <option value="">전체 ({deck.kana.length})</option>
+          {categories.map((c) => (
+            <option key={c.name} value={c.name}>
+              {c.name} ({c.kana.length})
+            </option>
+          ))}
+        </select>
+      </label>
+
       <section className="progress-card">
         <div className="progress-label">
-          <span>{deck.label}</span>
+          <span>{scopeLabel}</span>
           <span>
             {learned} / {total}
           </span>
