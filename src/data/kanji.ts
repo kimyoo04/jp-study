@@ -312,6 +312,94 @@ export const KANJI_ROWS: Kana[][] = [
     { kana: '題', romaji: 'だい', meaning: '제목 / 문제' },
     { kana: '試', romaji: 'ため-す・し', meaning: '시험 / 시도' },
   ],
+  // 동사 7
+  [
+    { kana: '起', romaji: 'お-きる・き', meaning: '일어나다' },
+    { kana: '寝', romaji: 'ね-る・しん', meaning: '자다' },
+    { kana: '洗', romaji: 'あら-う・せん', meaning: '씻다' },
+    { kana: '消', romaji: 'け-す・しょう', meaning: '끄다 / 지우다' },
+    { kana: '点', romaji: 'てん', meaning: '점 / 켜다' },
+    { kana: '直', romaji: 'なお-す・ちょく', meaning: '고치다 / 곧다' },
+    { kana: '落', romaji: 'お-ちる・らく', meaning: '떨어지다' },
+    { kana: '投', romaji: 'な-げる・とう', meaning: '던지다' },
+  ],
+  // 동사 8
+  [
+    { kana: '拾', romaji: 'ひろ-う・しゅう', meaning: '줍다' },
+    { kana: '探', romaji: 'さが-す・たん', meaning: '찾다' },
+    { kana: '忘', romaji: 'わす-れる・ぼう', meaning: '잊다' },
+    { kana: '覚', romaji: 'おぼ-える・かく', meaning: '외우다 / 깨다' },
+    { kana: '守', romaji: 'まも-る・しゅ', meaning: '지키다' },
+    { kana: '助', romaji: 'たす-ける・じょ', meaning: '돕다' },
+    { kana: '配', romaji: 'くば-る・はい', meaning: '나누다 / 배달' },
+    { kana: '集', romaji: 'あつ-める・しゅう', meaning: '모으다' },
+  ],
+  // 감정
+  [
+    { kana: '好', romaji: 'す-き・こう', meaning: '좋아하다' },
+    { kana: '嫌', romaji: 'きら-い・けん', meaning: '싫어하다' },
+    { kana: '怒', romaji: 'おこ-る・ど', meaning: '화내다' },
+    { kana: '笑', romaji: 'わら-う・しょう', meaning: '웃다' },
+    { kana: '泣', romaji: 'な-く・きゅう', meaning: '울다' },
+    { kana: '困', romaji: 'こま-る・こん', meaning: '곤란하다' },
+    { kana: '願', romaji: 'ねが-う・がん', meaning: '바라다' },
+    { kana: '急', romaji: 'いそ-ぐ・きゅう', meaning: '서두르다 / 급하다' },
+  ],
+  // 유무 / 형용 4
+  [
+    { kana: '便', romaji: 'べん・びん', meaning: '편리 / 우편' },
+    { kana: '利', romaji: 'り', meaning: '이롭다 / 이익' },
+    { kana: '不', romaji: 'ふ・ぶ', meaning: '아니다 (부정)' },
+    { kana: '無', romaji: 'む・な-い', meaning: '없다' },
+    { kana: '有', romaji: 'ゆう・あ-る', meaning: '있다' },
+    { kana: '同', romaji: 'おな-じ・どう', meaning: '같다' },
+    { kana: '違', romaji: 'ちが-う・い', meaning: '다르다 / 틀리다' },
+    { kana: '別', romaji: 'べつ', meaning: '다르다 / 별도' },
+  ],
+  // 수량 / 순서
+  [
+    { kana: '全', romaji: 'ぜん・まった-く', meaning: '전부' },
+    { kana: '各', romaji: 'かく', meaning: '각각' },
+    { kana: '両', romaji: 'りょう', meaning: '둘 / 양쪽' },
+    { kana: '第', romaji: 'だい', meaning: '제(순서)' },
+    { kana: '号', romaji: 'ごう', meaning: '번호' },
+    { kana: '回', romaji: 'かい・まわ-る', meaning: '번 / 돌다' },
+    { kana: '度', romaji: 'ど・たび', meaning: '번 / 도' },
+    { kana: '倍', romaji: 'ばい', meaning: '배(곱)' },
+  ],
+  // 방향 / 위치 2
+  [
+    { kana: '近', romaji: 'ちか-い・きん', meaning: '가깝다' },
+    { kana: '遠', romaji: 'とお-い・えん', meaning: '멀다' },
+    { kana: '向', romaji: 'む-く・こう', meaning: '향하다' },
+    { kana: '横', romaji: 'よこ・おう', meaning: '옆 / 가로' },
+    { kana: '隣', romaji: 'となり・りん', meaning: '이웃 / 옆' },
+    { kana: '角', romaji: 'かど・かく', meaning: '모서리 / 뿔' },
+    { kana: '辺', romaji: 'へん・あた-り', meaning: '근처 / 변' },
+    { kana: '表', romaji: 'おもて・ひょう', meaning: '겉 / 표' },
+  ],
+  // 추상 2
+  [
+    { kana: '意', romaji: 'い', meaning: '뜻 / 의미' },
+    { kana: '理', romaji: 'り', meaning: '이치 / 이유' },
+    { kana: '由', romaji: 'ゆう・よし', meaning: '말미암다 / 이유' },
+    { kana: '注', romaji: 'そそ-ぐ・ちゅう', meaning: '붓다 / 주의' },
+    { kana: '進', romaji: 'すす-む・しん', meaning: '나아가다' },
+    { kana: '決', romaji: 'き-める・けつ', meaning: '정하다' },
+    { kana: '定', romaji: 'さだ-める・てい', meaning: '정하다' },
+    { kana: '用', romaji: 'よう・もち-いる', meaning: '쓰다 / 용도' },
+  ],
+  // 물건 / 의류 2
+  [
+    { kana: '服', romaji: 'ふく', meaning: '옷' },
+    { kana: '帽', romaji: 'ぼう', meaning: '모자' },
+    { kana: '靴', romaji: 'くつ・か', meaning: '신발' },
+    { kana: '傘', romaji: 'かさ・さん', meaning: '우산' },
+    { kana: '鏡', romaji: 'かがみ・きょう', meaning: '거울' },
+    { kana: '窓', romaji: 'まど・そう', meaning: '창문' },
+    { kana: '門', romaji: 'もん・かど', meaning: '문' },
+    { kana: '戸', romaji: 'と・こ', meaning: '문 / 집' },
+  ],
 ]
 
 /** All N5 kanji flattened in teaching order. */
