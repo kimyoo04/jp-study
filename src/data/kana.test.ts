@@ -104,22 +104,31 @@ describe('deckCategories', () => {
 })
 
 describe('decks', () => {
-  it('exposes all eight decks with the right kinds', () => {
+  it('exposes all ten decks with the right kinds', () => {
     expect(DECKS.map((d) => d.id)).toEqual([
       'hiragana',
       'katakana',
       'words',
       'loanwords',
       'counters',
+      'mimetic',
       'grammar',
       'phrases',
+      'keigo',
       'kanji',
     ])
-    expect(DECKS[0].kind).toBe('kana')
-    expect(DECKS[2].kind).toBe('words')
-    expect(DECKS[4].kind).toBe('words')
-    expect(DECKS[5].kind).toBe('sentence')
-    expect(DECKS[6].kind).toBe('sentence')
-    expect(DECKS[7].kind).toBe('kanji')
+    const kinds = Object.fromEntries(DECKS.map((d) => [d.id, d.kind]))
+    expect(kinds).toEqual({
+      hiragana: 'kana',
+      katakana: 'kana',
+      words: 'words',
+      loanwords: 'words',
+      counters: 'words',
+      mimetic: 'words',
+      grammar: 'sentence',
+      phrases: 'sentence',
+      keigo: 'sentence',
+      kanji: 'kanji',
+    })
   })
 })

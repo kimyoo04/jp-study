@@ -116,7 +116,7 @@ export function App() {
           items={items}
           pool={scopeKana}
           deckKind={deck.kind}
-          koReading={deck.id === 'phrases'}
+          koReading={deck.id === 'phrases' || deck.id === 'keigo'}
           listenMode={listenMode}
           onExit={() => setScreen('home')}
           onComplete={finishLesson}
