@@ -372,6 +372,72 @@ export const LOANWORD_ROWS: Kana[][] = [
     { kana: 'エネルギー', romaji: 'enerugii', meaning: '에너지' },
     { kana: 'パワー', romaji: 'pawaa', meaning: '파워' },
   ],
+  // 음식 5
+  [
+    { kana: 'ホットドッグ', romaji: 'hottodoggu', meaning: '핫도그' },
+    { kana: 'フライドチキン', romaji: 'furaidochikin', meaning: '프라이드치킨' },
+    { kana: 'カクテル', romaji: 'kakuteru', meaning: '칵테일' },
+    { kana: 'スムージー', romaji: 'sumuujii', meaning: '스무디' },
+    { kana: 'ミルクティー', romaji: 'mirukutii', meaning: '밀크티' },
+    { kana: 'ソーダ', romaji: 'sooda', meaning: '소다' },
+    { kana: 'ワッフル', romaji: 'waffuru', meaning: '와플' },
+    { kana: 'マフィン', romaji: 'mafin', meaning: '머핀' },
+  ],
+  // 기기 3
+  [
+    { kana: 'スマートフォン', romaji: 'sumaatofon', meaning: '스마트폰' },
+    { kana: 'タブレット', romaji: 'taburetto', meaning: '태블릿' },
+    { kana: 'ヘッドホン', romaji: 'heddohon', meaning: '헤드폰' },
+    { kana: 'スピーカー', romaji: 'supiikaa', meaning: '스피커' },
+    { kana: 'バッテリー', romaji: 'batterii', meaning: '배터리' },
+    { kana: 'ケーブル', romaji: 'keeburu', meaning: '케이블' },
+    { kana: 'モニター', romaji: 'monitaa', meaning: '모니터' },
+    { kana: 'マイク', romaji: 'maiku', meaning: '마이크' },
+  ],
+  // 장소 3
+  [
+    { kana: 'スタジアム', romaji: 'sutajiamu', meaning: '경기장' },
+    { kana: 'シアター', romaji: 'shiataa', meaning: '극장' },
+    { kana: 'ギャラリー', romaji: 'gyararii', meaning: '갤러리' },
+    { kana: 'スタジオ', romaji: 'sutajio', meaning: '스튜디오' },
+    { kana: 'センター', romaji: 'sentaa', meaning: '센터' },
+    { kana: 'ホール', romaji: 'hooru', meaning: '홀' },
+    { kana: 'ロッカー', romaji: 'rokkaa', meaning: '사물함' },
+    { kana: 'コーナー', romaji: 'koonaa', meaning: '코너' },
+  ],
+  // 뷰티 / 패션 3
+  [
+    { kana: 'メイク', romaji: 'meiku', meaning: '메이크업' },
+    { kana: 'クリーム', romaji: 'kuriimu', meaning: '크림' },
+    { kana: 'ローション', romaji: 'rooshon', meaning: '로션' },
+    { kana: 'リップスティック', romaji: 'rippusutikku', meaning: '립스틱' },
+    { kana: 'マニキュア', romaji: 'manikyua', meaning: '매니큐어' },
+    { kana: 'ブラシ', romaji: 'burashi', meaning: '브러시' },
+    { kana: 'タイツ', romaji: 'taitsu', meaning: '타이츠' },
+    { kana: 'ストッキング', romaji: 'sutokkingu', meaning: '스타킹' },
+  ],
+  // 추상 / 일 3
+  [
+    { kana: 'テーマ', romaji: 'teema', meaning: '테마' },
+    { kana: 'システム', romaji: 'shisutemu', meaning: '시스템' },
+    { kana: 'グラフ', romaji: 'gurafu', meaning: '그래프' },
+    { kana: 'リスト', romaji: 'risuto', meaning: '리스트' },
+    { kana: 'サンプル', romaji: 'sanpuru', meaning: '샘플' },
+    { kana: 'コピー', romaji: 'kopii', meaning: '복사' },
+    { kana: 'ファックス', romaji: 'fakkusu', meaning: '팩스' },
+    { kana: 'スキャン', romaji: 'sukyan', meaning: '스캔' },
+  ],
+  // 자동차 / 교통 3
+  [
+    { kana: 'ハンドル', romaji: 'handoru', meaning: '핸들' },
+    { kana: 'ブレーキ', romaji: 'bureeki', meaning: '브레이크' },
+    { kana: 'エンジン', romaji: 'enjin', meaning: '엔진' },
+    { kana: 'タイヤ', romaji: 'taiya', meaning: '타이어' },
+    { kana: 'ガレージ', romaji: 'gareeji', meaning: '차고' },
+    { kana: 'トンネル', romaji: 'tonneru', meaning: '터널' },
+    { kana: 'ハイウェイ', romaji: 'haiwei', meaning: '고속도로' },
+    { kana: 'ナンバー', romaji: 'nanbaa', meaning: '번호' },
+  ],
 ]
 
 /** All loanwords flattened in teaching order. */

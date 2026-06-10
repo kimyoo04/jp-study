@@ -556,6 +556,72 @@ export const WORD_ROWS: Kana[][] = [
     { kana: 'はがき', romaji: 'hagaki', meaning: '엽서' },
     { kana: 'きって', romaji: 'kitte', meaning: '우표' },
   ],
+  // 동사 8
+  [
+    { kana: 'あく', romaji: 'aku', meaning: '열리다' },
+    { kana: 'はじめる', romaji: 'hajimeru', meaning: '시작하다' },
+    { kana: 'とめる', romaji: 'tomeru', meaning: '멈추다 / 세우다' },
+    { kana: 'おとす', romaji: 'otosu', meaning: '떨어뜨리다' },
+    { kana: 'なおす', romaji: 'naosu', meaning: '고치다' },
+    { kana: 'なおる', romaji: 'naoru', meaning: '낫다' },
+    { kana: 'きまる', romaji: 'kimaru', meaning: '정해지다' },
+    { kana: 'きめる', romaji: 'kimeru', meaning: '정하다' },
+  ],
+  // 형용사 8
+  [
+    { kana: 'おもしろい', romaji: 'omoshiroi', meaning: '재미있다' },
+    { kana: 'つまらない', romaji: 'tsumaranai', meaning: '시시하다' },
+    { kana: 'ただしい', romaji: 'tadashii', meaning: '맞다 / 옳다' },
+    { kana: 'きびしい', romaji: 'kibishii', meaning: '엄하다' },
+    { kana: 'すばらしい', romaji: 'subarashii', meaning: '훌륭하다' },
+    { kana: 'ひどい', romaji: 'hidoi', meaning: '심하다' },
+    { kana: 'こまかい', romaji: 'komakai', meaning: '잘다 / 세세하다' },
+    { kana: 'ふかい', romaji: 'fukai', meaning: '깊다' },
+  ],
+  // 신체 3
+  [
+    { kana: 'せなか', romaji: 'senaka', meaning: '등' },
+    { kana: 'むね', romaji: 'mune', meaning: '가슴' },
+    { kana: 'かた', romaji: 'kata', meaning: '어깨' },
+    { kana: 'ひざ', romaji: 'hiza', meaning: '무릎' },
+    { kana: 'ひじ', romaji: 'hiji', meaning: '팔꿈치' },
+    { kana: 'こし', romaji: 'koshi', meaning: '허리' },
+    { kana: 'のど', romaji: 'nodo', meaning: '목(구멍)' },
+    { kana: 'ほね', romaji: 'hone', meaning: '뼈' },
+  ],
+  // 자연 3 / 날씨
+  [
+    { kana: 'たいよう', romaji: 'taiyou', meaning: '태양' },
+    { kana: 'にじ', romaji: 'niji', meaning: '무지개' },
+    { kana: 'かみなり', romaji: 'kaminari', meaning: '천둥' },
+    { kana: 'きり', romaji: 'kiri', meaning: '안개' },
+    { kana: 'こおり', romaji: 'koori', meaning: '얼음' },
+    { kana: 'えだ', romaji: 'eda', meaning: '나뭇가지' },
+    { kana: 'つち', romaji: 'tsuchi', meaning: '흙' },
+    { kana: 'みなと', romaji: 'minato', meaning: '항구' },
+  ],
+  // 추상 2
+  [
+    { kana: 'もんだい', romaji: 'mondai', meaning: '문제' },
+    { kana: 'こたえ', romaji: 'kotae', meaning: '답' },
+    { kana: 'りゆう', romaji: 'riyuu', meaning: '이유' },
+    { kana: 'ほうほう', romaji: 'houhou', meaning: '방법' },
+    { kana: 'もくてき', romaji: 'mokuteki', meaning: '목적' },
+    { kana: 'けっか', romaji: 'kekka', meaning: '결과' },
+    { kana: 'いみ', romaji: 'imi', meaning: '의미' },
+    { kana: 'ようす', romaji: 'yousu', meaning: '모습 / 상태' },
+  ],
+  // 장소 3
+  [
+    { kana: 'こうじょう', romaji: 'koujou', meaning: '공장' },
+    { kana: 'かいしゃ', romaji: 'kaisha', meaning: '회사' },
+    { kana: 'やっきょく', romaji: 'yakkyoku', meaning: '약국' },
+    { kana: 'ゆうびんきょく', romaji: 'yuubinkyoku', meaning: '우체국' },
+    { kana: 'びじゅつかん', romaji: 'bijutsukan', meaning: '미술관' },
+    { kana: 'えいがかん', romaji: 'eigakan', meaning: '영화관' },
+    { kana: 'たいしかん', romaji: 'taishikan', meaning: '대사관' },
+    { kana: 'こうばん', romaji: 'kouban', meaning: '파출소' },
+  ],
 ]
 
 /** All words flattened in teaching order. */

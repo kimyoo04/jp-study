@@ -450,6 +450,72 @@ export const GRAMMAR_ROWS: Kana[][] = [
     { kana: 'にほんは ふじさんが ゆうめいです', romaji: 'nihon wa fujisan ga yuumei desu', meaning: '일본은 후지산이 유명합니다', note: '～は ～が (주제 + 주어)' },
     { kana: 'わたしは あたまが いたいです', romaji: 'watashi wa atama ga itai desu', meaning: '저는 머리가 아픕니다', note: '～は ～が (주제 + 주어)' },
   ],
+  // ～と いいます : ~라고 합니다
+  [
+    { kana: 'これは にほんごで なんと いいますか', romaji: 'kore wa nihongo de nanto iimasu ka', meaning: '이건 일본어로 뭐라고 해요?', note: '～と いいます (~라고 합니다)' },
+    { kana: 'わたしは キムと いいます', romaji: 'watashi wa kimu to iimasu', meaning: '저는 김이라고 합니다', note: '～と いいます (~라고 합니다)' },
+    { kana: 'これは すしと いいます', romaji: 'kore wa sushi to iimasu', meaning: '이건 스시라고 합니다', note: '～と いいます (~라고 합니다)' },
+  ],
+  // ～ませんでした : ~하지 않았습니다 (과거 부정)
+  [
+    { kana: 'きのうは いきませんでした', romaji: 'kinou wa ikimasen deshita', meaning: '어제는 안 갔습니다', note: '～ませんでした (~하지 않았습니다)' },
+    { kana: 'なにも たべませんでした', romaji: 'nanimo tabemasen deshita', meaning: '아무것도 안 먹었습니다', note: '～ませんでした (~하지 않았습니다)' },
+    { kana: 'ぜんぜん わかりませんでした', romaji: 'zenzen wakarimasen deshita', meaning: '전혀 몰랐습니다', note: '～ませんでした (~하지 않았습니다)' },
+  ],
+  // ～ても かまいません : ~해도 상관없습니다
+  [
+    { kana: 'すこし おくれても かまいません', romaji: 'sukoshi okuretemo kamaimasen', meaning: '조금 늦어도 괜찮습니다', note: '～ても かまいません (~해도 상관없습니다)' },
+    { kana: 'ここに すわっても かまいません', romaji: 'koko ni suwattemo kamaimasen', meaning: '여기 앉아도 됩니다', note: '～ても かまいません (~해도 상관없습니다)' },
+    { kana: 'やすんでも かまいません', romaji: 'yasundemo kamaimasen', meaning: '쉬어도 됩니다', note: '～ても かまいません (~해도 상관없습니다)' },
+  ],
+  // ～ことが あります : 가끔 ~할 때가 있습니다
+  [
+    { kana: 'ときどき おそく なる ことが あります', romaji: 'tokidoki osoku naru koto ga arimasu', meaning: '가끔 늦을 때가 있습니다', note: '～ことが あります (가끔 ~할 때가 있다)' },
+    { kana: 'たまに さけを のむ ことが あります', romaji: 'tamani sake o nomu koto ga arimasu', meaning: '가끔 술을 마실 때가 있습니다', note: '～ことが あります (가끔 ~할 때가 있다)' },
+    { kana: 'あめが ふる ことが あります', romaji: 'ame ga furu koto ga arimasu', meaning: '비가 올 때가 있습니다', note: '～ことが あります (가끔 ~할 때가 있다)' },
+  ],
+  // ～と おなじです : ~와 같습니다
+  [
+    { kana: 'これは あれと おなじです', romaji: 'kore wa are to onaji desu', meaning: '이것은 저것과 같습니다', note: '～と おなじです (~와 같습니다)' },
+    { kana: 'わたしのと おなじです', romaji: 'watashi no to onaji desu', meaning: '제 것과 같습니다', note: '～と おなじです (~와 같습니다)' },
+    { kana: 'いみは おなじです', romaji: 'imi wa onaji desu', meaning: '뜻은 같습니다', note: '～と おなじです (~와 같습니다)' },
+  ],
+  // ～によって : ~에 따라
+  [
+    { kana: 'ひとに よって ちがいます', romaji: 'hito ni yotte chigaimasu', meaning: '사람에 따라 다릅니다', note: '～によって (~에 따라)' },
+    { kana: 'てんきに よって きめます', romaji: 'tenki ni yotte kimemasu', meaning: '날씨에 따라 정합니다', note: '～によって (~에 따라)' },
+    { kana: 'ばあいに よって ちがいます', romaji: 'baai ni yotte chigaimasu', meaning: '경우에 따라 다릅니다', note: '～によって (~에 따라)' },
+  ],
+  // ～ために : ~을 위해
+  [
+    { kana: 'けんこうの ために はしります', romaji: 'kenkou no tame ni hashirimasu', meaning: '건강을 위해 달립니다', note: '～ために (~을 위해)' },
+    { kana: 'しけんの ために べんきょうします', romaji: 'shiken no tame ni benkyou shimasu', meaning: '시험을 위해 공부합니다', note: '～ために (~을 위해)' },
+    { kana: 'かぞくの ために はたらきます', romaji: 'kazoku no tame ni hatarakimasu', meaning: '가족을 위해 일합니다', note: '～ために (~을 위해)' },
+  ],
+  // ～は ～です (추가 예문)
+  [
+    { kana: 'きょうは げつようびです', romaji: 'kyou wa getsuyoubi desu', meaning: '오늘은 월요일입니다', note: '～は～です (~은/는 ~입니다)' },
+    { kana: 'ここは えきです', romaji: 'koko wa eki desu', meaning: '여기는 역입니다', note: '～は～です (~은/는 ~입니다)' },
+    { kana: 'あれは やまです', romaji: 'are wa yama desu', meaning: '저것은 산입니다', note: '～は～です (~은/는 ~입니다)' },
+  ],
+  // ～を ～ます (추가 예문)
+  [
+    { kana: 'やさいを かいます', romaji: 'yasai o kaimasu', meaning: '채소를 삽니다', note: '～を ～ます (~을/를 ~합니다)' },
+    { kana: 'おんがくを ききます', romaji: 'ongaku o kikimasu', meaning: '음악을 듣습니다', note: '～を ～ます (~을/를 ~합니다)' },
+    { kana: 'しゃしんを とります', romaji: 'shashin o torimasu', meaning: '사진을 찍습니다', note: '～を ～ます (~을/를 ~합니다)' },
+  ],
+  // ～たいです (추가 예문)
+  [
+    { kana: 'コーヒーが のみたいです', romaji: 'koohii ga nomitai desu', meaning: '커피를 마시고 싶습니다', note: '～たいです (~하고 싶습니다)' },
+    { kana: 'えいがが みたいです', romaji: 'eiga ga mitai desu', meaning: '영화를 보고 싶습니다', note: '～たいです (~하고 싶습니다)' },
+    { kana: 'はやく かえりたいです', romaji: 'hayaku kaeritai desu', meaning: '빨리 돌아가고 싶습니다', note: '～たいです (~하고 싶습니다)' },
+  ],
+  // ～ています (추가 예문)
+  [
+    { kana: 'いま べんきょうして います', romaji: 'ima benkyou shiteimasu', meaning: '지금 공부하고 있습니다', note: '～ています (~하고 있습니다, 진행/상태)' },
+    { kana: 'あめが ふって います', romaji: 'ame ga futteimasu', meaning: '비가 오고 있습니다', note: '～ています (~하고 있습니다, 진행/상태)' },
+    { kana: 'おんがくを きいて います', romaji: 'ongaku o kiiteimasu', meaning: '음악을 듣고 있습니다', note: '～ています (~하고 있습니다, 진행/상태)' },
+  ],
 ]
 
 /** All example sentences flattened in teaching order. */
