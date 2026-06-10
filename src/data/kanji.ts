@@ -136,6 +136,94 @@ export const KANJI_ROWS: Kana[][] = [
     { kana: '電', romaji: 'でん', meaning: '전기' },
     { kana: '文', romaji: 'ぶん・もん', meaning: '글 / 문장' },
   ],
+  // 시간 / 날짜 2
+  [
+    { kana: '週', romaji: 'しゅう', meaning: '주(週)' },
+    { kana: '曜', romaji: 'よう', meaning: '요일' },
+    { kana: '朝', romaji: 'あさ・ちょう', meaning: '아침' },
+    { kana: '昼', romaji: 'ひる・ちゅう', meaning: '낮 / 점심' },
+    { kana: '夜', romaji: 'よる・や', meaning: '밤' },
+    { kana: '毎', romaji: 'まい', meaning: '매 / 매번' },
+    { kana: '何', romaji: 'なに・なん', meaning: '무엇' },
+    { kana: '間', romaji: 'あいだ・かん', meaning: '사이 / 간' },
+  ],
+  // 가족
+  [
+    { kana: '父', romaji: 'ちち・ふ', meaning: '아버지' },
+    { kana: '母', romaji: 'はは・ぼ', meaning: '어머니' },
+    { kana: '兄', romaji: 'あに・きょう', meaning: '형 / 오빠' },
+    { kana: '弟', romaji: 'おとうと・てい', meaning: '남동생' },
+    { kana: '姉', romaji: 'あね・し', meaning: '누나 / 언니' },
+    { kana: '妹', romaji: 'いもうと・まい', meaning: '여동생' },
+    { kana: '友', romaji: 'とも・ゆう', meaning: '친구' },
+    { kana: '家', romaji: 'いえ・か', meaning: '집' },
+  ],
+  // 동사 3
+  [
+    { kana: '待', romaji: 'ま-つ・たい', meaning: '기다리다' },
+    { kana: '持', romaji: 'も-つ・じ', meaning: '들다 / 가지다' },
+    { kana: '使', romaji: 'つか-う・し', meaning: '쓰다 / 사용하다' },
+    { kana: '作', romaji: 'つく-る・さく', meaning: '만들다' },
+    { kana: '思', romaji: 'おも-う・し', meaning: '생각하다' },
+    { kana: '知', romaji: 'し-る・ち', meaning: '알다' },
+    { kana: '教', romaji: 'おし-える・きょう', meaning: '가르치다' },
+    { kana: '習', romaji: 'なら-う・しゅう', meaning: '익히다 / 배우다' },
+  ],
+  // 동사 4
+  [
+    { kana: '始', romaji: 'はじ-める・し', meaning: '시작하다' },
+    { kana: '終', romaji: 'お-わる・しゅう', meaning: '끝나다' },
+    { kana: '帰', romaji: 'かえ-る・き', meaning: '돌아가다' },
+    { kana: '送', romaji: 'おく-る・そう', meaning: '보내다' },
+    { kana: '受', romaji: 'う-ける・じゅ', meaning: '받다' },
+    { kana: '取', romaji: 'と-る・しゅ', meaning: '취하다 / 잡다' },
+    { kana: '貸', romaji: 'か-す・たい', meaning: '빌려주다' },
+    { kana: '借', romaji: 'か-りる・しゃく', meaning: '빌리다' },
+  ],
+  // 형용사 / 상태
+  [
+    { kana: '楽', romaji: 'たの-しい・がく', meaning: '즐겁다 / 음악' },
+    { kana: '悲', romaji: 'かな-しい・ひ', meaning: '슬프다' },
+    { kana: '痛', romaji: 'いた-い・つう', meaning: '아프다' },
+    { kana: '強', romaji: 'つよ-い・きょう', meaning: '강하다' },
+    { kana: '弱', romaji: 'よわ-い・じゃく', meaning: '약하다' },
+    { kana: '重', romaji: 'おも-い・じゅう', meaning: '무겁다' },
+    { kana: '軽', romaji: 'かる-い・けい', meaning: '가볍다' },
+    { kana: '暑', romaji: 'あつ-い・しょ', meaning: '덥다' },
+  ],
+  // 형용사 2 / 날씨
+  [
+    { kana: '寒', romaji: 'さむ-い・かん', meaning: '춥다' },
+    { kana: '暖', romaji: 'あたた-かい・だん', meaning: '따뜻하다' },
+    { kana: '涼', romaji: 'すず-しい・りょう', meaning: '시원하다' },
+    { kana: '明', romaji: 'あか-るい・めい', meaning: '밝다' },
+    { kana: '暗', romaji: 'くら-い・あん', meaning: '어둡다' },
+    { kana: '広', romaji: 'ひろ-い・こう', meaning: '넓다' },
+    { kana: '狭', romaji: 'せま-い・きょう', meaning: '좁다' },
+    { kana: '速', romaji: 'はや-い・そく', meaning: '빠르다' },
+  ],
+  // 장소 / 행정
+  [
+    { kana: '町', romaji: 'まち・ちょう', meaning: '동네 / 마을' },
+    { kana: '村', romaji: 'むら・そん', meaning: '마을 / 촌' },
+    { kana: '市', romaji: 'し', meaning: '시 / 시장' },
+    { kana: '県', romaji: 'けん', meaning: '현(행정구역)' },
+    { kana: '都', romaji: 'と・みやこ', meaning: '도시 / 수도' },
+    { kana: '京', romaji: 'きょう', meaning: '수도 / 교토' },
+    { kana: '部', romaji: 'ぶ', meaning: '부분 / 부서' },
+    { kana: '屋', romaji: 'や・おく', meaning: '가게 / 지붕' },
+  ],
+  // 자연 2
+  [
+    { kana: '海', romaji: 'うみ・かい', meaning: '바다' },
+    { kana: '林', romaji: 'はやし・りん', meaning: '수풀' },
+    { kana: '森', romaji: 'もり・しん', meaning: '숲' },
+    { kana: '石', romaji: 'いし・せき', meaning: '돌' },
+    { kana: '池', romaji: 'いけ・ち', meaning: '연못' },
+    { kana: '花', romaji: 'はな・か', meaning: '꽃' },
+    { kana: '草', romaji: 'くさ・そう', meaning: '풀' },
+    { kana: '風', romaji: 'かぜ・ふう', meaning: '바람' },
+  ],
 ]
 
 /** All N5 kanji flattened in teaching order. */
