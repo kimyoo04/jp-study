@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { kanaToHangul } from './hangul'
 import { PHRASES } from '../data/phrases'
+import { KEIGO } from '../data/keigo'
 
 describe('kanaToHangul', () => {
   it('converts basic phrases', () => {
@@ -53,8 +54,18 @@ describe('kanaToHangul', () => {
     expect(kanaToHangul('すみません、おくれます')).toBe('스미마센, 오쿠레마스')
   })
 
-  it('converts every phrase in the deck without leftover kana', () => {
-    for (const p of PHRASES) {
+  it('reads particle は/へ as 와/에 at word boundaries only', () => {
+    expect(kanaToHangul('おすすめは なんですか')).toBe('오스스메와 난데스카')
+    expect(kanaToHangul('こんにちは')).toBe('콘니치와')
+    expect(kanaToHangul('えきへ いきます')).toBe('에키에 이키마스')
+    expect(kanaToHangul('すっては いけません')).toBe('슷테와 이케마센')
+    // 어절 중간의 は/へ는 그대로 하/헤
+    expect(kanaToHangul('はい')).toBe('하이')
+    expect(kanaToHangul('へや')).toBe('헤야')
+  })
+
+  it('converts every phrase/keigo item without leftover kana', () => {
+    for (const p of [...PHRASES, ...KEIGO]) {
       const r = kanaToHangul(p.kana)
       expect(r, `unconverted chars in "${p.kana}" → "${r}"`).not.toMatch(
         /[぀-ゟ゠-ヿ]/,

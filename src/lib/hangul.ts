@@ -6,6 +6,7 @@
 //   ん → 뒤 자음에 동화: ま/ば/ぱ행 앞 ㅁ받침(さんぽ → 삼포),
 //        か/が행 앞 ㅇ받침(げんき → 겡키), 그 외 ㄴ받침(みんな → 민나)
 //   ー → 장음 부호 '-' 유지 (メニュー → 메뉴-)
+//   조사 は/へ → 와/에 (어절 끝, 즉 공백·쉼표·문장 끝 앞에서만: おすすめは → 오스스메와)
 
 const DIGRAPHS: Record<string, string> = {
   きゃ: '캬', きゅ: '큐', きょ: '쿄',
@@ -95,13 +96,23 @@ function toHiragana(ch: string): string {
   return ch
 }
 
+// 어절 경계(공백·쉼표·문장부호·문장 끝)인지 — 조사 は/へ 판정에 쓴다.
+function isBreak(ch: string | undefined): boolean {
+  return ch === undefined || ch === ' ' || ch === '、' || ch === '。' || ch === '!' || ch === '?' || ch === '！' || ch === '？'
+}
+
 export function kanaToHangul(text: string): string {
   const out: string[] = []
   const chars = [...text].map(toHiragana)
   for (let i = 0; i < chars.length; i++) {
     const ch = chars[i]
     const pair = ch + (chars[i + 1] ?? '')
-    if (DIGRAPHS[pair]) {
+    // 어절 끝의 は/へ는 조사로 보고 발음대로 와/에 (こんにちは → 곤니치와)
+    if (ch === 'は' && isBreak(chars[i + 1])) {
+      out.push('와')
+    } else if (ch === 'へ' && isBreak(chars[i + 1])) {
+      out.push('에')
+    } else if (DIGRAPHS[pair]) {
       out.push(DIGRAPHS[pair])
       i++
     } else if (ch === 'っ') {
