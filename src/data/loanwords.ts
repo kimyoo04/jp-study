@@ -262,6 +262,61 @@ export const LOANWORD_ROWS: Kana[][] = [
     { kana: 'スタート', romaji: 'sutaato', meaning: '시작' },
     { kana: 'ゴール', romaji: 'gooru', meaning: '골 / 목표' },
   ],
+  // 식당 / 메뉴
+  [
+    { kana: 'メニュー', romaji: 'menyuu', meaning: '메뉴' },
+    { kana: 'ランチ', romaji: 'ranchi', meaning: '런치' },
+    { kana: 'ディナー', romaji: 'dinaa', meaning: '디너' },
+    { kana: 'セット', romaji: 'setto', meaning: '세트' },
+    { kana: 'ビュッフェ', romaji: 'byuffe', meaning: '뷔페' },
+    { kana: 'レシピ', romaji: 'reshipi', meaning: '레시피' },
+    { kana: 'カロリー', romaji: 'karorii', meaning: '칼로리' },
+    { kana: 'メニューバー', romaji: 'menyuubaa', meaning: '메뉴바' },
+  ],
+  // 가전 / 생활 2
+  [
+    { kana: 'トースター', romaji: 'toosutaa', meaning: '토스터' },
+    { kana: 'ミキサー', romaji: 'mikisaa', meaning: '믹서' },
+    { kana: 'アイロン', romaji: 'airon', meaning: '다리미' },
+    { kana: 'ストーブ', romaji: 'sutoobu', meaning: '난로' },
+    { kana: 'ヒーター', romaji: 'hiitaa', meaning: '히터' },
+    { kana: 'クーラー', romaji: 'kuuraa', meaning: '냉방기' },
+    { kana: 'スイッチ', romaji: 'suicchi', meaning: '스위치' },
+    { kana: 'コンセント', romaji: 'konsento', meaning: '콘센트' },
+  ],
+  // 스포츠 / 취미 4
+  [
+    { kana: 'スケート', romaji: 'sukeeto', meaning: '스케이트' },
+    { kana: 'ボウリング', romaji: 'bouringu', meaning: '볼링' },
+    { kana: 'バドミントン', romaji: 'badominton', meaning: '배드민턴' },
+    { kana: 'ラグビー', romaji: 'ragubii', meaning: '럭비' },
+    { kana: 'ヨット', romaji: 'yotto', meaning: '요트' },
+    { kana: 'サイクリング', romaji: 'saikuringu', meaning: '사이클링' },
+    { kana: 'トレーニング', romaji: 'toreeningu', meaning: '트레이닝' },
+    { kana: 'ストレッチ', romaji: 'sutorecchi', meaning: '스트레칭' },
+  ],
+  // 음악 / 엔터
+  [
+    { kana: 'ロック', romaji: 'rokku', meaning: '록 음악' },
+    { kana: 'ジャズ', romaji: 'jazu', meaning: '재즈' },
+    { kana: 'クラシック', romaji: 'kurashikku', meaning: '클래식' },
+    { kana: 'アニメ', romaji: 'anime', meaning: '애니메이션' },
+    { kana: 'ドラマ', romaji: 'dorama', meaning: '드라마' },
+    { kana: 'アイドル', romaji: 'aidoru', meaning: '아이돌' },
+    { kana: 'ライブ', romaji: 'raibu', meaning: '라이브' },
+    { kana: 'ステージ', romaji: 'suteeji', meaning: '무대' },
+  ],
+  // 추상 2
+  [
+    { kana: 'チェック', romaji: 'chekku', meaning: '체크' },
+    { kana: 'プラン', romaji: 'puran', meaning: '계획' },
+    { kana: 'メモ', romaji: 'memo', meaning: '메모' },
+    { kana: 'コメント', romaji: 'komento', meaning: '코멘트' },
+    { kana: 'ポイント', romaji: 'pointo', meaning: '포인트' },
+    { kana: 'タイプ', romaji: 'taipu', meaning: '타입' },
+    { kana: 'パターン', romaji: 'pataan', meaning: '패턴' },
+    { kana: 'バランス', romaji: 'baransu', meaning: '밸런스' },
+  ],
 ]
 
 /** All loanwords flattened in teaching order. */

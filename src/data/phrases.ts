@@ -116,6 +116,38 @@ export const PHRASE_ROWS: Kana[][] = [
     { kana: 'わかりました', romaji: 'wakarimashita', meaning: '알겠습니다', note: '리액션' },
     { kana: 'しらなかったです', romaji: 'shiranakatta desu', meaning: '몰랐어요', note: '리액션' },
   ],
+  // 자기소개 2
+  [
+    { kana: 'しゅみは なんですか', romaji: 'shumi wa nan desu ka', meaning: '취미가 뭐예요?', note: '자기소개 2' },
+    { kana: 'しごとは なんですか', romaji: 'shigoto wa nan desu ka', meaning: '직업이 뭐예요?', note: '자기소개 2' },
+    { kana: 'かんこくから きました', romaji: 'kankoku kara kimashita', meaning: '한국에서 왔어요', note: '자기소개 2' },
+    { kana: 'にほんごを べんきょうして います', romaji: 'nihongo o benkyou shiteimasu', meaning: '일본어를 공부하고 있어요', note: '자기소개 2' },
+    { kana: 'えいがが すきです', romaji: 'eiga ga suki desu', meaning: '영화를 좋아해요', note: '자기소개 2' },
+  ],
+  // 날씨 / 잡담
+  [
+    { kana: 'いい てんきですね', romaji: 'ii tenki desu ne', meaning: '날씨 좋네요', note: '날씨 / 잡담' },
+    { kana: 'あついですね', romaji: 'atsui desu ne', meaning: '덥네요', note: '날씨 / 잡담' },
+    { kana: 'さむく なりましたね', romaji: 'samuku narimashita ne', meaning: '추워졌네요', note: '날씨 / 잡담' },
+    { kana: 'あめが ふりそうですね', romaji: 'ame ga furisou desu ne', meaning: '비가 올 것 같네요', note: '날씨 / 잡담' },
+    { kana: 'はるが すきです', romaji: 'haru ga suki desu', meaning: '봄을 좋아해요', note: '날씨 / 잡담' },
+  ],
+  // 작별 / 안부
+  [
+    { kana: 'また あいましょう', romaji: 'mata aimashou', meaning: '또 만나요', note: '작별 / 안부' },
+    { kana: 'げんきでね', romaji: 'genki de ne', meaning: '잘 지내요', note: '작별 / 안부' },
+    { kana: 'よい いちにちを', romaji: 'yoi ichinichi o', meaning: '좋은 하루 보내세요', note: '작별 / 안부' },
+    { kana: 'おやすみなさい', romaji: 'oyasuminasai', meaning: '안녕히 주무세요', note: '작별 / 안부' },
+    { kana: 'おせわに なりました', romaji: 'osewa ni narimashita', meaning: '신세 많이 졌어요', note: '작별 / 안부' },
+  ],
+  // 도움 요청
+  [
+    { kana: 'おてつだいします', romaji: 'otetsudai shimasu', meaning: '도와드릴게요', note: '도움 요청' },
+    { kana: 'だいじょうぶですか', romaji: 'daijoubu desu ka', meaning: '괜찮으세요?', note: '도움 요청' },
+    { kana: 'みちを おしえて ください', romaji: 'michi o oshiete kudasai', meaning: '길을 알려 주세요', note: '도움 요청' },
+    { kana: 'ちずを みせて ください', romaji: 'chizu o misete kudasai', meaning: '지도를 보여 주세요', note: '도움 요청' },
+    { kana: 'ほんとうに ありがとう', romaji: 'hontou ni arigatou', meaning: '정말 고마워요', note: '도움 요청' },
+  ],
 ]
 
 /** All conversational phrases flattened in teaching order. */

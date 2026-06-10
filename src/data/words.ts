@@ -414,6 +414,71 @@ export const WORD_ROWS: Kana[][] = [
     { kana: 'もう', romaji: 'mou', meaning: '이미 / 벌써' },
     { kana: 'まだ', romaji: 'mada', meaning: '아직' },
   ],
+  // 직업 / 사람 2
+  [
+    { kana: 'いしゃ', romaji: 'isha', meaning: '의사' },
+    { kana: 'かんごし', romaji: 'kangoshi', meaning: '간호사' },
+    { kana: 'けいさつ', romaji: 'keisatsu', meaning: '경찰' },
+    { kana: 'てんいん', romaji: 'tenin', meaning: '점원' },
+    { kana: 'えきいん', romaji: 'ekiin', meaning: '역무원' },
+    { kana: 'しゃちょう', romaji: 'shachou', meaning: '사장' },
+    { kana: 'ぶちょう', romaji: 'buchou', meaning: '부장' },
+    { kana: 'どうりょう', romaji: 'douryou', meaning: '동료' },
+  ],
+  // 학교 / 공부
+  [
+    { kana: 'じゅぎょう', romaji: 'jugyou', meaning: '수업' },
+    { kana: 'しゅくだい', romaji: 'shukudai', meaning: '숙제' },
+    { kana: 'しけん', romaji: 'shiken', meaning: '시험' },
+    { kana: 'きょうしつ', romaji: 'kyoushitsu', meaning: '교실' },
+    { kana: 'こくばん', romaji: 'kokuban', meaning: '칠판' },
+    { kana: 'えんぴつ', romaji: 'enpitsu', meaning: '연필' },
+    { kana: 'けしごむ', romaji: 'keshigomu', meaning: '지우개' },
+    { kana: 'じしょ', romaji: 'jisho', meaning: '사전' },
+  ],
+  // 동물 2
+  [
+    { kana: 'むし', romaji: 'mushi', meaning: '벌레' },
+    { kana: 'さる', romaji: 'saru', meaning: '원숭이' },
+    { kana: 'とら', romaji: 'tora', meaning: '호랑이' },
+    { kana: 'へび', romaji: 'hebi', meaning: '뱀' },
+    { kana: 'かめ', romaji: 'kame', meaning: '거북이' },
+    { kana: 'ぶた', romaji: 'buta', meaning: '돼지' },
+    { kana: 'うし', romaji: 'ushi', meaning: '소' },
+    { kana: 'にわとり', romaji: 'niwatori', meaning: '닭' },
+  ],
+  // する 동사 (명사)
+  [
+    { kana: 'そうじ', romaji: 'souji', meaning: '청소' },
+    { kana: 'せんたく', romaji: 'sentaku', meaning: '세탁' },
+    { kana: 'りょうり', romaji: 'ryouri', meaning: '요리' },
+    { kana: 'かいもの', romaji: 'kaimono', meaning: '쇼핑' },
+    { kana: 'さんぽ', romaji: 'sanpo', meaning: '산책' },
+    { kana: 'れんしゅう', romaji: 'renshuu', meaning: '연습' },
+    { kana: 'しつもん', romaji: 'shitsumon', meaning: '질문' },
+    { kana: 'へんじ', romaji: 'henji', meaning: '대답' },
+  ],
+  // 감정 형용사
+  [
+    { kana: 'うれしい', romaji: 'ureshii', meaning: '기쁘다' },
+    { kana: 'かなしい', romaji: 'kanashii', meaning: '슬프다' },
+    { kana: 'こわい', romaji: 'kowai', meaning: '무섭다' },
+    { kana: 'はずかしい', romaji: 'hazukashii', meaning: '부끄럽다' },
+    { kana: 'ねむい', romaji: 'nemui', meaning: '졸리다' },
+    { kana: 'いたい', romaji: 'itai', meaning: '아프다' },
+    { kana: 'かゆい', romaji: 'kayui', meaning: '가렵다' },
+    { kana: 'うらやましい', romaji: 'urayamashii', meaning: '부럽다' },
+  ],
+  // 색 / 모양
+  [
+    { kana: 'まる', romaji: 'maru', meaning: '동그라미' },
+    { kana: 'さんかく', romaji: 'sankaku', meaning: '삼각형' },
+    { kana: 'しかく', romaji: 'shikaku', meaning: '사각형' },
+    { kana: 'むらさき', romaji: 'murasaki', meaning: '보라색' },
+    { kana: 'ちゃいろ', romaji: 'chairo', meaning: '갈색' },
+    { kana: 'はいいろ', romaji: 'haiiro', meaning: '회색' },
+    { kana: 'きんいろ', romaji: 'kiniro', meaning: '금색' },
+  ],
 ]
 
 /** All words flattened in teaching order. */

@@ -366,6 +366,48 @@ export const GRAMMAR_ROWS: Kana[][] = [
     { kana: 'いつでも いいです', romaji: 'itsudemo ii desu', meaning: '언제라도 좋아요', note: '～でも (~라도)' },
     { kana: 'だれでも できます', romaji: 'daredemo dekimasu', meaning: '누구라도 할 수 있어요', note: '～でも (~라도)' },
   ],
+  // ～ましょうか : ~할까요? (제안)
+  [
+    { kana: 'てつだいましょうか', romaji: 'tetsudaimashou ka', meaning: '도와드릴까요?', note: '～ましょうか (~할까요?, 제안)' },
+    { kana: 'まどを あけましょうか', romaji: 'mado o akemashou ka', meaning: '창문을 열까요?', note: '～ましょうか (~할까요?, 제안)' },
+    { kana: 'なにを たべましょうか', romaji: 'nani o tabemashou ka', meaning: '뭘 먹을까요?', note: '～ましょうか (~할까요?, 제안)' },
+  ],
+  // ～て あります : ~되어 있습니다 (상태)
+  [
+    { kana: 'まどが あけて あります', romaji: 'mado ga akete arimasu', meaning: '창문이 열려 있습니다', note: '～て あります (~되어 있습니다)' },
+    { kana: 'かべに えが かけて あります', romaji: 'kabe ni e ga kakete arimasu', meaning: '벽에 그림이 걸려 있습니다', note: '～て あります (~되어 있습니다)' },
+    { kana: 'つくえに ほんが おいて あります', romaji: 'tsukue ni hon ga oite arimasu', meaning: '책상에 책이 놓여 있습니다', note: '～て あります (~되어 있습니다)' },
+  ],
+  // ～て おきます : ~해 둡니다 (준비)
+  [
+    { kana: 'よやくして おきます', romaji: 'yoyaku shite okimasu', meaning: '예약해 둡니다', note: '～て おきます (~해 둡니다)' },
+    { kana: 'かって おきます', romaji: 'katte okimasu', meaning: '사 둡니다', note: '～て おきます (~해 둡니다)' },
+    { kana: 'べんきょうして おきます', romaji: 'benkyou shite okimasu', meaning: '공부해 둡니다', note: '～て おきます (~해 둡니다)' },
+  ],
+  // ～て みます : ~해 봅니다 (시도)
+  [
+    { kana: 'たべて みます', romaji: 'tabete mimasu', meaning: '먹어 봅니다', note: '～て みます (~해 봅니다)' },
+    { kana: 'いって みます', romaji: 'itte mimasu', meaning: '가 봅니다', note: '～て みます (~해 봅니다)' },
+    { kana: 'きいて みます', romaji: 'kiite mimasu', meaning: '물어 봅니다', note: '～て みます (~해 봅니다)' },
+  ],
+  // ～て しまいました : ~해 버렸습니다
+  [
+    { kana: 'わすれて しまいました', romaji: 'wasurete shimaimashita', meaning: '잊어버렸습니다', note: '～て しまいました (~해 버렸습니다)' },
+    { kana: 'おとして しまいました', romaji: 'otoshite shimaimashita', meaning: '떨어뜨려 버렸습니다', note: '～て しまいました (~해 버렸습니다)' },
+    { kana: 'たべて しまいました', romaji: 'tabete shimaimashita', meaning: '먹어 버렸습니다', note: '～て しまいました (~해 버렸습니다)' },
+  ],
+  // ～し ～し : ~하고 ~하고 (나열)
+  [
+    { kana: 'やすいし おいしいです', romaji: 'yasui shi oishii desu', meaning: '싸고 맛있습니다', note: '～し ～し (~하고 ~하고, 나열)' },
+    { kana: 'しずかだし べんりです', romaji: 'shizuka dashi benri desu', meaning: '조용하고 편리합니다', note: '～し ～し (~하고 ~하고, 나열)' },
+    { kana: 'あたまも いいし やさしいです', romaji: 'atama mo ii shi yasashii desu', meaning: '머리도 좋고 친절합니다', note: '～し ～し (~하고 ~하고, 나열)' },
+  ],
+  // ～みたいです : ~인 것 같습니다
+  [
+    { kana: 'あめが ふるみたいです', romaji: 'ame ga furu mitai desu', meaning: '비가 오는 것 같습니다', note: '～みたいです (~인 것 같습니다)' },
+    { kana: 'だれも いないみたいです', romaji: 'daremo inai mitai desu', meaning: '아무도 없는 것 같습니다', note: '～みたいです (~인 것 같습니다)' },
+    { kana: 'おいしいみたいです', romaji: 'oishii mitai desu', meaning: '맛있는 것 같습니다', note: '～みたいです (~인 것 같습니다)' },
+  ],
 ]
 
 /** All example sentences flattened in teaching order. */
