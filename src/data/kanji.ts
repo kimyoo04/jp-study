@@ -488,6 +488,94 @@ export const KANJI_ROWS: Kana[][] = [
     { kana: '客', romaji: 'きゃく・かく', meaning: '손님' },
     { kana: '様', romaji: 'さま・よう', meaning: '님 / 모양' },
   ],
+  // 학교 / 공부 3
+  [
+    { kana: '勉', romaji: 'べん', meaning: '힘쓰다 (勉強)' },
+    { kana: '講', romaji: 'こう', meaning: '강의' },
+    { kana: '研', romaji: 'けん・と-ぐ', meaning: '연구 / 갈다' },
+    { kana: '究', romaji: 'きゅう', meaning: '연구하다' },
+    { kana: '卒', romaji: 'そつ', meaning: '졸업' },
+    { kana: '級', romaji: 'きゅう', meaning: '급 / 학급' },
+    { kana: '科', romaji: 'か', meaning: '과목' },
+    { kana: '専', romaji: 'せん', meaning: '전문' },
+  ],
+  // 직업 / 산업
+  [
+    { kana: '職', romaji: 'しょく', meaning: '직업' },
+    { kana: '勤', romaji: 'きん・つと-める', meaning: '근무하다' },
+    { kana: '営', romaji: 'えい・いとな-む', meaning: '경영' },
+    { kana: '商', romaji: 'しょう', meaning: '장사' },
+    { kana: '産', romaji: 'さん・う-む', meaning: '낳다 / 산업' },
+    { kana: '工', romaji: 'こう・く', meaning: '공 / 장인' },
+    { kana: '農', romaji: 'のう', meaning: '농사' },
+    { kana: '漁', romaji: 'ぎょ・りょう', meaning: '고기잡이' },
+  ],
+  // 돈 / 경제
+  [
+    { kana: '費', romaji: 'ひ・つい-やす', meaning: '비용' },
+    { kana: '価', romaji: 'か', meaning: '값 / 가치' },
+    { kana: '賃', romaji: 'ちん', meaning: '요금 / 임금' },
+    { kana: '税', romaji: 'ぜい', meaning: '세금' },
+    { kana: '給', romaji: 'きゅう', meaning: '주다 / 급여' },
+    { kana: '得', romaji: 'とく・え-る', meaning: '얻다 / 이득' },
+    { kana: '損', romaji: 'そん', meaning: '손해' },
+    { kana: '貧', romaji: 'ひん・まず-しい', meaning: '가난하다' },
+  ],
+  // 교통 / 이동 2
+  [
+    { kana: '路', romaji: 'ろ・じ', meaning: '길' },
+    { kana: '橋', romaji: 'はし・きょう', meaning: '다리' },
+    { kana: '港', romaji: 'みなと・こう', meaning: '항구' },
+    { kana: '船', romaji: 'ふね・せん', meaning: '배(船)' },
+    { kana: '機', romaji: 'き', meaning: '기계 / 기회' },
+    { kana: '信', romaji: 'しん', meaning: '믿다 / 신호' },
+    { kana: '運', romaji: 'うん・はこ-ぶ', meaning: '운 / 옮기다' },
+    { kana: '転', romaji: 'てん・ころ-ぶ', meaning: '구르다 / 돌다' },
+  ],
+  // 신체 / 건강 3
+  [
+    { kana: '鼻', romaji: 'はな・び', meaning: '코' },
+    { kana: '舌', romaji: 'した・ぜつ', meaning: '혀' },
+    { kana: '息', romaji: 'いき・そく', meaning: '숨 / 자식' },
+    { kana: '汗', romaji: 'あせ・かん', meaning: '땀' },
+    { kana: '涙', romaji: 'なみだ・るい', meaning: '눈물' },
+    { kana: '薬', romaji: 'くすり・やく', meaning: '약' },
+    { kana: '熱', romaji: 'ねつ・あつ-い', meaning: '열' },
+    { kana: '疲', romaji: 'つか-れる・ひ', meaning: '피곤하다' },
+  ],
+  // 감정 2
+  [
+    { kana: '感', romaji: 'かん', meaning: '느끼다 / 감정' },
+    { kana: '情', romaji: 'じょう', meaning: '정 / 마음' },
+    { kana: '愛', romaji: 'あい', meaning: '사랑' },
+    { kana: '幸', romaji: 'こう・しあわ-せ', meaning: '행복' },
+    { kana: '福', romaji: 'ふく', meaning: '복' },
+    { kana: '夢', romaji: 'ゆめ・む', meaning: '꿈' },
+    { kana: '希', romaji: 'き', meaning: '바라다 / 희망' },
+    { kana: '望', romaji: 'のぞ-む・ぼう', meaning: '바라다 / 희망' },
+  ],
+  // 동작 4
+  [
+    { kana: '選', romaji: 'えら-ぶ・せん', meaning: '고르다' },
+    { kana: '比', romaji: 'くら-べる・ひ', meaning: '비교하다' },
+    { kana: '調', romaji: 'しら-べる・ちょう', meaning: '조사 / 조절' },
+    { kana: '検', romaji: 'けん', meaning: '검사하다' },
+    { kana: '確', romaji: 'たし-か・かく', meaning: '확실하다' },
+    { kana: '認', romaji: 'みと-める・にん', meaning: '인정하다' },
+    { kana: '報', romaji: 'ほう', meaning: '알리다 / 보도' },
+    { kana: '告', romaji: 'つ-げる・こく', meaning: '알리다' },
+  ],
+  // 시간 / 순서 2
+  [
+    { kana: '昔', romaji: 'むかし・せき', meaning: '옛날' },
+    { kana: '末', romaji: 'すえ・まつ', meaning: '끝 / 말' },
+    { kana: '初', romaji: 'はじ-め・しょ', meaning: '처음' },
+    { kana: '最', romaji: 'もっと-も・さい', meaning: '가장' },
+    { kana: '次', romaji: 'つぎ・じ', meaning: '다음' },
+    { kana: '当', romaji: 'あ-たる・とう', meaning: '맞다 / 당(當)' },
+    { kana: '期', romaji: 'き', meaning: '시기 / 기간' },
+    { kana: '限', romaji: 'かぎ-る・げん', meaning: '한정 / 한계' },
+  ],
 ]
 
 /** All N5 kanji flattened in teaching order. */
