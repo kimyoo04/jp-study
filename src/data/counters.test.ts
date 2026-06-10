@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { DECKS, ROW_OF } from './kana'
 import { COUNTERS, COUNTER_ROWS } from './counters'
+import { WORDS } from './words'
+import { LOANWORDS } from './loanwords'
 
 describe('counters data', () => {
   it('every counter has kana, romaji, and a Korean meaning', () => {
@@ -14,6 +16,13 @@ describe('counters data', () => {
   it('has no duplicate counters', () => {
     const chars = COUNTERS.map((c) => c.kana)
     expect(new Set(chars).size).toBe(chars.length)
+  })
+
+  it('does not collide with words/loanwords kana keys (progress is keyed by kana)', () => {
+    const taken = new Set([...WORDS, ...LOANWORDS].map((w) => w.kana))
+    for (const c of COUNTERS) {
+      expect(taken.has(c.kana), `${c.kana} duplicated in another deck`).toBe(false)
+    }
   })
 
   it('registers counter rows in ROW_OF for distractor grouping', () => {

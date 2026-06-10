@@ -57,10 +57,10 @@ export const COUNTER_ROWS: Kana[][] = [
   // 시간 〜時
   [
     { kana: 'いちじ', romaji: 'ichiji', meaning: '1시' },
-    { kana: 'にじ', romaji: 'niji', meaning: '2시' },
     { kana: 'よじ', romaji: 'yoji', meaning: '4시' },
     { kana: 'ごじ', romaji: 'goji', meaning: '5시' },
     { kana: 'しちじ', romaji: 'shichiji', meaning: '7시' },
+    { kana: 'はちじ', romaji: 'hachiji', meaning: '8시' },
     { kana: 'くじ', romaji: 'kuji', meaning: '9시' },
     { kana: 'じゅういちじ', romaji: 'juuichiji', meaning: '11시' },
     { kana: 'じゅうにじ', romaji: 'juuniji', meaning: '12시' },
@@ -99,7 +99,7 @@ export const COUNTER_ROWS: Kana[][] = [
   ],
   // 잔 〜杯 / 개 〜個
   [
-    { kana: 'いっぱい', romaji: 'ippai', meaning: '한 잔 (1杯)' },
+    { kana: 'いっぱい', romaji: 'ippai', meaning: '한 잔 (1杯) / 가득' },
     { kana: 'にはい', romaji: 'nihai', meaning: '두 잔 (2杯)' },
     { kana: 'さんばい', romaji: 'sanbai', meaning: '세 잔 (3杯)' },
     { kana: 'なんばい', romaji: 'nanbai', meaning: '몇 잔' },

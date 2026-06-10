@@ -692,11 +692,8 @@ export const WORD_ROWS: Kana[][] = [
   [
     { kana: 'はんぶん', romaji: 'hanbun', meaning: '반' },
     { kana: 'ぜんぶ', romaji: 'zenbu', meaning: '전부' },
-    { kana: 'いっぱい', romaji: 'ippai', meaning: '가득' },
     { kana: 'ほとんど', romaji: 'hotondo', meaning: '거의' },
     { kana: 'みんな', romaji: 'minna', meaning: '모두' },
-    { kana: 'ひとつ', romaji: 'hitotsu', meaning: '하나' },
-    { kana: 'ふたつ', romaji: 'futatsu', meaning: '둘' },
     { kana: 'いくつか', romaji: 'ikutsuka', meaning: '몇몇' },
   ],
   // 동사 10
