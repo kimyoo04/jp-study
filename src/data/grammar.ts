@@ -606,6 +606,96 @@ export const GRAMMAR_ROWS: Kana[][] = [
     { kana: 'むずかしいと おもいます', romaji: 'muzukashii to omoimasu', meaning: '어렵다고 생각합니다', note: '～と おもいます (~라고 생각합니다)' },
     { kana: 'おいしいと おもいます', romaji: 'oishii to omoimasu', meaning: '맛있다고 생각합니다', note: '～と おもいます (~라고 생각합니다)' },
   ],
+  // ～と おもって います : ~하려고 합니다 (의도)
+  [
+    { kana: 'らいねん にほんに いこうと おもって います', romaji: 'rainen nihon ni ikou to omotte imasu', meaning: '내년에 일본에 가려고 합니다', note: '～と おもって います (~하려고 합니다)' },
+    { kana: 'くるまを かおうと おもって います', romaji: 'kuruma o kaou to omotte imasu', meaning: '차를 사려고 합니다', note: '～と おもって います (~하려고 합니다)' },
+    { kana: 'しゅうまつは やすもうと おもって います', romaji: 'shuumatsu wa yasumou to omotte imasu', meaning: '주말엔 쉬려고 합니다', note: '～と おもって います (~하려고 합니다)' },
+  ],
+  // ～か ～か : A인지 B인지
+  [
+    { kana: 'いくか いかないか まよって います', romaji: 'iku ka ikanai ka mayotte imasu', meaning: '갈지 안 갈지 망설입니다', note: '～か ～か (A인지 B인지)' },
+    { kana: 'あめか ゆきか わかりません', romaji: 'ame ka yuki ka wakarimasen', meaning: '비인지 눈인지 모릅니다', note: '～か ～か (A인지 B인지)' },
+    { kana: 'いくか やめるか きめて ください', romaji: 'iku ka yameru ka kimete kudasai', meaning: '갈지 말지 정해 주세요', note: '～か ～か (A인지 B인지)' },
+  ],
+  // ～について : ~에 대해
+  [
+    { kana: 'にほんの ぶんかに ついて はなします', romaji: 'nihon no bunka ni tsuite hanashimasu', meaning: '일본 문화에 대해 이야기합니다', note: '～について (~에 대해)' },
+    { kana: 'この もんだいに ついて かんがえます', romaji: 'kono mondai ni tsuite kangaemasu', meaning: '이 문제에 대해 생각합니다', note: '～について (~에 대해)' },
+    { kana: 'れきしに ついて しらべます', romaji: 'rekishi ni tsuite shirabemasu', meaning: '역사에 대해 조사합니다', note: '～について (~에 대해)' },
+  ],
+  // ～そうに : ~한 듯이
+  [
+    { kana: 'うれしそうに わらいました', romaji: 'ureshisou ni waraimashita', meaning: '기쁜 듯이 웃었습니다', note: '～そうに (~한 듯이)' },
+    { kana: 'さむそうに しています', romaji: 'samusou ni shiteimasu', meaning: '추운 듯이 있습니다', note: '～そうに (~한 듯이)' },
+    { kana: 'たのしそうに あそんで います', romaji: 'tanoshisou ni asonde imasu', meaning: '즐거운 듯이 놀고 있습니다', note: '～そうに (~한 듯이)' },
+  ],
+  // ～ば よかった : ~할 걸 그랬다
+  [
+    { kana: 'もっと べんきょうすれば よかったです', romaji: 'motto benkyou sureba yokatta desu', meaning: '더 공부할 걸 그랬습니다', note: '～ば よかった (~할 걸 그랬다)' },
+    { kana: 'はやく いけば よかったです', romaji: 'hayaku ikeba yokatta desu', meaning: '빨리 갈 걸 그랬습니다', note: '～ば よかった (~할 걸 그랬다)' },
+    { kana: 'かえば よかったです', romaji: 'kaeba yokatta desu', meaning: '살 걸 그랬습니다', note: '～ば よかった (~할 걸 그랬다)' },
+  ],
+  // ～を ～ます (추가 예문 2)
+  [
+    { kana: 'ジュースを のみます', romaji: 'juusu o nomimasu', meaning: '주스를 마십니다', note: '～を ～ます (~을/를 ~합니다)' },
+    { kana: 'ごはんを つくります', romaji: 'gohan o tsukurimasu', meaning: '밥을 짓습니다', note: '～を ～ます (~을/를 ~합니다)' },
+    { kana: 'しんぶんを よみます', romaji: 'shinbun o yomimasu', meaning: '신문을 읽습니다', note: '～を ～ます (~을/를 ~합니다)' },
+  ],
+  // ～ています (추가 예문 2)
+  [
+    { kana: 'ともだちを まって います', romaji: 'tomodachi o matte imasu', meaning: '친구를 기다리고 있습니다', note: '～ています (~하고 있습니다, 진행/상태)' },
+    { kana: 'しごとを して います', romaji: 'shigoto o shite imasu', meaning: '일을 하고 있습니다', note: '～ています (~하고 있습니다, 진행/상태)' },
+    { kana: 'ほんを よんで います', romaji: 'hon o yonde imasu', meaning: '책을 읽고 있습니다', note: '～ています (~하고 있습니다, 진행/상태)' },
+  ],
+  // ～てから (추가 예문)
+  [
+    { kana: 'かおを あらってから でかけます', romaji: 'kao o aratte kara dekakemasu', meaning: '세수하고 나서 나갑니다', note: '～てから (~하고 나서)' },
+    { kana: 'ごはんを たべてから くすりを のみます', romaji: 'gohan o tabete kara kusuri o nomimasu', meaning: '밥을 먹고 나서 약을 먹습니다', note: '～てから (~하고 나서)' },
+    { kana: 'しゅくだいを してから あそびます', romaji: 'shukudai o shite kara asobimasu', meaning: '숙제하고 나서 놉니다', note: '～てから (~하고 나서)' },
+  ],
+  // ～たり ～たり (추가 예문)
+  [
+    { kana: 'およいだり はしったり します', romaji: 'oyoidari hashittari shimasu', meaning: '수영하거나 달리거나 합니다', note: '～たり ～たり します (~하기도 하고)' },
+    { kana: 'えいがを みたり ほんを よんだり します', romaji: 'eiga o mitari hon o yondari shimasu', meaning: '영화를 보거나 책을 읽거나 합니다', note: '～たり ～たり します (~하기도 하고)' },
+    { kana: 'そうじしたり せんたくしたり します', romaji: 'souji shitari sentaku shitari shimasu', meaning: '청소하거나 세탁하거나 합니다', note: '～たり ～たり します (~하기도 하고)' },
+  ],
+  // ～ながら (추가 예문)
+  [
+    { kana: 'ごはんを たべながら テレビを みます', romaji: 'gohan o tabenagara terebi o mimasu', meaning: '밥을 먹으면서 텔레비전을 봅니다', note: '～ながら (~하면서)' },
+    { kana: 'コーヒーを のみながら はなします', romaji: 'koohii o nominagara hanashimasu', meaning: '커피를 마시면서 이야기합니다', note: '～ながら (~하면서)' },
+    { kana: 'うたを うたいながら あるきます', romaji: 'uta o utainagara arukimasu', meaning: '노래 부르면서 걷습니다', note: '～ながら (~하면서)' },
+  ],
+  // ～ましょう (추가 예문)
+  [
+    { kana: 'いっしょに たべましょう', romaji: 'issho ni tabemashou', meaning: '같이 먹읍시다', note: '～ましょう (~합시다, 청유)' },
+    { kana: 'こうえんで あそびましょう', romaji: 'kouen de asobimashou', meaning: '공원에서 놉시다', note: '～ましょう (~합시다, 청유)' },
+    { kana: 'えいがを みましょう', romaji: 'eiga o mimashou', meaning: '영화를 봅시다', note: '～ましょう (~합시다, 청유)' },
+  ],
+  // ～ませんか (추가 예문)
+  [
+    { kana: 'おちゃを のみませんか', romaji: 'ocha o nomimasen ka', meaning: '차를 마시지 않을래요?', note: '～ませんか (~하지 않겠습니까?, 권유)' },
+    { kana: 'こうえんに いきませんか', romaji: 'kouen ni ikimasen ka', meaning: '공원에 가지 않을래요?', note: '～ませんか (~하지 않겠습니까?, 권유)' },
+    { kana: 'てんぷらを たべませんか', romaji: 'tenpura o tabemasen ka', meaning: '튀김을 먹지 않을래요?', note: '～ませんか (~하지 않겠습니까?, 권유)' },
+  ],
+  // ～ことが できます (추가 예문)
+  [
+    { kana: 'ピアノが できます', romaji: 'piano ga dekimasu', meaning: '피아노를 칠 수 있습니다', note: '～ことが できます (~할 수 있습니다)' },
+    { kana: 'えいごが できます', romaji: 'eigo ga dekimasu', meaning: '영어를 할 수 있습니다', note: '～ことが できます (~할 수 있습니다)' },
+    { kana: 'すいえいが できます', romaji: 'suiei ga dekimasu', meaning: '수영을 할 수 있습니다', note: '～ことが できます (~할 수 있습니다)' },
+  ],
+  // ～ので (추가 예문)
+  [
+    { kana: 'つかれたので やすみます', romaji: 'tsukareta node yasumimasu', meaning: '피곤해서 쉽니다', note: '～ので (~때문에 / ~라서)' },
+    { kana: 'やすいので かいます', romaji: 'yasui node kaimasu', meaning: '싸서 삽니다', note: '～ので (~때문에 / ~라서)' },
+    { kana: 'あぶないので やめます', romaji: 'abunai node yamemasu', meaning: '위험해서 그만둡니다', note: '～ので (~때문에 / ~라서)' },
+  ],
+  // ～たら (추가 예문)
+  [
+    { kana: 'にほんに いったら すしを たべます', romaji: 'nihon ni ittara sushi o tabemasu', meaning: '일본에 가면 초밥을 먹습니다', note: '～たら (~하면, 조건)' },
+    { kana: 'おかねが あったら かいます', romaji: 'okane ga attara kaimasu', meaning: '돈이 있으면 삽니다', note: '～たら (~하면, 조건)' },
+    { kana: 'あめが やんだら でかけます', romaji: 'ame ga yandara dekakemasu', meaning: '비가 그치면 나갑니다', note: '～たら (~하면, 조건)' },
+  ],
 ]
 
 /** All example sentences flattened in teaching order. */

@@ -699,6 +699,105 @@ export const WORD_ROWS: Kana[][] = [
     { kana: 'ふたつ', romaji: 'futatsu', meaning: '둘' },
     { kana: 'いくつか', romaji: 'ikutsuka', meaning: '몇몇' },
   ],
+  // 동사 10
+  [
+    { kana: 'かんがえる', romaji: 'kangaeru', meaning: '생각하다 / 고민하다' },
+    { kana: 'しらべる', romaji: 'shiraberu', meaning: '조사하다' },
+    { kana: 'きこえる', romaji: 'kikoeru', meaning: '들리다' },
+    { kana: 'みえる', romaji: 'mieru', meaning: '보이다' },
+    { kana: 'つたえる', romaji: 'tsutaeru', meaning: '전하다' },
+    { kana: 'むかえる', romaji: 'mukaeru', meaning: '맞이하다' },
+    { kana: 'のこす', romaji: 'nokosu', meaning: '남기다' },
+    { kana: 'たすける', romaji: 'tasukeru', meaning: '돕다 / 구하다' },
+  ],
+  // な형용사 2
+  [
+    { kana: 'あんしん', romaji: 'anshin', meaning: '안심' },
+    { kana: 'しんぱい', romaji: 'shinpai', meaning: '걱정' },
+    { kana: 'あんぜん', romaji: 'anzen', meaning: '안전' },
+    { kana: 'きけん', romaji: 'kiken', meaning: '위험' },
+    { kana: 'らく', romaji: 'raku', meaning: '편함' },
+    { kana: 'ふくざつ', romaji: 'fukuzatsu', meaning: '복잡' },
+    { kana: 'かんたん', romaji: 'kantan', meaning: '간단' },
+    { kana: 'じゆう', romaji: 'jiyuu', meaning: '자유' },
+  ],
+  // 추상 3
+  [
+    { kana: 'けいけん', romaji: 'keiken', meaning: '경험' },
+    { kana: 'きょうみ', romaji: 'kyoumi', meaning: '흥미' },
+    { kana: 'きぶん', romaji: 'kibun', meaning: '기분' },
+    { kana: 'せいかつ', romaji: 'seikatsu', meaning: '생활' },
+    { kana: 'しゅうかん', romaji: 'shuukan', meaning: '습관' },
+    { kana: 'よてい', romaji: 'yotei', meaning: '예정' },
+    { kana: 'やくそく', romaji: 'yakusoku', meaning: '약속' },
+    { kana: 'じょうほう', romaji: 'jouhou', meaning: '정보' },
+  ],
+  // 건강 / 몸 상태
+  [
+    { kana: 'びょうき', romaji: 'byouki', meaning: '병' },
+    { kana: 'けが', romaji: 'kega', meaning: '부상' },
+    { kana: 'ねつ', romaji: 'netsu', meaning: '열' },
+    { kana: 'くすり', romaji: 'kusuri', meaning: '약' },
+    { kana: 'にゅういん', romaji: 'nyuuin', meaning: '입원' },
+    { kana: 'けんこう', romaji: 'kenkou', meaning: '건강' },
+    { kana: 'たいおん', romaji: 'taion', meaning: '체온' },
+    { kana: 'めまい', romaji: 'memai', meaning: '현기증' },
+  ],
+  // 도구 / 사물 3
+  [
+    { kana: 'はさみ', romaji: 'hasami', meaning: '가위' },
+    { kana: 'じょうぎ', romaji: 'jougi', meaning: '자' },
+    { kana: 'のり', romaji: 'nori', meaning: '풀' },
+    { kana: 'ふで', romaji: 'fude', meaning: '붓' },
+    { kana: 'いと', romaji: 'ito', meaning: '실' },
+    { kana: 'はり', romaji: 'hari', meaning: '바늘' },
+    { kana: 'くぎ', romaji: 'kugi', meaning: '못' },
+    { kana: 'かなづち', romaji: 'kanazuchi', meaning: '망치' },
+  ],
+  // 가족 / 관계 2
+  [
+    { kana: 'おじ', romaji: 'oji', meaning: '삼촌 / 큰아버지' },
+    { kana: 'おば', romaji: 'oba', meaning: '이모 / 고모' },
+    { kana: 'まご', romaji: 'mago', meaning: '손주' },
+    { kana: 'おっと', romaji: 'otto', meaning: '남편' },
+    { kana: 'つま', romaji: 'tsuma', meaning: '아내' },
+    { kana: 'りょうしん', romaji: 'ryoushin', meaning: '부모' },
+    { kana: 'きょうだい', romaji: 'kyoudai', meaning: '형제' },
+    { kana: 'しんせき', romaji: 'shinseki', meaning: '친척' },
+  ],
+  // 동작 / 감정 동사
+  [
+    { kana: 'ねむる', romaji: 'nemuru', meaning: '잠들다' },
+    { kana: 'わらう', romaji: 'warau', meaning: '웃다' },
+    { kana: 'なく', romaji: 'naku', meaning: '울다' },
+    { kana: 'おこる', romaji: 'okoru', meaning: '화내다' },
+    { kana: 'なやむ', romaji: 'nayamu', meaning: '고민하다' },
+    { kana: 'がんばる', romaji: 'ganbaru', meaning: '힘내다' },
+    { kana: 'あきらめる', romaji: 'akirameru', meaning: '포기하다' },
+    { kana: 'しんじる', romaji: 'shinjiru', meaning: '믿다' },
+  ],
+  // 위치 / 이동
+  [
+    { kana: 'ばしょ', romaji: 'basho', meaning: '장소' },
+    { kana: 'ほうこう', romaji: 'houkou', meaning: '방향' },
+    { kana: 'とちゅう', romaji: 'tochuu', meaning: '도중' },
+    { kana: 'いりぐち', romaji: 'iriguchi', meaning: '입구' },
+    { kana: 'でぐち', romaji: 'deguchi', meaning: '출구' },
+    { kana: 'うけつけ', romaji: 'uketsuke', meaning: '접수처' },
+    { kana: 'ろうか', romaji: 'rouka', meaning: '복도' },
+    { kana: 'おくじょう', romaji: 'okujou', meaning: '옥상' },
+  ],
+  // 시간 3 / 시대
+  [
+    { kana: 'いちにち', romaji: 'ichinichi', meaning: '하루' },
+    { kana: 'じだい', romaji: 'jidai', meaning: '시대' },
+    { kana: 'みらい', romaji: 'mirai', meaning: '미래' },
+    { kana: 'かこ', romaji: 'kako', meaning: '과거' },
+    { kana: 'げんざい', romaji: 'genzai', meaning: '현재' },
+    { kana: 'きせつ', romaji: 'kisetsu', meaning: '계절' },
+    { kana: 'しゅう', romaji: 'shuu', meaning: '주(week)' },
+    { kana: 'ねんれい', romaji: 'nenrei', meaning: '나이' },
+  ],
 ]
 
 /** All words flattened in teaching order. */
