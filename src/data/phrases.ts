@@ -148,6 +148,102 @@ export const PHRASE_ROWS: Kana[][] = [
     { kana: 'ちずを みせて ください', romaji: 'chizu o misete kudasai', meaning: '지도를 보여 주세요', note: '도움 요청' },
     { kana: 'ほんとうに ありがとう', romaji: 'hontou ni arigatou', meaning: '정말 고마워요', note: '도움 요청' },
   ],
+  // 카페
+  [
+    { kana: 'アイスコーヒーを おねがいします', romaji: 'aisukoohii o onegaishimasu', meaning: '아이스커피 부탁해요', note: '카페' },
+    { kana: 'ここで のみます', romaji: 'koko de nomimasu', meaning: '여기서 마실게요', note: '카페' },
+    { kana: 'もちかえりで おねがいします', romaji: 'mochikaeri de onegaishimasu', meaning: '테이크아웃으로 부탁해요', note: '카페' },
+    { kana: 'ミルクを いれて ください', romaji: 'miruku o irete kudasai', meaning: '우유를 넣어 주세요', note: '카페' },
+    { kana: 'さとうは いりません', romaji: 'satou wa irimasen', meaning: '설탕은 필요 없어요', note: '카페' },
+  ],
+  // 편의점
+  [
+    { kana: 'ふくろは いりません', romaji: 'fukuro wa irimasen', meaning: '봉투는 필요 없어요', note: '편의점' },
+    { kana: 'あたためて ください', romaji: 'atatamete kudasai', meaning: '데워 주세요', note: '편의점' },
+    { kana: 'げんきんで はらいます', romaji: 'genkin de haraimasu', meaning: '현금으로 낼게요', note: '편의점' },
+    { kana: 'はしを つけて ください', romaji: 'hashi o tsukete kudasai', meaning: '젓가락 넣어 주세요', note: '편의점' },
+    { kana: 'レシートを ください', romaji: 'reshiito o kudasai', meaning: '영수증 주세요', note: '편의점' },
+  ],
+  // 택시
+  [
+    { kana: 'くうこうまで おねがいします', romaji: 'kuukou made onegaishimasu', meaning: '공항까지 부탁해요', note: '택시' },
+    { kana: 'ここで とめて ください', romaji: 'koko de tomete kudasai', meaning: '여기서 세워 주세요', note: '택시' },
+    { kana: 'どのくらい かかりますか', romaji: 'donokurai kakarimasu ka', meaning: '얼마나 걸려요?', note: '택시' },
+    { kana: 'いそいで もらえますか', romaji: 'isoide moraemasu ka', meaning: '서둘러 주실 수 있나요?', note: '택시' },
+    { kana: 'おつりは けっこうです', romaji: 'otsuri wa kekkou desu', meaning: '거스름돈은 됐어요', note: '택시' },
+  ],
+  // 전철 / 버스
+  [
+    { kana: 'このでんしゃは とうきょうに いきますか', romaji: 'kono densha wa toukyou ni ikimasu ka', meaning: '이 전철은 도쿄에 가나요?', note: '전철 / 버스' },
+    { kana: 'つぎは どこですか', romaji: 'tsugi wa doko desu ka', meaning: '다음은 어디예요?', note: '전철 / 버스' },
+    { kana: 'どこで のりかえますか', romaji: 'doko de norikaemasu ka', meaning: '어디서 갈아타요?', note: '전철 / 버스' },
+    { kana: 'このせきは あいて いますか', romaji: 'kono seki wa aite imasu ka', meaning: '이 자리 비었나요?', note: '전철 / 버스' },
+    { kana: 'ひとつ まえの えきです', romaji: 'hitotsu mae no eki desu', meaning: '한 정거장 앞 역이에요', note: '전철 / 버스' },
+  ],
+  // 길 묻기 2
+  [
+    { kana: 'トイレは どこですか', romaji: 'toire wa doko desu ka', meaning: '화장실은 어디예요?', note: '길 묻기 2' },
+    { kana: 'ちかくに コンビニは ありますか', romaji: 'chikaku ni konbini wa arimasu ka', meaning: '근처에 편의점 있나요?', note: '길 묻기 2' },
+    { kana: 'えきまで どう いきますか', romaji: 'eki made dou ikimasu ka', meaning: '역까지 어떻게 가요?', note: '길 묻기 2' },
+    { kana: 'あるいて いけますか', romaji: 'aruite ikemasu ka', meaning: '걸어서 갈 수 있나요?', note: '길 묻기 2' },
+    { kana: 'ちずを かいて もらえますか', romaji: 'chizu o kaite moraemasu ka', meaning: '지도를 그려 주실 수 있나요?', note: '길 묻기 2' },
+  ],
+  // 쇼핑 3
+  [
+    { kana: 'これは いくらですか', romaji: 'kore wa ikura desu ka', meaning: '이건 얼마예요?', note: '쇼핑 3' },
+    { kana: 'まけて もらえますか', romaji: 'makete moraemasu ka', meaning: '깎아 주실 수 있나요?', note: '쇼핑 3' },
+    { kana: 'もっと おおきいのは ありますか', romaji: 'motto ookii no wa arimasu ka', meaning: '더 큰 거 있나요?', note: '쇼핑 3' },
+    { kana: 'これを みても いいですか', romaji: 'kore o mitemo ii desu ka', meaning: '이거 봐도 되나요?', note: '쇼핑 3' },
+    { kana: 'プレゼントようです', romaji: 'purezento you desu', meaning: '선물용이에요', note: '쇼핑 3' },
+  ],
+  // 병원 / 약국
+  [
+    { kana: 'のどが いたいです', romaji: 'nodo ga itai desu', meaning: '목이 아파요', note: '병원 / 약국' },
+    { kana: 'せきが でます', romaji: 'seki ga demasu', meaning: '기침이 나요', note: '병원 / 약국' },
+    { kana: 'かぜを ひきました', romaji: 'kaze o hikimashita', meaning: '감기 걸렸어요', note: '병원 / 약국' },
+    { kana: 'この くすりは いちにち なんかいですか', romaji: 'kono kusuri wa ichinichi nankai desu ka', meaning: '이 약은 하루 몇 번이에요?', note: '병원 / 약국' },
+    { kana: 'アレルギーが あります', romaji: 'arerugii ga arimasu', meaning: '알레르기가 있어요', note: '병원 / 약국' },
+  ],
+  // 미용실
+  [
+    { kana: 'すこし みじかく して ください', romaji: 'sukoshi mijikaku shite kudasai', meaning: '조금 짧게 해 주세요', note: '미용실' },
+    { kana: 'まえがみを そろえて ください', romaji: 'maegami o soroete kudasai', meaning: '앞머리를 다듬어 주세요', note: '미용실' },
+    { kana: 'パーマを かけたいです', romaji: 'paama o kaketai desu', meaning: '파마하고 싶어요', note: '미용실' },
+    { kana: 'いまの かんじで おねがいします', romaji: 'ima no kanji de onegaishimasu', meaning: '지금 느낌으로 부탁해요', note: '미용실' },
+    { kana: 'かみを そめたいです', romaji: 'kami o sometai desu', meaning: '염색하고 싶어요', note: '미용실' },
+  ],
+  // 직장 / 회의
+  [
+    { kana: 'おつかれさまでした', romaji: 'otsukaresama deshita', meaning: '수고하셨습니다', note: '직장 / 회의' },
+    { kana: 'かいぎは なんじからですか', romaji: 'kaigi wa nanji kara desu ka', meaning: '회의는 몇 시부터예요?', note: '직장 / 회의' },
+    { kana: 'しりょうを おくります', romaji: 'shiryou o okurimasu', meaning: '자료를 보낼게요', note: '직장 / 회의' },
+    { kana: 'かくにんして ください', romaji: 'kakunin shite kudasai', meaning: '확인해 주세요', note: '직장 / 회의' },
+    { kana: 'すこし おくれます', romaji: 'sukoshi okuremasu', meaning: '조금 늦어요', note: '직장 / 회의' },
+  ],
+  // 학교 / 수업
+  [
+    { kana: 'しつもんが あります', romaji: 'shitsumon ga arimasu', meaning: '질문이 있어요', note: '학교 / 수업' },
+    { kana: 'もう いちど せつめいして ください', romaji: 'mou ichido setsumei shite kudasai', meaning: '한 번 더 설명해 주세요', note: '학교 / 수업' },
+    { kana: 'しゅくだいは なんですか', romaji: 'shukudai wa nan desu ka', meaning: '숙제는 뭐예요?', note: '학교 / 수업' },
+    { kana: 'いっしょに べんきょうしませんか', romaji: 'issho ni benkyou shimasen ka', meaning: '같이 공부하지 않을래요?', note: '학교 / 수업' },
+    { kana: 'ノートを みせて もらえますか', romaji: 'nooto o misete moraemasu ka', meaning: '노트 보여 주실 수 있나요?', note: '학교 / 수업' },
+  ],
+  // 감정 / 생각
+  [
+    { kana: 'うれしいです', romaji: 'ureshii desu', meaning: '기뻐요', note: '감정 / 생각' },
+    { kana: 'かなしいです', romaji: 'kanashii desu', meaning: '슬퍼요', note: '감정 / 생각' },
+    { kana: 'たのしみです', romaji: 'tanoshimi desu', meaning: '기대돼요', note: '감정 / 생각' },
+    { kana: 'しんぱいです', romaji: 'shinpai desu', meaning: '걱정이에요', note: '감정 / 생각' },
+    { kana: 'どう おもいますか', romaji: 'dou omoimasu ka', meaning: '어떻게 생각해요?', note: '감정 / 생각' },
+  ],
+  // 부탁 / 허락
+  [
+    { kana: 'おねがいが あります', romaji: 'onegai ga arimasu', meaning: '부탁이 있어요', note: '부탁 / 허락' },
+    { kana: 'すこし まって もらえますか', romaji: 'sukoshi matte moraemasu ka', meaning: '잠깐 기다려 주실 수 있나요?', note: '부탁 / 허락' },
+    { kana: 'しゃしんを とって もらえますか', romaji: 'shashin o totte moraemasu ka', meaning: '사진 찍어 주실 수 있나요?', note: '부탁 / 허락' },
+    { kana: 'となりに すわっても いいですか', romaji: 'tonari ni suwattemo ii desu ka', meaning: '옆에 앉아도 되나요?', note: '부탁 / 허락' },
+    { kana: 'ペンを かりても いいですか', romaji: 'pen o karitemo ii desu ka', meaning: '펜을 빌려도 되나요?', note: '부탁 / 허락' },
+  ],
 ]
 
 /** All conversational phrases flattened in teaching order. */
