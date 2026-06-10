@@ -43,6 +43,7 @@ export function Lesson({ items, pool, deckKind, onComplete, onExit }: Props) {
   const [phase, setPhase] = useState<'answer' | 'feedback'>('answer')
   const [picked, setPicked] = useState<Kana | null>(null)
   const [results, setResults] = useState<LessonResult[]>([])
+  const [confirmExit, setConfirmExit] = useState(false)
 
   const step = steps[index]
   const isSentence = deckKind === 'sentence'
@@ -86,10 +87,16 @@ export function Lesson({ items, pool, deckKind, onComplete, onExit }: Props) {
     advance(record(isCorrect(step.question!, picked!)))
   }
 
+  function onExitClick() {
+    // Confirm once the user has made any progress (answered or advanced).
+    if (index > 0 || phase === 'feedback' || results.length > 0) setConfirmExit(true)
+    else onExit()
+  }
+
   return (
     <main className="screen lesson">
       <div className="lesson-top">
-        <button className="link" onClick={onExit} aria-label="나가기">
+        <button className="link" onClick={onExitClick} aria-label="나가기">
           ✕
         </button>
         <div className="progress-bar slim">
@@ -134,6 +141,21 @@ export function Lesson({ items, pool, deckKind, onComplete, onExit }: Props) {
           onPick={onPick}
           onContinue={onContinue}
         />
+      )}
+
+      {confirmExit && (
+        <div className="modal-backdrop" role="dialog" aria-modal="true">
+          <div className="modal">
+            <p className="modal-title">나가시겠어요?</p>
+            <p className="modal-body">나가면 이번 레슨 진도가 사라져요.</p>
+            <button className="btn-primary" onClick={() => setConfirmExit(false)}>
+              계속하기
+            </button>
+            <button className="btn-ghost" onClick={onExit}>
+              나가기
+            </button>
+          </div>
+        </div>
       )}
     </main>
   )
@@ -196,6 +218,12 @@ function Quiz({
               : 'opt'
           const text =
             qtype === 'listen' ? opt.kana : qtype === 'meaning' ? opt.meaning : opt.romaji
+          const mark =
+            phase === 'feedback' && isAnswer
+              ? '✓'
+              : phase === 'feedback' && isPicked
+                ? '✗'
+                : null
           return (
             <button
               key={opt.kana}
@@ -204,7 +232,12 @@ function Quiz({
               disabled={phase === 'feedback'}
               onClick={() => onPick(opt)}
             >
-              {text}
+              <span className="opt-text">{text}</span>
+              {mark && (
+                <span className="opt-mark" aria-hidden="true">
+                  {mark}
+                </span>
+              )}
             </button>
           )
         })}

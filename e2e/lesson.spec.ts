@@ -96,6 +96,23 @@ test('home shows "review weak" after missing items, scoped to seen-not-learned',
   await expect(page.getByRole('button', { name: /약한 것만 복습/ })).toBeVisible()
 })
 
+test('quiz feedback shows check/cross marks and exit asks to confirm', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: '시작하기' }).click()
+  for (let i = 0; i < 6; i++) await page.getByRole('button', { name: '다음' }).click()
+  await page.getByRole('button', { name: '한 판 더' }).click()
+
+  // Pick the correct answer -> it gets a ✓ mark (color + icon, not color alone).
+  await page.locator('button[data-correct="true"]').first().click()
+  await expect(page.locator('.opt.correct .opt-mark')).toHaveText('✓')
+
+  // Exiting mid-lesson now asks for confirmation. The ✕ has aria-label 나가기.
+  await page.getByRole('button', { name: '나가기' }).click()
+  await expect(page.getByText('나가면 이번 레슨 진도가 사라져요.')).toBeVisible()
+  await page.getByRole('button', { name: '계속하기' }).click()
+  await expect(page.getByText('나가면 이번 레슨 진도가 사라져요.')).toBeHidden()
+})
+
 test('complete screen shows review button after a wrong answer', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: '시작하기' }).click()

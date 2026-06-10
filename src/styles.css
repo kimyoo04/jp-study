@@ -84,6 +84,15 @@ body {
   color: var(--muted);
   margin: 0;
 }
+.overall {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 10px 0 0;
+  font-variant-numeric: tabular-nums;
+}
+.overall strong {
+  color: var(--primary);
+}
 .banner {
   background: #3a2a00;
   color: #ffd27c;
@@ -264,6 +273,7 @@ body {
   margin-top: 8px;
 }
 .opt {
+  position: relative;
   background: var(--surface);
   color: var(--text);
   border: 2px solid transparent;
@@ -285,10 +295,35 @@ body {
 .opt:active {
   transform: scale(0.97);
 }
+.opt-mark {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  font-size: 16px;
+  font-weight: 900;
+}
 .opt.correct {
   background: var(--correct);
   color: #04210f;
   border-color: var(--correct);
+  animation: pop 0.28s ease-out;
+}
+.opt.correct .opt-mark {
+  color: #04210f;
+}
+.opt.wrong .opt-mark {
+  color: #2b0410;
+}
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 .opt.wrong {
   background: var(--wrong);
@@ -310,6 +345,38 @@ body {
   75% {
     transform: translateX(6px);
   }
+}
+
+/* ---- Modal ---- */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 20;
+}
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+}
+.modal-title {
+  font-size: 19px;
+  font-weight: 700;
+  margin: 0;
+}
+.modal-body {
+  color: var(--muted);
+  margin: 0 0 6px;
 }
 
 /* ---- Complete ---- */

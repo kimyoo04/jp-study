@@ -1,5 +1,7 @@
 import { DECKS, type Deck } from '../data/kana'
-import { learnedCountFor, type Progress } from '../lib/srs'
+import { learnedCount, learnedCountFor, type Progress } from '../lib/srs'
+
+const TOTAL_ALL = DECKS.reduce((n, d) => n + d.kana.length, 0)
 
 interface Props {
   progress: Progress
@@ -27,6 +29,7 @@ export function Home({
   const total = deck.kana.length
   const learned = learnedCountFor(progress, deck.kana)
   const pct = Math.round((learned / total) * 100)
+  const learnedAll = learnedCount(progress)
 
   return (
     <main className="screen home">
@@ -41,6 +44,9 @@ export function Home({
         </button>
         <h1 className="logo">にほんご Pocket</h1>
         <p className="tagline">히라가나부터, 한 손으로</p>
+        <p className="overall">
+          전체 <strong>{learnedAll}</strong> / {TOTAL_ALL} 익힘
+        </p>
       </header>
 
       {!persistent && (
