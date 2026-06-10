@@ -24,6 +24,11 @@ describe('grammar data', () => {
     expect(new Set(s).size).toBe(s.length)
   })
 
+  it('covers a solid set of patterns (>= 10 patterns, >= 40 sentences)', () => {
+    expect(GRAMMAR_ROWS.length).toBeGreaterThanOrEqual(10)
+    expect(GRAMMAR.length).toBeGreaterThanOrEqual(40)
+  })
+
   it('registers sentences in ROW_OF so distractors stay within a pattern', () => {
     const row = ROW_OF['わたしは がくせいです']
     expect(row).toBeDefined()
