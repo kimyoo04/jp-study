@@ -3,6 +3,7 @@ import type { DeckKind, Kana } from '../data/kana'
 import type { LessonItem, LessonMode } from '../lib/srs'
 import { buildQuestion, isCorrect, pickQType, type Question } from '../lib/quiz'
 import { hasJaVoice, primeSpeech, speakItem } from '../lib/speak'
+import { kanaToHangul } from '../lib/hangul'
 import { playCorrect, playWrong } from '../lib/sound'
 
 export interface LessonResult {
@@ -15,6 +16,7 @@ interface Props {
   items: LessonItem[]
   pool: Kana[] // distractor pool for the active deck
   deckKind: DeckKind
+  koReading: boolean // 회화 덱: 일본어 아래 한국어 발음 표기
   listenMode: boolean // user toggle: audio-prompt every quiz
   onComplete: (results: LessonResult[]) => void
   onExit: () => void
@@ -25,7 +27,7 @@ interface Step {
   question?: Question
 }
 
-export function Lesson({ items, pool, deckKind, listenMode, onComplete, onExit }: Props) {
+export function Lesson({ items, pool, deckKind, koReading, listenMode, onComplete, onExit }: Props) {
   // Assign question types up front. Listen mode forces audio prompts on every
   // deck; otherwise word decks quiz on meaning and kana decks round-robin
   // read/listen (dropping listen when no voice is available).
@@ -125,6 +127,7 @@ export function Lesson({ items, pool, deckKind, listenMode, onComplete, onExit }
           )}
           <p className="prompt-label">{introLabel}</p>
           <div className={glyphClass}>{step.item.kana.kana}</div>
+          {koReading && <div className="ko-reading">{kanaToHangul(step.item.kana.kana)}</div>}
           <div className="romaji">{step.item.kana.romaji}</div>
           {step.item.kana.meaning && deckKind !== 'kana' && (
             <div className="meaning">{step.item.kana.meaning}</div>
@@ -146,6 +149,7 @@ export function Lesson({ items, pool, deckKind, listenMode, onComplete, onExit }
         <Quiz
           question={step.question!}
           glyphClass={glyphClass}
+          koReading={koReading}
           isKana={deckKind === 'kana'}
           isSentence={isSentence}
           isKanji={isKanji}
@@ -178,6 +182,7 @@ export function Lesson({ items, pool, deckKind, listenMode, onComplete, onExit }
 function Quiz({
   question,
   glyphClass,
+  koReading,
   isKana,
   isSentence,
   isKanji,
@@ -189,6 +194,7 @@ function Quiz({
 }: {
   question: Question
   glyphClass: string
+  koReading: boolean
   isKana: boolean
   isSentence: boolean
   isKanji: boolean
@@ -228,6 +234,7 @@ function Quiz({
         <>
           <p className="prompt-label">{label}</p>
           <div className={glyphClass}>{question.answer.kana}</div>
+          {koReading && <div className="ko-reading">{kanaToHangul(question.answer.kana)}</div>}
         </>
       )}
 

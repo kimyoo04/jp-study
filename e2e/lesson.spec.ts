@@ -141,6 +141,8 @@ test('phrases deck teaches everyday sentences with a situation', async ({ page }
   await expect(page.getByText('예문')).toBeVisible()
   await expect(page.locator('.pattern')).toContainText('인사')
   await expect(page.locator('.glyph.sentence')).toHaveText('はじめまして')
+  // 회화 덱은 일본어 바로 아래에 한국어 발음 표기를 보여준다.
+  await expect(page.locator('.ko-reading')).toHaveText('하지메마시테')
 })
 
 test('home shows "review weak" after missing items, scoped to seen-not-learned', async ({
