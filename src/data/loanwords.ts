@@ -154,6 +154,59 @@ export const LOANWORD_ROWS: Kana[][] = [
     { kana: 'イメージ', romaji: 'imeeji', meaning: '이미지' },
     { kana: 'アイデア', romaji: 'aidea', meaning: '아이디어' },
   ],
+  // 음식 2
+  [
+    { kana: 'サンドイッチ', romaji: 'sandoicchi', meaning: '샌드위치' },
+    { kana: 'ドーナツ', romaji: 'doonatsu', meaning: '도넛' },
+    { kana: 'クッキー', romaji: 'kukkii', meaning: '쿠키' },
+    { kana: 'プリン', romaji: 'purin', meaning: '푸딩' },
+    { kana: 'ハム', romaji: 'hamu', meaning: '햄' },
+    { kana: 'ソーセージ', romaji: 'sooseeji', meaning: '소시지' },
+    { kana: 'バター', romaji: 'bataa', meaning: '버터' },
+    { kana: 'ジャム', romaji: 'jamu', meaning: '잼' },
+  ],
+  // 가전 / 기기 2
+  [
+    { kana: 'エアコン', romaji: 'eakon', meaning: '에어컨' },
+    { kana: 'ラジオ', romaji: 'rajio', meaning: '라디오' },
+    { kana: 'プリンター', romaji: 'purintaa', meaning: '프린터' },
+    { kana: 'マウス', romaji: 'mausu', meaning: '마우스' },
+    { kana: 'キーボード', romaji: 'kiiboodo', meaning: '키보드' },
+    { kana: 'イヤホン', romaji: 'iyahon', meaning: '이어폰' },
+    { kana: 'リモコン', romaji: 'rimokon', meaning: '리모컨' },
+    { kana: 'ドライヤー', romaji: 'doraiyaa', meaning: '드라이어' },
+  ],
+  // 장소 2
+  [
+    { kana: 'ビル', romaji: 'biru', meaning: '빌딩' },
+    { kana: 'アパート', romaji: 'apaato', meaning: '아파트' },
+    { kana: 'マンション', romaji: 'manshon', meaning: '맨션 / 아파트' },
+    { kana: 'プール', romaji: 'puuru', meaning: '수영장' },
+    { kana: 'ジム', romaji: 'jimu', meaning: '헬스장' },
+    { kana: 'カフェ', romaji: 'kafe', meaning: '카페' },
+    { kana: 'クリニック', romaji: 'kurinikku', meaning: '클리닉' },
+    { kana: 'エレベーター', romaji: 'erebeetaa', meaning: '엘리베이터' },
+  ],
+  // 직업 / 사람
+  [
+    { kana: 'エンジニア', romaji: 'enjinia', meaning: '엔지니어' },
+    { kana: 'デザイナー', romaji: 'dezainaa', meaning: '디자이너' },
+    { kana: 'プログラマー', romaji: 'puroguramaa', meaning: '프로그래머' },
+    { kana: 'マネージャー', romaji: 'maneejaa', meaning: '매니저' },
+    { kana: 'スタッフ', romaji: 'sutaffu', meaning: '스태프' },
+    { kana: 'パートナー', romaji: 'paatonaa', meaning: '파트너' },
+  ],
+  // 취미 / 일상 2
+  [
+    { kana: 'カラオケ', romaji: 'karaoke', meaning: '노래방' },
+    { kana: 'キャンプ', romaji: 'kyanpu', meaning: '캠핑' },
+    { kana: 'ドライブ', romaji: 'doraibu', meaning: '드라이브' },
+    { kana: 'ショッピング', romaji: 'shoppingu', meaning: '쇼핑' },
+    { kana: 'パーティー', romaji: 'paatii', meaning: '파티' },
+    { kana: 'コンサート', romaji: 'konsaato', meaning: '콘서트' },
+    { kana: 'チーム', romaji: 'chiimu', meaning: '팀' },
+    { kana: 'スーパー', romaji: 'suupaa', meaning: '슈퍼마켓' },
+  ],
 ]
 
 /** All loanwords flattened in teaching order. */

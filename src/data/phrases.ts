@@ -52,6 +52,38 @@ export const PHRASE_ROWS: Kana[][] = [
     { kana: 'おつかれさまです', romaji: 'otsukaresama desu', meaning: '수고하셨어요', note: '일상 인사말' },
     { kana: 'いただきます', romaji: 'itadakimasu', meaning: '잘 먹겠습니다', note: '일상 인사말' },
   ],
+  // 전화
+  [
+    { kana: 'もしもし', romaji: 'moshimoshi', meaning: '여보세요', note: '전화' },
+    { kana: 'いま いいですか', romaji: 'ima ii desu ka', meaning: '지금 괜찮으세요?', note: '전화' },
+    { kana: 'あとで かけなおします', romaji: 'ato de kakenaoshimasu', meaning: '나중에 다시 걸게요', note: '전화' },
+    { kana: 'また れんらくします', romaji: 'mata renraku shimasu', meaning: '또 연락할게요', note: '전화' },
+    { kana: 'でんわ ばんごうを おしえてください', romaji: 'denwa bangou o oshiete kudasai', meaning: '전화번호를 알려 주세요', note: '전화' },
+  ],
+  // 병원 / 몸 상태
+  [
+    { kana: 'あたまが いたいです', romaji: 'atama ga itai desu', meaning: '머리가 아파요', note: '병원 / 몸 상태' },
+    { kana: 'ねつが あります', romaji: 'netsu ga arimasu', meaning: '열이 있어요', note: '병원 / 몸 상태' },
+    { kana: 'きぶんが わるいです', romaji: 'kibun ga warui desu', meaning: '속이 안 좋아요', note: '병원 / 몸 상태' },
+    { kana: 'くすりを ください', romaji: 'kusuri o kudasai', meaning: '약을 주세요', note: '병원 / 몸 상태' },
+    { kana: 'おだいじに', romaji: 'odaiji ni', meaning: '몸조리 잘하세요', note: '병원 / 몸 상태' },
+  ],
+  // 약속 / 제안
+  [
+    { kana: 'いつが いいですか', romaji: 'itsu ga ii desu ka', meaning: '언제가 좋아요?', note: '약속 / 제안' },
+    { kana: 'どこで あいましょうか', romaji: 'doko de aimashou ka', meaning: '어디서 만날까요?', note: '약속 / 제안' },
+    { kana: 'いっしょに たべませんか', romaji: 'issho ni tabemasen ka', meaning: '같이 먹지 않을래요?', note: '약속 / 제안' },
+    { kana: 'たのしみに しています', romaji: 'tanoshimi ni shiteimasu', meaning: '기대하고 있어요', note: '약속 / 제안' },
+    { kana: 'また こんど', romaji: 'mata kondo', meaning: '다음에 또', note: '약속 / 제안' },
+  ],
+  // 사과 / 축하
+  [
+    { kana: 'ごめんなさい', romaji: 'gomennasai', meaning: '미안해요', note: '사과 / 축하' },
+    { kana: 'きを つけて', romaji: 'ki o tsukete', meaning: '조심하세요', note: '사과 / 축하' },
+    { kana: 'おめでとうございます', romaji: 'omedetou gozaimasu', meaning: '축하해요', note: '사과 / 축하' },
+    { kana: 'たすかりました', romaji: 'tasukarimashita', meaning: '도움이 됐어요', note: '사과 / 축하' },
+    { kana: 'きにしないで', romaji: 'ki ni shinaide', meaning: '신경 쓰지 마세요', note: '사과 / 축하' },
+  ],
 ]
 
 /** All conversational phrases flattened in teaching order. */

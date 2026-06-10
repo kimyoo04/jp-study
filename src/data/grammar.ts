@@ -282,6 +282,48 @@ export const GRAMMAR_ROWS: Kana[][] = [
     { kana: 'たべる まえに てを あらいます', romaji: 'taberu mae ni te o araimasu', meaning: '먹기 전에 손을 씻습니다', note: '～まえに (~하기 전에)' },
     { kana: 'いく まえに でんわします', romaji: 'iku mae ni denwa shimasu', meaning: '가기 전에 전화합니다', note: '～まえに (~하기 전에)' },
   ],
+  // ～たり ～たり します : ~하기도 하고 ~하기도 합니다
+  [
+    { kana: 'ほんを よんだり おんがくを きいたり します', romaji: 'hon o yondari ongaku o kiitari shimasu', meaning: '책을 읽기도 하고 음악을 듣기도 합니다', note: '～たり ～たり します (~하기도 하고)' },
+    { kana: 'やすみは ねたり あそんだり します', romaji: 'yasumi wa netari asondari shimasu', meaning: '휴일엔 자기도 하고 놀기도 합니다', note: '～たり ～たり します (~하기도 하고)' },
+    { kana: 'わらったり ないたり しました', romaji: 'warattari naitari shimashita', meaning: '웃기도 하고 울기도 했습니다', note: '～たり ～たり します (~하기도 하고)' },
+  ],
+  // ～ても : ~해도
+  [
+    { kana: 'あめが ふっても いきます', romaji: 'ame ga futtemo ikimasu', meaning: '비가 와도 갑니다', note: '～ても (~해도)' },
+    { kana: 'たかくても かいます', romaji: 'takakutemo kaimasu', meaning: '비싸도 삽니다', note: '～ても (~해도)' },
+    { kana: 'いそがしくても てつだいます', romaji: 'isogashikutemo tetsudaimasu', meaning: '바빠도 돕습니다', note: '～ても (~해도)' },
+  ],
+  // ～ように なります : ~하게 됩니다
+  [
+    { kana: 'にほんごが はなせるように なりました', romaji: 'nihongo ga hanaseru you ni narimashita', meaning: '일본어를 말할 수 있게 됐습니다', note: '～ように なります (~하게 됩니다)' },
+    { kana: 'はやく おきるように なりました', romaji: 'hayaku okiru you ni narimashita', meaning: '일찍 일어나게 됐습니다', note: '～ように なります (~하게 됩니다)' },
+    { kana: 'やさいを たべるように なりました', romaji: 'yasai o taberu you ni narimashita', meaning: '채소를 먹게 됐습니다', note: '～ように なります (~하게 됩니다)' },
+  ],
+  // ～ことに します : ~하기로 합니다
+  [
+    { kana: 'まいにち はしることに しました', romaji: 'mainichi hashiru koto ni shimashita', meaning: '매일 달리기로 했습니다', note: '～ことに します (~하기로 합니다)' },
+    { kana: 'たばこを やめることに しました', romaji: 'tabako o yameru koto ni shimashita', meaning: '담배를 끊기로 했습니다', note: '～ことに します (~하기로 합니다)' },
+    { kana: 'にほんに いくことに しました', romaji: 'nihon ni iku koto ni shimashita', meaning: '일본에 가기로 했습니다', note: '～ことに します (~하기로 합니다)' },
+  ],
+  // ～そうです : ~할 것 같습니다 (양태)
+  [
+    { kana: 'あめが ふりそうです', romaji: 'ame ga furisou desu', meaning: '비가 올 것 같습니다', note: '～そうです (~할 것 같습니다, 양태)' },
+    { kana: 'おいしそうです', romaji: 'oishisou desu', meaning: '맛있어 보입니다', note: '～そうです (~할 것 같습니다, 양태)' },
+    { kana: 'たいへんそうです', romaji: 'taihensou desu', meaning: '힘들어 보입니다', note: '～そうです (~할 것 같습니다, 양태)' },
+  ],
+  // ～ば : ~하면 (가정)
+  [
+    { kana: 'やすければ かいます', romaji: 'yasukereba kaimasu', meaning: '싸면 삽니다', note: '～ば (~하면, 가정)' },
+    { kana: 'いけば わかります', romaji: 'ikeba wakarimasu', meaning: '가면 압니다', note: '～ば (~하면, 가정)' },
+    { kana: 'れんしゅうすれば じょうずに なります', romaji: 'renshuu sureba jouzu ni narimasu', meaning: '연습하면 잘하게 됩니다', note: '～ば (~하면, 가정)' },
+  ],
+  // ～のに : ~인데 (역접)
+  [
+    { kana: 'べんきょうしたのに できませんでした', romaji: 'benkyou shita noni dekimasen deshita', meaning: '공부했는데 못했습니다', note: '～のに (~인데, 역접)' },
+    { kana: 'たかいのに かいました', romaji: 'takai noni kaimashita', meaning: '비싼데 샀습니다', note: '～のに (~인데, 역접)' },
+    { kana: 'あめなのに でかけます', romaji: 'ame nanoni dekakemasu', meaning: '비인데 외출합니다', note: '～のに (~인데, 역접)' },
+  ],
 ]
 
 /** All example sentences flattened in teaching order. */

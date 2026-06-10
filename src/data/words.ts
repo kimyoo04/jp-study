@@ -266,6 +266,78 @@ export const WORD_ROWS: Kana[][] = [
     { kana: 'こえ', romaji: 'koe', meaning: '목소리' },
     { kana: 'いろ', romaji: 'iro', meaning: '색' },
   ],
+  // 동사 4
+  [
+    { kana: 'あける', romaji: 'akeru', meaning: '열다' },
+    { kana: 'しめる', romaji: 'shimeru', meaning: '닫다' },
+    { kana: 'はじまる', romaji: 'hajimaru', meaning: '시작되다' },
+    { kana: 'おわる', romaji: 'owaru', meaning: '끝나다' },
+    { kana: 'でる', romaji: 'deru', meaning: '나가다 / 나오다' },
+    { kana: 'はいる', romaji: 'hairu', meaning: '들어가다' },
+    { kana: 'のる', romaji: 'noru', meaning: '타다' },
+    { kana: 'おりる', romaji: 'oriru', meaning: '내리다' },
+    { kana: 'とまる', romaji: 'tomaru', meaning: '멈추다' },
+    { kana: 'もつ', romaji: 'motsu', meaning: '들다 / 가지다' },
+    { kana: 'かえる', romaji: 'kaeru', meaning: '돌아가다' },
+    { kana: 'うごく', romaji: 'ugoku', meaning: '움직이다' },
+  ],
+  // 형용사 4
+  [
+    { kana: 'うつくしい', romaji: 'utsukushii', meaning: '아름답다' },
+    { kana: 'きたない', romaji: 'kitanai', meaning: '더럽다' },
+    { kana: 'あかるい', romaji: 'akarui', meaning: '밝다' },
+    { kana: 'くらい', romaji: 'kurai', meaning: '어둡다' },
+    { kana: 'つよい', romaji: 'tsuyoi', meaning: '강하다' },
+    { kana: 'よわい', romaji: 'yowai', meaning: '약하다' },
+    { kana: 'おもい', romaji: 'omoi', meaning: '무겁다' },
+    { kana: 'かるい', romaji: 'karui', meaning: '가볍다' },
+    { kana: 'ひろい', romaji: 'hiroi', meaning: '넓다' },
+    { kana: 'せまい', romaji: 'semai', meaning: '좁다' },
+  ],
+  // 자연 2
+  [
+    { kana: 'つき', romaji: 'tsuki', meaning: '달' },
+    { kana: 'ほし', romaji: 'hoshi', meaning: '별' },
+    { kana: 'くも', romaji: 'kumo', meaning: '구름' },
+    { kana: 'いし', romaji: 'ishi', meaning: '돌' },
+    { kana: 'すな', romaji: 'suna', meaning: '모래' },
+    { kana: 'もり', romaji: 'mori', meaning: '숲' },
+    { kana: 'みずうみ', romaji: 'mizuumi', meaning: '호수' },
+  ],
+  // 식재료
+  [
+    { kana: 'ぎゅうにく', romaji: 'gyuuniku', meaning: '소고기' },
+    { kana: 'とりにく', romaji: 'toriniku', meaning: '닭고기' },
+    { kana: 'ぶたにく', romaji: 'butaniku', meaning: '돼지고기' },
+    { kana: 'しお', romaji: 'shio', meaning: '소금' },
+    { kana: 'さとう', romaji: 'satou', meaning: '설탕' },
+    { kana: 'こめ', romaji: 'kome', meaning: '쌀' },
+    { kana: 'みそ', romaji: 'miso', meaning: '된장' },
+    { kana: 'しょうゆ', romaji: 'shouyu', meaning: '간장' },
+  ],
+  // 집 / 방
+  [
+    { kana: 'だいどころ', romaji: 'daidokoro', meaning: '부엌' },
+    { kana: 'おふろ', romaji: 'ofuro', meaning: '욕실 / 목욕' },
+    { kana: 'にわ', romaji: 'niwa', meaning: '정원' },
+    { kana: 'まど', romaji: 'mado', meaning: '창문' },
+    { kana: 'かべ', romaji: 'kabe', meaning: '벽' },
+    { kana: 'ゆか', romaji: 'yuka', meaning: '바닥' },
+    { kana: 'かいだん', romaji: 'kaidan', meaning: '계단' },
+    { kana: 'げんかん', romaji: 'genkan', meaning: '현관' },
+  ],
+  // 빈도 / 시간 2
+  [
+    { kana: 'いつも', romaji: 'itsumo', meaning: '항상' },
+    { kana: 'ときどき', romaji: 'tokidoki', meaning: '가끔' },
+    { kana: 'たまに', romaji: 'tamani', meaning: '이따금' },
+    { kana: 'まいにち', romaji: 'mainichi', meaning: '매일' },
+    { kana: 'まいあさ', romaji: 'maiasa', meaning: '매일 아침' },
+    { kana: 'らいねん', romaji: 'rainen', meaning: '내년' },
+    { kana: 'きょねん', romaji: 'kyonen', meaning: '작년' },
+    { kana: 'せんしゅう', romaji: 'senshuu', meaning: '지난주' },
+    { kana: 'らいしゅう', romaji: 'raishuu', meaning: '다음주' },
+  ],
 ]
 
 /** All words flattened in teaching order. */
