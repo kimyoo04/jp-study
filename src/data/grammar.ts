@@ -408,6 +408,48 @@ export const GRAMMAR_ROWS: Kana[][] = [
     { kana: 'だれも いないみたいです', romaji: 'daremo inai mitai desu', meaning: '아무도 없는 것 같습니다', note: '～みたいです (~인 것 같습니다)' },
     { kana: 'おいしいみたいです', romaji: 'oishii mitai desu', meaning: '맛있는 것 같습니다', note: '～みたいです (~인 것 같습니다)' },
   ],
+  // ～かどうか : ~인지 어떤지
+  [
+    { kana: 'いくかどうか わかりません', romaji: 'iku ka douka wakarimasen', meaning: '갈지 어떨지 모릅니다', note: '～かどうか (~인지 어떤지)' },
+    { kana: 'ただしいかどうか たしかめます', romaji: 'tadashii ka douka tashikamemasu', meaning: '맞는지 확인합니다', note: '～かどうか (~인지 어떤지)' },
+    { kana: 'あるかどうか きいて みます', romaji: 'aru ka douka kiite mimasu', meaning: '있는지 물어봅니다', note: '～かどうか (~인지 어떤지)' },
+  ],
+  // ～と いいです : ~하면 좋겠습니다
+  [
+    { kana: 'あめが やむと いいですね', romaji: 'ame ga yamu to ii desu ne', meaning: '비가 그치면 좋겠네요', note: '～と いいです (~하면 좋겠습니다)' },
+    { kana: 'ごうかくすると いいですね', romaji: 'goukaku suru to ii desu ne', meaning: '합격하면 좋겠네요', note: '～と いいです (~하면 좋겠습니다)' },
+    { kana: 'はやく なおると いいですね', romaji: 'hayaku naoru to ii desu ne', meaning: '빨리 나으면 좋겠네요', note: '～と いいです (~하면 좋겠습니다)' },
+  ],
+  // ～ばかり : ~만 / 막 ~함
+  [
+    { kana: 'たべて ばかり います', romaji: 'tabete bakari imasu', meaning: '먹기만 합니다', note: '～ばかり (~만 / 막 ~함)' },
+    { kana: 'ねて ばかり います', romaji: 'nete bakari imasu', meaning: '자기만 합니다', note: '～ばかり (~만 / 막 ~함)' },
+    { kana: 'きた ばかりです', romaji: 'kita bakari desu', meaning: '막 왔습니다', note: '～ばかり (~만 / 막 ~함)' },
+  ],
+  // ～ところです : 막 ~하려던 / ~하는 중
+  [
+    { kana: 'いま でかける ところです', romaji: 'ima dekakeru tokoro desu', meaning: '지금 막 나가려던 참입니다', note: '～ところです (막 ~하려던 / 하는 중)' },
+    { kana: 'たべている ところです', romaji: 'tabeteiru tokoro desu', meaning: '먹고 있는 중입니다', note: '～ところです (막 ~하려던 / 하는 중)' },
+    { kana: 'おわった ところです', romaji: 'owatta tokoro desu', meaning: '막 끝난 참입니다', note: '～ところです (막 ~하려던 / 하는 중)' },
+  ],
+  // ～ても いいですか : ~해도 될까요?
+  [
+    { kana: 'ここに すわっても いいですか', romaji: 'koko ni suwattemo ii desu ka', meaning: '여기 앉아도 될까요?', note: '～ても いいですか (~해도 될까요?)' },
+    { kana: 'しゃしんを とっても いいですか', romaji: 'shashin o tottemo ii desu ka', meaning: '사진 찍어도 될까요?', note: '～ても いいですか (~해도 될까요?)' },
+    { kana: 'はいっても いいですか', romaji: 'haittemo ii desu ka', meaning: '들어가도 될까요?', note: '～ても いいですか (~해도 될까요?)' },
+  ],
+  // ～なさい : ~하세요 (명령)
+  [
+    { kana: 'はやく ねなさい', romaji: 'hayaku nenasai', meaning: '빨리 자거라', note: '～なさい (~하세요, 명령)' },
+    { kana: 'べんきょうしなさい', romaji: 'benkyou shinasai', meaning: '공부하거라', note: '～なさい (~하세요, 명령)' },
+    { kana: 'しずかに しなさい', romaji: 'shizuka ni shinasai', meaning: '조용히 하거라', note: '～なさい (~하세요, 명령)' },
+  ],
+  // ～は ～が : 주제 + 주어
+  [
+    { kana: 'ぞうは はなが ながいです', romaji: 'zou wa hana ga nagai desu', meaning: '코끼리는 코가 깁니다', note: '～は ～が (주제 + 주어)' },
+    { kana: 'にほんは ふじさんが ゆうめいです', romaji: 'nihon wa fujisan ga yuumei desu', meaning: '일본은 후지산이 유명합니다', note: '～は ～が (주제 + 주어)' },
+    { kana: 'わたしは あたまが いたいです', romaji: 'watashi wa atama ga itai desu', meaning: '저는 머리가 아픕니다', note: '～は ～が (주제 + 주어)' },
+  ],
 ]
 
 /** All example sentences flattened in teaching order. */

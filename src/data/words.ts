@@ -479,6 +479,83 @@ export const WORD_ROWS: Kana[][] = [
     { kana: 'はいいろ', romaji: 'haiiro', meaning: '회색' },
     { kana: 'きんいろ', romaji: 'kiniro', meaning: '금색' },
   ],
+  // 시간 / 날짜
+  [
+    { kana: 'あさって', romaji: 'asatte', meaning: '모레' },
+    { kana: 'おととい', romaji: 'ototoi', meaning: '그저께' },
+    { kana: 'まいばん', romaji: 'maiban', meaning: '매일 밤' },
+    { kana: 'ごぜん', romaji: 'gozen', meaning: '오전' },
+    { kana: 'ごご', romaji: 'gogo', meaning: '오후' },
+    { kana: 'しゅうまつ', romaji: 'shuumatsu', meaning: '주말' },
+    { kana: 'へいじつ', romaji: 'heijitsu', meaning: '평일' },
+    { kana: 'たんじょうび', romaji: 'tanjoubi', meaning: '생일' },
+  ],
+  // 방향 / 위치 2
+  [
+    { kana: 'きた', romaji: 'kita', meaning: '북' },
+    { kana: 'みなみ', romaji: 'minami', meaning: '남' },
+    { kana: 'ひがし', romaji: 'higashi', meaning: '동' },
+    { kana: 'にし', romaji: 'nishi', meaning: '서' },
+    { kana: 'となり', romaji: 'tonari', meaning: '옆' },
+    { kana: 'むかい', romaji: 'mukai', meaning: '맞은편' },
+    { kana: 'ちかく', romaji: 'chikaku', meaning: '근처' },
+    { kana: 'とおく', romaji: 'tooku', meaning: '멀리' },
+  ],
+  // 식사 / 음식 4
+  [
+    { kana: 'あさごはん', romaji: 'asagohan', meaning: '아침밥' },
+    { kana: 'ひるごはん', romaji: 'hirugohan', meaning: '점심밥' },
+    { kana: 'ばんごはん', romaji: 'bangohan', meaning: '저녁밥' },
+    { kana: 'おべんとう', romaji: 'obentou', meaning: '도시락' },
+    { kana: 'おかし', romaji: 'okashi', meaning: '과자' },
+    { kana: 'あじ', romaji: 'aji', meaning: '맛' },
+    { kana: 'におい', romaji: 'nioi', meaning: '냄새' },
+    { kana: 'のみもの', romaji: 'nomimono', meaning: '음료' },
+  ],
+  // 동사 7
+  [
+    { kana: 'つかう', romaji: 'tsukau', meaning: '쓰다 / 사용하다' },
+    { kana: 'かける', romaji: 'kakeru', meaning: '걸다' },
+    { kana: 'きえる', romaji: 'kieru', meaning: '꺼지다 / 사라지다' },
+    { kana: 'つく', romaji: 'tsuku', meaning: '켜지다 / 도착하다' },
+    { kana: 'なくす', romaji: 'nakusu', meaning: '잃다' },
+    { kana: 'みつける', romaji: 'mitsukeru', meaning: '찾아내다' },
+    { kana: 'はこぶ', romaji: 'hakobu', meaning: '나르다' },
+    { kana: 'すてる', romaji: 'suteru', meaning: '버리다' },
+  ],
+  // な형용사 / 형용사 7
+  [
+    { kana: 'たいへん', romaji: 'taihen', meaning: '힘듦 / 큰일' },
+    { kana: 'だめ', romaji: 'dame', meaning: '안 됨' },
+    { kana: 'へん', romaji: 'hen', meaning: '이상함' },
+    { kana: 'とくべつ', romaji: 'tokubetsu', meaning: '특별함' },
+    { kana: 'ふつう', romaji: 'futsuu', meaning: '보통' },
+    { kana: 'ほんとう', romaji: 'hontou', meaning: '정말 / 사실' },
+    { kana: 'うそ', romaji: 'uso', meaning: '거짓말' },
+    { kana: 'じょうぶ', romaji: 'joubu', meaning: '튼튼함' },
+  ],
+  // 추상 / 분야
+  [
+    { kana: 'せかい', romaji: 'sekai', meaning: '세계' },
+    { kana: 'くに', romaji: 'kuni', meaning: '나라' },
+    { kana: 'しゃかい', romaji: 'shakai', meaning: '사회' },
+    { kana: 'ぶんか', romaji: 'bunka', meaning: '문화' },
+    { kana: 'れきし', romaji: 'rekishi', meaning: '역사' },
+    { kana: 'おんがく', romaji: 'ongaku', meaning: '음악' },
+    { kana: 'えいが', romaji: 'eiga', meaning: '영화' },
+    { kana: 'しゃしん', romaji: 'shashin', meaning: '사진' },
+  ],
+  // 사물 2
+  [
+    { kana: 'かばん', romaji: 'kaban', meaning: '가방' },
+    { kana: 'さいふ', romaji: 'saifu', meaning: '지갑' },
+    { kana: 'はこ', romaji: 'hako', meaning: '상자' },
+    { kana: 'ふくろ', romaji: 'fukuro', meaning: '봉투 / 주머니' },
+    { kana: 'びん', romaji: 'bin', meaning: '병' },
+    { kana: 'ちず', romaji: 'chizu', meaning: '지도' },
+    { kana: 'はがき', romaji: 'hagaki', meaning: '엽서' },
+    { kana: 'きって', romaji: 'kitte', meaning: '우표' },
+  ],
 ]
 
 /** All words flattened in teaching order. */

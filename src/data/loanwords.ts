@@ -317,6 +317,61 @@ export const LOANWORD_ROWS: Kana[][] = [
     { kana: 'パターン', romaji: 'pataan', meaning: '패턴' },
     { kana: 'バランス', romaji: 'baransu', meaning: '밸런스' },
   ],
+  // 음식 4
+  [
+    { kana: 'ピーマン', romaji: 'piiman', meaning: '피망' },
+    { kana: 'キャベツ', romaji: 'kyabetsu', meaning: '양배추' },
+    { kana: 'レタス', romaji: 'retasu', meaning: '양상추' },
+    { kana: 'トースト', romaji: 'toosuto', meaning: '토스트' },
+    { kana: 'オムレツ', romaji: 'omuretsu', meaning: '오믈렛' },
+    { kana: 'グラタン', romaji: 'guratan', meaning: '그라탕' },
+    { kana: 'カツ', romaji: 'katsu', meaning: '돈가스' },
+    { kana: 'コロッケ', romaji: 'korokke', meaning: '고로케' },
+  ],
+  // 패션 2
+  [
+    { kana: 'ベスト', romaji: 'besuto', meaning: '조끼' },
+    { kana: 'パーカー', romaji: 'paakaa', meaning: '후드티' },
+    { kana: 'マフラー', romaji: 'mafuraa', meaning: '목도리' },
+    { kana: 'リュック', romaji: 'ryukku', meaning: '백팩' },
+    { kana: 'ハンカチ', romaji: 'hankachi', meaning: '손수건' },
+    { kana: 'アクセサリー', romaji: 'akusesarii', meaning: '액세서리' },
+    { kana: 'イヤリング', romaji: 'iyaringu', meaning: '귀걸이' },
+    { kana: 'ネックレス', romaji: 'nekkuresu', meaning: '목걸이' },
+  ],
+  // 직장 2
+  [
+    { kana: 'オフィス', romaji: 'ofisu', meaning: '오피스' },
+    { kana: 'デスク', romaji: 'desuku', meaning: '책상' },
+    { kana: 'スケジュール', romaji: 'sukejuuru', meaning: '스케줄' },
+    { kana: 'キャンセル', romaji: 'kyanseru', meaning: '취소' },
+    { kana: 'サイン', romaji: 'sain', meaning: '서명' },
+    { kana: 'スピーチ', romaji: 'supiichi', meaning: '연설' },
+    { kana: 'インタビュー', romaji: 'intabyuu', meaning: '인터뷰' },
+    { kana: 'アンケート', romaji: 'ankeeto', meaning: '설문' },
+  ],
+  // 여행 2
+  [
+    { kana: 'ツアー', romaji: 'tsuaa', meaning: '투어' },
+    { kana: 'フライト', romaji: 'furaito', meaning: '비행편' },
+    { kana: 'チェックイン', romaji: 'chekkuin', meaning: '체크인' },
+    { kana: 'ロビー', romaji: 'robii', meaning: '로비' },
+    { kana: 'フロント', romaji: 'furonto', meaning: '프런트' },
+    { kana: 'チップ', romaji: 'chippu', meaning: '팁' },
+    { kana: 'オプション', romaji: 'opushon', meaning: '옵션' },
+    { kana: 'ルート', romaji: 'ruuto', meaning: '루트' },
+  ],
+  // 감정 / 추상 3
+  [
+    { kana: 'ハッピー', romaji: 'happii', meaning: '해피' },
+    { kana: 'ラッキー', romaji: 'rakkii', meaning: '럭키' },
+    { kana: 'ショック', romaji: 'shokku', meaning: '쇼크' },
+    { kana: 'リラックス', romaji: 'rirakkusu', meaning: '릴랙스' },
+    { kana: 'プレッシャー', romaji: 'puresshaa', meaning: '압박' },
+    { kana: 'モチベーション', romaji: 'mochibeeshon', meaning: '동기' },
+    { kana: 'エネルギー', romaji: 'enerugii', meaning: '에너지' },
+    { kana: 'パワー', romaji: 'pawaa', meaning: '파워' },
+  ],
 ]
 
 /** All loanwords flattened in teaching order. */
