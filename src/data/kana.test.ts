@@ -131,4 +131,18 @@ describe('decks', () => {
       kanji: 'kanji',
     })
   })
+
+  it('keeps catLabels 1:1 with rows on every row-labeled deck', () => {
+    // catLabels pair with rows by index, so a drifting array silently
+    // mislabels every category after the gap.
+    for (const d of DECKS.filter((d) => d.catLabels)) {
+      expect(d.catLabels!.length, `${d.id} catLabels/rows`).toBe(d.rows.length)
+    }
+  })
+
+  it('flattens rows into the deck kana in teaching order', () => {
+    for (const d of DECKS) {
+      expect(d.kana.length, `${d.id} kana/rows`).toBe(d.rows.flat().length)
+    }
+  })
 })

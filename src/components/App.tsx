@@ -43,7 +43,7 @@ export function App() {
   }, [categories, categoryName, deck])
 
   // The lesson count this lesson will produce when finished.
-  const base = useMemo(() => progress.lessonsDone + 1, [progress.lessonsDone])
+  const base = progress.lessonsDone + 1
 
   function selectDeck(d: Deck) {
     setDeck(d)
@@ -115,8 +115,7 @@ export function App() {
         <Lesson
           items={items}
           pool={scopeKana}
-          deckKind={deck.kind}
-          koReading={deck.id === 'phrases' || deck.id === 'keigo'}
+          deck={deck}
           listenMode={listenMode}
           onExit={() => setScreen('home')}
           onComplete={finishLesson}

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import type { DeckKind, Kana } from '../data/kana'
+import type { Deck, DeckKind, Kana } from '../data/kana'
 import type { LessonItem, LessonMode } from '../lib/srs'
 import { buildQuestion, isCorrect, pickQType, type Question } from '../lib/quiz'
 import { hasJaVoice, primeSpeech, speakItem } from '../lib/speak'
@@ -15,8 +15,7 @@ export interface LessonResult {
 interface Props {
   items: LessonItem[]
   pool: Kana[] // distractor pool for the active deck
-  deckKind: DeckKind
-  koReading: boolean // 회화 덱: 일본어 아래 한국어 발음 표기
+  deck: Deck
   listenMode: boolean // user toggle: audio-prompt every quiz
   onComplete: (results: LessonResult[]) => void
   onExit: () => void
@@ -27,7 +26,20 @@ interface Step {
   question?: Question
 }
 
-export function Lesson({ items, pool, deckKind, koReading, listenMode, onComplete, onExit }: Props) {
+function glyphClassFor(kind: DeckKind): string {
+  if (kind === 'sentence') return 'glyph sentence'
+  if (kind === 'words') return 'glyph word'
+  return 'glyph big'
+}
+
+const INTRO_LABEL: Record<DeckKind, string> = {
+  kana: '새 글자',
+  words: '새 단어',
+  sentence: '예문',
+  kanji: '새 한자',
+}
+
+export function Lesson({ items, pool, deck, listenMode, onComplete, onExit }: Props) {
   // Assign question types up front. Listen mode forces audio prompts on every
   // deck; otherwise word decks quiz on meaning and kana decks round-robin
   // read/listen (dropping listen when no voice is available).
@@ -36,10 +48,10 @@ export function Lesson({ items, pool, deckKind, koReading, listenMode, onComplet
     let quizN = 0
     return items.map((item) => {
       if (item.mode === 'intro') return { item }
-      const qtype = pickQType(deckKind, listenMode, voice, quizN++)
+      const qtype = pickQType(deck.kind, listenMode, voice, quizN++)
       return { item, question: buildQuestion(item.kana, qtype, pool) }
     })
-  }, [items, pool, deckKind, listenMode])
+  }, [items, pool, deck.kind, listenMode])
 
   const [index, setIndex] = useState(0)
   const [phase, setPhase] = useState<'answer' | 'feedback'>('answer')
@@ -48,16 +60,6 @@ export function Lesson({ items, pool, deckKind, koReading, listenMode, onComplet
   const [confirmExit, setConfirmExit] = useState(false)
 
   const step = steps[index]
-  const isSentence = deckKind === 'sentence'
-  const isKanji = deckKind === 'kanji'
-  const glyphClass = isSentence ? 'glyph sentence' : deckKind === 'words' ? 'glyph word' : 'glyph big'
-  const introLabel = isKanji
-    ? '새 한자'
-    : isSentence
-      ? '예문'
-      : deckKind === 'words'
-        ? '새 단어'
-        : '새 글자'
   const progressPct = Math.round((index / steps.length) * 100)
 
   function record(correct: boolean): LessonResult[] {
@@ -76,7 +78,7 @@ export function Lesson({ items, pool, deckKind, koReading, listenMode, onComplet
   }
 
   function sayCurrent() {
-    speakItem(step.item.kana, isKanji)
+    speakItem(step.item.kana, deck.kind === 'kanji')
   }
 
   function onIntroNext() {
@@ -121,38 +123,12 @@ export function Lesson({ items, pool, deckKind, koReading, listenMode, onComplet
       </div>
 
       {step.item.mode === 'intro' ? (
-        <section className="card intro">
-          {isSentence && step.item.kana.note && (
-            <div className="pattern">{step.item.kana.note}</div>
-          )}
-          <p className="prompt-label">{introLabel}</p>
-          <div className={glyphClass}>{step.item.kana.kana}</div>
-          {koReading && <div className="ko-reading">{kanaToHangul(step.item.kana.kana)}</div>}
-          <div className="romaji">{step.item.kana.romaji}</div>
-          {step.item.kana.meaning && deckKind !== 'kana' && (
-            <div className="meaning">{step.item.kana.meaning}</div>
-          )}
-          <button
-            className="btn-ghost"
-            onClick={() => {
-              primeSpeech()
-              sayCurrent()
-            }}
-          >
-            🔊 발음 듣기
-          </button>
-          <button className="btn-primary" onClick={onIntroNext}>
-            다음
-          </button>
-        </section>
+        <IntroCard kana={step.item.kana} deck={deck} onSpeak={sayCurrent} onNext={onIntroNext} />
       ) : (
         <Quiz
           question={step.question!}
-          glyphClass={glyphClass}
-          koReading={koReading}
-          isKana={deckKind === 'kana'}
-          isSentence={isSentence}
-          isKanji={isKanji}
+          deckKind={deck.kind}
+          koReading={!!deck.koReading}
           phase={phase}
           picked={picked}
           onReplay={sayCurrent}
@@ -161,31 +137,67 @@ export function Lesson({ items, pool, deckKind, koReading, listenMode, onComplet
         />
       )}
 
-      {confirmExit && (
-        <div className="modal-backdrop" role="dialog" aria-modal="true">
-          <div className="modal">
-            <p className="modal-title">나가시겠어요?</p>
-            <p className="modal-body">나가면 이번 레슨 진도가 사라져요.</p>
-            <button className="btn-primary" onClick={() => setConfirmExit(false)}>
-              계속하기
-            </button>
-            <button className="btn-ghost" onClick={onExit}>
-              나가기
-            </button>
-          </div>
-        </div>
-      )}
+      {confirmExit && <ExitConfirm onStay={() => setConfirmExit(false)} onLeave={onExit} />}
     </main>
+  )
+}
+
+function IntroCard({
+  kana,
+  deck,
+  onSpeak,
+  onNext,
+}: {
+  kana: Kana
+  deck: Deck
+  onSpeak: () => void
+  onNext: () => void
+}) {
+  return (
+    <section className="card intro">
+      {deck.kind === 'sentence' && kana.note && <div className="pattern">{kana.note}</div>}
+      <p className="prompt-label">{INTRO_LABEL[deck.kind]}</p>
+      <div className={glyphClassFor(deck.kind)}>{kana.kana}</div>
+      {deck.koReading && <div className="ko-reading">{kanaToHangul(kana.kana)}</div>}
+      <div className="romaji">{kana.romaji}</div>
+      {kana.meaning && deck.kind !== 'kana' && <div className="meaning">{kana.meaning}</div>}
+      <button
+        className="btn-ghost"
+        onClick={() => {
+          primeSpeech()
+          onSpeak()
+        }}
+      >
+        🔊 발음 듣기
+      </button>
+      <button className="btn-primary" onClick={onNext}>
+        다음
+      </button>
+    </section>
+  )
+}
+
+function ExitConfirm({ onStay, onLeave }: { onStay: () => void; onLeave: () => void }) {
+  return (
+    <div className="modal-backdrop" role="dialog" aria-modal="true">
+      <div className="modal">
+        <p className="modal-title">나가시겠어요?</p>
+        <p className="modal-body">나가면 이번 레슨 진도가 사라져요.</p>
+        <button className="btn-primary" onClick={onStay}>
+          계속하기
+        </button>
+        <button className="btn-ghost" onClick={onLeave}>
+          나가기
+        </button>
+      </div>
+    </div>
   )
 }
 
 function Quiz({
   question,
-  glyphClass,
+  deckKind,
   koReading,
-  isKana,
-  isSentence,
-  isKanji,
   phase,
   picked,
   onReplay,
@@ -193,11 +205,8 @@ function Quiz({
   onContinue,
 }: {
   question: Question
-  glyphClass: string
+  deckKind: DeckKind
   koReading: boolean
-  isKana: boolean
-  isSentence: boolean
-  isKanji: boolean
   phase: 'answer' | 'feedback'
   picked: Kana | null
   onReplay: () => void
@@ -207,16 +216,16 @@ function Quiz({
   const { qtype } = question
   // In listen mode kana decks still pick the glyph; word/kanji/sentence decks
   // pick the Korean meaning (you only have the sound to go on).
-  const listenPickGlyph = isKana
+  const listenPickGlyph = deckKind === 'kana'
   const label =
     qtype === 'listen'
       ? listenPickGlyph
         ? '소리를 듣고 글자를 고르세요'
         : '소리를 듣고 뜻을 고르세요'
       : qtype === 'meaning'
-        ? isKanji
+        ? deckKind === 'kanji'
           ? '이 한자의 뜻은?'
-          : isSentence
+          : deckKind === 'sentence'
             ? '이 문장의 뜻은?'
             : '이 단어의 뜻은?'
         : '이 글자의 읽기는?'
@@ -233,7 +242,7 @@ function Quiz({
       ) : (
         <>
           <p className="prompt-label">{label}</p>
-          <div className={glyphClass}>{question.answer.kana}</div>
+          <div className={glyphClassFor(deckKind)}>{question.answer.kana}</div>
           {koReading && <div className="ko-reading">{kanaToHangul(question.answer.kana)}</div>}
         </>
       )}

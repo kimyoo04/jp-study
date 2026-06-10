@@ -2,6 +2,7 @@
 // same pattern as useProgress.
 import { useCallback, useEffect, useState } from 'react'
 import { setSfxEnabled } from '../lib/sound'
+import { loadJson, saveJson } from '../lib/storage'
 
 export interface Settings {
   sfx: boolean
@@ -12,16 +13,10 @@ const KEY = 'jp-study:settings:v1'
 const DEFAULTS: Settings = { sfx: true, listen: false }
 
 function load(): Settings {
-  try {
-    const raw = localStorage.getItem(KEY)
-    if (!raw) return DEFAULTS
-    const parsed = JSON.parse(raw) as Partial<Settings>
-    return {
-      sfx: typeof parsed.sfx === 'boolean' ? parsed.sfx : true,
-      listen: typeof parsed.listen === 'boolean' ? parsed.listen : false,
-    }
-  } catch {
-    return DEFAULTS
+  const parsed = loadJson<Partial<Settings>>(KEY)
+  return {
+    sfx: typeof parsed?.sfx === 'boolean' ? parsed.sfx : DEFAULTS.sfx,
+    listen: typeof parsed?.listen === 'boolean' ? parsed.listen : DEFAULTS.listen,
   }
 }
 
@@ -33,22 +28,16 @@ export function useSettings() {
     setSfxEnabled(settings.sfx)
   }, [settings.sfx])
 
-  const persist = useCallback((next: Settings) => {
-    try {
-      localStorage.setItem(KEY, JSON.stringify(next))
-    } catch {
-      /* ignore — setting just won't persist */
-    }
-    return next
+  const toggle = useCallback((key: keyof Settings) => {
+    setSettings((prev) => {
+      const next = { ...prev, [key]: !prev[key] }
+      saveJson(KEY, next) // best-effort; the setting just won't persist on failure
+      return next
+    })
   }, [])
 
-  const toggleSfx = useCallback(() => {
-    setSettings((prev) => persist({ ...prev, sfx: !prev.sfx }))
-  }, [persist])
-
-  const toggleListen = useCallback(() => {
-    setSettings((prev) => persist({ ...prev, listen: !prev.listen }))
-  }, [persist])
+  const toggleSfx = useCallback(() => toggle('sfx'), [toggle])
+  const toggleListen = useCallback(() => toggle('listen'), [toggle])
 
   return { settings, toggleSfx, toggleListen }
 }

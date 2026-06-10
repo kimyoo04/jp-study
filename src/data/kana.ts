@@ -248,6 +248,7 @@ export interface Deck {
   rows: Kana[][]
   kana: Kana[] // teaching order; also the distractor pool for this deck
   catLabels?: string[] // category name per row (row-based decks); 1:1 with rows
+  koReading?: boolean // 레슨에서 일본어 아래 한국어 발음 표기를 보여줄지
 }
 
 export interface Category {
@@ -308,8 +309,8 @@ export const DECKS: Deck[] = [
   { id: 'counters', label: '조수사', kind: 'words', rows: COUNTER_ROWS, kana: COUNTERS, catLabels: COUNTER_CATS },
   { id: 'mimetic', label: '의태어', kind: 'words', rows: MIMETIC_ROWS, kana: MIMETICS, catLabels: MIMETIC_CATS },
   { id: 'grammar', label: '문법', kind: 'sentence', rows: GRAMMAR_ROWS, kana: GRAMMAR },
-  { id: 'phrases', label: '회화', kind: 'sentence', rows: PHRASE_ROWS, kana: PHRASES },
-  { id: 'keigo', label: '경어', kind: 'sentence', rows: KEIGO_ROWS, kana: KEIGO },
+  { id: 'phrases', label: '회화', kind: 'sentence', rows: PHRASE_ROWS, kana: PHRASES, koReading: true },
+  { id: 'keigo', label: '경어', kind: 'sentence', rows: KEIGO_ROWS, kana: KEIGO, koReading: true },
   { id: 'kanji', label: '한자', kind: 'kanji', rows: KANJI_ROWS, kana: KANJI, catLabels: KANJI_CATS },
 ]
 
