@@ -170,6 +170,46 @@ export const GRAMMAR_ROWS: Kana[][] = [
     { kana: 'これも ください', romaji: 'kore mo kudasai', meaning: '이것도 주세요', note: '조사 ～も (~도)' },
     { kana: 'コーヒーも のみます', romaji: 'koohii mo nomimasu', meaning: '커피도 마십니다', note: '조사 ～も (~도)' },
   ],
+  // ～ましょう : ~합시다 (청유)
+  [
+    { kana: 'いっしょに いきましょう', romaji: 'issho ni ikimashou', meaning: '같이 갑시다', note: '～ましょう (~합시다, 청유)' },
+    { kana: 'ごはんを たべましょう', romaji: 'gohan o tabemashou', meaning: '밥을 먹읍시다', note: '～ましょう (~합시다, 청유)' },
+    { kana: 'ちょっと やすみましょう', romaji: 'chotto yasumimashou', meaning: '잠깐 쉽시다', note: '～ましょう (~합시다, 청유)' },
+    { kana: 'はじめましょう', romaji: 'hajimemashou', meaning: '시작합시다', note: '～ましょう (~합시다, 청유)' },
+  ],
+  // ～なければ なりません : ~해야 합니다
+  [
+    { kana: 'べんきょう しなければ なりません', romaji: 'benkyou shinakereba narimasen', meaning: '공부해야 합니다', note: '～なければ なりません (~해야 합니다)' },
+    { kana: 'はやく いかなければ なりません', romaji: 'hayaku ikanakereba narimasen', meaning: '빨리 가야 합니다', note: '～なければ なりません (~해야 합니다)' },
+    { kana: 'もう ねなければ なりません', romaji: 'mou nenakereba narimasen', meaning: '이제 자야 합니다', note: '～なければ なりません (~해야 합니다)' },
+    { kana: 'ここで またなければ なりません', romaji: 'koko de matanakereba narimasen', meaning: '여기서 기다려야 합니다', note: '～なければ なりません (~해야 합니다)' },
+  ],
+  // ～ことが できます : ~할 수 있습니다
+  [
+    { kana: 'にほんごが できます', romaji: 'nihongo ga dekimasu', meaning: '일본어를 할 수 있습니다', note: '～ことが できます (~할 수 있습니다)' },
+    { kana: 'およぐ ことが できます', romaji: 'oyogu koto ga dekimasu', meaning: '수영할 수 있습니다', note: '～ことが できます (~할 수 있습니다)' },
+    { kana: 'うんてんが できます', romaji: 'unten ga dekimasu', meaning: '운전할 수 있습니다', note: '～ことが できます (~할 수 있습니다)' },
+    { kana: 'りょうりが できます', romaji: 'ryouri ga dekimasu', meaning: '요리할 수 있습니다', note: '～ことが できます (~할 수 있습니다)' },
+  ],
+  // ～が ほしいです : ~을 갖고 싶습니다
+  [
+    { kana: 'あたらしい くるまが ほしいです', romaji: 'atarashii kuruma ga hoshii desu', meaning: '새 차를 갖고 싶습니다', note: '～が ほしいです (~을 갖고 싶습니다)' },
+    { kana: 'おかねが ほしいです', romaji: 'okane ga hoshii desu', meaning: '돈을 갖고 싶습니다', note: '～が ほしいです (~을 갖고 싶습니다)' },
+    { kana: 'じかんが ほしいです', romaji: 'jikan ga hoshii desu', meaning: '시간을 갖고 싶습니다', note: '～が ほしいです (~을 갖고 싶습니다)' },
+    { kana: 'ともだちが ほしいです', romaji: 'tomodachi ga hoshii desu', meaning: '친구를 갖고 싶습니다', note: '～が ほしいです (~을 갖고 싶습니다)' },
+  ],
+  // ～より ～の ほうが : 비교 (~보다 ~쪽이)
+  [
+    { kana: 'くるまより でんしゃの ほうが はやいです', romaji: 'kuruma yori densha no hou ga hayai desu', meaning: '자동차보다 전철이 빠릅니다', note: '～より ～の ほうが (비교: ~보다 ~쪽이)' },
+    { kana: 'コーヒーより おちゃの ほうが すきです', romaji: 'koohii yori ocha no hou ga suki desu', meaning: '커피보다 차를 좋아합니다', note: '～より ～の ほうが (비교: ~보다 ~쪽이)' },
+    { kana: 'なつより ふゆの ほうが すきです', romaji: 'natsu yori fuyu no hou ga suki desu', meaning: '여름보다 겨울을 좋아합니다', note: '～より ～の ほうが (비교: ~보다 ~쪽이)' },
+  ],
+  // ～ながら : ~하면서
+  [
+    { kana: 'おんがくを ききながら べんきょうします', romaji: 'ongaku o kikinagara benkyou shimasu', meaning: '음악을 들으면서 공부합니다', note: '～ながら (~하면서)' },
+    { kana: 'テレビを みながら たべます', romaji: 'terebi o minagara tabemasu', meaning: '텔레비전을 보면서 먹습니다', note: '～ながら (~하면서)' },
+    { kana: 'あるきながら はなします', romaji: 'arukinagara hanashimasu', meaning: '걸으면서 이야기합니다', note: '～ながら (~하면서)' },
+  ],
 ]
 
 /** All example sentences flattened in teaching order. */
