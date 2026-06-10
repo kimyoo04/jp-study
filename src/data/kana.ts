@@ -1,6 +1,7 @@
 // Hiragana — gojūon (五十音) order. Each inner array is one row (행),
 // reused by both lesson sequencing and distractor selection (same-row first).
 import { WORD_ROWS, WORDS } from './words'
+import { LOANWORD_ROWS, LOANWORDS } from './loanwords'
 
 export interface Kana {
   kana: string
@@ -201,13 +202,13 @@ export const KATAKANA: Kana[] = KATAKANA_ROWS.flat()
 /** Row lookup for a given kana char (all scripts + words) — used by distractor selection. */
 export const ROW_OF: Record<string, Kana[]> = (() => {
   const map: Record<string, Kana[]> = {}
-  for (const row of [...ALL_ROWS, ...KATAKANA_ROWS, ...WORD_ROWS])
+  for (const row of [...ALL_ROWS, ...KATAKANA_ROWS, ...WORD_ROWS, ...LOANWORD_ROWS])
     for (const k of row) map[k.kana] = row
   return map
 })()
 
 // ---- Decks ----------------------------------------------------------------
-export type DeckId = 'hiragana' | 'katakana' | 'words'
+export type DeckId = 'hiragana' | 'katakana' | 'words' | 'loanwords'
 export type DeckKind = 'kana' | 'words'
 
 export interface Deck {
@@ -222,4 +223,5 @@ export const DECKS: Deck[] = [
   { id: 'hiragana', label: 'ひらがな', kind: 'kana', rows: ALL_ROWS, kana: HIRAGANA },
   { id: 'katakana', label: 'カタカナ', kind: 'kana', rows: KATAKANA_ROWS, kana: KATAKANA },
   { id: 'words', label: '단어', kind: 'words', rows: WORD_ROWS, kana: WORDS },
+  { id: 'loanwords', label: '외래어', kind: 'words', rows: LOANWORD_ROWS, kana: LOANWORDS },
 ]

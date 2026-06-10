@@ -60,6 +60,14 @@ test('words deck teaches words with meanings', async ({ page }) => {
   await expect(page.locator('.glyph.word')).toHaveText('こんにちは')
 })
 
+test('loanwords deck teaches katakana loanwords', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('tab', { name: '외래어' }).click()
+  await page.getByRole('button', { name: '시작하기' }).click()
+  await expect(page.getByText('새 단어')).toBeVisible()
+  await expect(page.locator('.glyph.word')).toHaveText('コーヒー')
+})
+
 test('complete screen shows review button after a wrong answer', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('button', { name: '시작하기' }).click()

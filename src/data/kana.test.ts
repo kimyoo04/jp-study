@@ -72,11 +72,12 @@ describe('katakana (derived from hiragana)', () => {
 })
 
 describe('decks', () => {
-  it('exposes hiragana, katakana, and words decks', () => {
-    expect(DECKS.map((d) => d.id)).toEqual(['hiragana', 'katakana', 'words'])
+  it('exposes hiragana, katakana, words, and loanwords decks', () => {
+    expect(DECKS.map((d) => d.id)).toEqual(['hiragana', 'katakana', 'words', 'loanwords'])
     expect(DECKS[0].kana).toBe(HIRAGANA)
     expect(DECKS[1].kana).toBe(KATAKANA)
     expect(DECKS[0].kind).toBe('kana')
     expect(DECKS[2].kind).toBe('words')
+    expect(DECKS[3].kind).toBe('words')
   })
 })

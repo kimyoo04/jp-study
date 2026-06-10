@@ -101,14 +101,16 @@ body {
 }
 .deck-tab {
   flex: 1;
+  min-width: 0;
   border: none;
   background: transparent;
   color: var(--muted);
-  font-size: 17px;
+  font-size: 14px;
   font-weight: 700;
-  padding: 12px;
+  padding: 11px 6px;
   border-radius: 999px;
   cursor: pointer;
+  white-space: nowrap;
 }
 .deck-tab.active {
   background: var(--primary);
