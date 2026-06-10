@@ -77,6 +77,14 @@ test('grammar deck teaches example sentences with a pattern', async ({ page }) =
   await expect(page.locator('.glyph.sentence')).toHaveText('わたしは がくせいです')
 })
 
+test('kanji deck teaches a kanji with reading and meaning', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('tab', { name: '한자' }).click()
+  await page.getByRole('button', { name: '시작하기' }).click()
+  await expect(page.getByText('새 한자')).toBeVisible()
+  await expect(page.locator('.glyph.big')).toHaveText('一')
+})
+
 test('phrases deck teaches everyday sentences with a situation', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('tab', { name: '회화' }).click()

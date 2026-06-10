@@ -4,6 +4,7 @@ import { WORD_ROWS, WORDS } from './words'
 import { LOANWORD_ROWS, LOANWORDS } from './loanwords'
 import { GRAMMAR_ROWS, GRAMMAR } from './grammar'
 import { PHRASE_ROWS, PHRASES } from './phrases'
+import { KANJI_ROWS, KANJI } from './kanji'
 
 export interface Kana {
   kana: string
@@ -212,16 +213,24 @@ export const ROW_OF: Record<string, Kana[]> = (() => {
     ...LOANWORD_ROWS,
     ...GRAMMAR_ROWS,
     ...PHRASE_ROWS,
+    ...KANJI_ROWS,
   ])
     for (const k of row) map[k.kana] = row
   return map
 })()
 
 // ---- Decks ----------------------------------------------------------------
-export type DeckId = 'hiragana' | 'katakana' | 'words' | 'loanwords' | 'grammar' | 'phrases'
-// 'kana' -> quiz reads romaji; 'words'/'sentence' -> quiz reads meaning.
-// 'sentence' additionally renders smaller and shows the grammar pattern (note).
-export type DeckKind = 'kana' | 'words' | 'sentence'
+export type DeckId =
+  | 'hiragana'
+  | 'katakana'
+  | 'words'
+  | 'loanwords'
+  | 'grammar'
+  | 'phrases'
+  | 'kanji'
+// 'kana' -> quiz reads romaji; 'words'/'sentence'/'kanji' -> quiz reads meaning.
+// 'sentence' renders smaller + shows the grammar pattern; 'kanji' renders one big glyph.
+export type DeckKind = 'kana' | 'words' | 'sentence' | 'kanji'
 
 export interface Deck {
   id: DeckId
@@ -238,4 +247,5 @@ export const DECKS: Deck[] = [
   { id: 'loanwords', label: '외래어', kind: 'words', rows: LOANWORD_ROWS, kana: LOANWORDS },
   { id: 'grammar', label: '문법', kind: 'sentence', rows: GRAMMAR_ROWS, kana: GRAMMAR },
   { id: 'phrases', label: '회화', kind: 'sentence', rows: PHRASE_ROWS, kana: PHRASES },
+  { id: 'kanji', label: '한자', kind: 'kanji', rows: KANJI_ROWS, kana: KANJI },
 ]

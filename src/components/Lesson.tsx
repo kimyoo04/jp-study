@@ -47,8 +47,15 @@ export function Lesson({ items, pool, deckKind, onComplete, onExit }: Props) {
 
   const step = steps[index]
   const isSentence = deckKind === 'sentence'
+  const isKanji = deckKind === 'kanji'
   const glyphClass = isSentence ? 'glyph sentence' : deckKind === 'words' ? 'glyph word' : 'glyph big'
-  const introLabel = isSentence ? '예문' : deckKind === 'words' ? '새 단어' : '새 글자'
+  const introLabel = isKanji
+    ? '새 한자'
+    : isSentence
+      ? '예문'
+      : deckKind === 'words'
+        ? '새 단어'
+        : '새 글자'
   const progressPct = Math.round((index / steps.length) * 100)
 
   function record(correct: boolean): LessonResult[] {
@@ -136,6 +143,7 @@ export function Lesson({ items, pool, deckKind, onComplete, onExit }: Props) {
           question={step.question!}
           glyphClass={glyphClass}
           isSentence={isSentence}
+          isKanji={isKanji}
           phase={phase}
           picked={picked}
           onPick={onPick}
@@ -165,6 +173,7 @@ function Quiz({
   question,
   glyphClass,
   isSentence,
+  isKanji,
   phase,
   picked,
   onPick,
@@ -173,6 +182,7 @@ function Quiz({
   question: Question
   glyphClass: string
   isSentence: boolean
+  isKanji: boolean
   phase: 'answer' | 'feedback'
   picked: Kana | null
   onPick: (k: Kana) => void
@@ -183,9 +193,11 @@ function Quiz({
     qtype === 'listen'
       ? '소리를 듣고 글자를 고르세요'
       : qtype === 'meaning'
-        ? isSentence
-          ? '이 문장의 뜻은?'
-          : '이 단어의 뜻은?'
+        ? isKanji
+          ? '이 한자의 뜻은?'
+          : isSentence
+            ? '이 문장의 뜻은?'
+            : '이 단어의 뜻은?'
         : '이 글자의 읽기는?'
 
   return (
