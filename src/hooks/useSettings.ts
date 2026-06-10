@@ -5,17 +5,21 @@ import { setSfxEnabled } from '../lib/sound'
 
 export interface Settings {
   sfx: boolean
+  listen: boolean // audio-prompted quizzes (hear -> pick); off by default
 }
 
 const KEY = 'jp-study:settings:v1'
-const DEFAULTS: Settings = { sfx: true }
+const DEFAULTS: Settings = { sfx: true, listen: false }
 
 function load(): Settings {
   try {
     const raw = localStorage.getItem(KEY)
     if (!raw) return DEFAULTS
     const parsed = JSON.parse(raw) as Partial<Settings>
-    return { sfx: typeof parsed.sfx === 'boolean' ? parsed.sfx : true }
+    return {
+      sfx: typeof parsed.sfx === 'boolean' ? parsed.sfx : true,
+      listen: typeof parsed.listen === 'boolean' ? parsed.listen : false,
+    }
   } catch {
     return DEFAULTS
   }
@@ -29,17 +33,22 @@ export function useSettings() {
     setSfxEnabled(settings.sfx)
   }, [settings.sfx])
 
-  const toggleSfx = useCallback(() => {
-    setSettings((prev) => {
-      const next = { ...prev, sfx: !prev.sfx }
-      try {
-        localStorage.setItem(KEY, JSON.stringify(next))
-      } catch {
-        /* ignore — setting just won't persist */
-      }
-      return next
-    })
+  const persist = useCallback((next: Settings) => {
+    try {
+      localStorage.setItem(KEY, JSON.stringify(next))
+    } catch {
+      /* ignore — setting just won't persist */
+    }
+    return next
   }, [])
 
-  return { settings, toggleSfx }
+  const toggleSfx = useCallback(() => {
+    setSettings((prev) => persist({ ...prev, sfx: !prev.sfx }))
+  }, [persist])
+
+  const toggleListen = useCallback(() => {
+    setSettings((prev) => persist({ ...prev, listen: !prev.listen }))
+  }, [persist])
+
+  return { settings, toggleSfx, toggleListen }
 }

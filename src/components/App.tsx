@@ -1,7 +1,8 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { DECKS, deckCategories, type Deck, type Kana } from '../data/kana'
 import { useProgress } from '../hooks/useProgress'
 import { useSettings } from '../hooks/useSettings'
+import { hasJaVoice, loadVoices } from '../lib/speak'
 import {
   applyAnswer,
   introducedCard,
@@ -18,12 +19,20 @@ type Screen = 'home' | 'lesson' | 'complete'
 
 export function App() {
   const { progress, persistent, update } = useProgress()
-  const { settings, toggleSfx } = useSettings()
+  const { settings, toggleSfx, toggleListen } = useSettings()
   const [deck, setDeck] = useState<Deck>(DECKS[0])
   const [categoryName, setCategoryName] = useState<string | null>(null) // null = 전체
   const [screen, setScreen] = useState<Screen>('home')
   const [items, setItems] = useState<LessonItem[]>([])
   const [results, setResults] = useState<LessonResult[]>([])
+
+  // Listen mode needs a Japanese TTS voice. Voices load asynchronously (Chrome),
+  // so detect once on mount and gate the toggle on the result.
+  const [voiceReady, setVoiceReady] = useState(false)
+  useEffect(() => {
+    void loadVoices().then(() => setVoiceReady(hasJaVoice()))
+  }, [])
+  const listenMode = settings.listen && voiceReady
 
   const categories = useMemo(() => deckCategories(deck), [deck])
   // The kana the lesson/progress is scoped to: the chosen category, or the whole deck.
@@ -94,6 +103,9 @@ export function App() {
           onReviewWeak={() => startReview(weak)}
           sfx={settings.sfx}
           onToggleSfx={toggleSfx}
+          listen={settings.listen}
+          onToggleListen={toggleListen}
+          listenAvailable={voiceReady}
           onStart={startLesson}
         />
       )}
@@ -102,6 +114,7 @@ export function App() {
           items={items}
           pool={scopeKana}
           deckKind={deck.kind}
+          listenMode={listenMode}
           onExit={() => setScreen('home')}
           onComplete={finishLesson}
         />

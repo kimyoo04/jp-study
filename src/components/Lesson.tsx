@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
 import type { DeckKind, Kana } from '../data/kana'
 import type { LessonItem, LessonMode } from '../lib/srs'
-import { buildQuestion, isCorrect, type Question, type QType } from '../lib/quiz'
-import { hasJaVoice, primeSpeech, speak } from '../lib/speak'
+import { buildQuestion, isCorrect, pickQType, type Question } from '../lib/quiz'
+import { hasJaVoice, primeSpeech, speakItem } from '../lib/speak'
 import { playCorrect, playWrong } from '../lib/sound'
 
 export interface LessonResult {
@@ -15,6 +15,7 @@ interface Props {
   items: LessonItem[]
   pool: Kana[] // distractor pool for the active deck
   deckKind: DeckKind
+  listenMode: boolean // user toggle: audio-prompt every quiz
   onComplete: (results: LessonResult[]) => void
   onExit: () => void
 }
@@ -24,20 +25,19 @@ interface Step {
   question?: Question
 }
 
-export function Lesson({ items, pool, deckKind, onComplete, onExit }: Props) {
-  // Assign question types up front. Word decks quiz on meaning; kana decks
-  // round-robin read/listen (dropping listen when no voice is available).
+export function Lesson({ items, pool, deckKind, listenMode, onComplete, onExit }: Props) {
+  // Assign question types up front. Listen mode forces audio prompts on every
+  // deck; otherwise word decks quiz on meaning and kana decks round-robin
+  // read/listen (dropping listen when no voice is available).
   const steps = useMemo<Step[]>(() => {
     const voice = hasJaVoice()
     let quizN = 0
     return items.map((item) => {
       if (item.mode === 'intro') return { item }
-      let qtype: QType
-      if (deckKind !== 'kana') qtype = 'meaning'
-      else qtype = !voice ? 'read' : quizN++ % 2 === 0 ? 'read' : 'listen'
+      const qtype = pickQType(deckKind, listenMode, voice, quizN++)
       return { item, question: buildQuestion(item.kana, qtype, pool) }
     })
-  }, [items, pool, deckKind])
+  }, [items, pool, deckKind, listenMode])
 
   const [index, setIndex] = useState(0)
   const [phase, setPhase] = useState<'answer' | 'feedback'>('answer')
@@ -73,9 +73,13 @@ export function Lesson({ items, pool, deckKind, onComplete, onExit }: Props) {
     setPicked(null)
   }
 
+  function sayCurrent() {
+    speakItem(step.item.kana, isKanji)
+  }
+
   function onIntroNext() {
     primeSpeech()
-    speak(step.item.kana.kana)
+    sayCurrent()
     advance(record(true))
   }
 
@@ -87,7 +91,7 @@ export function Lesson({ items, pool, deckKind, onComplete, onExit }: Props) {
     setPhase('feedback')
     if (correct) playCorrect()
     else playWrong()
-    speak(step.item.kana.kana)
+    sayCurrent()
   }
 
   function onContinue() {
@@ -129,7 +133,7 @@ export function Lesson({ items, pool, deckKind, onComplete, onExit }: Props) {
             className="btn-ghost"
             onClick={() => {
               primeSpeech()
-              speak(step.item.kana.kana)
+              sayCurrent()
             }}
           >
             🔊 발음 듣기
@@ -142,10 +146,12 @@ export function Lesson({ items, pool, deckKind, onComplete, onExit }: Props) {
         <Quiz
           question={step.question!}
           glyphClass={glyphClass}
+          isKana={deckKind === 'kana'}
           isSentence={isSentence}
           isKanji={isKanji}
           phase={phase}
           picked={picked}
+          onReplay={sayCurrent}
           onPick={onPick}
           onContinue={onContinue}
         />
@@ -172,26 +178,35 @@ export function Lesson({ items, pool, deckKind, onComplete, onExit }: Props) {
 function Quiz({
   question,
   glyphClass,
+  isKana,
   isSentence,
   isKanji,
   phase,
   picked,
+  onReplay,
   onPick,
   onContinue,
 }: {
   question: Question
   glyphClass: string
+  isKana: boolean
   isSentence: boolean
   isKanji: boolean
   phase: 'answer' | 'feedback'
   picked: Kana | null
+  onReplay: () => void
   onPick: (k: Kana) => void
   onContinue: () => void
 }) {
   const { qtype } = question
+  // In listen mode kana decks still pick the glyph; word/kanji/sentence decks
+  // pick the Korean meaning (you only have the sound to go on).
+  const listenPickGlyph = isKana
   const label =
     qtype === 'listen'
-      ? '소리를 듣고 글자를 고르세요'
+      ? listenPickGlyph
+        ? '소리를 듣고 글자를 고르세요'
+        : '소리를 듣고 뜻을 고르세요'
       : qtype === 'meaning'
         ? isKanji
           ? '이 한자의 뜻은?'
@@ -205,7 +220,7 @@ function Quiz({
       {qtype === 'listen' ? (
         <>
           <p className="prompt-label">{label}</p>
-          <button className="btn-ghost big-audio" onClick={() => speak(question.answer.kana)}>
+          <button className="btn-ghost big-audio" onClick={onReplay}>
             🔊
           </button>
         </>
@@ -229,7 +244,13 @@ function Quiz({
                   : 'opt dim'
               : 'opt'
           const text =
-            qtype === 'listen' ? opt.kana : qtype === 'meaning' ? opt.meaning : opt.romaji
+            qtype === 'listen'
+              ? listenPickGlyph
+                ? opt.kana
+                : opt.meaning
+              : qtype === 'meaning'
+                ? opt.meaning
+                : opt.romaji
           const mark =
             phase === 'feedback' && isAnswer
               ? '✓'

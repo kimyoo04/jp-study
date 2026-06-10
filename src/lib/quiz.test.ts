@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { HIRAGANA, ROW_OF } from '../data/kana'
-import { buildQuestion, isCorrect, pickDistractors } from './quiz'
+import { buildQuestion, isCorrect, pickDistractors, pickQType } from './quiz'
 
 // Deterministic rng for stable assertions.
 function seeded(seed: number): () => number {
@@ -49,5 +49,32 @@ describe('buildQuestion', () => {
     expect(isCorrect(q, A)).toBe(true)
     const wrong = q.options.find((o) => o.kana !== 'あ')!
     expect(isCorrect(q, wrong)).toBe(false)
+  })
+})
+
+describe('pickQType', () => {
+  it('listen mode forces listen on every deck when a voice exists', () => {
+    expect(pickQType('kana', true, true, 0)).toBe('listen')
+    expect(pickQType('words', true, true, 0)).toBe('listen')
+    expect(pickQType('kanji', true, true, 3)).toBe('listen')
+    expect(pickQType('sentence', true, true, 1)).toBe('listen')
+  })
+
+  it('listen mode falls back to normal types when no voice is available', () => {
+    expect(pickQType('kana', true, false, 0)).toBe('read')
+    expect(pickQType('words', true, false, 0)).toBe('meaning')
+    expect(pickQType('kanji', true, false, 0)).toBe('meaning')
+  })
+
+  it('without listen mode, word decks always quiz on meaning', () => {
+    expect(pickQType('words', false, true, 0)).toBe('meaning')
+    expect(pickQType('sentence', false, true, 5)).toBe('meaning')
+    expect(pickQType('kanji', false, false, 0)).toBe('meaning')
+  })
+
+  it('without listen mode, kana decks round-robin read/listen and drop listen with no voice', () => {
+    expect(pickQType('kana', false, true, 0)).toBe('read')
+    expect(pickQType('kana', false, true, 1)).toBe('listen')
+    expect(pickQType('kana', false, false, 1)).toBe('read')
   })
 })

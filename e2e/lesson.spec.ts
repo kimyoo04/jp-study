@@ -38,6 +38,14 @@ test('sound toggle flips state and persists across reload', async ({ page }) => 
   await expect(page.getByRole('button', { name: '효과음 켜기' })).toBeVisible()
 })
 
+test('listen-mode toggle is present on Home', async ({ page }) => {
+  // The toggle gates on a Japanese TTS voice. Headless Chromium ships none, so
+  // here it renders disabled — assert it exists either way. The qtype logic it
+  // drives is covered by the pickQType unit tests.
+  await page.goto('./')
+  await expect(page.getByRole('button', { name: /듣기 모드/ })).toBeVisible()
+})
+
 test('katakana deck teaches katakana glyphs', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('tab', { name: 'カタカナ' }).click()

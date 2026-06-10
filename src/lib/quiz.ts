@@ -1,10 +1,27 @@
 // Pure question construction. Distractors come from the same gojūon row first
 // (more confusable -> better practice), then fill from the rest. No side effects;
 // randomness is injected so tests are deterministic.
-import type { Kana } from '../data/kana'
+import type { DeckKind, Kana } from '../data/kana'
 import { HIRAGANA, ROW_OF } from '../data/kana'
 
 export type QType = 'read' | 'listen' | 'meaning'
+
+/**
+ * Decide a quiz step's type. Listen mode (user toggle) forces audio prompts on
+ * every deck when a voice exists. Otherwise word decks quiz on meaning and kana
+ * decks round-robin read/listen, dropping listen when no voice is available.
+ */
+export function pickQType(
+  deckKind: DeckKind,
+  listenMode: boolean,
+  hasVoice: boolean,
+  quizIndex: number,
+): QType {
+  if (listenMode && hasVoice) return 'listen'
+  if (deckKind !== 'kana') return 'meaning'
+  if (!hasVoice) return 'read'
+  return quizIndex % 2 === 0 ? 'read' : 'listen'
+}
 
 export interface Question {
   qtype: QType

@@ -231,6 +231,44 @@ body {
   padding: 4px 10px;
 }
 
+/* Listen-mode switch: a full-width pill that sits above the start button. */
+.mode-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  border: 1px solid var(--surface-2);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 13px 16px;
+  min-height: 52px;
+  cursor: pointer;
+}
+.mode-toggle.on {
+  border-color: var(--primary);
+  color: #fff;
+}
+.mode-toggle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.mode-toggle-text small {
+  color: var(--muted);
+  font-weight: 400;
+}
+.mode-toggle-state {
+  flex: 0 0 auto;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+.mode-toggle.on .mode-toggle-state {
+  color: var(--primary);
+}
+
 /* ---- Lesson ---- */
 .lesson-top {
   display: flex;

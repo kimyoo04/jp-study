@@ -16,6 +16,9 @@ interface Props {
   onReviewWeak: () => void
   sfx: boolean
   onToggleSfx: () => void
+  listen: boolean
+  onToggleListen: () => void
+  listenAvailable: boolean
   onStart: () => void
 }
 
@@ -32,6 +35,9 @@ export function Home({
   onReviewWeak,
   sfx,
   onToggleSfx,
+  listen,
+  onToggleListen,
+  listenAvailable,
   onStart,
 }: Props) {
   const total = scopeKana.length
@@ -107,6 +113,19 @@ export function Home({
           {progress.lessonsDone > 0 ? `레슨 ${progress.lessonsDone}회 완료` : '아직 시작 전'}
         </div>
       </section>
+
+      <button
+        className={listen ? 'mode-toggle on' : 'mode-toggle'}
+        onClick={onToggleListen}
+        disabled={!listenAvailable}
+        aria-pressed={listen}
+      >
+        <span className="mode-toggle-text">
+          🎧 듣기 모드
+          {!listenAvailable && <small> (이 기기는 음성 미지원)</small>}
+        </span>
+        <span className="mode-toggle-state">{listen ? '켜짐' : '꺼짐'}</span>
+      </button>
 
       <button className="btn-primary" onClick={onStart}>
         {learned > 0 ? '오늘의 레슨' : '시작하기'}
