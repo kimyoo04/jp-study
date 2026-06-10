@@ -46,6 +46,34 @@ test('listen-mode toggle is present on Home', async ({ page }) => {
   await expect(page.getByRole('button', { name: /듣기 모드/ })).toBeVisible()
 })
 
+test('search finds items across decks by romaji, meaning, and glyph', async ({ page }) => {
+  await page.goto('./')
+  await page.getByRole('button', { name: '검색' }).click()
+
+  const input = page.getByRole('searchbox', { name: '검색' })
+  await expect(input).toBeVisible()
+
+  // Romaji match.
+  await input.fill('konnichiwa')
+  await expect(page.locator('.search-row', { hasText: 'こんにちは' }).first()).toBeVisible()
+
+  // Korean meaning match (a different deck).
+  await input.fill('커피')
+  await expect(page.locator('.search-row', { hasText: 'コーヒー' }).first()).toBeVisible()
+
+  // Kanji glyph match.
+  await input.fill('一')
+  await expect(page.locator('.search-row', { hasText: '一' }).first()).toBeVisible()
+
+  // No-results state.
+  await input.fill('zzzzz')
+  await expect(page.getByText(/결과가 없어요/)).toBeVisible()
+
+  // Close returns Home.
+  await page.getByRole('button', { name: '닫기' }).click()
+  await expect(page.getByRole('heading', { name: 'にほんご Pocket' })).toBeVisible()
+})
+
 test('katakana deck teaches katakana glyphs', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('tab', { name: 'カタカナ' }).click()

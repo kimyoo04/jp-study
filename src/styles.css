@@ -63,10 +63,10 @@ body {
 .home-head {
   text-align: center;
 }
-.sfx-toggle {
+.sfx-toggle,
+.search-btn {
   position: absolute;
   top: calc(env(safe-area-inset-top) + 14px);
-  right: 16px;
   background: var(--surface);
   border: none;
   border-radius: 50%;
@@ -75,6 +75,12 @@ body {
   font-size: 20px;
   cursor: pointer;
   z-index: 10;
+}
+.sfx-toggle {
+  right: 16px;
+}
+.search-btn {
+  left: 16px;
 }
 .logo {
   font-size: 28px;
@@ -496,4 +502,106 @@ body {
 .complete-actions .btn-primary,
 .complete-actions .btn-ghost {
   max-width: none;
+}
+
+/* ---- Search ---- */
+.search {
+  justify-content: flex-start;
+  gap: 14px;
+}
+.search-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.search-input {
+  flex: 1;
+  min-width: 0;
+  background: var(--surface);
+  border: 1px solid var(--surface-2);
+  border-radius: var(--radius);
+  color: #fff;
+  font-size: 16px; /* >=16px so iOS doesn't zoom on focus */
+  padding: 13px 16px;
+  min-height: 52px;
+}
+.search-input::placeholder {
+  color: var(--muted);
+}
+.search-hint {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.7;
+  text-align: center;
+  margin-top: 32px;
+}
+.search-hint code {
+  background: var(--surface);
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-size: 14px;
+}
+.search-count {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.search-results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+.search-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.search-row-main {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  min-width: 0;
+}
+.search-kana {
+  font-size: 22px;
+  font-weight: 700;
+}
+.search-romaji {
+  color: var(--muted);
+  font-size: 14px;
+}
+.search-meaning {
+  font-size: 14px;
+  flex-basis: 100%;
+}
+.search-row-side {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+.search-badge {
+  background: var(--surface-2);
+  color: var(--muted);
+  border-radius: 999px;
+  font-size: 12px;
+  padding: 4px 10px;
+  white-space: nowrap;
+}
+.search-speak {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
 }

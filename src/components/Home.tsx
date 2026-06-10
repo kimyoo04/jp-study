@@ -19,6 +19,7 @@ interface Props {
   listen: boolean
   onToggleListen: () => void
   listenAvailable: boolean
+  onSearch: () => void
   onStart: () => void
 }
 
@@ -38,6 +39,7 @@ export function Home({
   listen,
   onToggleListen,
   listenAvailable,
+  onSearch,
   onStart,
 }: Props) {
   const total = scopeKana.length
@@ -49,6 +51,9 @@ export function Home({
   return (
     <main className="screen home">
       <header className="home-head">
+        <button className="search-btn" onClick={onSearch} aria-label="검색">
+          🔍
+        </button>
         <button
           className="sfx-toggle"
           onClick={onToggleSfx}

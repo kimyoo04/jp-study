@@ -14,8 +14,9 @@ import {
 import { Home } from './Home'
 import { Lesson, type LessonResult } from './Lesson'
 import { Complete } from './Complete'
+import { Search } from './Search'
 
-type Screen = 'home' | 'lesson' | 'complete'
+type Screen = 'home' | 'lesson' | 'complete' | 'search'
 
 export function App() {
   const { progress, persistent, update } = useProgress()
@@ -106,6 +107,7 @@ export function App() {
           listen={settings.listen}
           onToggleListen={toggleListen}
           listenAvailable={voiceReady}
+          onSearch={() => setScreen('search')}
           onStart={startLesson}
         />
       )}
@@ -128,6 +130,7 @@ export function App() {
           onHome={() => setScreen('home')}
         />
       )}
+      {screen === 'search' && <Search onExit={() => setScreen('home')} />}
     </div>
   )
 }
