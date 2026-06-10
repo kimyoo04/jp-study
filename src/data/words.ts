@@ -338,6 +338,82 @@ export const WORD_ROWS: Kana[][] = [
     { kana: 'せんしゅう', romaji: 'senshuu', meaning: '지난주' },
     { kana: 'らいしゅう', romaji: 'raishuu', meaning: '다음주' },
   ],
+  // 동사 5
+  [
+    { kana: 'いう', romaji: 'iu', meaning: '말하다' },
+    { kana: 'おもう', romaji: 'omou', meaning: '생각하다' },
+    { kana: 'しる', romaji: 'shiru', meaning: '알다' },
+    { kana: 'さがす', romaji: 'sagasu', meaning: '찾다' },
+    { kana: 'おくる', romaji: 'okuru', meaning: '보내다' },
+    { kana: 'もらう', romaji: 'morau', meaning: '받다' },
+    { kana: 'あげる', romaji: 'ageru', meaning: '주다' },
+    { kana: 'かりる', romaji: 'kariru', meaning: '빌리다' },
+    { kana: 'かす', romaji: 'kasu', meaning: '빌려주다' },
+    { kana: 'てつだう', romaji: 'tetsudau', meaning: '돕다' },
+  ],
+  // 동사 6
+  [
+    { kana: 'のぼる', romaji: 'noboru', meaning: '오르다' },
+    { kana: 'おちる', romaji: 'ochiru', meaning: '떨어지다' },
+    { kana: 'なげる', romaji: 'nageru', meaning: '던지다' },
+    { kana: 'とぶ', romaji: 'tobu', meaning: '날다' },
+    { kana: 'うる', romaji: 'uru', meaning: '팔다' },
+    { kana: 'はらう', romaji: 'harau', meaning: '지불하다' },
+    { kana: 'きる', romaji: 'kiru', meaning: '입다 / 자르다' },
+    { kana: 'ぬぐ', romaji: 'nugu', meaning: '벗다' },
+  ],
+  // 맛 / 형용사 5
+  [
+    { kana: 'あぶない', romaji: 'abunai', meaning: '위험하다' },
+    { kana: 'つめたい', romaji: 'tsumetai', meaning: '차갑다' },
+    { kana: 'あたたかい', romaji: 'atatakai', meaning: '따뜻하다' },
+    { kana: 'すずしい', romaji: 'suzushii', meaning: '시원하다' },
+    { kana: 'あまい', romaji: 'amai', meaning: '달다' },
+    { kana: 'からい', romaji: 'karai', meaning: '맵다' },
+    { kana: 'にがい', romaji: 'nigai', meaning: '쓰다' },
+    { kana: 'すっぱい', romaji: 'suppai', meaning: '시다' },
+    { kana: 'まずい', romaji: 'mazui', meaning: '맛없다' },
+  ],
+  // な형용사
+  [
+    { kana: 'しずか', romaji: 'shizuka', meaning: '조용함' },
+    { kana: 'にぎやか', romaji: 'nigiyaka', meaning: '번화함' },
+    { kana: 'べんり', romaji: 'benri', meaning: '편리함' },
+    { kana: 'ふべん', romaji: 'fuben', meaning: '불편함' },
+    { kana: 'たいせつ', romaji: 'taisetsu', meaning: '소중함' },
+    { kana: 'ゆうめい', romaji: 'yuumei', meaning: '유명함' },
+    { kana: 'しんせつ', romaji: 'shinsetsu', meaning: '친절함' },
+    { kana: 'きれい', romaji: 'kirei', meaning: '예쁨 / 깨끗함' },
+  ],
+  // 마음 / 몸
+  [
+    { kana: 'からだ', romaji: 'karada', meaning: '몸' },
+    { kana: 'こころ', romaji: 'kokoro', meaning: '마음' },
+    { kana: 'ちから', romaji: 'chikara', meaning: '힘' },
+    { kana: 'きもち', romaji: 'kimochi', meaning: '기분 / 마음' },
+  ],
+  // 의문사
+  [
+    { kana: 'なに', romaji: 'nani', meaning: '무엇' },
+    { kana: 'だれ', romaji: 'dare', meaning: '누구' },
+    { kana: 'どこ', romaji: 'doko', meaning: '어디' },
+    { kana: 'いつ', romaji: 'itsu', meaning: '언제' },
+    { kana: 'なぜ', romaji: 'naze', meaning: '왜' },
+    { kana: 'どう', romaji: 'dou', meaning: '어떻게' },
+    { kana: 'いくつ', romaji: 'ikutsu', meaning: '몇 개 / 몇 살' },
+    { kana: 'いくら', romaji: 'ikura', meaning: '얼마' },
+  ],
+  // 부사
+  [
+    { kana: 'とても', romaji: 'totemo', meaning: '매우' },
+    { kana: 'すこし', romaji: 'sukoshi', meaning: '조금' },
+    { kana: 'たくさん', romaji: 'takusan', meaning: '많이' },
+    { kana: 'ちょっと', romaji: 'chotto', meaning: '조금 / 잠깐' },
+    { kana: 'もっと', romaji: 'motto', meaning: '더' },
+    { kana: 'すぐ', romaji: 'sugu', meaning: '곧 / 바로' },
+    { kana: 'もう', romaji: 'mou', meaning: '이미 / 벌써' },
+    { kana: 'まだ', romaji: 'mada', meaning: '아직' },
+  ],
 ]
 
 /** All words flattened in teaching order. */

@@ -324,6 +324,48 @@ export const GRAMMAR_ROWS: Kana[][] = [
     { kana: 'たかいのに かいました', romaji: 'takai noni kaimashita', meaning: '비싼데 샀습니다', note: '～のに (~인데, 역접)' },
     { kana: 'あめなのに でかけます', romaji: 'ame nanoni dekakemasu', meaning: '비인데 외출합니다', note: '～のに (~인데, 역접)' },
   ],
+  // ～なくても いいです : ~하지 않아도 됩니다
+  [
+    { kana: 'こなくても いいです', romaji: 'konakutemo ii desu', meaning: '안 와도 됩니다', note: '～なくても いいです (~하지 않아도 됩니다)' },
+    { kana: 'いそがなくても いいです', romaji: 'isoganakutemo ii desu', meaning: '서두르지 않아도 됩니다', note: '～なくても いいです (~하지 않아도 됩니다)' },
+    { kana: 'はらわなくても いいです', romaji: 'harawanakutemo ii desu', meaning: '내지 않아도 됩니다', note: '～なくても いいです (~하지 않아도 됩니다)' },
+  ],
+  // ～ない ほうが いいです : ~하지 않는 편이 좋습니다
+  [
+    { kana: 'むりを しない ほうが いいです', romaji: 'muri o shinai hou ga ii desu', meaning: '무리하지 않는 편이 좋습니다', note: '～ない ほうが いいです (~안 하는 편이 좋다)' },
+    { kana: 'たばこは すわない ほうが いいです', romaji: 'tabako wa suwanai hou ga ii desu', meaning: '담배는 피우지 않는 편이 좋습니다', note: '～ない ほうが いいです (~안 하는 편이 좋다)' },
+    { kana: 'おそく ねない ほうが いいです', romaji: 'osoku nenai hou ga ii desu', meaning: '늦게 자지 않는 편이 좋습니다', note: '～ない ほうが いいです (~안 하는 편이 좋다)' },
+  ],
+  // ～と : ~하면 (자연 결과)
+  [
+    { kana: 'はるに なると あたたかく なります', romaji: 'haru ni naru to atatakaku narimasu', meaning: '봄이 되면 따뜻해집니다', note: '～と (~하면, 자연 결과)' },
+    { kana: 'ボタンを おすと ドアが あきます', romaji: 'botan o osu to doa ga akimasu', meaning: '버튼을 누르면 문이 열립니다', note: '～と (~하면, 자연 결과)' },
+    { kana: 'みぎに まがると えきが あります', romaji: 'migi ni magaru to eki ga arimasu', meaning: '오른쪽으로 돌면 역이 있습니다', note: '～と (~하면, 자연 결과)' },
+  ],
+  // ～あいだに : ~하는 동안에
+  [
+    { kana: 'ねている あいだに でんわが ありました', romaji: 'neteiru aida ni denwa ga arimashita', meaning: '자는 동안에 전화가 왔습니다', note: '～あいだに (~하는 동안에)' },
+    { kana: 'やすみの あいだに りょこうします', romaji: 'yasumi no aida ni ryokou shimasu', meaning: '휴일 동안에 여행합니다', note: '～あいだに (~하는 동안에)' },
+    { kana: 'まっている あいだに ほんを よみます', romaji: 'matteiru aida ni hon o yomimasu', meaning: '기다리는 동안에 책을 읽습니다', note: '～あいだに (~하는 동안에)' },
+  ],
+  // ～やすい / ～にくい : ~하기 쉽다 / 어렵다
+  [
+    { kana: 'この ペンは かきやすいです', romaji: 'kono pen wa kakiyasui desu', meaning: '이 펜은 쓰기 쉽습니다', note: '～やすい / ～にくい (~하기 쉽다/어렵다)' },
+    { kana: 'この くすりは のみにくいです', romaji: 'kono kusuri wa nominikui desu', meaning: '이 약은 먹기 어렵습니다', note: '～やすい / ～にくい (~하기 쉽다/어렵다)' },
+    { kana: 'この みちは あるきやすいです', romaji: 'kono michi wa arukiyasui desu', meaning: '이 길은 걷기 쉽습니다', note: '～やすい / ～にくい (~하기 쉽다/어렵다)' },
+  ],
+  // ～はじめます : ~하기 시작합니다
+  [
+    { kana: 'ほんを よみはじめました', romaji: 'hon o yomihajimemashita', meaning: '책을 읽기 시작했습니다', note: '～はじめます (~하기 시작합니다)' },
+    { kana: 'あめが ふりはじめました', romaji: 'ame ga furihajimemashita', meaning: '비가 오기 시작했습니다', note: '～はじめます (~하기 시작합니다)' },
+    { kana: 'にほんごを ならいはじめました', romaji: 'nihongo o naraihajimemashita', meaning: '일본어를 배우기 시작했습니다', note: '～はじめます (~하기 시작합니다)' },
+  ],
+  // ～でも : ~라도
+  [
+    { kana: 'コーヒーでも のみませんか', romaji: 'koohii demo nomimasen ka', meaning: '커피라도 마시지 않을래요?', note: '～でも (~라도)' },
+    { kana: 'いつでも いいです', romaji: 'itsudemo ii desu', meaning: '언제라도 좋아요', note: '～でも (~라도)' },
+    { kana: 'だれでも できます', romaji: 'daredemo dekimasu', meaning: '누구라도 할 수 있어요', note: '～でも (~라도)' },
+  ],
 ]
 
 /** All example sentences flattened in teaching order. */

@@ -207,6 +207,61 @@ export const LOANWORD_ROWS: Kana[][] = [
     { kana: 'チーム', romaji: 'chiimu', meaning: '팀' },
     { kana: 'スーパー', romaji: 'suupaa', meaning: '슈퍼마켓' },
   ],
+  // 음식 3
+  [
+    { kana: 'アイスクリーム', romaji: 'aisukuriimu', meaning: '아이스크림' },
+    { kana: 'サイダー', romaji: 'saidaa', meaning: '사이다' },
+    { kana: 'ポップコーン', romaji: 'poppukoon', meaning: '팝콘' },
+    { kana: 'マヨネーズ', romaji: 'mayoneezu', meaning: '마요네즈' },
+    { kana: 'ケチャップ', romaji: 'kechappu', meaning: '케첩' },
+    { kana: 'ヌードル', romaji: 'nuudoru', meaning: '누들 / 면' },
+    { kana: 'シリアル', romaji: 'shiriaru', meaning: '시리얼' },
+    { kana: 'デザート', romaji: 'dezaato', meaning: '디저트' },
+  ],
+  // IT / 통신 2
+  [
+    { kana: 'ネット', romaji: 'netto', meaning: '인터넷' },
+    { kana: 'メッセージ', romaji: 'messeeji', meaning: '메시지' },
+    { kana: 'データ', romaji: 'deeta', meaning: '데이터' },
+    { kana: 'ファイル', romaji: 'fairu', meaning: '파일' },
+    { kana: 'アカウント', romaji: 'akaunto', meaning: '계정' },
+    { kana: 'ログイン', romaji: 'roguin', meaning: '로그인' },
+    { kana: 'スクリーン', romaji: 'sukuriin', meaning: '화면' },
+    { kana: 'アイコン', romaji: 'aikon', meaning: '아이콘' },
+  ],
+  // 패션 / 뷰티
+  [
+    { kana: 'ワンピース', romaji: 'wanpiisu', meaning: '원피스' },
+    { kana: 'ジーンズ', romaji: 'jiinzu', meaning: '청바지' },
+    { kana: 'スニーカー', romaji: 'suniikaa', meaning: '운동화' },
+    { kana: 'ブーツ', romaji: 'buutsu', meaning: '부츠' },
+    { kana: 'マスク', romaji: 'masuku', meaning: '마스크' },
+    { kana: 'サンダル', romaji: 'sandaru', meaning: '샌들' },
+    { kana: 'シャンプー', romaji: 'shanpuu', meaning: '샴푸' },
+    { kana: 'メガネ', romaji: 'megane', meaning: '안경' },
+  ],
+  // 교통 / 여행
+  [
+    { kana: 'パスポート', romaji: 'pasupooto', meaning: '여권' },
+    { kana: 'スーツケース', romaji: 'suutsukeesu', meaning: '여행 가방' },
+    { kana: 'シート', romaji: 'shiito', meaning: '좌석' },
+    { kana: 'ガソリン', romaji: 'gasorin', meaning: '휘발유' },
+    { kana: 'バイク', romaji: 'baiku', meaning: '오토바이' },
+    { kana: 'ヘルメット', romaji: 'herumetto', meaning: '헬멧' },
+    { kana: 'マップ', romaji: 'mappu', meaning: '지도' },
+    { kana: 'ガイド', romaji: 'gaido', meaning: '가이드' },
+  ],
+  // 비즈니스 / 추상
+  [
+    { kana: 'ビジネス', romaji: 'bijinesu', meaning: '비즈니스' },
+    { kana: 'サービス', romaji: 'saabisu', meaning: '서비스' },
+    { kana: 'チャンス', romaji: 'chansu', meaning: '기회' },
+    { kana: 'ストレス', romaji: 'sutoresu', meaning: '스트레스' },
+    { kana: 'ルール', romaji: 'ruuru', meaning: '규칙' },
+    { kana: 'レベル', romaji: 'reberu', meaning: '레벨' },
+    { kana: 'スタート', romaji: 'sutaato', meaning: '시작' },
+    { kana: 'ゴール', romaji: 'gooru', meaning: '골 / 목표' },
+  ],
 ]
 
 /** All loanwords flattened in teaching order. */
