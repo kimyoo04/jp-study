@@ -696,6 +696,102 @@ export const GRAMMAR_ROWS: Kana[][] = [
     { kana: 'おかねが あったら かいます', romaji: 'okane ga attara kaimasu', meaning: '돈이 있으면 삽니다', note: '～たら (~하면, 조건)' },
     { kana: 'あめが やんだら でかけます', romaji: 'ame ga yandara dekakemasu', meaning: '비가 그치면 나갑니다', note: '～たら (~하면, 조건)' },
   ],
+  // ～と ～と どちらが : 둘 중 어느 쪽이
+  [
+    { kana: 'コーヒーと おちゃと どちらが すきですか', romaji: 'koohii to ocha to dochira ga suki desu ka', meaning: '커피와 차 중 어느 쪽이 좋아요?', note: '～と ～と どちらが (둘 중 어느 쪽)' },
+    { kana: 'でんしゃと バスと どちらが はやいですか', romaji: 'densha to basu to dochira ga hayai desu ka', meaning: '전철과 버스 중 어느 쪽이 빨라요?', note: '～と ～と どちらが (둘 중 어느 쪽)' },
+    { kana: 'なつと ふゆと どちらが すきですか', romaji: 'natsu to fuyu to dochira ga suki desu ka', meaning: '여름과 겨울 중 어느 쪽이 좋아요?', note: '～と ～と どちらが (둘 중 어느 쪽)' },
+  ],
+  // ～で いちばん : ~에서 가장
+  [
+    { kana: 'クラスで いちばん せが たかいです', romaji: 'kurasu de ichiban se ga takai desu', meaning: '반에서 가장 키가 큽니다', note: '～で いちばん (~에서 가장)' },
+    { kana: 'にほんで いちばん たかい やまです', romaji: 'nihon de ichiban takai yama desu', meaning: '일본에서 가장 높은 산입니다', note: '～で いちばん (~에서 가장)' },
+    { kana: 'せかいで いちばん ひろい うみです', romaji: 'sekai de ichiban hiroi umi desu', meaning: '세계에서 가장 넓은 바다입니다', note: '～で いちばん (~에서 가장)' },
+  ],
+  // ～かた : ~하는 법
+  [
+    { kana: 'つかいかたを おしえて ください', romaji: 'tsukaikata o oshiete kudasai', meaning: '사용법을 알려 주세요', note: '～かた (~하는 법)' },
+    { kana: 'よみかたが わかりません', romaji: 'yomikata ga wakarimasen', meaning: '읽는 법을 모릅니다', note: '～かた (~하는 법)' },
+    { kana: 'つくりかたを ならいます', romaji: 'tsukurikata o naraimasu', meaning: '만드는 법을 배웁니다', note: '～かた (~하는 법)' },
+  ],
+  // ～すぎて : 너무 ~해서
+  [
+    { kana: 'たべすぎて おなかが いたいです', romaji: 'tabesugite onaka ga itai desu', meaning: '너무 먹어서 배가 아픕니다', note: '～すぎて (너무 ~해서)' },
+    { kana: 'たかすぎて かえません', romaji: 'takasugite kaemasen', meaning: '너무 비싸서 못 삽니다', note: '～すぎて (너무 ~해서)' },
+    { kana: 'つかれすぎて ねむれません', romaji: 'tsukaresugite nemuremasen', meaning: '너무 피곤해서 잠을 못 잡니다', note: '～すぎて (너무 ~해서)' },
+  ],
+  // ～なくちゃ : ~해야 해 (구어)
+  [
+    { kana: 'もう いかなくちゃ', romaji: 'mou ikanakucha', meaning: '이제 가야 해', note: '～なくちゃ (~해야 해, 구어)' },
+    { kana: 'べんきょうしなくちゃ', romaji: 'benkyou shinakucha', meaning: '공부해야 해', note: '～なくちゃ (~해야 해, 구어)' },
+    { kana: 'はやく ねなくちゃ', romaji: 'hayaku nenakucha', meaning: '빨리 자야 해', note: '～なくちゃ (~해야 해, 구어)' },
+  ],
+  // ～みたいに : ~처럼
+  [
+    { kana: 'とりみたいに とびたいです', romaji: 'tori mitai ni tobitai desu', meaning: '새처럼 날고 싶습니다', note: '～みたいに (~처럼)' },
+    { kana: 'こどもみたいに あそびます', romaji: 'kodomo mitai ni asobimasu', meaning: '아이처럼 놉니다', note: '～みたいに (~처럼)' },
+    { kana: 'プロみたいに じょうずです', romaji: 'puro mitai ni jouzu desu', meaning: '프로처럼 잘합니다', note: '～みたいに (~처럼)' },
+  ],
+  // 의문사 + ても : ~해도
+  [
+    { kana: 'なにを たべても おいしいです', romaji: 'nani o tabetemo oishii desu', meaning: '뭘 먹어도 맛있습니다', note: '의문사 + ても (~해도)' },
+    { kana: 'だれが きても だいじょうぶです', romaji: 'dare ga kitemo daijoubu desu', meaning: '누가 와도 괜찮습니다', note: '의문사 + ても (~해도)' },
+    { kana: 'どこに いっても ひとが おおいです', romaji: 'doko ni ittemo hito ga ooi desu', meaning: '어디 가도 사람이 많습니다', note: '의문사 + ても (~해도)' },
+  ],
+  // ～た あとで : ~한 후에
+  [
+    { kana: 'ごはんを たべた あとで さんぽします', romaji: 'gohan o tabeta ato de sanpo shimasu', meaning: '밥을 먹은 후에 산책합니다', note: '～た あとで (~한 후에)' },
+    { kana: 'しごとが おわった あとで のみに いきます', romaji: 'shigoto ga owatta ato de nomi ni ikimasu', meaning: '일이 끝난 후에 마시러 갑니다', note: '～た あとで (~한 후에)' },
+    { kana: 'べんきょうした あとで やすみます', romaji: 'benkyou shita ato de yasumimasu', meaning: '공부한 후에 쉽니다', note: '～た あとで (~한 후에)' },
+  ],
+  // ～は ～です (추가 예문 2)
+  [
+    { kana: 'かれは いしゃです', romaji: 'kare wa isha desu', meaning: '그는 의사입니다', note: '～は～です (~은/는 ~입니다)' },
+    { kana: 'これは わたしの かさです', romaji: 'kore wa watashi no kasa desu', meaning: '이것은 제 우산입니다', note: '～は～です (~은/는 ~입니다)' },
+    { kana: 'きょうは いい てんきです', romaji: 'kyou wa ii tenki desu', meaning: '오늘은 좋은 날씨입니다', note: '～は～です (~은/는 ~입니다)' },
+  ],
+  // ～に いきます (추가 예문 2)
+  [
+    { kana: 'えいがかんに いきます', romaji: 'eigakan ni ikimasu', meaning: '영화관에 갑니다', note: '～に いきます (~에 갑니다)' },
+    { kana: 'びょういんに いきます', romaji: 'byouin ni ikimasu', meaning: '병원에 갑니다', note: '～に いきます (~에 갑니다)' },
+    { kana: 'ともだちの いえに いきます', romaji: 'tomodachi no ie ni ikimasu', meaning: '친구 집에 갑니다', note: '～に いきます (~에 갑니다)' },
+  ],
+  // ～が あります / います (추가 예문 2)
+  [
+    { kana: 'つくえの うえに とけいが あります', romaji: 'tsukue no ue ni tokei ga arimasu', meaning: '책상 위에 시계가 있습니다', note: '～が あります / います (~이 있습니다)' },
+    { kana: 'こうえんに こどもが います', romaji: 'kouen ni kodomo ga imasu', meaning: '공원에 아이가 있습니다', note: '～が あります / います (~이 있습니다)' },
+    { kana: 'れいぞうこに たまごが あります', romaji: 'reizouko ni tamago ga arimasu', meaning: '냉장고에 계란이 있습니다', note: '～が あります / います (~이 있습니다)' },
+  ],
+  // ～ください (추가 예문 2)
+  [
+    { kana: 'でんわして ください', romaji: 'denwa shite kudasai', meaning: '전화해 주세요', note: '～ください (~해 주세요)' },
+    { kana: 'まどを あけて ください', romaji: 'mado o akete kudasai', meaning: '창문을 열어 주세요', note: '～ください (~해 주세요)' },
+    { kana: 'ここで まって ください', romaji: 'koko de matte kudasai', meaning: '여기서 기다려 주세요', note: '～ください (~해 주세요)' },
+  ],
+  // ～ています (추가 예문 3)
+  [
+    { kana: 'でんわを して います', romaji: 'denwa o shite imasu', meaning: '전화를 하고 있습니다', note: '～ています (~하고 있습니다, 진행/상태)' },
+    { kana: 'ごはんを たべて います', romaji: 'gohan o tabete imasu', meaning: '밥을 먹고 있습니다', note: '～ています (~하고 있습니다, 진행/상태)' },
+    { kana: 'こうえんで あそんで います', romaji: 'kouen de asonde imasu', meaning: '공원에서 놀고 있습니다', note: '～ています (~하고 있습니다, 진행/상태)' },
+  ],
+  // ～たいです (추가 예문 3)
+  [
+    { kana: 'おんせんに いきたいです', romaji: 'onsen ni ikitai desu', meaning: '온천에 가고 싶습니다', note: '～たいです (~하고 싶습니다)' },
+    { kana: 'あたらしい くつが かいたいです', romaji: 'atarashii kutsu ga kaitai desu', meaning: '새 신발을 사고 싶습니다', note: '～たいです (~하고 싶습니다)' },
+    { kana: 'ゆっくり やすみたいです', romaji: 'yukkuri yasumitai desu', meaning: '푹 쉬고 싶습니다', note: '～たいです (~하고 싶습니다)' },
+  ],
+  // ～ました (추가 예문 2)
+  [
+    { kana: 'パーティーに いきました', romaji: 'paatii ni ikimashita', meaning: '파티에 갔습니다', note: '～ました (~했습니다, 과거)' },
+    { kana: 'プレゼントを もらいました', romaji: 'purezento o moraimashita', meaning: '선물을 받았습니다', note: '～ました (~했습니다, 과거)' },
+    { kana: 'あたらしい くるまを かいました', romaji: 'atarashii kuruma o kaimashita', meaning: '새 차를 샀습니다', note: '～ました (~했습니다, 과거)' },
+  ],
+  // ～から ～まで (추가 예문)
+  [
+    { kana: 'えきから いえまで あるきます', romaji: 'eki kara ie made arukimasu', meaning: '역에서 집까지 걷습니다', note: '～から ～まで (~부터 ~까지)' },
+    { kana: 'くじから じゅうじまで べんきょうします', romaji: 'kuji kara juuji made benkyou shimasu', meaning: '9시부터 10시까지 공부합니다', note: '～から ～まで (~부터 ~까지)' },
+    { kana: 'はるから なつまで', romaji: 'haru kara natsu made', meaning: '봄부터 여름까지', note: '～から ～まで (~부터 ~까지)' },
+  ],
 ]
 
 /** All example sentences flattened in teaching order. */
