@@ -224,6 +224,94 @@ export const KANJI_ROWS: Kana[][] = [
     { kana: '草', romaji: 'くさ・そう', meaning: '풀' },
     { kana: '風', romaji: 'かぜ・ふう', meaning: '바람' },
   ],
+  // 동사 5
+  [
+    { kana: '開', romaji: 'あ-ける・かい', meaning: '열다' },
+    { kana: '閉', romaji: 'し-める・へい', meaning: '닫다' },
+    { kana: '切', romaji: 'き-る・せつ', meaning: '자르다' },
+    { kana: '押', romaji: 'お-す・おう', meaning: '밀다 / 누르다' },
+    { kana: '引', romaji: 'ひ-く・いん', meaning: '당기다' },
+    { kana: '動', romaji: 'うご-く・どう', meaning: '움직이다' },
+    { kana: '止', romaji: 'と-まる・し', meaning: '멈추다' },
+    { kana: '通', romaji: 'とお-る・つう', meaning: '통하다 / 다니다' },
+  ],
+  // 동사 6 (이동)
+  [
+    { kana: '走', romaji: 'はし-る・そう', meaning: '달리다' },
+    { kana: '歩', romaji: 'ある-く・ほ', meaning: '걷다' },
+    { kana: '泳', romaji: 'およ-ぐ・えい', meaning: '헤엄치다' },
+    { kana: '飛', romaji: 'と-ぶ・ひ', meaning: '날다' },
+    { kana: '乗', romaji: 'の-る・じょう', meaning: '타다' },
+    { kana: '降', romaji: 'お-りる・こう', meaning: '내리다' },
+    { kana: '着', romaji: 'き-る・ちゃく', meaning: '입다 / 도착하다' },
+    { kana: '渡', romaji: 'わた-る・と', meaning: '건너다' },
+  ],
+  // 신체 / 건강 2
+  [
+    { kana: '体', romaji: 'からだ・たい', meaning: '몸' },
+    { kana: '頭', romaji: 'あたま・とう', meaning: '머리' },
+    { kana: '顔', romaji: 'かお・がん', meaning: '얼굴' },
+    { kana: '首', romaji: 'くび・しゅ', meaning: '목' },
+    { kana: '歯', romaji: 'は・し', meaning: '이(齒)' },
+    { kana: '血', romaji: 'ち・けつ', meaning: '피' },
+    { kana: '病', romaji: 'びょう・やまい', meaning: '병' },
+    { kana: '医', romaji: 'い', meaning: '의사 / 의술' },
+  ],
+  // 음식 2
+  [
+    { kana: '茶', romaji: 'ちゃ・さ', meaning: '차(茶)' },
+    { kana: '米', romaji: 'こめ・べい', meaning: '쌀' },
+    { kana: '肉', romaji: 'にく', meaning: '고기' },
+    { kana: '魚', romaji: 'さかな・ぎょ', meaning: '생선' },
+    { kana: '野', romaji: 'の・や', meaning: '들 / 야채' },
+    { kana: '菜', romaji: 'な・さい', meaning: '나물 / 채소' },
+    { kana: '卵', romaji: 'たまご・らん', meaning: '알 / 계란' },
+    { kana: '味', romaji: 'あじ・み', meaning: '맛' },
+  ],
+  // 색 / 형용 3
+  [
+    { kana: '白', romaji: 'しろ・はく', meaning: '흰색' },
+    { kana: '黒', romaji: 'くろ・こく', meaning: '검정' },
+    { kana: '赤', romaji: 'あか・せき', meaning: '빨강' },
+    { kana: '青', romaji: 'あお・せい', meaning: '파랑' },
+    { kana: '色', romaji: 'いろ・しょく', meaning: '색' },
+    { kana: '太', romaji: 'ふと-い・たい', meaning: '굵다' },
+    { kana: '細', romaji: 'ほそ-い・さい', meaning: '가늘다' },
+    { kana: '丸', romaji: 'まる・がん', meaning: '둥글다 / 원' },
+  ],
+  // 추상 명사
+  [
+    { kana: '物', romaji: 'もの・ぶつ', meaning: '물건' },
+    { kana: '事', romaji: 'こと・じ', meaning: '일 / 것' },
+    { kana: '所', romaji: 'ところ・しょ', meaning: '곳 / 장소' },
+    { kana: '者', romaji: 'もの・しゃ', meaning: '사람 / 자' },
+    { kana: '方', romaji: 'ほう・かた', meaning: '쪽 / 분' },
+    { kana: '形', romaji: 'かたち・けい', meaning: '모양' },
+    { kana: '数', romaji: 'かず・すう', meaning: '수' },
+    { kana: '計', romaji: 'はか-る・けい', meaning: '세다 / 계획' },
+  ],
+  // 사회 / 일
+  [
+    { kana: '仕', romaji: 'し・つか', meaning: '섬기다 / 일' },
+    { kana: '働', romaji: 'はたら-く・どう', meaning: '일하다' },
+    { kana: '業', romaji: 'ぎょう・わざ', meaning: '업 / 일' },
+    { kana: '員', romaji: 'いん', meaning: '인원 / 직원' },
+    { kana: '社', romaji: 'しゃ・やしろ', meaning: '회사 / 신사' },
+    { kana: '銀', romaji: 'ぎん', meaning: '은(銀)' },
+    { kana: '場', romaji: 'ば・じょう', meaning: '장소' },
+    { kana: '院', romaji: 'いん', meaning: '원(기관)' },
+  ],
+  // 학교 / 공부 2
+  [
+    { kana: '字', romaji: 'じ', meaning: '글자' },
+    { kana: '紙', romaji: 'かみ・し', meaning: '종이' },
+    { kana: '絵', romaji: 'え・かい', meaning: '그림' },
+    { kana: '歌', romaji: 'うた・か', meaning: '노래' },
+    { kana: '答', romaji: 'こた-える・とう', meaning: '답' },
+    { kana: '問', romaji: 'と-う・もん', meaning: '묻다 / 문제' },
+    { kana: '題', romaji: 'だい', meaning: '제목 / 문제' },
+    { kana: '試', romaji: 'ため-す・し', meaning: '시험 / 시도' },
+  ],
 ]
 
 /** All N5 kanji flattened in teaching order. */
