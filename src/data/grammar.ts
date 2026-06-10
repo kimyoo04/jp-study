@@ -124,6 +124,52 @@ export const GRAMMAR_ROWS: Kana[][] = [
     { kana: 'テレビを みません', romaji: 'terebi o mimasen', meaning: '텔레비전을 안 봅니다', note: '동사 부정 ～ません' },
     { kana: 'にくを たべません', romaji: 'niku o tabemasen', meaning: '고기를 먹지 않습니다', note: '동사 부정 ～ません' },
   ],
+  // て형 : ～ています (진행 / 상태)
+  [
+    { kana: 'いま ごはんを たべています', romaji: 'ima gohan o tabeteimasu', meaning: '지금 밥을 먹고 있습니다', note: '～ています (~하고 있습니다, 진행/상태)' },
+    { kana: 'テレビを みています', romaji: 'terebi o miteimasu', meaning: '텔레비전을 보고 있습니다', note: '～ています (~하고 있습니다, 진행/상태)' },
+    { kana: 'ともだちを まっています', romaji: 'tomodachi o matteimasu', meaning: '친구를 기다리고 있습니다', note: '～ています (~하고 있습니다, 진행/상태)' },
+    { kana: 'ほんを よんでいます', romaji: 'hon o yondeimasu', meaning: '책을 읽고 있습니다', note: '～ています (~하고 있습니다, 진행/상태)' },
+  ],
+  // て형 : ～ても いいです (허가)
+  [
+    { kana: 'ここに すわっても いいです', romaji: 'koko ni suwattemo ii desu', meaning: '여기 앉아도 됩니다', note: '～ても いいです (~해도 됩니다, 허가)' },
+    { kana: 'しゃしんを とっても いいです', romaji: 'shashin o tottemo ii desu', meaning: '사진을 찍어도 됩니다', note: '～ても いいです (~해도 됩니다, 허가)' },
+    { kana: 'みずを のんでも いいです', romaji: 'mizu o nondemo ii desu', meaning: '물을 마셔도 됩니다', note: '～ても いいです (~해도 됩니다, 허가)' },
+    { kana: 'かえっても いいです', romaji: 'kaettemo ii desu', meaning: '돌아가도 됩니다', note: '～ても いいです (~해도 됩니다, 허가)' },
+  ],
+  // て형 : ～ては いけません (금지)
+  [
+    { kana: 'ここで たばこを すっては いけません', romaji: 'koko de tabako o suttewa ikemasen', meaning: '여기서 담배를 피우면 안 됩니다', note: '～ては いけません (~하면 안 됩니다, 금지)' },
+    { kana: 'ここに はいっては いけません', romaji: 'koko ni haittewa ikemasen', meaning: '여기 들어가면 안 됩니다', note: '～ては いけません (~하면 안 됩니다, 금지)' },
+    { kana: 'しゃしんを とっては いけません', romaji: 'shashin o tottewa ikemasen', meaning: '사진을 찍으면 안 됩니다', note: '～ては いけません (~하면 안 됩니다, 금지)' },
+    { kana: 'ここで はしっては いけません', romaji: 'koko de hashittewa ikemasen', meaning: '여기서 뛰면 안 됩니다', note: '～ては いけません (~하면 안 됩니다, 금지)' },
+  ],
+  // て형 : ～てから (~하고 나서)
+  [
+    { kana: 'ごはんを たべてから べんきょうします', romaji: 'gohan o tabetekara benkyou shimasu', meaning: '밥을 먹고 나서 공부합니다', note: '～てから (~하고 나서)' },
+    { kana: 'てを あらってから たべます', romaji: 'te o arattekara tabemasu', meaning: '손을 씻고 나서 먹습니다', note: '～てから (~하고 나서)' },
+    { kana: 'しごとが おわってから かえります', romaji: 'shigoto ga owattekara kaerimasu', meaning: '일이 끝나고 나서 돌아갑니다', note: '～てから (~하고 나서)' },
+  ],
+  // 조사 : ～で (수단 / 장소)
+  [
+    { kana: 'バスで がっこうに いきます', romaji: 'basu de gakkou ni ikimasu', meaning: '버스로 학교에 갑니다', note: '조사 ～で (수단·장소)' },
+    { kana: 'はしで たべます', romaji: 'hashi de tabemasu', meaning: '젓가락으로 먹습니다', note: '조사 ～で (수단·장소)' },
+    { kana: 'としょかんで べんきょうします', romaji: 'toshokan de benkyou shimasu', meaning: '도서관에서 공부합니다', note: '조사 ～で (수단·장소)' },
+    { kana: 'にほんごで はなします', romaji: 'nihongo de hanashimasu', meaning: '일본어로 말합니다', note: '조사 ～で (수단·장소)' },
+  ],
+  // 조사 : ～と (동반 / 열거)
+  [
+    { kana: 'ともだちと いきます', romaji: 'tomodachi to ikimasu', meaning: '친구와 갑니다', note: '조사 ～と (동반·열거)' },
+    { kana: 'パンと たまごを たべます', romaji: 'pan to tamago o tabemasu', meaning: '빵과 계란을 먹습니다', note: '조사 ～と (동반·열거)' },
+    { kana: 'かぞくと りょこうします', romaji: 'kazoku to ryokou shimasu', meaning: '가족과 여행합니다', note: '조사 ～と (동반·열거)' },
+  ],
+  // 조사 : ～も (~도)
+  [
+    { kana: 'わたしも がくせいです', romaji: 'watashi mo gakusei desu', meaning: '저도 학생입니다', note: '조사 ～も (~도)' },
+    { kana: 'これも ください', romaji: 'kore mo kudasai', meaning: '이것도 주세요', note: '조사 ～も (~도)' },
+    { kana: 'コーヒーも のみます', romaji: 'koohii mo nomimasu', meaning: '커피도 마십니다', note: '조사 ～も (~도)' },
+  ],
 ]
 
 /** All example sentences flattened in teaching order. */
