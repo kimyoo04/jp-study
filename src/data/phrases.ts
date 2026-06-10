@@ -676,6 +676,134 @@ export const PHRASE_ROWS: Kana[][] = [
     { kana: 'りょうりを つくります', romaji: 'ryouri o tsukurimasu', meaning: '요리를 만들어요', note: '일상 행동' },
     { kana: 'かいものを します', romaji: 'kaimono o shimasu', meaning: '장을 봐요', note: '일상 행동' },
   ],
+  // 자기소개 5
+  [
+    { kana: 'すきな たべものは すしです', romaji: 'sukina tabemono wa sushi desu', meaning: '좋아하는 음식은 초밥이에요', note: '자기소개 5' },
+    { kana: 'にがてな たべものは ありません', romaji: 'nigatena tabemono wa arimasen', meaning: '못 먹는 음식은 없어요', note: '자기소개 5' },
+    { kana: 'いぬを かって います', romaji: 'inu o katte imasu', meaning: '개를 키워요', note: '자기소개 5' },
+    { kana: 'うんどうが しゅみです', romaji: 'undou ga shumi desu', meaning: '운동이 취미예요', note: '자기소개 5' },
+    { kana: 'かんこくごも はなせます', romaji: 'kankokugo mo hanasemasu', meaning: '한국어도 할 수 있어요', note: '자기소개 5' },
+  ],
+  // 음식 선호
+  [
+    { kana: 'にくは たべません', romaji: 'niku wa tabemasen', meaning: '고기는 안 먹어요', note: '음식 선호' },
+    { kana: 'やさいが すきです', romaji: 'yasai ga suki desu', meaning: '채소를 좋아해요', note: '음식 선호' },
+    { kana: 'たまごアレルギーです', romaji: 'tamago arerugii desu', meaning: '계란 알레르기예요', note: '음식 선호' },
+    { kana: 'からいものは にがてです', romaji: 'karai mono wa nigate desu', meaning: '매운 건 잘 못 먹어요', note: '음식 선호' },
+    { kana: 'なまものは たべられません', romaji: 'namamono wa taberaremasen', meaning: '날것은 못 먹어요', note: '음식 선호' },
+  ],
+  // 교통 예약
+  [
+    { kana: 'していせきを おねがいします', romaji: 'shiteiseki o onegaishimasu', meaning: '지정석으로 부탁해요', note: '교통 예약' },
+    { kana: 'かたみちですか', romaji: 'katamichi desu ka', meaning: '편도예요?', note: '교통 예약' },
+    { kana: 'おうふくで おねがいします', romaji: 'oufuku de onegaishimasu', meaning: '왕복으로 부탁해요', note: '교통 예약' },
+    { kana: 'まどがわを おねがいします', romaji: 'madogawa o onegaishimasu', meaning: '창가로 부탁해요', note: '교통 예약' },
+    { kana: 'なんじの でんしゃが ありますか', romaji: 'nanji no densha ga arimasu ka', meaning: '몇 시 전철이 있어요?', note: '교통 예약' },
+  ],
+  // 호텔 예약
+  [
+    { kana: 'へやを よやくしたいです', romaji: 'heya o yoyaku shitai desu', meaning: '방을 예약하고 싶어요', note: '호텔 예약' },
+    { kana: 'きんえんの へやが いいです', romaji: 'kinen no heya ga ii desu', meaning: '금연 방이 좋아요', note: '호텔 예약' },
+    { kana: 'ふたりべやは ありますか', romaji: 'futaribeya wa arimasu ka', meaning: '트윈룸 있나요?', note: '호텔 예약' },
+    { kana: 'いっぱく いくらですか', romaji: 'ippaku ikura desu ka', meaning: '1박 얼마예요?', note: '호텔 예약' },
+    { kana: 'ちょうしょくは つきますか', romaji: 'choushoku wa tsukimasu ka', meaning: '조식 포함인가요?', note: '호텔 예약' },
+  ],
+  // 식당 계산
+  [
+    { kana: 'おあいそ おねがいします', romaji: 'oaiso onegaishimasu', meaning: '계산 부탁해요', note: '식당 계산' },
+    { kana: 'ここで はらえますか', romaji: 'koko de haraemasu ka', meaning: '여기서 계산할 수 있나요?', note: '식당 계산' },
+    { kana: 'クレジットカードは つかえますか', romaji: 'kurejittokaado wa tsukaemasu ka', meaning: '신용카드 쓸 수 있나요?', note: '식당 계산' },
+    { kana: 'りょうしゅうしょは いりません', romaji: 'ryoushuusho wa irimasen', meaning: '영수증은 필요 없어요', note: '식당 계산' },
+    { kana: 'とても まんぞくです', romaji: 'totemo manzoku desu', meaning: '아주 만족해요', note: '식당 계산' },
+  ],
+  // 환불 / 교환
+  [
+    { kana: 'へんぴん できますか', romaji: 'henpin dekimasu ka', meaning: '환불 되나요?', note: '환불 / 교환' },
+    { kana: 'こうかんしたいです', romaji: 'koukan shitai desu', meaning: '교환하고 싶어요', note: '환불 / 교환' },
+    { kana: 'サイズが あいませんでした', romaji: 'saizu ga aimasen deshita', meaning: '사이즈가 안 맞았어요', note: '환불 / 교환' },
+    { kana: 'レシートは ここに あります', romaji: 'reshiito wa koko ni arimasu', meaning: '영수증은 여기 있어요', note: '환불 / 교환' },
+    { kana: 'ふりょうひんでした', romaji: 'furyouhin deshita', meaning: '불량품이었어요', note: '환불 / 교환' },
+  ],
+  // 병원 진료
+  [
+    { kana: 'どこが わるいですか', romaji: 'doko ga warui desu ka', meaning: '어디가 안 좋으세요?', note: '병원 진료' },
+    { kana: 'おなかが いたいです', romaji: 'onaka ga itai desu', meaning: '배가 아파요', note: '병원 진료' },
+    { kana: 'めまいが します', romaji: 'memai ga shimasu', meaning: '어지러워요', note: '병원 진료' },
+    { kana: 'よく ねむれません', romaji: 'yoku nemuremasen', meaning: '잠을 잘 못 자요', note: '병원 진료' },
+    { kana: 'アレルギーは ありません', romaji: 'arerugii wa arimasen', meaning: '알레르기는 없어요', note: '병원 진료' },
+  ],
+  // 운동 / 취미
+  [
+    { kana: 'まいあさ ジョギングします', romaji: 'maiasa jogingu shimasu', meaning: '매일 아침 조깅해요', note: '운동 / 취미' },
+    { kana: 'やまのぼりが すきです', romaji: 'yamanobori ga suki desu', meaning: '등산을 좋아해요', note: '운동 / 취미' },
+    { kana: 'しゅうまつ つりに いきます', romaji: 'shuumatsu tsuri ni ikimasu', meaning: '주말에 낚시 가요', note: '운동 / 취미' },
+    { kana: 'ヨガを はじめました', romaji: 'yoga o hajimemashita', meaning: '요가를 시작했어요', note: '운동 / 취미' },
+    { kana: 'うんどうぶそくです', romaji: 'undoubusoku desu', meaning: '운동 부족이에요', note: '운동 / 취미' },
+  ],
+  // 업무 / 회의
+  [
+    { kana: 'しめきりは いつですか', romaji: 'shimekiri wa itsu desu ka', meaning: '마감은 언제예요?', note: '업무 / 회의' },
+    { kana: 'しりょうを じゅんびします', romaji: 'shiryou o junbi shimasu', meaning: '자료를 준비할게요', note: '업무 / 회의' },
+    { kana: 'かいぎを はじめましょう', romaji: 'kaigi o hajimemashou', meaning: '회의를 시작합시다', note: '업무 / 회의' },
+    { kana: 'いけんは ありますか', romaji: 'iken wa arimasu ka', meaning: '의견 있으세요?', note: '업무 / 회의' },
+    { kana: 'あとで そうだんしましょう', romaji: 'ato de soudan shimashou', meaning: '나중에 상의합시다', note: '업무 / 회의' },
+  ],
+  // 사진 / SNS
+  [
+    { kana: 'いっしょに とりましょう', romaji: 'issho ni torimashou', meaning: '같이 찍어요', note: '사진 / SNS' },
+    { kana: 'ここで とりましょう', romaji: 'koko de torimashou', meaning: '여기서 찍어요', note: '사진 / SNS' },
+    { kana: 'もう いちまい おねがいします', romaji: 'mou ichimai onegaishimasu', meaning: '한 장 더 부탁해요', note: '사진 / SNS' },
+    { kana: 'タグづけしても いいですか', romaji: 'taguzuke shitemo ii desu ka', meaning: '태그해도 될까요?', note: '사진 / SNS' },
+    { kana: 'アップしても いいですか', romaji: 'appu shitemo ii desu ka', meaning: '올려도 될까요?', note: '사진 / SNS' },
+  ],
+  // 날씨 / 외출
+  [
+    { kana: 'そとは さむいですか', romaji: 'soto wa samui desu ka', meaning: '밖은 추워요?', note: '날씨 / 외출' },
+    { kana: 'かさを かりても いいですか', romaji: 'kasa o karitemo ii desu ka', meaning: '우산 빌려도 될까요?', note: '날씨 / 외출' },
+    { kana: 'かさが いりますか', romaji: 'kasa ga irimasu ka', meaning: '우산 필요할까요?', note: '날씨 / 외출' },
+    { kana: 'ひざしが つよいです', romaji: 'hizashi ga tsuyoi desu', meaning: '햇볕이 강해요', note: '날씨 / 외출' },
+    { kana: 'すずしく なりましたね', romaji: 'suzushiku narimashita ne', meaning: '시원해졌네요', note: '날씨 / 외출' },
+  ],
+  // 칭찬 / 외모
+  [
+    { kana: 'にあいますね', romaji: 'niaimasu ne', meaning: '잘 어울리네요', note: '칭찬 / 외모' },
+    { kana: 'わかく みえますね', romaji: 'wakaku miemasu ne', meaning: '젊어 보이네요', note: '칭찬 / 외모' },
+    { kana: 'せが たかいですね', romaji: 'se ga takai desu ne', meaning: '키가 크네요', note: '칭찬 / 외모' },
+    { kana: 'えがおが すてきです', romaji: 'egao ga suteki desu', meaning: '미소가 멋져요', note: '칭찬 / 외모' },
+    { kana: 'おしゃれですね', romaji: 'oshare desu ne', meaning: '멋쟁이네요', note: '칭찬 / 외모' },
+  ],
+  // 위로 / 공감
+  [
+    { kana: 'たいへんでしたね', romaji: 'taihen deshita ne', meaning: '힘들었겠네요', note: '위로 / 공감' },
+    { kana: 'それは こまりますね', romaji: 'sore wa komarimasu ne', meaning: '그건 곤란하겠네요', note: '위로 / 공감' },
+    { kana: 'わかりますよ', romaji: 'wakarimasu yo', meaning: '이해해요', note: '위로 / 공감' },
+    { kana: 'げんき だして', romaji: 'genki dashite', meaning: '기운 내요', note: '위로 / 공감' },
+    { kana: 'むりしないでね', romaji: 'muri shinaide ne', meaning: '무리하지 말아요', note: '위로 / 공감' },
+  ],
+  // 거절 / 사양
+  [
+    { kana: 'けっこうです', romaji: 'kekkou desu', meaning: '괜찮아요 (사양)', note: '거절 / 사양' },
+    { kana: 'いまは いいです', romaji: 'ima wa ii desu', meaning: '지금은 괜찮아요', note: '거절 / 사양' },
+    { kana: 'また こんどに します', romaji: 'mata kondo ni shimasu', meaning: '다음에 할게요', note: '거절 / 사양' },
+    { kana: 'ちょっと よていが あります', romaji: 'chotto yotei ga arimasu', meaning: '좀 일정이 있어요', note: '거절 / 사양' },
+    { kana: 'ごめん、いけません', romaji: 'gomen, ikemasen', meaning: '미안, 못 가요', note: '거절 / 사양' },
+  ],
+  // 시간 약속
+  [
+    { kana: 'なんじに しましょうか', romaji: 'nanji ni shimashou ka', meaning: '몇 시로 할까요?', note: '시간 약속' },
+    { kana: 'ごじでも いいですか', romaji: 'goji demo ii desu ka', meaning: '5시도 괜찮아요?', note: '시간 약속' },
+    { kana: 'えきの まえで', romaji: 'eki no mae de', meaning: '역 앞에서', note: '시간 약속' },
+    { kana: 'じかんが あったら れんらくします', romaji: 'jikan ga attara renraku shimasu', meaning: '시간 되면 연락할게요', note: '시간 약속' },
+    { kana: 'おくれないで きて ください', romaji: 'okurenaide kite kudasai', meaning: '늦지 말고 와 주세요', note: '시간 약속' },
+  ],
+  // 배웅
+  [
+    { kana: 'たのしい じかんでした', romaji: 'tanoshii jikan deshita', meaning: '즐거운 시간이었어요', note: '배웅' },
+    { kana: 'おみおくりします', romaji: 'omiokuri shimasu', meaning: '배웅할게요', note: '배웅' },
+    { kana: 'えきまで おくります', romaji: 'eki made okurimasu', meaning: '역까지 바래다줄게요', note: '배웅' },
+    { kana: 'つきましたら れんらくして', romaji: 'tsukimashitara renraku shite', meaning: '도착하면 연락해요', note: '배웅' },
+    { kana: 'また よりましょう', romaji: 'mata yorimashou', meaning: '또 들러요', note: '배웅' },
+  ],
 ]
 
 /** All conversational phrases flattened in teaching order. */
