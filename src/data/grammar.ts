@@ -82,6 +82,48 @@ export const GRAMMAR_ROWS: Kana[][] = [
     { kana: 'あした くると おもいます', romaji: 'ashita kuru to omoimasu', meaning: '내일 올 거라고 생각합니다', note: '～と おもいます (~라고 생각합니다)' },
     { kana: 'たかいと おもいます', romaji: 'takai to omoimasu', meaning: '비싸다고 생각합니다', note: '～と おもいます (~라고 생각합니다)' },
   ],
+  // い형용사 긍정 : ～いです
+  [
+    { kana: 'この いえは おおきいです', romaji: 'kono ie wa ookii desu', meaning: '이 집은 큽니다', note: 'い형용사 ～いです (긍정)' },
+    { kana: 'この ほんは おもしろいです', romaji: 'kono hon wa omoshiroi desu', meaning: '이 책은 재미있습니다', note: 'い형용사 ～いです (긍정)' },
+    { kana: 'きょうは あついです', romaji: 'kyou wa atsui desu', meaning: '오늘은 덥습니다', note: 'い형용사 ～いです (긍정)' },
+    { kana: 'ラーメンは おいしいです', romaji: 'raamen wa oishii desu', meaning: '라멘은 맛있습니다', note: 'い형용사 ～いです (긍정)' },
+  ],
+  // い형용사 부정 : ～くないです
+  [
+    { kana: 'この いえは おおきくないです', romaji: 'kono ie wa ookikunai desu', meaning: '이 집은 크지 않습니다', note: 'い형용사 ～くないです (부정)' },
+    { kana: 'きょうは さむくないです', romaji: 'kyou wa samukunai desu', meaning: '오늘은 춥지 않습니다', note: 'い형용사 ～くないです (부정)' },
+    { kana: 'この ほんは たかくないです', romaji: 'kono hon wa takakunai desu', meaning: '이 책은 비싸지 않습니다', note: 'い형용사 ～くないです (부정)' },
+    { kana: 'テストは むずかしくないです', romaji: 'tesuto wa muzukashikunai desu', meaning: '시험은 어렵지 않습니다', note: 'い형용사 ～くないです (부정)' },
+  ],
+  // い형용사 과거 : ～かったです
+  [
+    { kana: 'えいがは たのしかったです', romaji: 'eiga wa tanoshikatta desu', meaning: '영화는 즐거웠습니다', note: 'い형용사 ～かったです (과거)' },
+    { kana: 'きのうは さむかったです', romaji: 'kinou wa samukatta desu', meaning: '어제는 추웠습니다', note: 'い형용사 ～かったです (과거)' },
+    { kana: 'りょこうは よかったです', romaji: 'ryokou wa yokatta desu', meaning: '여행은 좋았습니다', note: 'い형용사 ～かったです (과거)' },
+    { kana: 'テストは むずかしかったです', romaji: 'tesuto wa muzukashikatta desu', meaning: '시험은 어려웠습니다', note: 'い형용사 ～かったです (과거)' },
+  ],
+  // な형용사 : ～です
+  [
+    { kana: 'この まちは しずかです', romaji: 'kono machi wa shizuka desu', meaning: '이 동네는 조용합니다', note: 'な형용사 ～です' },
+    { kana: 'かのじょは きれいです', romaji: 'kanojo wa kirei desu', meaning: '그녀는 예쁩니다', note: 'な형용사 ～です' },
+    { kana: 'にほんごは かんたんです', romaji: 'nihongo wa kantan desu', meaning: '일본어는 간단합니다', note: 'な형용사 ～です' },
+    { kana: 'この みせは ゆうめいです', romaji: 'kono mise wa yuumei desu', meaning: '이 가게는 유명합니다', note: 'な형용사 ～です' },
+  ],
+  // 명사 부정 : ～では ありません
+  [
+    { kana: 'わたしは がくせいでは ありません', romaji: 'watashi wa gakusei dewa arimasen', meaning: '저는 학생이 아닙니다', note: '명사 부정 ～では ありません' },
+    { kana: 'これは ほんでは ありません', romaji: 'kore wa hon dewa arimasen', meaning: '이것은 책이 아닙니다', note: '명사 부정 ～では ありません' },
+    { kana: 'かれは せんせいでは ありません', romaji: 'kare wa sensei dewa arimasen', meaning: '그는 선생님이 아닙니다', note: '명사 부정 ～では ありません' },
+    { kana: 'あれは くるまでは ありません', romaji: 'are wa kuruma dewa arimasen', meaning: '저것은 자동차가 아닙니다', note: '명사 부정 ～では ありません' },
+  ],
+  // 동사 부정 : ～ません
+  [
+    { kana: 'きょうは いきません', romaji: 'kyou wa ikimasen', meaning: '오늘은 안 갑니다', note: '동사 부정 ～ません' },
+    { kana: 'おさけを のみません', romaji: 'osake o nomimasen', meaning: '술을 마시지 않습니다', note: '동사 부정 ～ません' },
+    { kana: 'テレビを みません', romaji: 'terebi o mimasen', meaning: '텔레비전을 안 봅니다', note: '동사 부정 ～ません' },
+    { kana: 'にくを たべません', romaji: 'niku o tabemasen', meaning: '고기를 먹지 않습니다', note: '동사 부정 ～ません' },
+  ],
 ]
 
 /** All example sentences flattened in teaching order. */
