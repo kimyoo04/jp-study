@@ -622,6 +622,83 @@ export const WORD_ROWS: Kana[][] = [
     { kana: 'たいしかん', romaji: 'taishikan', meaning: '대사관' },
     { kana: 'こうばん', romaji: 'kouban', meaning: '파출소' },
   ],
+  // 부사 2
+  [
+    { kana: 'あまり', romaji: 'amari', meaning: '별로' },
+    { kana: 'ぜんぜん', romaji: 'zenzen', meaning: '전혀' },
+    { kana: 'きっと', romaji: 'kitto', meaning: '분명히' },
+    { kana: 'たぶん', romaji: 'tabun', meaning: '아마' },
+    { kana: 'やっぱり', romaji: 'yappari', meaning: '역시' },
+    { kana: 'だいたい', romaji: 'daitai', meaning: '대체로' },
+    { kana: 'ぜひ', romaji: 'zehi', meaning: '꼭' },
+    { kana: 'なかなか', romaji: 'nakanaka', meaning: '좀처럼 / 꽤' },
+  ],
+  // 접속사
+  [
+    { kana: 'それから', romaji: 'sorekara', meaning: '그리고' },
+    { kana: 'でも', romaji: 'demo', meaning: '하지만' },
+    { kana: 'だから', romaji: 'dakara', meaning: '그래서' },
+    { kana: 'たとえば', romaji: 'tatoeba', meaning: '예를 들면' },
+    { kana: 'それで', romaji: 'sorede', meaning: '그래서' },
+    { kana: 'けれど', romaji: 'keredo', meaning: '그렇지만' },
+    { kana: 'また', romaji: 'mata', meaning: '또 / 다시' },
+    { kana: 'まず', romaji: 'mazu', meaning: '우선' },
+  ],
+  // 동사 9
+  [
+    { kana: 'いれる', romaji: 'ireru', meaning: '넣다' },
+    { kana: 'だす', romaji: 'dasu', meaning: '꺼내다 / 내다' },
+    { kana: 'わたす', romaji: 'watasu', meaning: '건네다' },
+    { kana: 'かよう', romaji: 'kayou', meaning: '다니다' },
+    { kana: 'すすむ', romaji: 'susumu', meaning: '나아가다' },
+    { kana: 'もどる', romaji: 'modoru', meaning: '돌아오다' },
+    { kana: 'とどく', romaji: 'todoku', meaning: '도착하다 / 닿다' },
+    { kana: 'かわく', romaji: 'kawaku', meaning: '마르다' },
+  ],
+  // 색 형용사
+  [
+    { kana: 'あかい', romaji: 'akai', meaning: '빨갛다' },
+    { kana: 'あおい', romaji: 'aoi', meaning: '파랗다' },
+    { kana: 'しろい', romaji: 'shiroi', meaning: '하얗다' },
+    { kana: 'くろい', romaji: 'kuroi', meaning: '검다' },
+    { kana: 'きいろい', romaji: 'kiiroi', meaning: '노랗다' },
+    { kana: 'まるい', romaji: 'marui', meaning: '둥글다' },
+    { kana: 'ほそい', romaji: 'hosoi', meaning: '가늘다' },
+    { kana: 'ふとい', romaji: 'futoi', meaning: '굵다' },
+  ],
+  // 음식 5 (일본 요리)
+  [
+    { kana: 'みそしる', romaji: 'misoshiru', meaning: '된장국' },
+    { kana: 'すし', romaji: 'sushi', meaning: '초밥' },
+    { kana: 'てんぷら', romaji: 'tenpura', meaning: '튀김' },
+    { kana: 'うどん', romaji: 'udon', meaning: '우동' },
+    { kana: 'そば', romaji: 'soba', meaning: '소바' },
+    { kana: 'おにぎり', romaji: 'onigiri', meaning: '주먹밥' },
+    { kana: 'だんご', romaji: 'dango', meaning: '경단' },
+    { kana: 'もち', romaji: 'mochi', meaning: '떡' },
+  ],
+  // 생활 동작 2
+  [
+    { kana: 'でかける', romaji: 'dekakeru', meaning: '외출하다' },
+    { kana: 'ひっこす', romaji: 'hikkosu', meaning: '이사하다' },
+    { kana: 'あつまる', romaji: 'atsumaru', meaning: '모이다' },
+    { kana: 'ならぶ', romaji: 'narabu', meaning: '줄 서다' },
+    { kana: 'まにあう', romaji: 'maniau', meaning: '시간에 맞다' },
+    { kana: 'おくれる', romaji: 'okureru', meaning: '늦다' },
+    { kana: 'いそぐ', romaji: 'isogu', meaning: '서두르다' },
+    { kana: 'のこる', romaji: 'nokoru', meaning: '남다' },
+  ],
+  // 수량 / 정도
+  [
+    { kana: 'はんぶん', romaji: 'hanbun', meaning: '반' },
+    { kana: 'ぜんぶ', romaji: 'zenbu', meaning: '전부' },
+    { kana: 'いっぱい', romaji: 'ippai', meaning: '가득' },
+    { kana: 'ほとんど', romaji: 'hotondo', meaning: '거의' },
+    { kana: 'みんな', romaji: 'minna', meaning: '모두' },
+    { kana: 'ひとつ', romaji: 'hitotsu', meaning: '하나' },
+    { kana: 'ふたつ', romaji: 'futatsu', meaning: '둘' },
+    { kana: 'いくつか', romaji: 'ikutsuka', meaning: '몇몇' },
+  ],
 ]
 
 /** All words flattened in teaching order. */
