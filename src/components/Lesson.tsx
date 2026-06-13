@@ -227,7 +227,9 @@ function Quiz({
           : deckKind === 'sentence'
             ? '이 문장의 뜻은?'
             : '이 단어의 뜻은?'
-        : '이 글자의 읽기는?'
+        : deckKind === 'kanji'
+          ? '이 한자의 읽기는?'
+          : '이 글자의 읽기는?'
 
   return (
     <section className="card quiz">

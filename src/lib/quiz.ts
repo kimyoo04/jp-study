@@ -8,8 +8,9 @@ export type QType = 'read' | 'listen' | 'meaning'
 
 /**
  * Decide a quiz step's type. Listen mode (user toggle) forces audio prompts on
- * every deck when a voice exists. Otherwise word decks quiz on meaning and kana
- * decks round-robin read/listen, dropping listen when no voice is available.
+ * every deck when a voice exists. Otherwise word/sentence decks quiz on meaning,
+ * kanji round-robins meaning/read (음독·훈독 암기), and kana decks round-robin
+ * read/listen, dropping listen when no voice is available.
  */
 export function pickQType(
   deckKind: DeckKind,
@@ -18,6 +19,7 @@ export function pickQType(
   quizIndex: number,
 ): QType {
   if (listenMode && hasVoice) return 'listen'
+  if (deckKind === 'kanji') return quizIndex % 2 === 0 ? 'meaning' : 'read'
   if (deckKind !== 'kana') return 'meaning'
   if (!hasVoice) return 'read'
   return quizIndex % 2 === 0 ? 'read' : 'listen'

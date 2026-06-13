@@ -63,12 +63,17 @@ describe('buildQuestion', () => {
     // Two kana can share a romaji (じ/ぢ) or a Korean meaning (かく/にがい
     // both "쓰다") — rendering both makes a correct-looking option wrong.
     for (const d of DECKS) {
-      const qtype = d.kind === 'kana' ? 'read' : 'meaning'
-      d.kana.forEach((k, i) => {
-        const q = buildQuestion(k, qtype, d.kind, d.kana, seeded(i + 1))
-        const texts = q.options.map((o) => optionText(o, qtype, d.kind))
-        expect(new Set(texts).size, `${d.id}:${k.kana} -> ${texts.join('|')}`).toBe(texts.length)
-      })
+      // kanji quizzes both ways: meanings (決/定 both '정하다') and readings
+      // (千/専 both 'せん') can collide.
+      const qtypes: ('read' | 'meaning')[] =
+        d.kind === 'kana' ? ['read'] : d.kind === 'kanji' ? ['meaning', 'read'] : ['meaning']
+      for (const qtype of qtypes) {
+        d.kana.forEach((k, i) => {
+          const q = buildQuestion(k, qtype, d.kind, d.kana, seeded(i + 1))
+          const texts = q.options.map((o) => optionText(o, qtype, d.kind))
+          expect(new Set(texts).size, `${d.id}:${k.kana} -> ${texts.join('|')}`).toBe(texts.length)
+        })
+      }
     }
   })
 })
@@ -87,10 +92,16 @@ describe('pickQType', () => {
     expect(pickQType('kanji', true, false, 0)).toBe('meaning')
   })
 
-  it('without listen mode, word decks always quiz on meaning', () => {
+  it('without listen mode, word/sentence decks always quiz on meaning', () => {
     expect(pickQType('words', false, true, 0)).toBe('meaning')
     expect(pickQType('sentence', false, true, 5)).toBe('meaning')
+  })
+
+  it('kanji decks round-robin meaning/read regardless of voice', () => {
     expect(pickQType('kanji', false, false, 0)).toBe('meaning')
+    expect(pickQType('kanji', false, false, 1)).toBe('read')
+    expect(pickQType('kanji', false, true, 2)).toBe('meaning')
+    expect(pickQType('kanji', false, true, 3)).toBe('read')
   })
 
   it('without listen mode, kana decks round-robin read/listen and drop listen with no voice', () => {
