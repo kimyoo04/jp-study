@@ -10,6 +10,7 @@
   --wrong: #ff5c7c;
   --track: #14152b; /* empty progress groove — darker than surface so 0% reads as empty */
   --radius: 16px;
+  --screen-top: 24px; /* shared top offset so every screen's top row lines up */
 }
 
 * {
@@ -52,7 +53,7 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 24px 20px calc(24px + env(safe-area-inset-bottom));
+  padding: var(--screen-top) 20px calc(24px + env(safe-area-inset-bottom));
   gap: 20px;
 }
 
@@ -66,7 +67,9 @@ body {
 .sfx-toggle,
 .search-btn {
   position: absolute;
-  top: calc(env(safe-area-inset-top) + 14px);
+  /* Line the floating buttons up with the lesson/search top rows, which
+     begin at the screen's top padding. */
+  top: var(--screen-top);
   background: var(--surface);
   border: none;
   border-radius: 50%;
