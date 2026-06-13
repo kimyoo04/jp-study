@@ -10,7 +10,7 @@
   --wrong: #ff5c7c;
   --track: #14152b; /* empty progress groove — darker than surface so 0% reads as empty */
   --radius: 16px;
-  --screen-top: 24px; /* shared top offset so every screen's top row lines up */
+  --screen-top: 40px; /* shared top offset so every screen's top row lines up */
 }
 
 * {
