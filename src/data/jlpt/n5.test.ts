@@ -1,41 +1,42 @@
 import { describe, expect, it } from 'vitest'
-import { N5_QUESTIONS } from './n5'
-import { flatten } from '../../lib/jlpt'
+import { JLPT_POOL, JLPT_LEVELS } from './index'
+import type { JlptLevel, JlptQuestion } from './types'
+import { buildExam, EXAM_PLAN, EXAM_READING_PASSAGES, hasContent } from '../../lib/jlpt'
+import { seeded } from '../../lib/rng'
 
-describe('N5 question bank', () => {
-  it('every question is tagged N5', () => {
-    for (const q of N5_QUESTIONS) expect(q.level).toBe('N5')
-  })
+// Validates the whole bank (every level) plus per-level exam composition.
 
-  it('has unique ids', () => {
-    const ids = N5_QUESTIONS.map((q) => q.id)
+describe('JLPT bank integrity', () => {
+  it('has globally unique ids', () => {
+    const ids = JLPT_POOL.map((q) => q.id)
     expect(new Set(ids).size).toBe(ids.length)
   })
 
-  it('every choice list has 4 plausible options with no blanks or duplicates', () => {
-    const check = (choices: string[], where: string) => {
-      expect(choices, `${where}: expected 4 choices`).toHaveLength(4)
-      expect(choices.every((c) => c.trim().length > 0), `${where}: blank choice`).toBe(true)
-      expect(new Set(choices).size, `${where}: duplicate choice`).toBe(choices.length)
-      // length sanity: no choice wildly longer than the others (cheap-tell guard)
-      const lens = choices.map((c) => c.length)
-      expect(Math.max(...lens) - Math.min(...lens), `${where}: length outlier`).toBeLessThan(10)
-    }
-    for (const q of N5_QUESTIONS) {
-      if (q.part === 'reading') {
-        q.questions.forEach((sub, i) => check(sub.choices, `${q.id}-${i}`))
-      } else {
-        check(q.choices, q.id)
-      }
+  it('every question is tagged with a known level', () => {
+    for (const q of JLPT_POOL) expect(JLPT_LEVELS).toContain(q.level)
+  })
+
+  const check = (choices: string[], where: string) => {
+    expect(choices, `${where}: expected 4 choices`).toHaveLength(4)
+    expect(choices.every((c) => c.trim().length > 0), `${where}: blank choice`).toBe(true)
+    expect(new Set(choices).size, `${where}: duplicate choice`).toBe(choices.length)
+    const lens = choices.map((c) => c.length)
+    expect(Math.max(...lens) - Math.min(...lens), `${where}: length outlier`).toBeLessThan(10)
+  }
+
+  it('every choice list is 4 distinct, non-blank, similar-length options', () => {
+    for (const q of JLPT_POOL) {
+      if (q.part === 'reading') q.questions.forEach((s, i) => check(s.choices, `${q.id}-${i}`))
+      else check(q.choices, q.id)
     }
   })
 
   it('every answer index is in range', () => {
-    for (const q of N5_QUESTIONS) {
+    for (const q of JLPT_POOL) {
       if (q.part === 'reading') {
-        q.questions.forEach((sub, i) => {
-          expect(sub.answer, `${q.id}-${i}`).toBeGreaterThanOrEqual(0)
-          expect(sub.answer, `${q.id}-${i}`).toBeLessThan(sub.choices.length)
+        q.questions.forEach((s, i) => {
+          expect(s.answer, `${q.id}-${i}`).toBeGreaterThanOrEqual(0)
+          expect(s.answer, `${q.id}-${i}`).toBeLessThan(s.choices.length)
         })
       } else {
         expect(q.answer, q.id).toBeGreaterThanOrEqual(0)
@@ -45,24 +46,44 @@ describe('N5 question bank', () => {
   })
 
   it('ordering questions carry segments matching their choices', () => {
-    const ordering = N5_QUESTIONS.filter(
-      (q) => q.part === 'grammar' && q.kind === 'ordering',
+    const ordering = JLPT_POOL.filter(
+      (q): q is Extract<JlptQuestion, { part: 'grammar' }> =>
+        q.part === 'grammar' && q.kind === 'ordering',
     )
-    expect(ordering.length).toBeGreaterThanOrEqual(1)
+    expect(ordering.length).toBeGreaterThanOrEqual(2)
     for (const q of ordering) {
-      if (q.part !== 'grammar') continue
       expect(q.segments, q.id).toBeDefined()
       expect([...(q.segments ?? [])].sort()).toEqual([...q.choices].sort())
     }
   })
+})
 
-  it('flattens to the diagnostic size with all four parts (8/8/4/8 = 28)', () => {
-    const items = flatten(N5_QUESTIONS)
-    const count = (p: string) => items.filter((i) => i.part === p).length
-    expect(count('vocab')).toBe(8)
-    expect(count('grammar')).toBe(8)
-    expect(count('reading')).toBe(4)
-    expect(count('listening')).toBe(8)
-    expect(items).toHaveLength(28)
+describe('exam composition per level', () => {
+  const playable = JLPT_LEVELS.filter((l) => hasContent(l, JLPT_POOL))
+
+  it('N5 and N4 both have content', () => {
+    expect(playable).toEqual(expect.arrayContaining(['N5', 'N4']))
   })
+
+  for (const level of ['N5', 'N4'] as JlptLevel[]) {
+    it(`${level} exam samples the planned counts (8/8/4/8 = 28)`, () => {
+      const exam = buildExam(level, JLPT_POOL, seeded(7))
+      const count = (p: string) => exam.filter((i) => i.part === p).length
+      expect(count('vocab')).toBe(EXAM_PLAN.vocab)
+      expect(count('grammar')).toBe(EXAM_PLAN.grammar)
+      expect(count('listening')).toBe(EXAM_PLAN.listening)
+      // reading: drawn from exactly EXAM_READING_PASSAGES passages
+      const passages = new Set(
+        exam.filter((i) => i.part === 'reading').map((i) => i.id.replace(/-\d+$/, '')),
+      )
+      expect(passages.size).toBe(EXAM_READING_PASSAGES)
+      expect(exam).toHaveLength(28)
+    })
+
+    it(`${level} bank is larger than one exam (retakes vary)`, () => {
+      const a = buildExam(level, JLPT_POOL, seeded(1)).map((i) => i.id)
+      const b = buildExam(level, JLPT_POOL, seeded(99)).map((i) => i.id)
+      expect(a).not.toEqual(b)
+    })
+  }
 })

@@ -3,8 +3,9 @@
 
 import type { JlptLevel, JlptQuestion } from './types'
 import { N5_QUESTIONS } from './n5'
+import { N4_QUESTIONS } from './n4'
 
-export const JLPT_POOL: JlptQuestion[] = [...N5_QUESTIONS]
+export const JLPT_POOL: JlptQuestion[] = [...N5_QUESTIONS, ...N4_QUESTIONS]
 
 // Order shown on the JLPT home screen (easiest first).
 export const JLPT_LEVELS: JlptLevel[] = ['N5', 'N4', 'N3', 'N2']

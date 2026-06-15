@@ -69,10 +69,17 @@ function shuffleChoices(item: ScoredItem, rng: Rng): ScoredItem {
   return { ...item, choices, answer }
 }
 
+// How many of each part one exam draws. Sampling from a larger bank keeps the
+// exam ~28 items no matter how big the bank grows, and varies the questions
+// across retakes. Reading is counted in passages (each fans out to sub-questions).
+export const EXAM_PLAN = { vocab: 8, grammar: 8, listening: 8 } as const
+export const EXAM_READING_PASSAGES = 2
+
 /**
- * Build an exam for `level`: keep parts grouped in PART_ORDER (so the section
- * label is meaningful), shuffle item order *within* each part, and shuffle each
- * item's choices so retakes don't test answer-position memory.
+ * Build an exam for `level`: sample each part from the bank, keep parts grouped
+ * in PART_ORDER (so the section label is meaningful), shuffle item order within
+ * each part, and shuffle each item's choices so retakes don't test
+ * answer-position memory. Sampling caps at what the bank actually has.
  */
 export function buildExam(
   level: JlptLevel,
@@ -80,14 +87,15 @@ export function buildExam(
   rng: Rng = Math.random,
 ): ScoredItem[] {
   const forLevel = pool.filter((q) => q.level === level)
-  const all = flatten(forLevel)
   const out: ScoredItem[] = []
   for (const part of PART_ORDER) {
     const inPart = shuffle(
-      all.filter((it) => it.part === part),
+      forLevel.filter((q) => q.part === part),
       rng,
     )
-    for (const it of inPart) out.push(shuffleChoices(it, rng))
+    const picked =
+      part === 'reading' ? inPart.slice(0, EXAM_READING_PASSAGES) : inPart.slice(0, EXAM_PLAN[part])
+    for (const it of flatten(picked)) out.push(shuffleChoices(it, rng))
   }
   return out
 }

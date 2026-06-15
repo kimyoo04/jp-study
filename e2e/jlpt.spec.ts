@@ -11,7 +11,10 @@ test('run a full N5 diagnostic and see the report', async ({ page }) => {
   // N4/N3/N2 have no content yet -> shown as "준비 중".
   await expect(page.getByText('준비 중').first()).toBeVisible()
 
-  await page.getByRole('button', { name: '미니 모의고사 시작' }).click()
+  await page
+    .locator('.jlpt-level', { hasText: 'N5' })
+    .getByRole('button', { name: '미니 모의고사 시작' })
+    .click()
 
   // 28 scored items: pick the first choice each, advance, submit on the last.
   await expect(page.getByText('1/28')).toBeVisible()
@@ -35,7 +38,10 @@ test('exam progress resumes after reload', async ({ page }) => {
   // would wipe the saved progress this test is checking. Fresh context is empty.
   await page.goto('./')
   await page.getByRole('button', { name: 'JLPT 모의고사' }).click()
-  await page.getByRole('button', { name: '미니 모의고사 시작' }).click()
+  await page
+    .locator('.jlpt-level', { hasText: 'N5' })
+    .getByRole('button', { name: '미니 모의고사 시작' })
+    .click()
 
   // Answer a couple, advance, then reload mid-exam.
   await page.locator('.opt').first().click()
