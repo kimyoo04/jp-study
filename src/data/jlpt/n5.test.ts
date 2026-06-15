@@ -16,18 +16,23 @@ describe('JLPT bank integrity', () => {
     for (const q of JLPT_POOL) expect(JLPT_LEVELS).toContain(q.level)
   })
 
-  const check = (choices: string[], where: string) => {
+  // checkLength guards against a "cheap tell" (one choice far longer than the
+  // others) — only meaningful for short vocab/grammar/listening options. Reading
+  // answers are full phrases that legitimately vary in length, so skip it there.
+  const check = (choices: string[], where: string, checkLength: boolean) => {
     expect(choices, `${where}: expected 4 choices`).toHaveLength(4)
     expect(choices.every((c) => c.trim().length > 0), `${where}: blank choice`).toBe(true)
     expect(new Set(choices).size, `${where}: duplicate choice`).toBe(choices.length)
-    const lens = choices.map((c) => c.length)
-    expect(Math.max(...lens) - Math.min(...lens), `${where}: length outlier`).toBeLessThan(10)
+    if (checkLength) {
+      const lens = choices.map((c) => c.length)
+      expect(Math.max(...lens) - Math.min(...lens), `${where}: length outlier`).toBeLessThan(10)
+    }
   }
 
-  it('every choice list is 4 distinct, non-blank, similar-length options', () => {
+  it('every choice list is 4 distinct, non-blank options (short parts also length-balanced)', () => {
     for (const q of JLPT_POOL) {
-      if (q.part === 'reading') q.questions.forEach((s, i) => check(s.choices, `${q.id}-${i}`))
-      else check(q.choices, q.id)
+      if (q.part === 'reading') q.questions.forEach((s, i) => check(s.choices, `${q.id}-${i}`, false))
+      else check(q.choices, q.id, true)
     }
   })
 
@@ -61,11 +66,11 @@ describe('JLPT bank integrity', () => {
 describe('exam composition per level', () => {
   const playable = JLPT_LEVELS.filter((l) => hasContent(l, JLPT_POOL))
 
-  it('N5 and N4 both have content', () => {
-    expect(playable).toEqual(expect.arrayContaining(['N5', 'N4']))
+  it('N5, N4, N3 all have content', () => {
+    expect(playable).toEqual(expect.arrayContaining(['N5', 'N4', 'N3']))
   })
 
-  for (const level of ['N5', 'N4'] as JlptLevel[]) {
+  for (const level of ['N5', 'N4', 'N3'] as JlptLevel[]) {
     it(`${level} exam samples the planned counts (8/8/4/8 = 28)`, () => {
       const exam = buildExam(level, JLPT_POOL, seeded(7))
       const count = (p: string) => exam.filter((i) => i.part === p).length
