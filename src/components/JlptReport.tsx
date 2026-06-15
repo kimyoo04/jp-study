@@ -9,11 +9,12 @@ import { PART_ORDER, type ExamResult } from '../lib/jlpt'
 interface Props {
   level: JlptLevel
   result: ExamResult
+  onStudyWeak: (part: NonNullable<ExamResult['weakestPart']>) => void
   onRetake: () => void
   onHome: () => void
 }
 
-export function JlptReport({ level, result, onRetake, onHome }: Props) {
+export function JlptReport({ level, result, onStudyWeak, onRetake, onHome }: Props) {
   const { partScores, total, weakestPart, inconclusive } = result
   const pct = total.total > 0 ? Math.round((total.correct / total.total) * 100) : 0
 
@@ -70,7 +71,12 @@ export function JlptReport({ level, result, onRetake, onHome }: Props) {
       </div>
 
       <div className="complete-actions">
-        <button className="btn-primary" onClick={onRetake}>
+        {!inconclusive && weakestPart && (
+          <button className="btn-primary" onClick={() => onStudyWeak(weakestPart)}>
+            {JLPT_PART_KO[weakestPart]} 더 공부하기 →
+          </button>
+        )}
+        <button className={inconclusive ? 'btn-primary' : 'btn-ghost'} onClick={onRetake}>
           다시 풀기
         </button>
         <button className="btn-ghost" onClick={onHome}>

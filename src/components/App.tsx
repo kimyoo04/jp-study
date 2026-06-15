@@ -19,7 +19,7 @@ import { JlptHome } from './JlptHome'
 import { JlptExam } from './JlptExam'
 import { JlptReport } from './JlptReport'
 import { JLPT_POOL } from '../data/jlpt'
-import type { JlptLevel, ScoredItem } from '../data/jlpt/types'
+import type { JlptLevel, JlptPart, ScoredItem } from '../data/jlpt/types'
 import {
   appendResult,
   buildExam,
@@ -126,6 +126,26 @@ export function App() {
     setScreen('jlpt-exam')
   }
 
+  // Map a weak JLPT part to the existing deck that best practices it, so the
+  // report's "study this" button lands the user on the right deck (listening
+  // additionally flips on 듣기 모드). The user starts the lesson from Home —
+  // selecting the deck and starting in one tick would feed Lesson a stale deck.
+  function studyWeakPart(part: JlptPart) {
+    const deckId =
+      part === 'grammar'
+        ? 'grammar'
+        : part === 'reading'
+          ? 'phrases'
+          : 'words' // vocab + listening practice on the words deck
+    const target = DECKS.find((d) => d.id === deckId)
+    if (target) {
+      setDeck(target)
+      setCategoryName(null)
+    }
+    if (part === 'listening' && !settings.listen && voiceReady) toggleListen()
+    setScreen('home')
+  }
+
   function finishJlpt(examItems: ScoredItem[], answers: (number | null)[]) {
     const result = scoreExam(examItems, answers)
     appendResult({
@@ -209,6 +229,7 @@ export function App() {
         <JlptReport
           level={jlptLevel}
           result={jlptResult}
+          onStudyWeak={studyWeakPart}
           onRetake={() => startJlpt(jlptLevel)}
           onHome={() => setScreen('home')}
         />

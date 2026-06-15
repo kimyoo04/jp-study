@@ -4,21 +4,11 @@ Deferred work captured during reviews. Each item has enough context to pick up c
 
 ## JLPT 모드 (from /plan-eng-review 2026-06-15)
 
-### 약점 파트 → SRS 복습 큐 연결
-- **What:** JLPT 진단 리포트의 최약점 파트(특히 어휘) 문항을 기존 가나/단어 SRS 복습 루프에 복습 후보로 흘려보내기.
-- **Why:** 진단이 "너 문법 약해"로 끝나면 행동으로 안 이어짐. 약점 단어를 기존 학습 루프에 자동 주입하면 진단→학습이 닫힌 고리가 됨.
-- **Pros:** 시험 대비와 평소 학습이 통합됨. 기존 SRS(`src/lib/srs.ts`) 재사용.
-- **Cons:** JLPT VocabQ는 `interface Kana`와 모델이 다름(레벨태그·baked choices) → 매핑 레이어 필요. progress.kana 키 충돌 주의.
-- **Context:** 설계 doc(kimyoo-main-design-20260615-013607.md)에서 의도적 보류. JLPT 데이터 모델이 안정된 뒤 착수.
-- **Depends on:** JLPT MVP(types.ts/jlpt.ts/데이터) 완료.
+### ~~약점 파트 → SRS 복습 큐 연결~~  ✅ 2026-06-16
+리포트 최약점 파트 → 대응 기존 덱으로 점프 버튼으로 해결(문법→문법덱, 어휘/청해→단어덱, 독해→회화덱; 청해는 듣기모드 on). JLPT 문항을 SRS 카드로 주입하는 모델 매핑은 불필요해 채택 안 함.
 
-### DESIGN.md 작성 (디자인 시스템 문서화)
-- **What:** styles.css에 흩어진 토큰(색/폰트/간격/반경)과 컴포넌트 어휘(card/opt/progress-bar/modal/ChoiceGrid)를 DESIGN.md로 정리.
-- **Why:** 덱 10개 + JLPT로 UI가 커짐. 문서화하면 이후 /plan-design-review가 거기 calibrate, 신규 화면 일관성↑.
-- **Pros:** 디자인 결정 일관성, 새 기여자/미래 세션이 규칙을 한 곳에서 봄.
-- **Cons:** 유지보수 부담(코드와 동기화). 토큰이 이미 명확해 지금 필수는 아님.
-- **Context:** /plan-design-review 2026-06-15에서 DESIGN.md 부재 확인. 토큰은 styles.css :root에 있음.
-- **Depends on:** 없음. 언제든 가능.
+### ~~DESIGN.md 작성~~  ✅ 2026-06-16
+`DESIGN.md` 작성 완료(토큰·컴포넌트 어휘·접근성·안티패턴).
 
 ### 레벨별 콘텐츠 lazy-load
 - **What:** JLPT 레벨 데이터(N5/N4/N3/N2)를 동적 import로 분할 로드.
