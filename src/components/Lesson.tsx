@@ -5,6 +5,7 @@ import { buildQuestion, isCorrect, optionText, pickQType, type Question } from '
 import { hasJaVoice, primeSpeech, speakItem } from '../lib/speak'
 import { kanaToHangul } from '../lib/hangul'
 import { playCorrect, playWrong } from '../lib/sound'
+import { ChoiceGrid } from './ChoiceGrid'
 
 export interface LessonResult {
   kana: Kana
@@ -252,43 +253,19 @@ function Quiz({
         </>
       )}
 
-      <div className="options">
-        {question.options.map((opt) => {
-          const isAnswer = opt.kana === question.answer.kana
-          const isPicked = picked?.kana === opt.kana
-          const cls =
-            phase === 'feedback'
-              ? isAnswer
-                ? 'opt correct'
-                : isPicked
-                  ? 'opt wrong'
-                  : 'opt dim'
-              : 'opt'
-          const text = optionText(opt, qtype, deckKind)
-          const mark =
-            phase === 'feedback' && isAnswer
-              ? '✓'
-              : phase === 'feedback' && isPicked
-                ? '✗'
-                : null
-          return (
-            <button
-              key={opt.kana}
-              className={cls}
-              data-correct={isAnswer || undefined}
-              disabled={phase === 'feedback'}
-              onClick={() => onPick(opt)}
-            >
-              <span className="opt-text">{text}</span>
-              {mark && (
-                <span className="opt-mark" aria-hidden="true">
-                  {mark}
-                </span>
-              )}
-            </button>
-          )
-        })}
-      </div>
+      <ChoiceGrid
+        options={question.options.map((opt) => ({
+          key: opt.kana,
+          text: optionText(opt, qtype, deckKind),
+        }))}
+        mode={phase === 'feedback' ? 'feedback' : 'answer'}
+        selectedKey={picked?.kana ?? null}
+        correctKey={question.answer.kana}
+        onPick={(key) => {
+          const opt = question.options.find((o) => o.kana === key)
+          if (opt) onPick(opt)
+        }}
+      />
 
       <p className="sr-only" role="status">
         {phase === 'feedback' &&

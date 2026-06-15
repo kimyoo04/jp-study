@@ -15,8 +15,21 @@ import { Home } from './Home'
 import { Lesson, type LessonResult } from './Lesson'
 import { Complete } from './Complete'
 import { Search } from './Search'
+import { JlptHome } from './JlptHome'
+import { JlptExam } from './JlptExam'
+import { JlptReport } from './JlptReport'
+import { JLPT_POOL } from '../data/jlpt'
+import type { JlptLevel, ScoredItem } from '../data/jlpt/types'
+import {
+  appendResult,
+  buildExam,
+  clearProgress,
+  loadProgress,
+  scoreExam,
+  type ExamResult,
+} from '../lib/jlpt'
 
-type Screen = 'home' | 'lesson' | 'complete' | 'search'
+type Screen = 'home' | 'lesson' | 'complete' | 'search' | 'jlpt-home' | 'jlpt-exam' | 'jlpt-report'
 
 export function App() {
   const { progress, persistent, update } = useProgress()
@@ -26,6 +39,13 @@ export function App() {
   const [screen, setScreen] = useState<Screen>('home')
   const [items, setItems] = useState<LessonItem[]>([])
   const [results, setResults] = useState<LessonResult[]>([])
+
+  // JLPT exam state (separate flow from the SRS lesson loop).
+  const [jlptLevel, setJlptLevel] = useState<JlptLevel>('N5')
+  const [jlptItems, setJlptItems] = useState<ScoredItem[]>([])
+  const [jlptAnswers, setJlptAnswers] = useState<(number | null)[]>([])
+  const [jlptIdx, setJlptIdx] = useState(0)
+  const [jlptResult, setJlptResult] = useState<ExamResult | null>(null)
 
   // Listen mode needs a Japanese TTS voice. Voices load asynchronously (Chrome),
   // so detect once on mount and gate the toggle on the result.
@@ -85,6 +105,40 @@ export function App() {
     setScreen('complete')
   }
 
+  function startJlpt(level: JlptLevel) {
+    const exam = buildExam(level, JLPT_POOL)
+    if (exam.length === 0) return
+    clearProgress()
+    setJlptLevel(level)
+    setJlptItems(exam)
+    setJlptAnswers(exam.map(() => null))
+    setJlptIdx(0)
+    setScreen('jlpt-exam')
+  }
+
+  function resumeJlpt() {
+    const saved = loadProgress()
+    if (!saved) return
+    setJlptLevel(saved.level)
+    setJlptItems(saved.items)
+    setJlptAnswers(saved.answers)
+    setJlptIdx(saved.idx)
+    setScreen('jlpt-exam')
+  }
+
+  function finishJlpt(examItems: ScoredItem[], answers: (number | null)[]) {
+    const result = scoreExam(examItems, answers)
+    appendResult({
+      level: jlptLevel,
+      takenAt: new Date().toISOString(),
+      partScores: result.partScores,
+      weakestPart: result.weakestPart,
+    })
+    clearProgress()
+    setJlptResult(result)
+    setScreen('jlpt-report')
+  }
+
   const wrong = results.filter((r) => r.mode === 'quiz' && !r.correct).map((r) => r.kana)
   const weak = weakItems(progress, scopeKana)
 
@@ -109,6 +163,7 @@ export function App() {
           listenAvailable={voiceReady}
           onSearch={() => setScreen('search')}
           onStart={startLesson}
+          onJlpt={() => setScreen('jlpt-home')}
         />
       )}
       {screen === 'lesson' && (
@@ -131,6 +186,33 @@ export function App() {
         />
       )}
       {screen === 'search' && <Search onExit={() => setScreen('home')} />}
+      {screen === 'jlpt-home' && (
+        <JlptHome
+          voiceReady={voiceReady}
+          onStart={startJlpt}
+          onResume={resumeJlpt}
+          onExit={() => setScreen('home')}
+        />
+      )}
+      {screen === 'jlpt-exam' && (
+        <JlptExam
+          level={jlptLevel}
+          items={jlptItems}
+          initialAnswers={jlptAnswers}
+          initialIdx={jlptIdx}
+          voiceReady={voiceReady}
+          onComplete={finishJlpt}
+          onExit={() => setScreen('jlpt-home')}
+        />
+      )}
+      {screen === 'jlpt-report' && jlptResult && (
+        <JlptReport
+          level={jlptLevel}
+          result={jlptResult}
+          onRetake={() => startJlpt(jlptLevel)}
+          onHome={() => setScreen('home')}
+        />
+      )}
     </div>
   )
 }

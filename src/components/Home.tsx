@@ -21,6 +21,7 @@ interface Props {
   listenAvailable: boolean
   onSearch: () => void
   onStart: () => void
+  onJlpt: () => void
 }
 
 export function Home({
@@ -41,6 +42,7 @@ export function Home({
   listenAvailable,
   onSearch,
   onStart,
+  onJlpt,
 }: Props) {
   const total = scopeKana.length
   const learned = learnedCountFor(progress, scopeKana)
@@ -140,6 +142,9 @@ export function Home({
           약한 것만 복습 ({weakCount})
         </button>
       )}
+      <button className="btn-ghost jlpt-entry" onClick={onJlpt}>
+        📋 JLPT 모의고사
+      </button>
     </main>
   )
 }

@@ -3,6 +3,7 @@
 // randomness is injected so tests are deterministic.
 import type { DeckKind, Kana } from '../data/kana'
 import { HIRAGANA, ROW_OF } from '../data/kana'
+import { shuffle, type Rng } from './rng'
 
 export type QType = 'read' | 'listen' | 'meaning'
 
@@ -42,17 +43,6 @@ export function optionText(opt: Kana, qtype: QType, deckKind: DeckKind): string 
   if (qtype === 'meaning') return opt.meaning ?? ''
   // listen: kana decks pick the glyph; other decks pick the meaning.
   return deckKind === 'kana' ? opt.kana : (opt.meaning ?? '')
-}
-
-type Rng = () => number
-
-function shuffle<T>(arr: T[], rng: Rng): T[] {
-  const a = arr.slice()
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(rng() * (i + 1))
-    ;[a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
 }
 
 /**

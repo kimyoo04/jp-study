@@ -442,6 +442,11 @@ body {
 .opt.dim {
   opacity: 0.4;
 }
+/* answer-mode (JLPT exam): show the picked option without grading it */
+.opt.selected {
+  border-color: var(--primary);
+  background: var(--surface-2);
+}
 @keyframes shake {
   0%,
   100% {
@@ -631,4 +636,129 @@ body {
   font-size: 20px;
   cursor: pointer;
   padding: 4px;
+}
+
+/* ---- JLPT mode ---- */
+.jlpt-entry {
+  margin-top: 4px;
+}
+.jlpt-part-tag {
+  align-self: flex-start;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.jlpt-prompt {
+  font-size: 22px;
+  line-height: 1.6;
+  font-weight: 700;
+  text-align: center;
+  margin: 8px 0;
+}
+.jlpt-passage,
+.jlpt-script-fallback {
+  width: 100%;
+  background: var(--surface-2);
+  border-radius: var(--radius);
+  padding: 16px;
+  font-size: 16px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  text-align: left;
+}
+.jlpt-script-fallback {
+  color: var(--muted);
+  font-size: 15px;
+}
+.jlpt-segments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+.jlpt-nav {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+.jlpt-nav .btn-primary,
+.jlpt-nav .btn-ghost {
+  flex: 1;
+}
+.jlpt-levels {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+.jlpt-level {
+  gap: 12px;
+}
+.jlpt-level-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.jlpt-level-name {
+  font-size: 24px;
+  font-weight: 800;
+}
+.jlpt-level-soon {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+.jlpt-level-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+.jlpt-hero {
+  gap: 8px;
+  text-align: center;
+}
+.jlpt-hero-title {
+  font-size: 20px;
+  font-weight: 800;
+}
+.jlpt-hero-sub {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.jlpt-score-pct {
+  color: var(--muted);
+  font-size: 0.6em;
+}
+.jlpt-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+.jlpt-bar-row {
+  display: grid;
+  grid-template-columns: 88px 1fr 48px;
+  align-items: center;
+  gap: 10px;
+}
+.jlpt-bar-label {
+  font-size: 14px;
+  font-weight: 700;
+}
+.jlpt-bar-weak {
+  color: var(--wrong);
+  font-weight: 800;
+}
+.jlpt-bar-val {
+  font-size: 14px;
+  color: var(--muted);
+  text-align: right;
+}
+.progress-fill.weak {
+  background: var(--wrong);
 }
