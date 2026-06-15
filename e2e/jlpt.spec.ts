@@ -8,8 +8,10 @@ test('run a full N5 diagnostic and see the report', async ({ page }) => {
   await page.getByRole('button', { name: 'JLPT 모의고사' }).click()
   await expect(page.getByText('레벨을 고르세요')).toBeVisible()
 
-  // N4/N3/N2 have no content yet -> shown as "준비 중".
-  await expect(page.getByText('준비 중').first()).toBeVisible()
+  // All four levels now have content and are playable.
+  for (const lv of ['N5', 'N4', 'N3', 'N2']) {
+    await expect(page.locator('.jlpt-level', { hasText: lv })).toBeVisible()
+  }
 
   await page
     .locator('.jlpt-level', { hasText: 'N5' })

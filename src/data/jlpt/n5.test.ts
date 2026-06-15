@@ -66,11 +66,11 @@ describe('JLPT bank integrity', () => {
 describe('exam composition per level', () => {
   const playable = JLPT_LEVELS.filter((l) => hasContent(l, JLPT_POOL))
 
-  it('N5, N4, N3 all have content', () => {
-    expect(playable).toEqual(expect.arrayContaining(['N5', 'N4', 'N3']))
+  it('all four levels have content', () => {
+    expect(playable).toEqual(expect.arrayContaining(['N5', 'N4', 'N3', 'N2']))
   })
 
-  for (const level of ['N5', 'N4', 'N3'] as JlptLevel[]) {
+  for (const level of ['N5', 'N4', 'N3', 'N2'] as JlptLevel[]) {
     it(`${level} exam samples the planned counts (8/8/4/8 = 28)`, () => {
       const exam = buildExam(level, JLPT_POOL, seeded(7))
       const count = (p: string) => exam.filter((i) => i.part === p).length
