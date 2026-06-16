@@ -65,7 +65,8 @@ export function JlptExam({
 
   function pick(choice: number) {
     const next = answers.slice()
-    next[idx] = choice
+    // Tapping the already-selected choice deselects it (lets you undo a guess).
+    next[idx] = answers[idx] === choice ? null : choice
     setAnswers(next)
     persist(next, idx)
   }

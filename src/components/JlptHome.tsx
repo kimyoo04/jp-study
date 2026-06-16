@@ -36,28 +36,21 @@ export function JlptHome({ voiceReady, onStart, onResume, onExit }: Props) {
           const resumable = ready && inProgress?.level === level
           return (
             <div className="card jlpt-level" key={level}>
-              <div className="jlpt-level-head">
-                <span className="jlpt-level-name">{level}</span>
-                {!ready && <span className="jlpt-level-soon">준비 중</span>}
-              </div>
-              {ready ? (
-                resumable ? (
-                  <div className="jlpt-level-actions">
-                    <button className="btn-primary" onClick={onResume}>
-                      이어서 풀기 ({inProgress.idx + 1}/{inProgress.items.length})
-                    </button>
-                    <button className="btn-ghost" onClick={() => onStart(level)}>
-                      처음부터
-                    </button>
-                  </div>
-                ) : (
-                  <button className="btn-primary" onClick={() => onStart(level)}>
-                    미니 모의고사 시작
+              <span className="jlpt-level-name">{level}</span>
+              {!ready ? (
+                <span className="jlpt-level-soon">준비 중</span>
+              ) : resumable ? (
+                <div className="jlpt-level-actions">
+                  <button className="jlpt-level-btn" onClick={onResume}>
+                    이어서 ({inProgress.idx + 1}/{inProgress.items.length})
                   </button>
-                )
+                  <button className="jlpt-level-btn ghost" onClick={() => onStart(level)}>
+                    처음부터
+                  </button>
+                </div>
               ) : (
-                <button className="btn-ghost" disabled>
-                  곧 추가돼요
+                <button className="jlpt-level-btn" onClick={() => onStart(level)}>
+                  시작
                 </button>
               )}
             </div>

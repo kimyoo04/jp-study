@@ -15,7 +15,7 @@ test('run a full N5 diagnostic and see the report', async ({ page }) => {
 
   await page
     .locator('.jlpt-level', { hasText: 'N5' })
-    .getByRole('button', { name: '미니 모의고사 시작' })
+    .getByRole('button', { name: '시작' })
     .click()
 
   // 28 scored items: pick the first choice each, advance, submit on the last.
@@ -42,7 +42,7 @@ test('exam progress resumes after reload', async ({ page }) => {
   await page.getByRole('button', { name: 'JLPT 모의고사' }).click()
   await page
     .locator('.jlpt-level', { hasText: 'N5' })
-    .getByRole('button', { name: '미니 모의고사 시작' })
+    .getByRole('button', { name: '시작' })
     .click()
 
   // Answer a couple, advance, then reload mid-exam.
@@ -53,5 +53,5 @@ test('exam progress resumes after reload', async ({ page }) => {
   await page.reload()
   await page.getByRole('button', { name: 'JLPT 모의고사' }).click()
   // Home offers to resume where we left off.
-  await expect(page.getByRole('button', { name: /이어서 풀기/ })).toBeVisible()
+  await expect(page.getByRole('button', { name: /이어서/ })).toBeVisible()
 })

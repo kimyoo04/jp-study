@@ -693,17 +693,19 @@ body {
   gap: 12px;
   width: 100%;
 }
+/* Compact row: level name on the left, action(s) on the right. */
 .jlpt-level {
-  gap: 12px;
-}
-.jlpt-level-head {
-  display: flex;
+  flex: none;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
+  gap: 12px;
+  padding: 14px 18px;
+  background: var(--surface);
+  border-radius: var(--radius);
 }
 .jlpt-level-name {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 800;
 }
 .jlpt-level-soon {
@@ -713,9 +715,23 @@ body {
 }
 .jlpt-level-actions {
   display: flex;
-  flex-direction: column;
   gap: 8px;
-  width: 100%;
+}
+.jlpt-level-btn {
+  border: none;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 10px 18px;
+  min-height: 44px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.jlpt-level-btn.ghost {
+  background: var(--surface-2);
+  color: var(--text);
 }
 .jlpt-hero {
   gap: 8px;

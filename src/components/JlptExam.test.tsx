@@ -81,6 +81,15 @@ describe('JlptExam flow', () => {
     expect(screen.getByText('Q-two')).toBeInTheDocument()
   })
 
+  it('tapping the selected choice again deselects it', () => {
+    setup()
+    const optA = screen.getByText('A').closest('button')!
+    fireEvent.click(optA)
+    expect(optA.className).toContain('selected')
+    fireEvent.click(optA) // tap again -> deselect
+    expect(optA.className).not.toContain('selected')
+  })
+
   it('exit asks for confirmation and keeps progress on leave', () => {
     const { onExit } = setup()
     fireEvent.click(screen.getByLabelText('나가기'))
