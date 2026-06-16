@@ -426,4 +426,158 @@ export const N4_QUESTIONS: JlptQuestion[] = [
     choices: ['おおさか', 'とうきょう', 'きょうと', 'なごや'],
     answer: 1,
   },
+
+  // ---- 文字・語彙 (additional) ----
+  {
+    id: 'n4-v13',
+    level: 'N4',
+    part: 'vocab',
+    kind: 'kanji-reading',
+    prompt: 'せんせいに __質問__が あります。',
+    choices: ['しつもん', 'しちもん', 'しつぶん', 'しつも'],
+    answer: 0,
+  },
+  {
+    id: 'n4-v14',
+    level: 'N4',
+    part: 'vocab',
+    kind: 'kanji-reading',
+    prompt: 'パーティーの りょうりを __用意__する。',
+    choices: ['ようい', 'よい', 'ようにん', 'よういん'],
+    answer: 0,
+  },
+  {
+    id: 'n4-v15',
+    level: 'N4',
+    part: 'vocab',
+    kind: 'context',
+    prompt: 'ともだちの けっこんしきに (　　) された。',
+    choices: ['しょうたい', 'しょうかい', 'あいさつ', 'れんらく'],
+    answer: 0,
+  },
+  {
+    id: 'n4-v16',
+    level: 'N4',
+    part: 'vocab',
+    kind: 'context',
+    prompt: 'けさ、たのんだ にもつが (　　)。',
+    choices: ['とどきました', 'おくれました', 'なくしました', 'かえしました'],
+    answer: 0,
+  },
+
+  // ---- 文法 (additional) ----
+  {
+    id: 'n4-g13',
+    level: 'N4',
+    part: 'grammar',
+    kind: 'cloze',
+    prompt: 'この ペンは ちいさくて つかい (　　) です。',
+    choices: ['やすい', 'にくい', 'たい', 'がる'],
+    answer: 0,
+  },
+  {
+    id: 'n4-g14',
+    level: 'N4',
+    part: 'grammar',
+    kind: 'cloze',
+    prompt: 'この かんじの よみ (　　) が わかりません。',
+    choices: ['かた', 'ほう', 'もの', 'とき'],
+    answer: 0,
+  },
+  {
+    id: 'n4-g15',
+    level: 'N4',
+    part: 'grammar',
+    kind: 'cloze',
+    prompt: 'でんしゃに かさを わすれて (　　)。',
+    choices: ['しまいました', 'おきました', 'みました', 'あげました'],
+    answer: 0,
+  },
+  {
+    id: 'n4-g16',
+    level: 'N4',
+    part: 'grammar',
+    kind: 'cloze',
+    prompt: 'この みせは やすい (　　)、おいしいです。',
+    choices: ['し', 'て', 'が', 'と'],
+    answer: 0,
+  },
+
+  // ---- 読解 (additional) ----
+  {
+    id: 'n4-r5',
+    level: 'N4',
+    part: 'reading',
+    passage:
+      'わたしの まちには おおきな こうえんが あります。あさは さんぽする 人が おおく、ひるは こどもたちが あそんで います。よるは しずかで、ほしが よく みえます。わたしは よる、その こうえんを あるくのが すきです。',
+    questions: [
+      {
+        prompt: 'この 人は いつ こうえんを あるきますか。',
+        choices: ['あさ', 'ひる', 'よる', 'まいじかん'],
+        answer: 2,
+      },
+      {
+        prompt: 'よるの こうえんは どうですか。',
+        choices: ['うるさい', 'しずか', 'こどもが おおい', 'くらくて あぶない'],
+        answer: 1,
+      },
+    ],
+  },
+  {
+    id: 'n4-r6',
+    level: 'N4',
+    part: 'reading',
+    passage:
+      'やまださんへ\nあした じゃ なくて、あさってに しゅっぱつする ことに なりました。あさ 9じに えきの まえで まって います。きっぷは わたしが かいますから、おかねは あとで ください。\nすずき',
+    questions: [
+      {
+        prompt: 'いつ しゅっぱつしますか。',
+        choices: ['きょう', 'あした', 'あさって', 'らいしゅう'],
+        answer: 2,
+      },
+      {
+        prompt: 'きっぷは だれが かいますか。',
+        choices: ['やまださん', 'すずきさん', 'えきの 人', 'りょうほう'],
+        answer: 1,
+      },
+    ],
+  },
+
+  // ---- 聴解 (additional) ----
+  {
+    id: 'n4-l13',
+    level: 'N4',
+    part: 'listening',
+    script: 'あしたの あさ 8じに あつまって ください。9じに バスが でます。',
+    prompt: 'なんじに あつまりますか。',
+    choices: ['8じ', '9じ', '7じ', '10じ'],
+    answer: 0,
+  },
+  {
+    id: 'n4-l14',
+    level: 'N4',
+    part: 'listening',
+    script: 'すきな のみものを えらんで ください。コーヒーは いま きれて いますが。',
+    prompt: 'いま のめない ものは なんですか。',
+    choices: ['コーヒー', 'おちゃ', 'ジュース', 'みず'],
+    answer: 0,
+  },
+  {
+    id: 'n4-l15',
+    level: 'N4',
+    part: 'listening',
+    script: 'えいがの まえに ばんごはんを たべましょう。えいがは 7じからです。',
+    prompt: 'さきに なにを しますか。',
+    choices: ['えいがを みる', 'ばんごはんを たべる', 'かいものを する', 'いえに かえる'],
+    answer: 1,
+  },
+  {
+    id: 'n4-l16',
+    level: 'N4',
+    part: 'listening',
+    script: 'この ほんは らいしゅうの げつようびまでに かえして ください。',
+    prompt: 'いつまでに ほんを かえしますか。',
+    choices: ['きょう', 'らいしゅうの げつようび', 'あした', 'こんしゅうまつ'],
+    answer: 1,
+  },
 ]

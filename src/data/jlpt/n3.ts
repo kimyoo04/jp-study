@@ -432,4 +432,158 @@ export const N3_QUESTIONS: JlptQuestion[] = [
     choices: ['いりぐち', 'うけつけ', 'じむしょ', 'トイレの まえ'],
     answer: 1,
   },
+
+  // ---- 文字・語彙 (additional) ----
+  {
+    id: 'n3-v13',
+    level: 'N3',
+    part: 'vocab',
+    kind: 'kanji-reading',
+    prompt: 'ふたりの __関係__は とても いい。',
+    choices: ['かんけい', 'かんげい', 'かんけ', 'けんけい'],
+    answer: 0,
+  },
+  {
+    id: 'n3-v14',
+    level: 'N3',
+    part: 'vocab',
+    kind: 'kanji-reading',
+    prompt: 'ながねんの けんきゅうが __成功__した。',
+    choices: ['せいこう', 'せいごう', 'じょうこう', 'せこう'],
+    answer: 0,
+  },
+  {
+    id: 'n3-v15',
+    level: 'N3',
+    part: 'vocab',
+    kind: 'context',
+    prompt: 'らいしゅうまでに レポートを (　　) する。',
+    choices: ['ていしゅつ', 'ていあん', 'ちゅうもん', 'きょうりょく'],
+    answer: 0,
+  },
+  {
+    id: 'n3-v16',
+    level: 'N3',
+    part: 'vocab',
+    kind: 'context',
+    prompt: 'いちど した やくそくは (　　) べきだ。',
+    choices: ['まもる', 'やぶる', 'わすれる', 'かえる'],
+    answer: 0,
+  },
+
+  // ---- 文法 (additional) ----
+  {
+    id: 'n3-g13',
+    level: 'N3',
+    part: 'grammar',
+    kind: 'cloze',
+    prompt: 'ここで しゃしんを とっ (　　) いいですか。',
+    choices: ['ても', 'たら', 'ては', 'たり'],
+    answer: 0,
+  },
+  {
+    id: 'n3-g14',
+    level: 'N3',
+    part: 'grammar',
+    kind: 'cloze',
+    prompt: 'びじゅつかんで えに さわっ (　　) いけません。',
+    choices: ['ては', 'ても', 'たら', 'たり'],
+    answer: 0,
+  },
+  {
+    id: 'n3-g15',
+    level: 'N3',
+    part: 'grammar',
+    kind: 'cloze',
+    prompt: 'いま ちょうど ばんごはんを たべて いる (　　) です。',
+    choices: ['ところ', 'つもり', 'まま', 'うち'],
+    answer: 0,
+  },
+  {
+    id: 'n3-g16',
+    level: 'N3',
+    part: 'grammar',
+    kind: 'cloze',
+    prompt: 'そらが くもって きた。ごごは あめが ふる (　　)。',
+    choices: ['かもしれない', 'にちがいない', 'わけがない', 'はずがない'],
+    answer: 0,
+  },
+
+  // ---- 読解 (additional) ----
+  {
+    id: 'n3-r5',
+    level: 'N3',
+    part: 'reading',
+    passage:
+      'さいきん、じてんしゃで つうきんする 人が ふえて いる。うんどうに なるし、でんしゃ だいも かからない。ただし、あめの ひは あぶないので、むりを せず でんしゃを つかう ほうが いいだろう。',
+    questions: [
+      {
+        prompt: 'じてんしゃ つうきんの りてんは なにか。',
+        choices: ['うんどうに なる', 'はやく つく', 'あんぜん', 'にもつが はこべる'],
+        answer: 0,
+      },
+      {
+        prompt: 'あめの ひは どう する ほうが いいと いって いるか。',
+        choices: ['じてんしゃを つかう', 'でんしゃを つかう', 'あるく', 'やすむ'],
+        answer: 1,
+      },
+    ],
+  },
+  {
+    id: 'n3-r6',
+    level: 'N3',
+    part: 'reading',
+    passage:
+      'マンション かんりじむしょより\n あさって、ごぜん 9じから ごご 0じまで すいどうの こうじが あります。その あいだ、みずが つかえません。ごめいわくを おかけしますが、ごりかいの ほど おねがいします。',
+    questions: [
+      {
+        prompt: 'こうじの あいだ、なにが つかえなく なるか。',
+        choices: ['でんき', 'みず', 'ガス', 'エレベーター'],
+        answer: 1,
+      },
+      {
+        prompt: 'こうじは なんじに おわるか。',
+        choices: ['ごぜん 9じ', 'ごご 0じ', 'ごご 3じ', 'よる'],
+        answer: 1,
+      },
+    ],
+  },
+
+  // ---- 聴解 (additional) ----
+  {
+    id: 'n3-l13',
+    level: 'N3',
+    part: 'listening',
+    script: 'はっぴょうの じゅんびは できましたが、しりょうの コピーを まだ して いません。',
+    prompt: 'まだ して いない ことは なにか。',
+    choices: ['はっぴょうの じゅんび', 'しりょうの コピー', 'よやく', 'れんらく'],
+    answer: 1,
+  },
+  {
+    id: 'n3-l14',
+    level: 'N3',
+    part: 'listening',
+    script: 'この バスは えきには とまりません。びょういんの まえには とまります。',
+    prompt: 'バスは どこに とまりますか。',
+    choices: ['えき', 'びょういんの まえ', 'こうえん', 'がっこう'],
+    answer: 1,
+  },
+  {
+    id: 'n3-l15',
+    level: 'N3',
+    part: 'listening',
+    script: 'かいひは あたまかずで わけます。6人で 3000えんなので、ひとり 500えんです。',
+    prompt: 'ひとり いくら はらいますか。',
+    choices: ['3000えん', '500えん', '600えん', '1000えん'],
+    answer: 1,
+  },
+  {
+    id: 'n3-l16',
+    level: 'N3',
+    part: 'listening',
+    script: 'にもつは じぶんで はこばないで ください。かかりの 人が おへやまで はこびます。',
+    prompt: 'にもつは だれが はこびますか。',
+    choices: ['じぶん', 'かかりの 人', 'うんてんしゅ', 'ともだち'],
+    answer: 1,
+  },
 ]

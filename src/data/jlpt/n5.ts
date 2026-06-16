@@ -508,4 +508,84 @@ export const N5_QUESTIONS: JlptQuestion[] = [
     choices: ['げつようび', 'すいようび', 'かようび', 'もくようび'],
     answer: 1,
   },
+
+  // ---- 文法 (additional) ----
+  {
+    id: 'n5-g15',
+    level: 'N5',
+    part: 'grammar',
+    kind: 'cloze',
+    prompt: 'わたしは ねこ (　　) すきです。',
+    choices: ['が', 'を', 'は', 'に'],
+    answer: 0,
+  },
+  {
+    id: 'n5-g16',
+    level: 'N5',
+    part: 'grammar',
+    kind: 'cloze',
+    prompt: 'うち (　　) テレビを みます。',
+    choices: ['で', 'に', 'を', 'へ'],
+    answer: 0,
+  },
+
+  // ---- 読解 (additional) ----
+  {
+    id: 'n5-r5',
+    level: 'N5',
+    part: 'reading',
+    passage:
+      'わたしの いえには いぬが います。なまえは ハナです。あさと よる、わたしが さんぽに つれて いきます。ハナは ボールで あそぶのが だいすきです。',
+    questions: [
+      {
+        prompt: 'だれが ハナを さんぽに つれて いきますか。',
+        choices: ['わたし', 'ちち', 'はは', 'あね'],
+        answer: 0,
+      },
+      {
+        prompt: 'ハナが すきな ことは なんですか。',
+        choices: ['ボールで あそぶ', 'ねる', 'たべる', 'およぐ'],
+        answer: 0,
+      },
+    ],
+  },
+  {
+    id: 'n5-r6',
+    level: 'N5',
+    part: 'reading',
+    passage:
+      'たなかさんへ\nきょう、3じに えきで あいましょう。きっぷを かって まって います。すこし おくれるかも しれませんが、まって いて ください。\nやまだ',
+    questions: [
+      {
+        prompt: 'どこで あいますか。',
+        choices: ['えき', 'がっこう', 'みせ', 'こうえん'],
+        answer: 0,
+      },
+      {
+        prompt: 'やまださんは なにを して まって いますか。',
+        choices: ['きっぷを かった', 'ごはんを たべる', 'ほんを よむ', 'でんわを する'],
+        answer: 0,
+      },
+    ],
+  },
+
+  // ---- 聴解 (additional) ----
+  {
+    id: 'n5-l15',
+    level: 'N5',
+    part: 'listening',
+    script: 'きょうは かようびです。あした すいようびに テストが あります。',
+    prompt: 'テストは なんようびですか。',
+    choices: ['かようび', 'すいようび', 'げつようび', 'もくようび'],
+    answer: 1,
+  },
+  {
+    id: 'n5-l16',
+    level: 'N5',
+    part: 'listening',
+    script: 'のみものは おちゃに します。コーヒーは のみません。',
+    prompt: 'なにを のみますか。',
+    choices: ['コーヒー', 'おちゃ', 'みず', 'ジュース'],
+    answer: 1,
+  },
 ]
