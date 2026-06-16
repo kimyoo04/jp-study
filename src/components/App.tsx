@@ -45,7 +45,9 @@ export function App() {
   const [jlptItems, setJlptItems] = useState<ScoredItem[]>([])
   const [jlptAnswers, setJlptAnswers] = useState<(number | null)[]>([])
   const [jlptIdx, setJlptIdx] = useState(0)
+  const [jlptStartedAt, setJlptStartedAt] = useState(0)
   const [jlptResult, setJlptResult] = useState<ExamResult | null>(null)
+  const [jlptDuration, setJlptDuration] = useState(0)
 
   // Listen mode needs a Japanese TTS voice. Voices load asynchronously (Chrome),
   // so detect once on mount and gate the toggle on the result.
@@ -113,6 +115,7 @@ export function App() {
     setJlptItems(exam)
     setJlptAnswers(exam.map(() => null))
     setJlptIdx(0)
+    setJlptStartedAt(Date.now())
     setScreen('jlpt-exam')
   }
 
@@ -123,6 +126,7 @@ export function App() {
     setJlptItems(saved.items)
     setJlptAnswers(saved.answers)
     setJlptIdx(saved.idx)
+    setJlptStartedAt(saved.startedAt)
     setScreen('jlpt-exam')
   }
 
@@ -148,14 +152,17 @@ export function App() {
 
   function finishJlpt(examItems: ScoredItem[], answers: (number | null)[]) {
     const result = scoreExam(examItems, answers)
+    const durationSec = jlptStartedAt ? Math.round((Date.now() - jlptStartedAt) / 1000) : 0
     appendResult({
       level: jlptLevel,
       takenAt: new Date().toISOString(),
       partScores: result.partScores,
       weakestPart: result.weakestPart,
+      durationSec,
     })
     clearProgress()
     setJlptResult(result)
+    setJlptDuration(durationSec)
     setScreen('jlpt-report')
   }
 
@@ -220,6 +227,7 @@ export function App() {
           items={jlptItems}
           initialAnswers={jlptAnswers}
           initialIdx={jlptIdx}
+          startedAt={jlptStartedAt}
           voiceReady={voiceReady}
           onComplete={finishJlpt}
           onExit={() => setScreen('jlpt-home')}
@@ -229,6 +237,7 @@ export function App() {
         <JlptReport
           level={jlptLevel}
           result={jlptResult}
+          durationSec={jlptDuration}
           onStudyWeak={studyWeakPart}
           onRetake={() => startJlpt(jlptLevel)}
           onHome={() => setScreen('home')}

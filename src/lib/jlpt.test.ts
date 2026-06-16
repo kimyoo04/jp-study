@@ -108,17 +108,18 @@ describe('scoreExam', () => {
 describe('persistence', () => {
   beforeEach(() => localStorage.clear())
 
-  it('round-trips an in-progress exam', () => {
+  it('round-trips an in-progress exam, including startedAt', () => {
     const items = buildExam('N5', POOL, seeded(1))
-    saveProgress({ level: 'N5', items, answers: items.map(() => null), idx: 2 })
+    saveProgress({ level: 'N5', items, answers: items.map(() => null), idx: 2, startedAt: 1234 })
     const loaded = loadProgress()
     expect(loaded?.level).toBe('N5')
     expect(loaded?.idx).toBe(2)
+    expect(loaded?.startedAt).toBe(1234)
     expect(loaded?.items).toHaveLength(items.length)
   })
 
   it('clearProgress wipes the saved exam', () => {
-    saveProgress({ level: 'N5', items: [], answers: [], idx: 0 })
+    saveProgress({ level: 'N5', items: [], answers: [], idx: 0, startedAt: 1 })
     clearProgress()
     expect(loadProgress()).toBeNull()
   })
@@ -126,7 +127,15 @@ describe('persistence', () => {
   it('discards an in-progress exam from a different schema version', () => {
     localStorage.setItem(
       'jp-study:jlpt-inprogress',
-      JSON.stringify({ version: 999, level: 'N5', items: [], answers: [], idx: 0 }),
+      JSON.stringify({ version: 999, level: 'N5', items: [], answers: [], idx: 0, startedAt: 1 }),
+    )
+    expect(loadProgress()).toBeNull()
+  })
+
+  it('discards a pre-timer save that has no startedAt', () => {
+    localStorage.setItem(
+      'jp-study:jlpt-inprogress',
+      JSON.stringify({ version: 1, level: 'N5', items: [], answers: [], idx: 0 }),
     )
     expect(loadProgress()).toBeNull()
   })

@@ -27,7 +27,7 @@ export function JlptQuestionView({ item, selected, voiceReady, onPick }: Props) 
 
   if (item.part === 'listening') {
     return (
-      <section className="card quiz">
+      <section className="card quiz jlpt-q">
         <p className="prompt-label">{item.prompt}</p>
         <button
           className="btn-ghost big-audio"
@@ -37,12 +37,14 @@ export function JlptQuestionView({ item, selected, voiceReady, onPick }: Props) 
           }}
           aria-label="듣기"
         >
-          🔊
+          🔊 듣기
         </button>
-        {!voiceReady && item.script && (
+        {voiceReady ? (
+          <p className="jlpt-audio-hint">탭하면 다시 들을 수 있어요</p>
+        ) : (
           // No ja voice on this device: show the script as text so the item is
           // still answerable (the report flags that listening ran without audio).
-          <p className="jlpt-script-fallback">{item.script}</p>
+          item.script && <p className="jlpt-script-fallback">{item.script}</p>
         )}
         {grid}
       </section>
@@ -51,7 +53,7 @@ export function JlptQuestionView({ item, selected, voiceReady, onPick }: Props) 
 
   if (item.part === 'reading') {
     return (
-      <section className="card quiz">
+      <section className="card quiz jlpt-q">
         {item.passage && <p className="jlpt-passage">{item.passage}</p>}
         <p className="prompt-label">{item.prompt}</p>
         {grid}
@@ -61,7 +63,7 @@ export function JlptQuestionView({ item, selected, voiceReady, onPick }: Props) 
 
   // vocab | grammar (cloze or ordering)
   return (
-    <section className="card quiz">
+    <section className="card quiz jlpt-q">
       <p className="jlpt-prompt">{item.prompt}</p>
       {item.segments && (
         <div className="jlpt-segments" aria-label="문장 조각">

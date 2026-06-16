@@ -9,12 +9,19 @@ import { PART_ORDER, type ExamResult } from '../lib/jlpt'
 interface Props {
   level: JlptLevel
   result: ExamResult
+  durationSec?: number
   onStudyWeak: (part: NonNullable<ExamResult['weakestPart']>) => void
   onRetake: () => void
   onHome: () => void
 }
 
-export function JlptReport({ level, result, onStudyWeak, onRetake, onHome }: Props) {
+function fmtTime(sec: number): string {
+  const m = Math.floor(sec / 60)
+  const s = sec % 60
+  return `${m}분 ${String(s).padStart(2, '0')}초`
+}
+
+export function JlptReport({ level, result, durationSec, onStudyWeak, onRetake, onHome }: Props) {
   const { partScores, total, weakestPart, inconclusive } = result
   const pct = total.total > 0 ? Math.round((total.correct / total.total) * 100) : 0
 
@@ -24,6 +31,7 @@ export function JlptReport({ level, result, onStudyWeak, onRetake, onHome }: Pro
       <div className="score">
         {total.correct} / {total.total} <span className="jlpt-score-pct">({pct}%)</span>
       </div>
+      {durationSec ? <p className="jlpt-duration">소요 시간 {fmtTime(durationSec)}</p> : null}
 
       <div className="card jlpt-hero">
         {inconclusive ? (

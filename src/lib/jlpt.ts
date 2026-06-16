@@ -175,6 +175,7 @@ export interface JlptResult {
   takenAt: string // ISO date
   partScores: Record<JlptPart, PartScore>
   weakestPart: JlptPart | null
+  durationSec?: number // wall-clock time spent on the exam
 }
 
 export interface InProgress {
@@ -183,6 +184,7 @@ export interface InProgress {
   items: ScoredItem[]
   answers: (number | null)[]
   idx: number
+  startedAt: number // epoch ms — survives resume so elapsed time keeps counting
 }
 
 /** Saved exam history, newest last. Drops records from an older schema. */
@@ -207,6 +209,7 @@ export function loadProgress(): InProgress | null {
   const raw = loadJson<InProgress>(PROGRESS_KEY)
   if (!raw || raw.version !== SCHEMA_VERSION) return null
   if (!Array.isArray(raw.items) || !Array.isArray(raw.answers)) return null
+  if (typeof raw.startedAt !== 'number') return null // pre-timer save -> discard
   return raw
 }
 

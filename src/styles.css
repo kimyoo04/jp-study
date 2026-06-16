@@ -762,3 +762,80 @@ body {
 .progress-fill.weak {
   background: var(--wrong);
 }
+
+/* ---- JLPT exam UX (timer, navigator, layout) ---- */
+.jlpt-timer {
+  color: var(--muted);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  flex: 0 0 auto;
+}
+.jlpt-nav-toggle {
+  flex: 0 0 auto;
+  background: var(--surface);
+  color: var(--muted);
+  border: none;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  min-height: 36px;
+}
+/* Top-align question content so one-line items don't float in dead center. */
+.jlpt-q {
+  justify-content: flex-start;
+  padding-top: 8px;
+  gap: 16px;
+}
+.jlpt-audio-hint {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0;
+}
+/* Keep long reading passages from pushing the choices off-screen. */
+.jlpt-passage {
+  max-height: 40vh;
+  overflow-y: auto;
+}
+.jlpt-duration {
+  color: var(--muted);
+  font-size: 14px;
+  margin: -6px 0 0;
+  font-variant-numeric: tabular-nums;
+}
+.jlpt-nav-modal {
+  width: 100%;
+  max-width: 360px;
+}
+.jlpt-nav-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  width: 100%;
+  margin: 4px 0 12px;
+}
+.jlpt-nav-cell {
+  aspect-ratio: 1;
+  border: 2px solid var(--surface-2);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+}
+.jlpt-nav-cell.done {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+.jlpt-nav-cell.current {
+  border-color: var(--text);
+  color: var(--text);
+}
+.jlpt-nav-cell.done.current {
+  color: #fff;
+}
