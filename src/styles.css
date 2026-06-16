@@ -839,3 +839,32 @@ body {
 .jlpt-nav-cell.done.current {
   color: #fff;
 }
+
+/* ---- JLPT answer review ---- */
+.jlpt-review {
+  justify-content: flex-start;
+}
+.jlpt-review-item {
+  /* override .card's flex:1 + centering so items stack as a readable list */
+  flex: none;
+  align-items: stretch;
+  text-align: left;
+  gap: 12px;
+  padding: 16px;
+  background: var(--surface);
+  border-radius: var(--radius);
+}
+.jlpt-review-item .jlpt-prompt {
+  text-align: left;
+  font-size: 19px;
+  margin: 0;
+}
+.jlpt-review-item .jlpt-part-tag {
+  margin: 0;
+}
+.jlpt-review-skip {
+  color: var(--wrong);
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0;
+}

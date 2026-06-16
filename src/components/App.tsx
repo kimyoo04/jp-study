@@ -161,6 +161,8 @@ export function App() {
       durationSec,
     })
     clearProgress()
+    setJlptItems(examItems)
+    setJlptAnswers(answers)
     setJlptResult(result)
     setJlptDuration(durationSec)
     setScreen('jlpt-report')
@@ -237,6 +239,8 @@ export function App() {
         <JlptReport
           level={jlptLevel}
           result={jlptResult}
+          items={jlptItems}
+          answers={jlptAnswers}
           durationSec={jlptDuration}
           onStudyWeak={studyWeakPart}
           onRetake={() => startJlpt(jlptLevel)}
