@@ -884,3 +884,216 @@ body {
   font-weight: 700;
   margin: 0;
 }
+
+/* ---- 개념 학습: 홈 엔트리 ---- */
+.learn-entry {
+  margin-top: 4px;
+}
+
+/* ---- 개념 학습: 주차 목록 ---- */
+.learn {
+  /* .card 가 아니라 위에서부터 읽히는 리스트 화면 */
+  justify-content: flex-start;
+}
+.learn-top,
+.reader-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.learn-title {
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0;
+}
+.learn-intro {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+  margin: -8px 0 0;
+}
+.learn-weeks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.learn-week-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  background: var(--surface);
+  border: none;
+  border-radius: var(--radius);
+  padding: 16px;
+  color: var(--text);
+  cursor: pointer;
+}
+.learn-week-card:active {
+  background: var(--surface-2);
+}
+.learn-week-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.learn-week-no {
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+.learn-week-count {
+  color: var(--muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.learn-week-name {
+  font-size: 19px;
+  font-weight: 800;
+}
+.learn-week-sub {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.learn-week-goal {
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.5;
+  margin-top: 2px;
+  opacity: 0.85;
+}
+
+/* ---- 개념 학습: 마크다운 리더 ---- */
+.reader {
+  justify-content: flex-start;
+}
+.reader-head-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.reader-week {
+  font-size: 15px;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.reader-page-no {
+  color: var(--muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.reader-body {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 -4px;
+  padding: 0 4px;
+}
+.reader-nav {
+  display: flex;
+  gap: 12px;
+}
+.reader-nav .btn-primary,
+.reader-nav .btn-ghost {
+  flex: 1;
+}
+
+/* ---- Markdown 렌더 ---- */
+.md {
+  text-align: left;
+  line-height: 1.7;
+  font-size: 16px;
+}
+.md-h1 {
+  font-size: 22px;
+  font-weight: 800;
+  margin: 4px 0 12px;
+}
+.md-h2 {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 22px 0 8px;
+  color: var(--text);
+}
+.md-h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 16px 0 6px;
+  color: var(--muted);
+}
+.md-p {
+  margin: 10px 0;
+}
+.md-list {
+  margin: 10px 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.md-list li {
+  line-height: 1.6;
+}
+.md strong {
+  color: var(--text);
+  font-weight: 800;
+}
+.md code {
+  background: var(--surface-2);
+  border-radius: 6px;
+  padding: 1px 6px;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 0.92em;
+}
+.md-hr {
+  border: none;
+  border-top: 1px solid var(--surface-2);
+  margin: 20px 0;
+}
+.md-callout {
+  margin: 14px 0;
+  padding: 12px 14px;
+  background: var(--surface);
+  border-left: 3px solid var(--primary);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+.md-callout p {
+  margin: 4px 0;
+  color: var(--text);
+  font-size: 15px;
+}
+.md-table-wrap {
+  overflow-x: auto;
+  margin: 14px 0;
+  -webkit-overflow-scrolling: touch;
+}
+.md-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.md-table th,
+.md-table td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--surface-2);
+  vertical-align: top;
+}
+.md-table th {
+  background: var(--surface);
+  color: var(--muted);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.md-table tr:last-child td {
+  border-bottom: none;
+}

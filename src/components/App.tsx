@@ -18,6 +18,9 @@ import { Search } from './Search'
 import { JlptHome } from './JlptHome'
 import { JlptExam } from './JlptExam'
 import { JlptReport } from './JlptReport'
+import { Learn } from './Learn'
+import { LearnReader } from './LearnReader'
+import type { CurriculumWeek } from '../data/curriculum'
 import { JLPT_POOL } from '../data/jlpt'
 import type { JlptLevel, JlptPart, ScoredItem } from '../data/jlpt/types'
 import {
@@ -29,7 +32,16 @@ import {
   type ExamResult,
 } from '../lib/jlpt'
 
-type Screen = 'home' | 'lesson' | 'complete' | 'search' | 'jlpt-home' | 'jlpt-exam' | 'jlpt-report'
+type Screen =
+  | 'home'
+  | 'lesson'
+  | 'complete'
+  | 'search'
+  | 'jlpt-home'
+  | 'jlpt-exam'
+  | 'jlpt-report'
+  | 'learn'
+  | 'learn-reader'
 
 export function App() {
   const { progress, persistent, update } = useProgress()
@@ -48,6 +60,9 @@ export function App() {
   const [jlptStartedAt, setJlptStartedAt] = useState(0)
   const [jlptResult, setJlptResult] = useState<ExamResult | null>(null)
   const [jlptDuration, setJlptDuration] = useState(0)
+
+  // 개념 학습(커리큘럼) 상태.
+  const [learnWeek, setLearnWeek] = useState<CurriculumWeek | null>(null)
 
   // Listen mode needs a Japanese TTS voice. Voices load asynchronously (Chrome),
   // so detect once on mount and gate the toggle on the result.
@@ -193,6 +208,7 @@ export function App() {
           onSearch={() => setScreen('search')}
           onStart={startLesson}
           onJlpt={() => setScreen('jlpt-home')}
+          onLearn={() => setScreen('learn')}
         />
       )}
       {screen === 'lesson' && (
@@ -215,6 +231,18 @@ export function App() {
         />
       )}
       {screen === 'search' && <Search onExit={() => setScreen('home')} />}
+      {screen === 'learn' && (
+        <Learn
+          onOpenWeek={(w) => {
+            setLearnWeek(w)
+            setScreen('learn-reader')
+          }}
+          onExit={() => setScreen('home')}
+        />
+      )}
+      {screen === 'learn-reader' && learnWeek && (
+        <LearnReader week={learnWeek} onExit={() => setScreen('learn')} />
+      )}
       {screen === 'jlpt-home' && (
         <JlptHome
           voiceReady={voiceReady}
