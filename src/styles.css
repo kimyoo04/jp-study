@@ -991,6 +991,11 @@ body {
   font-size: 12px;
   font-variant-numeric: tabular-nums;
 }
+/* .slim 은 JLPT 가로 세그먼트용으로 flex:1 을 갖는다. 세로 플렉스인 리더에선
+   그게 막대를 세로로 늘리므로 여기서만 무력화한다. */
+.reader .progress-bar.slim {
+  flex: none;
+}
 .reader-body {
   flex: 1;
   overflow-y: auto;
