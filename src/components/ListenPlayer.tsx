@@ -15,7 +15,7 @@ interface Props {
 const REPEAT_GAP = 500
 const CARD_GAP = 700
 
-const RATES = [0.8, 0.9, 1.0] as const
+const RATES = [0.8, 1.0, 1.2] as const
 
 function glyphClassFor(kind: DeckKind): string {
   if (kind === 'sentence') return 'glyph sentence'
@@ -40,7 +40,7 @@ export function ListenPlayer({ items, deck, koReady, onExit }: Props) {
   const [index, setIndex] = useState(0)
   const [playing, setPlaying] = useState(false)
   const [part, setPart] = useState<'ja' | 'ko' | null>(null)
-  const [rate, setRate] = useState<number>(0.9)
+  const [rate, setRate] = useState<number>(1.0)
   const [repeatEach, setRepeatEach] = useState(1)
   const [readKo, setReadKo] = useState(koReady)
   const [loop, setLoop] = useState(false)
