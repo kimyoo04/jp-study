@@ -114,7 +114,7 @@ export const N2_QUESTIONS: JlptQuestion[] = [
     part: 'vocab',
     kind: 'context',
     prompt: 'わたしは 人まえで はなすのが (　　) です。',
-    choices: ['にがて', 'とくい', 'じょうず', 'へた'],
+    choices: ['にがて', 'とくい', 'じょうず', 'すき'],
     answer: 0,
   },
 

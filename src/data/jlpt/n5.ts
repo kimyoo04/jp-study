@@ -381,7 +381,7 @@ export const N5_QUESTIONS: JlptQuestion[] = [
     part: 'grammar',
     kind: 'cloze',
     prompt: 'あなたは がくせいです (　　)。',
-    choices: ['か', 'ね', 'よ', 'の'],
+    choices: ['か', 'が', 'から', 'の'],
     answer: 0,
   },
   {
@@ -399,7 +399,7 @@ export const N5_QUESTIONS: JlptQuestion[] = [
     part: 'grammar',
     kind: 'cloze',
     prompt: 'みせは 9じ (　　) あいて います。',
-    choices: ['から', 'まで', 'に', 'を'],
+    choices: ['から', 'で', 'に', 'を'],
     answer: 0,
   },
   {

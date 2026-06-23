@@ -178,7 +178,7 @@ export const N4_QUESTIONS: JlptQuestion[] = [
     part: 'grammar',
     kind: 'cloze',
     prompt: 'あした あめが (　　) でかけません。',
-    choices: ['ふったら', 'ふっても', 'ふりながら', 'ふるので'],
+    choices: ['ふったら', 'ふって', 'ふり', 'ふるの'],
     answer: 0,
   },
   {
