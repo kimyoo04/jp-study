@@ -297,6 +297,15 @@ body {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
+.nav-arrow {
+  font-size: 24px;
+  line-height: 1;
+  padding: 0 4px;
+}
+.nav-arrow:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
 .card {
   flex: 1;
   display: flex;

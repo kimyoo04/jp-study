@@ -55,27 +55,29 @@ export function Lesson({ items, pool, deck, listenMode, onComplete, onExit }: Pr
   }, [items, pool, deck.kind, listenMode])
 
   const [index, setIndex] = useState(0)
-  const [phase, setPhase] = useState<'answer' | 'feedback'>('answer')
-  const [picked, setPicked] = useState<Kana | null>(null)
-  const [results, setResults] = useState<LessonResult[]>([])
+  // Answers are keyed by step index (not appended) so the user can move back and
+  // forth without losing what they already did on each step.
+  const [answers, setAnswers] = useState<Record<number, LessonResult>>({})
+  const [picks, setPicks] = useState<Record<number, Kana>>({})
   const [confirmExit, setConfirmExit] = useState(false)
 
   const step = steps[index]
+  const answered = answers[index] !== undefined
+  const phase: 'answer' | 'feedback' = answered ? 'feedback' : 'answer'
+  const picked = picks[index] ?? null
+  const isLast = index + 1 >= steps.length
   const progressPct = Math.round((index / steps.length) * 100)
 
-  function record(correct: boolean): LessonResult[] {
-    return [...results, { kana: step.item.kana, mode: step.item.mode, correct }]
+  function finish(final: Record<number, LessonResult>) {
+    // Emit results in step order, skipping steps the user never completed.
+    const ordered = steps.map((_, i) => final[i]).filter(Boolean) as LessonResult[]
+    onComplete(ordered)
   }
 
-  function advance(next: LessonResult[]) {
-    if (index + 1 >= steps.length) {
-      onComplete(next)
-      return
-    }
-    setResults(next)
-    setIndex(index + 1)
-    setPhase('answer')
-    setPicked(null)
+  // Move forward: complete the lesson on the last step, otherwise step ahead.
+  function forward(updated: Record<number, LessonResult>) {
+    if (isLast) finish(updated)
+    else setIndex(index + 1)
   }
 
   function sayCurrent() {
@@ -85,27 +87,40 @@ export function Lesson({ items, pool, deck, listenMode, onComplete, onExit }: Pr
   function onIntroNext() {
     primeSpeech()
     sayCurrent()
-    advance(record(true))
+    const updated = answered
+      ? answers
+      : { ...answers, [index]: { kana: step.item.kana, mode: step.item.mode, correct: true } }
+    setAnswers(updated)
+    forward(updated)
   }
 
   function onPick(option: Kana) {
     if (phase === 'feedback') return
     primeSpeech()
     const correct = isCorrect(step.question!, option)
-    setPicked(option)
-    setPhase('feedback')
+    setPicks({ ...picks, [index]: option })
+    setAnswers({ ...answers, [index]: { kana: step.item.kana, mode: step.item.mode, correct } })
     if (correct) playCorrect()
     else playWrong()
     sayCurrent()
   }
 
   function onContinue() {
-    advance(record(isCorrect(step.question!, picked!)))
+    forward(answers)
+  }
+
+  // Free navigation: jump back to review, or skip ahead without answering.
+  function goPrev() {
+    if (index > 0) setIndex(index - 1)
+  }
+
+  function skip() {
+    if (!isLast) setIndex(index + 1)
   }
 
   function onExitClick() {
     // Confirm once the user has made any progress (answered or advanced).
-    if (index > 0 || phase === 'feedback' || results.length > 0) setConfirmExit(true)
+    if (index > 0 || phase === 'feedback' || Object.keys(answers).length > 0) setConfirmExit(true)
     else onExit()
   }
 
@@ -115,12 +130,18 @@ export function Lesson({ items, pool, deck, listenMode, onComplete, onExit }: Pr
         <button className="link" onClick={onExitClick} aria-label="나가기">
           ✕
         </button>
+        <button className="link nav-arrow" onClick={goPrev} disabled={index === 0} aria-label="이전 단계">
+          ‹
+        </button>
         <div className="progress-bar slim">
           <div className="progress-fill" style={{ width: `${progressPct}%` }} />
         </div>
         <span className="counter">
           {index + 1}/{steps.length}
         </span>
+        <button className="link nav-arrow" onClick={skip} disabled={isLast} aria-label="건너뛰기">
+          ›
+        </button>
       </div>
 
       {step.item.mode === 'intro' ? (
