@@ -21,6 +21,7 @@ interface Props {
   listenAvailable: boolean
   onSearch: () => void
   onStart: () => void
+  onListen: () => void
   onJlpt: () => void
   onLearn: () => void
 }
@@ -43,6 +44,7 @@ export function Home({
   listenAvailable,
   onSearch,
   onStart,
+  onListen,
   onJlpt,
   onLearn,
 }: Props) {
@@ -130,7 +132,7 @@ export function Home({
         aria-pressed={listen}
       >
         <span className="mode-toggle-text">
-          🎧 듣기 모드
+          🎧 듣고 풀기
           {!listenAvailable && <small> (이 기기는 음성 미지원)</small>}
         </span>
         <span className="mode-toggle-state">{listen ? '켜짐' : '꺼짐'}</span>
@@ -138,6 +140,9 @@ export function Home({
 
       <button className="btn-primary" onClick={onStart}>
         {learned > 0 ? '오늘의 레슨' : '시작하기'}
+      </button>
+      <button className="btn-ghost" onClick={onListen} disabled={!listenAvailable}>
+        🎧 흘려듣기 ({total})
       </button>
       {weakCount > 0 && (
         <button className="btn-ghost" onClick={onReviewWeak}>

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { DECKS, deckCategories, type Deck, type Kana } from '../data/kana'
 import { useProgress } from '../hooks/useProgress'
 import { useSettings } from '../hooks/useSettings'
-import { hasJaVoice, loadVoices } from '../lib/speak'
+import { hasJaVoice, hasKoVoice, loadVoices } from '../lib/speak'
 import {
   applyAnswer,
   introducedCard,
@@ -20,6 +20,7 @@ import { JlptExam } from './JlptExam'
 import { JlptReport } from './JlptReport'
 import { Learn } from './Learn'
 import { LearnReader } from './LearnReader'
+import { ListenPlayer } from './ListenPlayer'
 import type { CurriculumWeek } from '../data/curriculum'
 import { JLPT_POOL } from '../data/jlpt'
 import type { JlptLevel, JlptPart, ScoredItem } from '../data/jlpt/types'
@@ -42,6 +43,7 @@ type Screen =
   | 'jlpt-report'
   | 'learn'
   | 'learn-reader'
+  | 'listen-play'
 
 export function App() {
   const { progress, persistent, update } = useProgress()
@@ -67,8 +69,12 @@ export function App() {
   // Listen mode needs a Japanese TTS voice. Voices load asynchronously (Chrome),
   // so detect once on mount and gate the toggle on the result.
   const [voiceReady, setVoiceReady] = useState(false)
+  const [koReady, setKoReady] = useState(false)
   useEffect(() => {
-    void loadVoices().then(() => setVoiceReady(hasJaVoice()))
+    void loadVoices().then(() => {
+      setVoiceReady(hasJaVoice())
+      setKoReady(hasKoVoice())
+    })
   }, [])
   const listenMode = settings.listen && voiceReady
 
@@ -92,6 +98,12 @@ export function App() {
     if (next.length === 0) return
     setItems(next)
     setScreen('lesson')
+  }
+
+  // Passive listen: auto-play the current scope (no quizzing, no progress change).
+  function startListen() {
+    if (scopeKana.length === 0) return
+    setScreen('listen-play')
   }
 
   // Review only the given kana (e.g. the ones missed last lesson), all as quizzes.
@@ -207,8 +219,17 @@ export function App() {
           listenAvailable={voiceReady}
           onSearch={() => setScreen('search')}
           onStart={startLesson}
+          onListen={startListen}
           onJlpt={() => setScreen('jlpt-home')}
           onLearn={() => setScreen('learn')}
+        />
+      )}
+      {screen === 'listen-play' && (
+        <ListenPlayer
+          items={scopeKana}
+          deck={deck}
+          koReady={koReady}
+          onExit={() => setScreen('home')}
         />
       )}
       {screen === 'lesson' && (
