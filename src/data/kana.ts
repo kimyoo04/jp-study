@@ -8,12 +8,17 @@ import { KEIGO_ROWS, KEIGO } from './keigo'
 import { GRAMMAR_ROWS, GRAMMAR } from './grammar'
 import { PHRASE_ROWS, PHRASES } from './phrases'
 import { KANJI_ROWS, KANJI } from './kanji'
+import { CLOZE_ROWS, CLOZE } from './cloze'
 
 export interface Kana {
   kana: string
   romaji: string
   meaning?: string // present for word/sentence decks; absent for kana
   note?: string // grammar pattern label (sentence decks)
+  // Cloze decks only: `kana` holds the sentence with a BLANK marker, `answer` is
+  // the fragment that fills it, `choices` are the 3 distractor fragments.
+  answer?: string
+  choices?: string[]
 }
 
 export const HIRAGANA_ROWS: Kana[][] = [
@@ -237,9 +242,18 @@ export type DeckId =
   | 'phrases'
   | 'keigo'
   | 'kanji'
+  | 'cloze'
 // 'kana' -> quiz reads romaji; 'words'/'sentence'/'kanji' -> quiz reads meaning.
 // 'sentence' renders smaller + shows the grammar pattern; 'kanji' renders one big glyph.
-export type DeckKind = 'kana' | 'words' | 'sentence' | 'kanji'
+export type DeckKind = 'kana' | 'words' | 'sentence' | 'kanji' | 'cloze'
+
+/** Marker inside a cloze card's `kana` sentence where the answer fragment goes. */
+export const BLANK = '◯◯'
+
+/** Fill a cloze card's blank with its answer to get the complete sentence. */
+export function clozeFilled(card: Kana): string {
+  return card.answer ? card.kana.replace(BLANK, card.answer) : card.kana
+}
 
 export interface Deck {
   id: DeckId
@@ -312,6 +326,7 @@ export const DECKS: Deck[] = [
   { id: 'phrases', label: '회화', kind: 'sentence', rows: PHRASE_ROWS, kana: PHRASES, koReading: true },
   { id: 'keigo', label: '경어', kind: 'sentence', rows: KEIGO_ROWS, kana: KEIGO, koReading: true },
   { id: 'kanji', label: '한자', kind: 'kanji', rows: KANJI_ROWS, kana: KANJI, catLabels: KANJI_CATS },
+  { id: 'cloze', label: '빈칸', kind: 'cloze', rows: CLOZE_ROWS, kana: CLOZE },
 ]
 
 /**
@@ -321,7 +336,7 @@ export const DECKS: Deck[] = [
  * - words/loanwords/kanji: one per row, labeled by catLabels (deduped on collision).
  */
 export function deckCategories(deck: Deck): Category[] {
-  if (deck.kind === 'sentence') {
+  if (deck.kind === 'sentence' || deck.kind === 'cloze') {
     const order: string[] = []
     const map = new Map<string, Kana[]>()
     for (const k of deck.kana) {

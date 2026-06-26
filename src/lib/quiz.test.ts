@@ -59,6 +59,17 @@ describe('buildQuestion', () => {
     }
   })
 
+  it('cloze builds options from the card answer + choices, not a pool', () => {
+    const card = { kana: 'ごはん◯◯ たべます', romaji: 'gohan o tabemasu', answer: 'を', choices: ['に', 'で', 'と'] }
+    const q = buildQuestion(card, 'cloze', 'cloze', [], seeded(3))
+    expect(q.options).toHaveLength(4)
+    const texts = q.options.map((o) => optionText(o, 'cloze', 'cloze'))
+    expect(new Set(texts)).toEqual(new Set(['を', 'に', 'で', 'と']))
+    expect(q.answer.kana).toBe('を')
+    expect(isCorrect(q, q.options.find((o) => o.kana === 'を')!)).toBe(true)
+    expect(isCorrect(q, q.options.find((o) => o.kana === 'に')!)).toBe(false)
+  })
+
   it('never shows two options with the same display text, on any deck item', () => {
     // Two kana can share a romaji (じ/ぢ) or a Korean meaning (かく/にがい
     // both "쓰다") — rendering both makes a correct-looking option wrong.
@@ -79,6 +90,11 @@ describe('buildQuestion', () => {
 })
 
 describe('pickQType', () => {
+  it('cloze decks always quiz cloze, even in listen mode', () => {
+    expect(pickQType('cloze', false, true, 0)).toBe('cloze')
+    expect(pickQType('cloze', true, true, 2)).toBe('cloze')
+  })
+
   it('listen mode forces listen on every deck when a voice exists', () => {
     expect(pickQType('kana', true, true, 0)).toBe('listen')
     expect(pickQType('words', true, true, 0)).toBe('listen')

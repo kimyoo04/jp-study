@@ -104,7 +104,7 @@ describe('deckCategories', () => {
 })
 
 describe('decks', () => {
-  it('exposes all ten decks with the right kinds', () => {
+  it('exposes all eleven decks with the right kinds', () => {
     expect(DECKS.map((d) => d.id)).toEqual([
       'hiragana',
       'katakana',
@@ -116,6 +116,7 @@ describe('decks', () => {
       'phrases',
       'keigo',
       'kanji',
+      'cloze',
     ])
     const kinds = Object.fromEntries(DECKS.map((d) => [d.id, d.kind]))
     expect(kinds).toEqual({
@@ -129,6 +130,7 @@ describe('decks', () => {
       phrases: 'sentence',
       keigo: 'sentence',
       kanji: 'kanji',
+      cloze: 'cloze',
     })
   })
 

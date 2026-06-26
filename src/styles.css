@@ -339,6 +339,23 @@ body {
 .listen-play-btn {
   min-width: 140px;
 }
+.listen-skip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 0 16px;
+}
+.listen-jump {
+  border: 1px solid var(--surface-2);
+  background: transparent;
+  color: var(--text);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
 .listen-options {
   display: flex;
   flex-direction: column;
@@ -357,9 +374,9 @@ body {
   gap: 4px;
 }
 .seg-item {
-  border: 1px solid var(--border);
+  border: 1px solid var(--surface-2);
   background: transparent;
-  color: var(--fg);
+  color: var(--text);
   border-radius: 8px;
   padding: 6px 12px;
   font-size: 14px;
@@ -371,9 +388,9 @@ body {
   color: #fff;
 }
 .listen-chip {
-  border: 1px solid var(--border);
+  border: 1px solid var(--surface-2);
   background: transparent;
-  color: var(--fg);
+  color: var(--text);
   border-radius: 10px;
   padding: 10px 14px;
   font-size: 14px;
@@ -411,6 +428,24 @@ body {
   font-weight: 600;
   text-align: center;
   max-width: 340px;
+}
+.cloze-sentence {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+.cloze-gap {
+  color: var(--primary);
+  border-bottom: 3px solid var(--primary);
+  letter-spacing: 2px;
+  padding: 0 4px;
+}
+.cloze-fill {
+  color: var(--primary);
+  border-bottom: 3px solid var(--primary);
+  padding: 0 4px;
 }
 .pattern {
   background: var(--surface-2);

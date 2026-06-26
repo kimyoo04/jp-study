@@ -47,7 +47,8 @@ export function Complete({ results, wrong, onReview, onAgain, onHome }: Props) {
       <div className="chips" aria-label="이번에 배운 글자">
         {studied.map((k) => (
           <span key={k.kana} className={wrongSet.has(k.kana) ? 'chip miss' : 'chip'}>
-            {k.kana}
+            {/* Cloze items show the answer fragment; a full blanked sentence won't fit a chip. */}
+            {k.answer ?? k.kana}
           </span>
         ))}
       </div>

@@ -5,7 +5,7 @@ import type { DeckKind, Kana } from '../data/kana'
 import { HIRAGANA, ROW_OF } from '../data/kana'
 import { shuffle, type Rng } from './rng'
 
-export type QType = 'read' | 'listen' | 'meaning'
+export type QType = 'read' | 'listen' | 'meaning' | 'cloze'
 
 /**
  * Decide a quiz step's type. Listen mode (user toggle) forces audio prompts on
@@ -19,6 +19,7 @@ export function pickQType(
   hasVoice: boolean,
   quizIndex: number,
 ): QType {
+  if (deckKind === 'cloze') return 'cloze'
   if (listenMode && hasVoice) return 'listen'
   if (deckKind === 'kanji') return quizIndex % 2 === 0 ? 'meaning' : 'read'
   if (deckKind !== 'kana') return 'meaning'
@@ -39,6 +40,7 @@ export interface Question {
  * "correct-looking" option silently wrong.
  */
 export function optionText(opt: Kana, qtype: QType, deckKind: DeckKind): string {
+  if (qtype === 'cloze') return opt.kana // cloze options are bare fragments
   if (qtype === 'read') return opt.romaji
   if (qtype === 'meaning') return opt.meaning ?? ''
   // listen: kana decks pick the glyph; other decks pick the meaning.
@@ -83,6 +85,15 @@ export function buildQuestion(
   rng: Rng = Math.random,
   optionCount = 4,
 ): Question {
+  // Cloze cards carry their own answer fragment + fixed distractors, so options
+  // come from the card itself rather than a shared pool. The answer option's
+  // `kana` is the fragment (used by isCorrect/optionText); the sentence prompt is
+  // rendered from the original card by the caller.
+  if (qtype === 'cloze') {
+    const correct: Kana = { kana: answer.answer ?? '', romaji: answer.romaji }
+    const distractors: Kana[] = (answer.choices ?? []).map((c) => ({ kana: c, romaji: '' }))
+    return { qtype, answer: correct, options: shuffle([correct, ...distractors], rng) }
+  }
   const textOf = (k: Kana) => optionText(k, qtype, deckKind)
   const distractors = pickDistractors(answer, optionCount - 1, pool, rng, textOf)
   const options = shuffle([answer, ...distractors], rng)

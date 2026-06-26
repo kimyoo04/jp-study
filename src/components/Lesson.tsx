@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import type { Deck, DeckKind, Kana } from '../data/kana'
+import { BLANK, clozeFilled, type Deck, type DeckKind, type Kana } from '../data/kana'
 import type { LessonItem, LessonMode } from '../lib/srs'
 import { buildQuestion, isCorrect, optionText, pickQType, type Question } from '../lib/quiz'
 import { hasJaVoice, primeSpeech, speakItem } from '../lib/speak'
@@ -28,7 +28,7 @@ interface Step {
 }
 
 function glyphClassFor(kind: DeckKind): string {
-  if (kind === 'sentence') return 'glyph sentence'
+  if (kind === 'sentence' || kind === 'cloze') return 'glyph sentence'
   if (kind === 'words') return 'glyph word'
   return 'glyph big'
 }
@@ -38,6 +38,26 @@ const INTRO_LABEL: Record<DeckKind, string> = {
   words: '새 단어',
   sentence: '예문',
   kanji: '새 한자',
+  cloze: '예문',
+}
+
+// Render a cloze sentence: the BLANK is shown as an empty slot (answer phase) or
+// filled with the answer (feedback phase). Split keeps the surrounding text intact.
+function ClozeSentence({ card, reveal }: { card: Kana; reveal: boolean }) {
+  const [before, after] = card.kana.split(BLANK)
+  return (
+    <div className="glyph sentence cloze-sentence">
+      <span>{before}</span>
+      {reveal ? (
+        <span className="cloze-fill">{card.answer}</span>
+      ) : (
+        <span className="cloze-gap" aria-label="빈칸">
+          ◯◯
+        </span>
+      )}
+      <span>{after}</span>
+    </div>
+  )
 }
 
 export function Lesson({ items, pool, deck, listenMode, onComplete, onExit }: Props) {
@@ -81,6 +101,11 @@ export function Lesson({ items, pool, deck, listenMode, onComplete, onExit }: Pr
   }
 
   function sayCurrent() {
+    // Cloze sentences read the completed form, not the blanked one.
+    if (deck.kind === 'cloze') {
+      speakItem({ kana: clozeFilled(step.item.kana), romaji: step.item.kana.romaji }, false)
+      return
+    }
     speakItem(step.item.kana, deck.kind === 'kanji')
   }
 
@@ -149,6 +174,7 @@ export function Lesson({ items, pool, deck, listenMode, onComplete, onExit }: Pr
       ) : (
         <Quiz
           question={step.question!}
+          card={step.item.kana}
           deckKind={deck.kind}
           koReading={!!deck.koReading}
           phase={phase}
@@ -175,11 +201,16 @@ function IntroCard({
   onSpeak: () => void
   onNext: () => void
 }) {
+  // Cloze intro shows the COMPLETE sentence so the pattern is learned before it
+  // gets tested with a blank on later reviews.
+  const glyphText = deck.kind === 'cloze' ? clozeFilled(kana) : kana.kana
   return (
     <section className="card intro">
-      {deck.kind === 'sentence' && kana.note && <div className="pattern">{kana.note}</div>}
+      {(deck.kind === 'sentence' || deck.kind === 'cloze') && kana.note && (
+        <div className="pattern">{kana.note}</div>
+      )}
       <p className="prompt-label">{INTRO_LABEL[deck.kind]}</p>
-      <div className={glyphClassFor(deck.kind)}>{kana.kana}</div>
+      <div className={glyphClassFor(deck.kind)}>{glyphText}</div>
       {deck.koReading && <div className="ko-reading">{kanaToHangul(kana.kana)}</div>}
       <div className="romaji">{kana.romaji}</div>
       {kana.meaning && deck.kind !== 'kana' && <div className="meaning">{kana.meaning}</div>}
@@ -218,6 +249,7 @@ function ExitConfirm({ onStay, onLeave }: { onStay: () => void; onLeave: () => v
 
 function Quiz({
   question,
+  card,
   deckKind,
   koReading,
   phase,
@@ -227,6 +259,7 @@ function Quiz({
   onContinue,
 }: {
   question: Question
+  card: Kana // the lesson item (cloze: the blanked sentence + meaning + note)
   deckKind: DeckKind
   koReading: boolean
   phase: 'answer' | 'feedback'
@@ -239,23 +272,32 @@ function Quiz({
   // In listen mode kana decks still pick the glyph; word/kanji/sentence decks
   // pick the Korean meaning (you only have the sound to go on).
   const label =
-    qtype === 'listen'
-      ? deckKind === 'kana'
-        ? '소리를 듣고 글자를 고르세요'
-        : '소리를 듣고 뜻을 고르세요'
-      : qtype === 'meaning'
-        ? deckKind === 'kanji'
-          ? '이 한자의 뜻은?'
-          : deckKind === 'sentence'
-            ? '이 문장의 뜻은?'
-            : '이 단어의 뜻은?'
-        : deckKind === 'kanji'
-          ? '이 한자의 읽기는?'
-          : '이 글자의 읽기는?'
+    qtype === 'cloze'
+      ? '빈칸에 들어갈 말은?'
+      : qtype === 'listen'
+        ? deckKind === 'kana'
+          ? '소리를 듣고 글자를 고르세요'
+          : '소리를 듣고 뜻을 고르세요'
+        : qtype === 'meaning'
+          ? deckKind === 'kanji'
+            ? '이 한자의 뜻은?'
+            : deckKind === 'sentence'
+              ? '이 문장의 뜻은?'
+              : '이 단어의 뜻은?'
+          : deckKind === 'kanji'
+            ? '이 한자의 읽기는?'
+            : '이 글자의 읽기는?'
 
   return (
     <section className="card quiz">
-      {qtype === 'listen' ? (
+      {qtype === 'cloze' ? (
+        <>
+          {card.note && <div className="pattern">{card.note}</div>}
+          <p className="prompt-label">{label}</p>
+          <ClozeSentence card={card} reveal={phase === 'feedback'} />
+          {card.meaning && <div className="meaning">{card.meaning}</div>}
+        </>
+      ) : qtype === 'listen' ? (
         <>
           <p className="prompt-label">{label}</p>
           <button className="btn-ghost big-audio" onClick={onReplay} aria-label="다시 듣기">

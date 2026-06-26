@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import type { Deck, DeckKind, Kana } from '../data/kana'
+import { clozeFilled, type Deck, type DeckKind, type Kana } from '../data/kana'
 import { kanaToHangul } from '../lib/hangul'
 import { primeSpeech, speakSequence, stopSpeech, type SpeechPart } from '../lib/speak'
 
@@ -18,16 +18,21 @@ const CARD_GAP = 700
 const RATES = [0.8, 1.0, 1.2] as const
 
 function glyphClassFor(kind: DeckKind): string {
-  if (kind === 'sentence') return 'glyph sentence'
+  if (kind === 'sentence' || kind === 'cloze') return 'glyph sentence'
   if (kind === 'words') return 'glyph word'
   return 'glyph big'
+}
+
+// The Japanese text shown/read for a card. Cloze cards read the completed sentence.
+function jpTextFor(item: Kana, kind: DeckKind): string {
+  return kind === 'cloze' ? clozeFilled(item) : item.kana
 }
 
 // What gets read for one card: Japanese first, then the Korean side.
 // Kana decks have no meaning, so the Korean side is the phonetic reading.
 function partsFor(item: Kana, kind: DeckKind, readKo: boolean): SpeechPart[] {
   const parts: SpeechPart[] = []
-  const jp = kind === 'kanji' ? item.romaji.replace(/・/g, '、') : item.kana
+  const jp = kind === 'kanji' ? item.romaji.replace(/・/g, '、') : jpTextFor(item, kind)
   parts.push({ text: jp, lang: 'ja-JP' })
   if (readKo) {
     if (kind === 'kana') parts.push({ text: kanaToHangul(item.kana), lang: 'ko-KR' })
@@ -178,9 +183,11 @@ export function ListenPlayer({ items, deck, koReady, onExit }: Props) {
       </div>
 
       <section className="card listen-card">
-        {deck.kind === 'sentence' && step.note && <div className="pattern">{step.note}</div>}
+        {(deck.kind === 'sentence' || deck.kind === 'cloze') && step.note && (
+          <div className="pattern">{step.note}</div>
+        )}
         <div className={glyphClassFor(deck.kind) + (part === 'ja' ? ' speaking' : '')}>
-          {step.kana}
+          {jpTextFor(step, deck.kind)}
         </div>
         <div className="romaji">{step.romaji}</div>
         {readKo && koText && (
@@ -205,6 +212,27 @@ export function ListenPlayer({ items, deck, koReady, onExit }: Props) {
           ›
         </button>
       </div>
+
+      {items.length > 10 && (
+        <div className="listen-skip">
+          {items.length > 50 && (
+            <button className="listen-jump" onClick={() => goTo(index - 50)} aria-label="50개 뒤로">
+              «50
+            </button>
+          )}
+          <button className="listen-jump" onClick={() => goTo(index - 10)} aria-label="10개 뒤로">
+            «10
+          </button>
+          <button className="listen-jump" onClick={() => goTo(index + 10)} aria-label="10개 앞으로">
+            10»
+          </button>
+          {items.length > 50 && (
+            <button className="listen-jump" onClick={() => goTo(index + 50)} aria-label="50개 앞으로">
+              50»
+            </button>
+          )}
+        </div>
+      )}
 
       <div className="listen-options">
         <div className="listen-opt">

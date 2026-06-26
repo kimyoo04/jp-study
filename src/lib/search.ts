@@ -10,7 +10,9 @@ export interface SearchEntry {
   deckId: string
 }
 
-export const SEARCH_INDEX: SearchEntry[] = DECKS.flatMap((d) =>
+// Cloze cards are blanked quiz prompts (e.g. 'ごはん◯◯ たべます'), not dictionary
+// entries, so they're left out of search.
+export const SEARCH_INDEX: SearchEntry[] = DECKS.filter((d) => d.kind !== 'cloze').flatMap((d) =>
   d.kana.map((k) => ({ kana: k, deckLabel: d.label, deckKind: d.kind, deckId: d.id })),
 )
 
