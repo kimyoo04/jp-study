@@ -149,3 +149,55 @@ export function selectLessonKana(
 
   return items
 }
+
+/**
+ * Build one continuous study SESSION (not a fixed 6-card lesson). A session runs
+ * from はじめる to completion and spans what used to be several lessons, so the
+ * skip controls (≫1/≫5/≫10) have room to move:
+ *   1. ALL due review cards, earliest dueLesson first — UNLIMITED ('quiz').
+ *      The more reviews are backed up, the longer the session.
+ *   2. New cards in teaching order — FENCED at `newCap` ('intro'), so a cold
+ *      start (whole new deck) doesn't become a 100-card marathon.
+ *   3. Fallback: nothing due and nothing new -> lowest-box reviews, up to newCap.
+ * With "reviews unlimited + each item once per session", grabbing the whole queue
+ * up front is equivalent to pulling batches on demand (SRS order, no dupes), and
+ * simpler — so we resolve the full session at start.
+ */
+export function selectSessionItems(
+  progress: Progress,
+  order: Kana[],
+  newCap: number = LESSON_SIZE,
+): LessonItem[] {
+  const introduced = (k: Kana) => progress.kana[k.kana] !== undefined
+  const upcoming = progress.lessonsDone + 1
+  const items: LessonItem[] = []
+
+  // 1. Every due review, soonest-due first. No cap.
+  const due = order
+    .filter((k) => introduced(k) && isDue(progress.kana[k.kana], upcoming))
+    .sort((a, b) => progress.kana[a.kana].dueLesson - progress.kana[b.kana].dueLesson)
+  for (const k of due) items.push({ kana: k, mode: 'quiz' })
+
+  // 2. New introductions, teaching order, fenced at newCap.
+  let newCount = 0
+  for (const k of order) {
+    if (newCount >= newCap) break
+    if (!introduced(k)) {
+      items.push({ kana: k, mode: 'intro' })
+      newCount++
+    }
+  }
+
+  // 3. Fallback: everything introduced and nothing due -> review weakest first.
+  if (items.length === 0) {
+    const byBox = order
+      .filter(introduced)
+      .sort((a, b) => progress.kana[a.kana].box - progress.kana[b.kana].box)
+    for (const k of byBox) {
+      if (items.length >= newCap) break
+      items.push({ kana: k, mode: 'quiz' })
+    }
+  }
+
+  return items
+}

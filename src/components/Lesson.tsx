@@ -103,19 +103,18 @@ export function Lesson({ items, pool, deck, listenMode, onComplete, onExit }: Pr
     forward(answers)
   }
 
-  // Free navigation: jump back to review already-solved steps, or skip ahead
-  // without answering. Clamped to the lesson bounds so multi-step jumps near an
-  // edge land on the first/last step instead of overshooting.
-  function jump(delta: number) {
-    setIndex((i) => clampIndex(i + delta, steps.length))
+  // Skip forward n steps. Skipped steps stay unanswered (excluded from grading,
+  // their SRS card untouched) and can be revisited by going back. Overshooting
+  // the last step ends the session — that's how ≫5/≫10 reach completion.
+  function skipForward(n: number) {
+    const target = index + n
+    if (target >= steps.length) finish(answers)
+    else setIndex(target)
   }
 
+  // Back one step, to review an already-answered step (read-only feedback).
   function goPrev() {
-    jump(-1)
-  }
-
-  function skip() {
-    jump(1)
+    setIndex((i) => clampIndex(i - 1, steps.length))
   }
 
   function onExitClick() {
@@ -139,51 +138,20 @@ export function Lesson({ items, pool, deck, listenMode, onComplete, onExit }: Pr
         <span className="counter">
           {index + 1}/{steps.length}
         </span>
-        <button className="link nav-arrow" onClick={skip} disabled={isLast} aria-label="건너뛰기">
-          ›
-        </button>
       </div>
 
-      {steps.length > 5 && (
-        <div className="lesson-skip">
-          {steps.length > 10 && (
-            <button
-              className="listen-jump"
-              onClick={() => jump(-10)}
-              disabled={index === 0}
-              aria-label="10단계 뒤로"
-            >
-              «10
-            </button>
-          )}
-          <button
-            className="listen-jump"
-            onClick={() => jump(-5)}
-            disabled={index === 0}
-            aria-label="5단계 뒤로"
-          >
-            «5
-          </button>
-          <button
-            className="listen-jump"
-            onClick={() => jump(5)}
-            disabled={isLast}
-            aria-label="5단계 건너뛰기"
-          >
-            5»
-          </button>
-          {steps.length > 10 && (
-            <button
-              className="listen-jump"
-              onClick={() => jump(10)}
-              disabled={isLast}
-              aria-label="10단계 건너뛰기"
-            >
-              10»
-            </button>
-          )}
-        </div>
-      )}
+      {/* Skip forward across the session: 1, 5, or 10 steps. Back is the ‹ above. */}
+      <div className="lesson-skip">
+        <button className="skip-jump" onClick={() => skipForward(1)} aria-label="1단계 건너뛰기">
+          ≫1
+        </button>
+        <button className="skip-jump" onClick={() => skipForward(5)} aria-label="5단계 건너뛰기">
+          ≫5
+        </button>
+        <button className="skip-jump" onClick={() => skipForward(10)} aria-label="10단계 건너뛰기">
+          ≫10
+        </button>
+      </div>
 
       {step.question ? (
         <Quiz

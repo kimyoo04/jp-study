@@ -8,7 +8,7 @@ import {
   applyAnswer,
   introducedCard,
   newCard,
-  selectLessonKana,
+  selectSessionItems,
   weakItems,
   type LessonItem,
 } from '../lib/srs'
@@ -45,6 +45,9 @@ export function App() {
   const [screen, setScreen] = useState<Screen>('home')
   const [items, setItems] = useState<LessonItem[]>([])
   const [results, setResults] = useState<LessonResult[]>([])
+  // A review session (weak/wrong items) is a fixed set that must NOT advance the
+  // lesson clock; a normal study session does (lessonsDone + 1).
+  const [isReview, setIsReview] = useState(false)
 
   // JLPT exam flow (state + scoring/persistence live in the hook; screen
   // transitions stay here).
@@ -72,17 +75,17 @@ export function App() {
     return cat ? cat.kana : deck.kana
   }, [categories, categoryName, deck])
 
-  // The lesson count this lesson will produce when finished.
-  const base = progress.lessonsDone + 1
-
   function selectDeck(d: Deck) {
     setDeck(d)
     setCategoryName(null) // reset category when switching decks
   }
 
+  // Start one continuous session over the current scope: all due reviews plus a
+  // fenced batch of new cards (see selectSessionItems). Skip controls navigate it.
   function startLesson() {
-    const next = selectLessonKana(progress, scopeKana)
+    const next = selectSessionItems(progress, scopeKana)
     if (next.length === 0) return
+    setIsReview(false)
     setItems(next)
     setScreen('lesson')
   }
@@ -94,13 +97,18 @@ export function App() {
   }
 
   // Review only the given kana (e.g. the ones missed last lesson), all as quizzes.
+  // A review is a fixed set and does not advance the lesson clock.
   function startReview(kana: Kana[]) {
     if (kana.length === 0) return
+    setIsReview(true)
     setItems(kana.map((k) => ({ kana: k, mode: 'quiz' })))
     setScreen('lesson')
   }
 
   function finishLesson(lessonResults: LessonResult[]) {
+    // A normal session counts as one lesson (schedules grow off lessonsDone + 1);
+    // a review reuses the current clock so it doesn't inflate the schedule.
+    const base = isReview ? progress.lessonsDone : progress.lessonsDone + 1
     const kana = { ...progress.kana }
     for (const r of lessonResults) {
       const key = r.kana.kana
