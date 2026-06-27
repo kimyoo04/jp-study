@@ -1,9 +1,14 @@
 # にほんご Pocket
 
-폰으로 하는 일본어 독학 — 히라가나부터. React + Vite + PWA, GitHub Pages 정적 호스팅.
+폰으로 하는 일본어 독학 — 히라가나부터 JLPT까지. React + Vite + PWA, GitHub Pages 정적 호스팅.
 
-듀오링고 스타일의 짧은(2~3분) 레슨, 즉각 효과음 피드백, 브라우저 내장 일본어 발음(TTS),
+듀오링고 스타일 레슨, 즉각 효과음 피드백, 브라우저 내장 일본어 발음(TTS),
 가벼운 Leitner 간격반복(SRS). 백엔드 없음 — 진도는 브라우저 localStorage에 저장.
+
+**11개 덱**(가나·단어·외래어·조수사·의태어·문법·회화·경어·한자·빈칸, 약 3,100항목) +
+**JLPT 모의고사**(N5~N2 진단) + **흘려듣기**(자동재생) + **개념 학습**(12주 커리큘럼) +
+**전 덱 검색**. 한 번 시작하면 밀린 복습을 한 세션으로 이어 풀고, 1/5/10단계 스킵으로
+넘나든다.
 
 ## 개발
 
@@ -20,17 +25,23 @@ pnpm preview      # 빌드 결과 미리보기
 
 ```
 src/
-  data/kana.ts        가나 + 덱 정의 (히라가나/가타카나/단어/외래어/문법)
-  data/words.ts       기초 단어, loanwords.ts 외래어, grammar.ts 문법 예문
-  lib/srs.ts          순수 SRS 로직 (박스/interval/due/레슨 선택) — 부수효과 없음
-  lib/quiz.ts         순수 문제 생성 (distractor: 같은 행 우선)
-  lib/speak.ts        Web Speech API 발음 (보이스 감지/제스처 게이팅/폴백)
-  lib/sound.ts        Web Audio 효과음 (mp3 불필요)
-  hooks/useProgress.ts  localStorage 영속성 (프라이빗 모드 폴백)
-  components/         App(화면 전환) / Home / Lesson / Complete
+  data/kana.ts        가나 + 11개 덱 정의(DECKS) + 카테고리 분류(deckCategories)
+  data/*.ts           덱 콘텐츠 — words/loanwords/counters/mimetic/grammar/
+                      phrases/keigo/kanji/cloze(빈칸)
+  data/curriculum.ts  12주 개념 학습 커리큘럼(마크다운)
+  data/jlpt/          JLPT 문제 은행(n5~n2) + 시험 타입
+  lib/srs.ts          순수 SRS (박스/interval/due/세션 선택) — 부수효과 없음
+  lib/quiz.ts         순수 문제 생성 (distractor 같은 행 우선; 빈칸은 카드 자체 선택지)
+  lib/jlpt.ts         JLPT 시험 구성·채점·진행 저장
+  lib/deck.ts         덱 종류별 뷰 헬퍼 (글리프 클래스/일본어 텍스트/인덱스 클램프)
+  lib/search.ts       전 덱 통합 검색 (romaji/뜻/글자)
+  lib/speak.ts        Web Speech API 발음, sound.ts 효과음, hangul.ts 가나→한글
+  hooks/              useProgress(진도) / useSettings(설정) / useJlptExam(JLPT 상태)
+  components/         App(화면 전환) / Home / Lesson(+lesson/ 하위) / Complete /
+                      Search / ListenPlayer / Jlpt*(시험) / Learn·LearnReader(개념)
 ```
 
-도메인 로직(`lib/srs.ts`, `lib/quiz.ts`)은 순수 함수라 목킹 없이 단위 테스트됩니다.
+도메인 로직(`lib/srs.ts`, `lib/quiz.ts`, `lib/jlpt.ts`)은 순수 함수라 목킹 없이 단위 테스트됩니다.
 
 ## 배포
 
@@ -60,5 +71,12 @@ src/
 - v16: 콘텐츠 대확장 — 단어 579 · 외래어 309 · 문법 456 · 회화 500 ✅
 - v17: 한자(漢字) 덱 추가 (글자→뜻 퀴즈). 총 7덱 ✅
 - v18: 콘텐츠 확장 — 회화 500 · 한자 500 (총 2552 항목) ✅
-- v19 (현재): 카테고리 선택 — 덱 안에서 테마/패턴/상황별로 골라 학습 (홈 드롭다운) ✅
-- v20+: 검색, 학습 통계, 듣기 모드
+- v19: 카테고리 선택 — 덱 안에서 테마/패턴/상황별로 골라 학습 (홈 드롭다운) ✅
+- v20: 조수사·의태어·경어 덱 추가 — 10덱 ✅
+- v21: 전 덱 통합 검색 (romaji·뜻·글자로 즉시 검색) ✅
+- v22: JLPT 모의고사 — N5~N2 4파트 진단, 문항 네비게이터·카운트업 타이머·오답 복습, 약점 파트→덱 점프 ✅
+- v23: 개념 학습 — 12주 커리큘럼 마크다운 리더 ✅
+- v24: 흘려듣기 — 자동재생 듣기 모드, 속도 0.8/1.0/1.2, 10/50 건너뛰기 ✅
+- v25: 빈칸(穴埋め) 객관식 덱 추가 → 11덱. 220문항(N5~N3 문법)으로 확장 ✅
+- v26 (현재): 학습 세션 연속화 — 한 세션 = 밀린 복습 전부 + 신규 ~6개, 1/5/10단계 스킵·복습 네비게이션. 코드 리팩토링(공용 헬퍼·Lesson 분리·useJlptExam 훅) ✅
+- v27+: 학습 통계, 레벨별 콘텐츠 lazy-load

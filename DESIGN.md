@@ -44,10 +44,17 @@ CSS 변수가 단일 출처(single source of truth)다. 새 화면은 새 색/�
 | `.options` + `.opt` | 4지선다 그리드(2열). `ChoiceGrid` 컴포넌트가 렌더 |
 | `.opt.correct` / `.opt.wrong` / `.opt.dim` / `.opt.selected` | 옵션 상태 |
 | `.progress-bar` (+`.slim`) + `.progress-fill` (+`.weak`) | 진행/점수 막대 |
+| `.lesson-top` + `.counter` + `.nav-arrow` | 화면 상단 바: ✕ · ‹뒤로 · 진행바 · n/총 카운터 (Lesson·ListenPlayer 공유 마크업) |
+| `.lesson-skip` + `.skip-jump` | 세션 스킵 바 — ≫1 ≫5 ≫10 전방 스킵 |
+| `.cloze-sentence` + `.cloze-gap` / `.cloze-fill` | 빈칸 문장: 빈칸(◯◯)을 답 전/후로 렌더 |
 | `.modal-backdrop` + `.modal` | 확인 다이얼로그 |
 | `.chip` / `.chips` | 작은 태그(문장 조각, 카테고리) |
 | `.banner` | 경고/안내 배너 |
 | `.sr-only` | 스크린리더 전용 |
+
+**학습 세션 네비게이션:** 레슨은 6문제 고정이 아니라 한 세션(밀린 복습 전부 + 신규 ~6개)을
+이어 푼다. 상단 `‹`로 이미 푼 단계를 복습하고, `.lesson-skip`의 ≫1/≫5/≫10으로 전방 이동 —
+끝을 넘기면 세션이 완료된다. 답은 단계 위치로 인덱싱돼 앞뒤로 오가도 보존된다.
 
 **공유 컴포넌트:** 4지선다는 `ChoiceGrid`(`src/components/ChoiceGrid.tsx`)를 쓴다.
 `mode="answer"`(채점 없이 선택)와 `mode="feedback"`(정답/오답 표시)를 지원 —
