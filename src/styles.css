@@ -306,6 +306,17 @@ body {
   opacity: 0.25;
   cursor: default;
 }
+.lesson-skip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 12px 0 0;
+}
+.lesson-skip .listen-jump:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
 .card {
   flex: 1;
   display: flex;

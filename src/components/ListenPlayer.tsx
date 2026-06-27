@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { clozeFilled, type Deck, type DeckKind, type Kana } from '../data/kana'
+import { type Deck, type DeckKind, type Kana } from '../data/kana'
+import { clampIndex, glyphClassFor, jpTextFor } from '../lib/deck'
 import { kanaToHangul } from '../lib/hangul'
 import { primeSpeech, speakSequence, stopSpeech, type SpeechPart } from '../lib/speak'
 
@@ -16,17 +17,6 @@ const REPEAT_GAP = 500
 const CARD_GAP = 700
 
 const RATES = [0.8, 1.0, 1.2] as const
-
-function glyphClassFor(kind: DeckKind): string {
-  if (kind === 'sentence' || kind === 'cloze') return 'glyph sentence'
-  if (kind === 'words') return 'glyph word'
-  return 'glyph big'
-}
-
-// The Japanese text shown/read for a card. Cloze cards read the completed sentence.
-function jpTextFor(item: Kana, kind: DeckKind): string {
-  return kind === 'cloze' ? clozeFilled(item) : item.kana
-}
 
 // What gets read for one card: Japanese first, then the Korean side.
 // Kana decks have no meaning, so the Korean side is the phonetic reading.
@@ -122,7 +112,7 @@ export function ListenPlayer({ items, deck, koReady, onExit }: Props) {
   }
 
   function goTo(target: number) {
-    const i = Math.max(0, Math.min(items.length - 1, target))
+    const i = clampIndex(target, items.length)
     stopAll()
     idxRef.current = i
     setIndex(i)
