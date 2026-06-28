@@ -152,16 +152,13 @@ test('home shows "review weak" after missing items, scoped to seen-not-learned',
   await page.getByRole('button', { name: '시작하기' }).click()
   for (let i = 0; i < 6; i++) await page.getByRole('button', { name: '다음' }).click()
   await page.getByRole('button', { name: '한 판 더' }).click()
-  // Session 2 = the 6 now-due reviews (quizzes) THEN 6 new intros. Miss the first
-  // review, get the other 5 right.
+  // Lesson 2 = the 6 now-due reviews (quizzes). Miss the first, get the rest right.
   await page.locator('.opt:not([data-correct])').first().click()
   await page.getByRole('button', { name: '계속' }).click()
   for (let i = 0; i < 5; i++) {
     await page.locator('button[data-correct="true"]').first().click()
     await page.getByRole('button', { name: '계속' }).click()
   }
-  // Then click through the 6 new intros to finish the session.
-  for (let i = 0; i < 6; i++) await page.getByRole('button', { name: '다음' }).click()
   await page.getByRole('button', { name: '홈으로' }).click()
   // The missed glyph is now weak -> Home offers a weak-review button.
   await expect(page.getByRole('button', { name: /약한 것만 복습/ })).toBeVisible()
@@ -188,18 +185,15 @@ test('complete screen shows review button after a wrong answer', async ({ page }
   await page.goto('./')
   await page.getByRole('button', { name: '시작하기' }).click()
   for (let i = 0; i < 6; i++) await page.getByRole('button', { name: '다음' }).click()
-  // Start session 2 from the Complete screen — the 6 are now due as quizzes,
-  // followed by 6 new intros.
+  // Start lesson 2 from the Complete screen — the 6 are now due as quizzes.
   await page.getByRole('button', { name: '한 판 더' }).click()
-  // Answer the first review WRONG, the other 5 correct.
+  // Answer the first one WRONG, the rest correct.
   await page.locator('.opt:not([data-correct])').first().click()
   await page.getByRole('button', { name: '계속' }).click()
   for (let i = 0; i < 5; i++) {
     await page.locator('button[data-correct="true"]').first().click()
     await page.getByRole('button', { name: '계속' }).click()
   }
-  // Click through the 6 new intros to reach the end of the session.
-  for (let i = 0; i < 6; i++) await page.getByRole('button', { name: '다음' }).click()
   // Complete: chips + review button for the 1 miss.
   await expect(page.getByText('레슨 완료!')).toBeVisible()
   const review = page.getByRole('button', { name: /틀린 것만 복습/ })

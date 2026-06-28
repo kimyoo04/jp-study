@@ -103,15 +103,6 @@ export function Lesson({ items, pool, deck, listenMode, onComplete, onExit }: Pr
     forward(answers)
   }
 
-  // Skip forward n steps. Skipped steps stay unanswered (excluded from grading,
-  // their SRS card untouched) and can be revisited by going back. Overshooting
-  // the last step ends the session — that's how ≫5/≫10 reach completion.
-  function skipForward(n: number) {
-    const target = index + n
-    if (target >= steps.length) finish(answers)
-    else setIndex(target)
-  }
-
   // Back one step, to review an already-answered step (read-only feedback).
   function goPrev() {
     setIndex((i) => clampIndex(i - 1, steps.length))
@@ -138,19 +129,6 @@ export function Lesson({ items, pool, deck, listenMode, onComplete, onExit }: Pr
         <span className="counter">
           {index + 1}/{steps.length}
         </span>
-      </div>
-
-      {/* Skip forward across the session: 1, 5, or 10 steps. Back is the ‹ above. */}
-      <div className="lesson-skip">
-        <button className="skip-jump" onClick={() => skipForward(1)} aria-label="1단계 건너뛰기">
-          ≫1
-        </button>
-        <button className="skip-jump" onClick={() => skipForward(5)} aria-label="5단계 건너뛰기">
-          ≫5
-        </button>
-        <button className="skip-jump" onClick={() => skipForward(10)} aria-label="10단계 건너뛰기">
-          ≫10
-        </button>
       </div>
 
       {step.question ? (

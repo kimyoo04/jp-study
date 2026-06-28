@@ -8,7 +8,7 @@ import {
   applyAnswer,
   introducedCard,
   newCard,
-  selectSessionItems,
+  selectLessonKana,
   weakItems,
   type LessonItem,
 } from '../lib/srs'
@@ -80,10 +80,10 @@ export function App() {
     setCategoryName(null) // reset category when switching decks
   }
 
-  // Start one continuous session over the current scope: all due reviews plus a
-  // fenced batch of new cards (see selectSessionItems). Skip controls navigate it.
+  // Start a fixed lesson over the current scope: due reviews then new cards,
+  // capped at LESSON_SIZE (see selectLessonKana).
   function startLesson() {
-    const next = selectSessionItems(progress, scopeKana)
+    const next = selectLessonKana(progress, scopeKana)
     if (next.length === 0) return
     setIsReview(false)
     setItems(next)

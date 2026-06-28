@@ -12,8 +12,6 @@ import {
   newCard,
   nextBox,
   selectLessonKana,
-  selectSessionItems,
-  LESSON_SIZE,
   type Progress,
 } from './srs'
 
@@ -161,47 +159,6 @@ describe('selectLessonKana', () => {
     const p: Progress = { ...emptyProgress(), lessonsDone: 10, kana }
     const items = selectLessonKana(p, HIRAGANA, 6)
     expect(items).toHaveLength(6)
-    expect(items[0].kana.kana).toBe('ん')
-    expect(items.every((i) => i.mode === 'quiz')).toBe(true)
-  })
-})
-
-describe('selectSessionItems', () => {
-  it('cold start: only new intros, fenced at LESSON_SIZE', () => {
-    const items = selectSessionItems(emptyProgress(), HIRAGANA)
-    expect(items).toHaveLength(LESSON_SIZE)
-    expect(items.every((i) => i.mode === 'intro')).toBe(true)
-    expect(items.map((i) => i.kana.kana)).toEqual(['あ', 'い', 'う', 'え', 'お', 'か'])
-  })
-
-  it('returning user: ALL due reviews (uncapped) + new intros fenced', () => {
-    // Introduce the first 15 glyphs, all due; the rest are still new.
-    const kana: Progress['kana'] = {}
-    for (const k of HIRAGANA.slice(0, 15)) {
-      kana[k.kana] = { box: 2, dueLesson: 5, seen: 2, correct: 1 } // due (<= upcoming)
-    }
-    const p: Progress = { ...emptyProgress(), lessonsDone: 10, kana }
-    const items = selectSessionItems(p, HIRAGANA)
-    // 15 due quizzes (no cap) + 6 new intros (fenced) = 21.
-    expect(items).toHaveLength(21)
-    expect(items.slice(0, 15).every((i) => i.mode === 'quiz')).toBe(true)
-    expect(items.slice(15).every((i) => i.mode === 'intro')).toBe(true)
-    expect(items.slice(15).map((i) => i.kana.kana)).toEqual(['た', 'ち', 'つ', 'て', 'と', 'な'])
-  })
-
-  it('honors a custom newCap for the new-intro fence', () => {
-    const items = selectSessionItems(emptyProgress(), HIRAGANA, 3)
-    expect(items).toHaveLength(3)
-    expect(items.every((i) => i.mode === 'intro')).toBe(true)
-  })
-
-  it('fallback: everything introduced and nothing due -> lowest box first', () => {
-    const kana: Progress['kana'] = {}
-    for (const k of HIRAGANA) kana[k.kana] = { box: 3, dueLesson: 999, seen: 5, correct: 5 }
-    kana['ん'] = { box: 1, dueLesson: 999, seen: 1, correct: 0 }
-    const p: Progress = { ...emptyProgress(), lessonsDone: 10, kana }
-    const items = selectSessionItems(p, HIRAGANA)
-    expect(items).toHaveLength(LESSON_SIZE)
     expect(items[0].kana.kana).toBe('ん')
     expect(items.every((i) => i.mode === 'quiz')).toBe(true)
   })

@@ -306,23 +306,6 @@ body {
   opacity: 0.25;
   cursor: default;
 }
-.lesson-skip {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin: 12px 0 0;
-}
-.skip-jump {
-  border: 1px solid var(--surface-2);
-  background: transparent;
-  color: var(--text);
-  border-radius: 8px;
-  padding: 6px 12px;
-  font-size: 14px;
-  font-variant-numeric: tabular-nums;
-  cursor: pointer;
-}
 .card {
   flex: 1;
   display: flex;
