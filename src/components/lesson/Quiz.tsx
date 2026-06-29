@@ -58,7 +58,13 @@ export function Quiz({
       ) : qtype === 'listen' ? (
         <>
           <p className="prompt-label">{label}</p>
-          <button className="btn-ghost big-audio" onClick={onReplay} aria-label="다시 듣기">
+          <button
+            className="btn-ghost big-audio"
+            onClick={onReplay}
+            aria-label="다시 듣기"
+            aria-keyshortcuts="R"
+            title="다시 듣기 (R)"
+          >
             🔊
           </button>
           {phase === 'feedback' && (
@@ -82,6 +88,7 @@ export function Quiz({
         mode={phase === 'feedback' ? 'feedback' : 'answer'}
         selectedKey={picked?.kana ?? null}
         correctKey={question.answer.kana}
+        showShortcuts
         onPick={(key) => {
           const opt = question.options.find((o) => o.kana === key)
           if (opt) onPick(opt)
@@ -96,8 +103,11 @@ export function Quiz({
       </p>
 
       {phase === 'feedback' && (
-        <button className="btn-primary" onClick={onContinue}>
+        <button className="btn-primary" onClick={onContinue} aria-keyshortcuts="Enter">
           계속
+          <span className="kbd" aria-hidden="true">
+            ⏎
+          </span>
         </button>
       )}
     </section>

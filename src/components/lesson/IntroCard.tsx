@@ -41,11 +41,18 @@ export function IntroCard({
           primeSpeech()
           onSpeak()
         }}
+        aria-keyshortcuts="R"
       >
         🔊 발음 듣기
+        <span className="kbd" aria-hidden="true">
+          R
+        </span>
       </button>
-      <button className="btn-primary" onClick={onNext}>
+      <button className="btn-primary" onClick={onNext} aria-keyshortcuts="Enter">
         다음
+        <span className="kbd" aria-hidden="true">
+          ⏎
+        </span>
       </button>
     </section>
   )

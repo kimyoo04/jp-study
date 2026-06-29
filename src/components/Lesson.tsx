@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { clozeFilled, type Deck, type Kana } from '../data/kana'
 import type { LessonItem, LessonMode } from '../lib/srs'
 import { buildQuestion, isCorrect, pickQType, type Question } from '../lib/quiz'
@@ -114,13 +114,68 @@ export function Lesson({ items, pool, deck, listenMode, onComplete, onExit }: Pr
     else onExit()
   }
 
+  // Keyboard controls mirror the on-screen buttons so the quiz is fully playable
+  // from a keyboard: 1–4 pick an option (answer phase), Enter/Space advances
+  // (intro 다음 · feedback 계속), ← steps back, R replays audio, Esc exits.
+  // Re-binds whenever the branching state changes, so the closures stay fresh.
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.metaKey || e.ctrlKey || e.altKey) return
+      if (confirmExit) {
+        if (e.key === 'Escape') setConfirmExit(false)
+        return
+      }
+      if (e.key === 'Escape') {
+        onExitClick()
+      } else if (e.key === 'ArrowLeft') {
+        if (index > 0) {
+          e.preventDefault()
+          goPrev()
+        }
+      } else if (e.key === 'r' || e.key === 'R') {
+        e.preventDefault()
+        sayCurrent()
+      } else if (step.question && phase === 'answer' && /^[1-9]$/.test(e.key)) {
+        const opt = step.question.options[Number(e.key) - 1]
+        if (opt) {
+          e.preventDefault()
+          onPick(opt)
+        }
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        if (!step.question) {
+          e.preventDefault()
+          onIntroNext()
+        } else if (phase === 'feedback') {
+          e.preventDefault()
+          onContinue()
+        }
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [confirmExit, index, phase, step])
+
   return (
     <main className="screen lesson">
       <div className="lesson-top">
-        <button className="link" onClick={onExitClick} aria-label="나가기">
+        <button
+          className="link"
+          onClick={onExitClick}
+          aria-label="나가기"
+          aria-keyshortcuts="Escape"
+          title="나가기 (Esc)"
+        >
           ✕
         </button>
-        <button className="link nav-arrow" onClick={goPrev} disabled={index === 0} aria-label="이전 단계">
+        <button
+          className="link nav-arrow"
+          onClick={goPrev}
+          disabled={index === 0}
+          aria-label="이전 단계"
+          aria-keyshortcuts="ArrowLeft"
+          title="이전 단계 (←)"
+        >
           ‹
         </button>
         <div className="progress-bar slim">

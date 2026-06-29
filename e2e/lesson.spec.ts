@@ -21,6 +21,33 @@ test('complete a cold-start lesson and persist progress', async ({ page }) => {
   await expect(page.getByText('레슨 1회 완료')).toBeVisible()
 })
 
+// The quiz is fully playable from a keyboard: Enter advances intros, a number
+// key picks an option, Enter continues, ← steps back to review.
+test('quiz is playable from the keyboard', async ({ page }) => {
+  await page.addInitScript(() => localStorage.clear())
+  await page.goto('./')
+  await page.getByRole('button', { name: '시작하기' }).click()
+
+  // 6 intro cards -> Enter advances each -> Complete.
+  for (let i = 0; i < 6; i++) {
+    await expect(page.getByText('새 글자')).toBeVisible()
+    await page.keyboard.press('Enter')
+  }
+  await expect(page.getByRole('heading', { name: '레슨 완료!' })).toBeVisible()
+
+  // Lesson 2 = quizzes over the introduced glyphs. A number key picks an option,
+  // which flips the step to feedback (계속 appears).
+  await page.getByRole('button', { name: '한 판 더' }).click()
+  await page.keyboard.press('1')
+  await expect(page.getByRole('button', { name: '계속' })).toBeVisible()
+
+  // Enter continues; ← steps back to the just-answered step (counter rewinds).
+  await page.keyboard.press('Enter')
+  await expect(page.locator('.counter')).toHaveText('2/6')
+  await page.keyboard.press('ArrowLeft')
+  await expect(page.locator('.counter')).toHaveText('1/6')
+})
+
 test('sound toggle flips state and persists across reload', async ({ page }) => {
   // Fresh Playwright context already starts with empty storage; no clear needed
   // (clearing on every load would also wipe state on reload and break this test).

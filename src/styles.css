@@ -231,6 +231,15 @@ body {
   color: var(--muted);
   box-shadow: none;
 }
+/* Buttons that carry a keyboard hint cap center the label + cap as one unit
+   (gap instead of the cap's margin), so the label stays visually centered. */
+.btn-primary:has(> .kbd),
+.btn-ghost:has(> .kbd) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
 .link {
   background: none;
   border: none;
@@ -305,6 +314,31 @@ body {
 .nav-arrow:disabled {
   opacity: 0.25;
   cursor: default;
+}
+/* Keyboard-shortcut hint cap. Small, muted key-cap appended inside text buttons
+   (계속 ⏎, 발음 듣기 R …). Pointer devices ignore it; it just aids discovery. */
+.kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border: 1px solid var(--surface-2);
+  border-radius: 5px;
+  background: var(--track);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+/* Hide hints on touch-only devices (no keyboard) to avoid noise. */
+@media (hover: none) and (pointer: coarse) {
+  .kbd,
+  .opt-key {
+    display: none;
+  }
 }
 .card {
   flex: 1;
@@ -526,6 +560,25 @@ body {
   right: 10px;
   font-size: 16px;
   font-weight: 900;
+}
+/* Number key-cap (1–4) in the option's top-left — the keyboard pick hint.
+   Opposite corner from .opt-mark (✓/✗), so they never collide. */
+.opt-key {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  min-width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--surface-2);
+  border-radius: 4px;
+  background: var(--track);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
 }
 .opt.correct {
   background: var(--correct);

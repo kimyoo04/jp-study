@@ -130,6 +130,45 @@ export function ListenPlayer({ items, deck, koReady, onExit }: Props) {
     }
   }
 
+  // Keyboard controls: Space toggles play/pause, ←/→ move one card, ↑/↓ jump 10,
+  // Esc exits. Bound once; play/pause/goTo read live state from refs, so the
+  // first-render closures never go stale.
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.metaKey || e.ctrlKey || e.altKey) return
+      switch (e.key) {
+        case ' ':
+          e.preventDefault()
+          if (playingRef.current) pause()
+          else play()
+          break
+        case 'ArrowLeft':
+          e.preventDefault()
+          goTo(idxRef.current - 1)
+          break
+        case 'ArrowRight':
+          e.preventDefault()
+          goTo(idxRef.current + 1)
+          break
+        case 'ArrowUp':
+          e.preventDefault()
+          goTo(idxRef.current - 10)
+          break
+        case 'ArrowDown':
+          e.preventDefault()
+          goTo(idxRef.current + 10)
+          break
+        case 'Escape':
+          e.preventDefault()
+          onExit()
+          break
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   // Auto-play on entry (entry is a tap, so speech is unlocked) and keep the
   // screen awake while playing. Cleanup stops speech on unmount.
   useEffect(() => {
@@ -161,7 +200,13 @@ export function ListenPlayer({ items, deck, koReady, onExit }: Props) {
   return (
     <main className="screen listen-play">
       <div className="lesson-top">
-        <button className="link" onClick={onExit} aria-label="나가기">
+        <button
+          className="link"
+          onClick={onExit}
+          aria-label="나가기"
+          aria-keyshortcuts="Escape"
+          title="나가기 (Esc)"
+        >
           ✕
         </button>
         <div className="progress-bar slim">
@@ -189,16 +234,32 @@ export function ListenPlayer({ items, deck, koReady, onExit }: Props) {
       </section>
 
       <div className="listen-controls">
-        <button className="link nav-arrow" onClick={() => goTo(index - 1)} aria-label="이전">
+        <button
+          className="link nav-arrow"
+          onClick={() => goTo(index - 1)}
+          aria-label="이전"
+          aria-keyshortcuts="ArrowLeft"
+          title="이전 (←)"
+        >
           ‹
         </button>
         <button
           className="btn-primary listen-play-btn"
           onClick={() => (playing ? pause() : play())}
+          aria-keyshortcuts="Space"
         >
           {playing ? '⏸ 일시정지' : '▶ 재생'}
+          <span className="kbd" aria-hidden="true">
+            Space
+          </span>
         </button>
-        <button className="link nav-arrow" onClick={() => goTo(index + 1)} aria-label="다음">
+        <button
+          className="link nav-arrow"
+          onClick={() => goTo(index + 1)}
+          aria-label="다음"
+          aria-keyshortcuts="ArrowRight"
+          title="다음 (→)"
+        >
           ›
         </button>
       </div>
@@ -210,10 +271,22 @@ export function ListenPlayer({ items, deck, koReady, onExit }: Props) {
               «50
             </button>
           )}
-          <button className="listen-jump" onClick={() => goTo(index - 10)} aria-label="10개 뒤로">
+          <button
+            className="listen-jump"
+            onClick={() => goTo(index - 10)}
+            aria-label="10개 뒤로"
+            aria-keyshortcuts="ArrowUp"
+            title="10개 뒤로 (↑)"
+          >
             «10
           </button>
-          <button className="listen-jump" onClick={() => goTo(index + 10)} aria-label="10개 앞으로">
+          <button
+            className="listen-jump"
+            onClick={() => goTo(index + 10)}
+            aria-label="10개 앞으로"
+            aria-keyshortcuts="ArrowDown"
+            title="10개 앞으로 (↓)"
+          >
             10»
           </button>
           {items.length > 50 && (
