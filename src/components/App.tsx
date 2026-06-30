@@ -4,6 +4,7 @@ import { useProgress } from '../hooks/useProgress'
 import { useSettings } from '../hooks/useSettings'
 import { useJlptExam } from '../hooks/useJlptExam'
 import { hasJaVoice, hasKoVoice, loadVoices } from '../lib/speak'
+import { swApplyUpdate, swOnUpdate } from '../lib/sw'
 import {
   applyAnswer,
   introducedCard,
@@ -40,6 +41,9 @@ type Screen =
 export function App() {
   const { progress, persistent, update } = useProgress()
   const { settings, toggleSfx, toggleListen } = useSettings()
+  // A new deploy waits until the user is back on Home (no mid-lesson reloads).
+  const [updateReady, setUpdateReady] = useState(false)
+  useEffect(() => swOnUpdate(setUpdateReady), [])
   const [deck, setDeck] = useState<Deck>(DECKS[0])
   const [categoryName, setCategoryName] = useState<string | null>(null) // null = 전체
   const [screen, setScreen] = useState<Screen>('home')
@@ -171,6 +175,8 @@ export function App() {
         <Home
           progress={progress}
           persistent={persistent}
+          updateReady={updateReady}
+          onApplyUpdate={swApplyUpdate}
           deck={deck}
           onSelectDeck={selectDeck}
           categories={categories}

@@ -6,6 +6,8 @@ const TOTAL_ALL = DECKS.reduce((n, d) => n + d.kana.length, 0)
 interface Props {
   progress: Progress
   persistent: boolean
+  updateReady: boolean
+  onApplyUpdate: () => void
   deck: Deck
   onSelectDeck: (d: Deck) => void
   categories: Category[]
@@ -29,6 +31,8 @@ interface Props {
 export function Home({
   progress,
   persistent,
+  updateReady,
+  onApplyUpdate,
   deck,
   onSelectDeck,
   categories,
@@ -79,6 +83,12 @@ export function Home({
         <div className="banner" role="status">
           ⚠️ 이 브라우저에선 진도가 저장되지 않아요 (프라이빗 모드일 수 있어요)
         </div>
+      )}
+
+      {updateReady && (
+        <button className="banner update" onClick={onApplyUpdate}>
+          ✨ 새 버전이 있어요 — 눌러서 업데이트
+        </button>
       )}
 
       <div className="deck-switch" role="tablist" aria-label="문자 선택">

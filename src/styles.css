@@ -110,6 +110,18 @@ body {
   font-size: 14px;
   text-align: center;
 }
+/* Tappable "new deploy available" banner — applies the waiting SW on tap. */
+.banner.update {
+  display: block;
+  width: 100%;
+  background: #14323a;
+  color: #8be9fd;
+  border: 1px solid #1f4a55;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 44px;
+}
 .deck-switch {
   display: flex;
   gap: 6px;
