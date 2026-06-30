@@ -3,6 +3,7 @@ import { type Deck, type DeckKind, type Kana } from '../data/kana'
 import { clampIndex, glyphClassFor, jpTextFor } from '../lib/deck'
 import { kanaToHangul } from '../lib/hangul'
 import { primeSpeech, speakSequence, stopSpeech, type SpeechPart } from '../lib/speak'
+import { KeyHint } from './KeyHint'
 
 interface Props {
   items: Kana[]
@@ -200,14 +201,8 @@ export function ListenPlayer({ items, deck, koReady, onExit }: Props) {
   return (
     <main className="screen listen-play">
       <div className="lesson-top">
-        <button
-          className="link"
-          onClick={onExit}
-          aria-label="나가기"
-          aria-keyshortcuts="Escape"
-          title="나가기 (Esc)"
-        >
-          ✕
+        <button className="link" onClick={onExit} aria-label="나가기" aria-keyshortcuts="Escape">
+          ✕<KeyHint k="Esc" />
         </button>
         <div className="progress-bar slim">
           <div className="progress-fill" style={{ width: `${progressPct}%` }} />
@@ -239,9 +234,8 @@ export function ListenPlayer({ items, deck, koReady, onExit }: Props) {
           onClick={() => goTo(index - 1)}
           aria-label="이전"
           aria-keyshortcuts="ArrowLeft"
-          title="이전 (←)"
         >
-          ‹
+          ‹<KeyHint k="←" />
         </button>
         <button
           className="btn-primary listen-play-btn"
@@ -249,18 +243,15 @@ export function ListenPlayer({ items, deck, koReady, onExit }: Props) {
           aria-keyshortcuts="Space"
         >
           {playing ? '⏸ 일시정지' : '▶ 재생'}
-          <span className="kbd" aria-hidden="true">
-            Space
-          </span>
+          <KeyHint k="Space" />
         </button>
         <button
           className="link nav-arrow"
           onClick={() => goTo(index + 1)}
           aria-label="다음"
           aria-keyshortcuts="ArrowRight"
-          title="다음 (→)"
         >
-          ›
+          ›<KeyHint k="→" />
         </button>
       </div>
 
@@ -276,18 +267,16 @@ export function ListenPlayer({ items, deck, koReady, onExit }: Props) {
             onClick={() => goTo(index - 10)}
             aria-label="10개 뒤로"
             aria-keyshortcuts="ArrowUp"
-            title="10개 뒤로 (↑)"
           >
-            «10
+            «10<KeyHint k="↑" />
           </button>
           <button
             className="listen-jump"
             onClick={() => goTo(index + 10)}
             aria-label="10개 앞으로"
             aria-keyshortcuts="ArrowDown"
-            title="10개 앞으로 (↓)"
           >
-            10»
+            10»<KeyHint k="↓" />
           </button>
           {items.length > 50 && (
             <button className="listen-jump" onClick={() => goTo(index + 50)} aria-label="50개 앞으로">

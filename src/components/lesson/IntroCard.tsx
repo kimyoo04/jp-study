@@ -2,6 +2,7 @@ import { type Deck, type DeckKind, type Kana } from '../../data/kana'
 import { glyphClassFor, jpTextFor } from '../../lib/deck'
 import { kanaToHangul } from '../../lib/hangul'
 import { primeSpeech } from '../../lib/speak'
+import { KeyHint } from '../KeyHint'
 
 const INTRO_LABEL: Record<DeckKind, string> = {
   kana: '새 글자',
@@ -43,16 +44,10 @@ export function IntroCard({
         }}
         aria-keyshortcuts="R"
       >
-        🔊 발음 듣기
-        <span className="kbd" aria-hidden="true">
-          R
-        </span>
+        🔊 발음 듣기<KeyHint k="R" />
       </button>
       <button className="btn-primary" onClick={onNext} aria-keyshortcuts="Enter">
-        다음
-        <span className="kbd" aria-hidden="true">
-          ⏎
-        </span>
+        다음<KeyHint k="Enter" />
       </button>
     </section>
   )

@@ -3,6 +3,7 @@ import { glyphClassFor } from '../../lib/deck'
 import { kanaToHangul } from '../../lib/hangul'
 import { optionText, type Question } from '../../lib/quiz'
 import { ChoiceGrid } from '../ChoiceGrid'
+import { KeyHint } from '../KeyHint'
 import { ClozeSentence } from './ClozeSentence'
 
 export function Quiz({
@@ -63,9 +64,8 @@ export function Quiz({
             onClick={onReplay}
             aria-label="다시 듣기"
             aria-keyshortcuts="R"
-            title="다시 듣기 (R)"
           >
-            🔊
+            🔊<KeyHint k="R" />
           </button>
           {phase === 'feedback' && (
             // Reveal what was heard so the sound gets tied to its glyph.
@@ -104,10 +104,7 @@ export function Quiz({
 
       {phase === 'feedback' && (
         <button className="btn-primary" onClick={onContinue} aria-keyshortcuts="Enter">
-          계속
-          <span className="kbd" aria-hidden="true">
-            ⏎
-          </span>
+          계속<KeyHint k="Enter" />
         </button>
       )}
     </section>

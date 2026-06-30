@@ -8,6 +8,7 @@ import { playCorrect, playWrong } from '../lib/sound'
 import { IntroCard } from './lesson/IntroCard'
 import { Quiz } from './lesson/Quiz'
 import { ExitConfirm } from './lesson/ExitConfirm'
+import { ProgressHeader } from './ProgressHeader'
 
 export interface LessonResult {
   kana: Kana
@@ -55,7 +56,6 @@ export function Lesson({ items, pool, deck, listenMode, onComplete, onExit }: Pr
   const phase: 'answer' | 'feedback' = answered ? 'feedback' : 'answer'
   const picked = picks[index] ?? null
   const isLast = index + 1 >= steps.length
-  const progressPct = Math.round((index / steps.length) * 100)
 
   function finish(final: Record<number, LessonResult>) {
     // Emit results in step order, skipping steps the user never completed.
@@ -158,33 +158,14 @@ export function Lesson({ items, pool, deck, listenMode, onComplete, onExit }: Pr
 
   return (
     <main className="screen lesson">
-      <div className="lesson-top">
-        <button
-          className="link"
-          onClick={onExitClick}
-          aria-label="나가기"
-          aria-keyshortcuts="Escape"
-          title="나가기 (Esc)"
-        >
-          ✕
-        </button>
-        <button
-          className="link nav-arrow"
-          onClick={goPrev}
-          disabled={index === 0}
-          aria-label="이전 단계"
-          aria-keyshortcuts="ArrowLeft"
-          title="이전 단계 (←)"
-        >
-          ‹
-        </button>
-        <div className="progress-bar slim">
-          <div className="progress-fill" style={{ width: `${progressPct}%` }} />
-        </div>
-        <span className="counter">
-          {index + 1}/{steps.length}
-        </span>
-      </div>
+      <ProgressHeader
+        index={index}
+        total={steps.length}
+        onExit={onExitClick}
+        onBack={goPrev}
+        exitKey="Esc"
+        backKey="←"
+      />
 
       {step.question ? (
         <Quiz

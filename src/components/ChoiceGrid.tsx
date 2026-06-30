@@ -2,6 +2,8 @@
 // the JLPT exam (answer-only, no feedback until the report). Presentational and
 // string-keyed so callers stay decoupled from their own item types.
 
+import { KeyHint } from './KeyHint'
+
 export interface Choice {
   key: string // stable identity (kana string, or stringified index)
   text: string // what the button shows
@@ -47,11 +49,7 @@ export function ChoiceGrid({ options, mode, selectedKey, correctKey, showShortcu
             disabled={feedback}
             onClick={() => onPick(opt.key)}
           >
-            {showShortcuts && !feedback && i < 9 && (
-              <span className="opt-key" aria-hidden="true">
-                {i + 1}
-              </span>
-            )}
+            {showShortcuts && !feedback && i < 9 && <KeyHint k={String(i + 1)} />}
             <span className="opt-text">{opt.text}</span>
             {mark && (
               <span className="opt-mark" aria-hidden="true">

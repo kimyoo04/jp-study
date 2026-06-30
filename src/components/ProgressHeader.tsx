@@ -1,0 +1,44 @@
+// Shared top bar for the one-item-at-a-time screens (SRS lesson): a close (✕)
+// button, an optional back (←) button, a slim progress bar, and a
+// "current/total" counter. `index` is 0-based; the bar fills by completed steps.
+
+import { KeyHint } from './KeyHint'
+
+interface Props {
+  index: number
+  total: number
+  onExit: () => void
+  /** When provided, render a back (←) button, disabled on the first item. */
+  onBack?: () => void
+  /** Optional keyboard-shortcut badges (desktop-only) on the ✕ / ← buttons. */
+  exitKey?: string
+  backKey?: string
+}
+
+export function ProgressHeader({ index, total, onExit, onBack, exitKey, backKey }: Props) {
+  const pct = Math.round((index / total) * 100)
+  return (
+    <div className="lesson-top">
+      <button className="link" onClick={onExit} aria-label="나가기" aria-keyshortcuts="Escape">
+        ✕{exitKey && <KeyHint k={exitKey} />}
+      </button>
+      {onBack && (
+        <button
+          className="link"
+          onClick={onBack}
+          disabled={index === 0}
+          aria-label="이전 단계"
+          aria-keyshortcuts="ArrowLeft"
+        >
+          ←{backKey && <KeyHint k={backKey} />}
+        </button>
+      )}
+      <div className="progress-bar slim">
+        <div className="progress-fill" style={{ width: `${pct}%` }} />
+      </div>
+      <span className="counter">
+        {index + 1}/{total}
+      </span>
+    </div>
+  )
+}
