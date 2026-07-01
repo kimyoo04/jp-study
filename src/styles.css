@@ -56,7 +56,10 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: var(--screen-top) 20px calc(24px + env(safe-area-inset-bottom));
+  /* Horizontal padding respects the landscape notch (safe-area left/right) with
+     a 20px floor, so portrait is unchanged and landscape content isn't clipped. */
+  padding: var(--screen-top) max(20px, env(safe-area-inset-right))
+    calc(24px + env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
   gap: 20px;
 }
 
