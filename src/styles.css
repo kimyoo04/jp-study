@@ -1,3 +1,14 @@
+/* Brand wordmark display face. Subset to exactly the logo glyphs (にほんご Pocket)
+   so the self-hosted woff2 is ~2KB. Used only on .logo; everything else stays
+   on the system stack for full CJK coverage and zero load cost. */
+@font-face {
+  font-family: 'Zen Maru Gothic';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('./assets/fonts/zen-maru-gothic-logo.woff2') format('woff2');
+}
+
 :root {
   --bg: #0f1020;
   --surface: #1b1c3a;
@@ -90,6 +101,8 @@ body {
   cursor: pointer;
 }
 .logo {
+  font-family: 'Zen Maru Gothic', system-ui, sans-serif;
+  font-weight: 700;
   font-size: 28px;
   margin: 0 0 4px;
 }
