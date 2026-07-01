@@ -135,36 +135,47 @@ export function Home({
         </div>
       </section>
 
-      <button
-        className={listen ? 'mode-toggle on' : 'mode-toggle'}
-        onClick={onToggleListen}
-        disabled={!listenAvailable}
-        aria-pressed={listen}
-      >
-        <span className="mode-toggle-text">
-          🎧 듣고 풀기
-          {!listenAvailable && <small> (이 기기는 음성 미지원)</small>}
-        </span>
-        <span className="mode-toggle-state">{listen ? '켜짐' : '꺼짐'}</span>
-      </button>
-
-      <button className="btn-primary" onClick={onStart}>
-        {learned > 0 ? '오늘의 레슨' : '시작하기'}
-      </button>
-      <button className="btn-ghost" onClick={onListen} disabled={!listenAvailable}>
-        🎧 흘려듣기 ({total})
-      </button>
-      {weakCount > 0 && (
-        <button className="btn-ghost" onClick={onReviewWeak}>
-          약한 것만 복습 ({weakCount})
+      <div className="home-actions">
+        <button
+          className={listen ? 'mode-toggle on' : 'mode-toggle'}
+          onClick={onToggleListen}
+          disabled={!listenAvailable}
+          aria-pressed={listen}
+        >
+          <span className="mode-toggle-text">
+            🎧 듣고 풀기
+            {!listenAvailable && <small> (이 기기는 음성 미지원)</small>}
+          </span>
+          <span className="mode-toggle-state">{listen ? '켜짐' : '꺼짐'}</span>
         </button>
-      )}
-      <button className="btn-ghost learn-entry" onClick={onLearn}>
-        📖 개념 학습 (12주)
-      </button>
-      <button className="btn-ghost jlpt-entry" onClick={onJlpt}>
-        📋 JLPT 모의고사
-      </button>
+
+        <button className="btn-primary" onClick={onStart}>
+          {learned > 0 ? '오늘의 레슨' : '시작하기'}
+        </button>
+
+        <div className="home-tiles">
+          <button className="tile" onClick={onListen} disabled={!listenAvailable}>
+            <span className="tile-title">🎧 흘려듣기</span>
+            <span className="tile-sub">{total}개</span>
+          </button>
+          {weakCount > 0 && (
+            <button className="tile" onClick={onReviewWeak}>
+              <span className="tile-title">🔁 약한 것만</span>
+              <span className="tile-sub">{weakCount}개</span>
+            </button>
+          )}
+        </div>
+
+        <button className="tile tile-wide" onClick={onLearn}>
+          <span className="tile-title">📖 개념 학습</span>
+          <span className="tile-sub">12주 커리큘럼</span>
+        </button>
+
+        <button className="tile tile-wide" onClick={onJlpt}>
+          <span className="tile-title">📋 JLPT 모의고사</span>
+          <span className="tile-sub">듣기·독해 미니 모의고사로 실력 체크</span>
+        </button>
+      </div>
     </main>
   )
 }
