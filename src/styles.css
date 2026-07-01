@@ -10,7 +10,10 @@
   --wrong: #ff5c7c;
   --track: #14152b; /* empty progress groove — darker than surface so 0% reads as empty */
   --radius: 16px;
-  --screen-top: 40px; /* shared top offset so every screen's top row lines up */
+  /* Shared top offset so every screen's top row lines up. Clears the device
+     status bar / notch via the safe-area inset, with a 20px floor so non-notched
+     and desktop (inset = 0) don't collapse to a cramped 12px. */
+  --screen-top: max(20px, calc(env(safe-area-inset-top) + 12px));
 }
 
 * {
@@ -59,17 +62,22 @@ body {
 
 /* ---- Home ---- */
 .home {
-  justify-content: center;
+  /* Anchor content to the top like a native app screen, not vertically centered. */
+  justify-content: flex-start;
+}
+/* Native-app top bar: utility icons in a real flex row (search left, sfx right)
+   rather than floating absolute buttons that overlapped the title block. */
+.home-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
 }
 .home-head {
   text-align: center;
 }
 .sfx-toggle,
 .search-btn {
-  position: absolute;
-  /* Line the floating buttons up with the lesson/search top rows, which
-     begin at the screen's top padding. */
-  top: var(--screen-top);
   background: var(--surface);
   border: none;
   border-radius: 50%;
@@ -77,13 +85,6 @@ body {
   height: 44px;
   font-size: 20px;
   cursor: pointer;
-  z-index: 10;
-}
-.sfx-toggle {
-  right: 16px;
-}
-.search-btn {
-  left: 16px;
 }
 .logo {
   font-size: 28px;

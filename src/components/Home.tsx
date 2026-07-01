@@ -60,7 +60,7 @@ export function Home({
 
   return (
     <main className="screen home">
-      <header className="home-head">
+      <div className="home-topbar">
         <button className="search-btn" onClick={onSearch} aria-label="검색">
           🔍
         </button>
@@ -72,6 +72,9 @@ export function Home({
         >
           {sfx ? '🔊' : '🔇'}
         </button>
+      </div>
+
+      <header className="home-head">
         <h1 className="logo">にほんご Pocket</h1>
         <p className="tagline">히라가나부터, 한 손으로</p>
         <p className="overall">
