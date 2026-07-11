@@ -12,6 +12,11 @@ import { CLOZE_ROWS, CLOZE } from './cloze'
 
 export interface Kana {
   kana: string
+  // Real-world written form (with kanji), for word/sentence decks whose `kana`
+  // is spelled out in hiragana. Shown as the main glyph while `kana` becomes the
+  // reading line. Omit when the item is normally written in kana anyway. `kana`
+  // stays the hiragana throughout — TTS, hangul, and quiz matching read it.
+  written?: string
   romaji: string
   meaning?: string // present for word/sentence decks; absent for kana
   note?: string // grammar pattern label (sentence decks)

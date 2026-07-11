@@ -609,6 +609,14 @@ body {
   white-space: nowrap;
   border: 0;
 }
+.kana-reading {
+  font-size: 22px;
+  color: var(--text);
+  font-weight: 600;
+  text-align: center;
+  max-width: 340px;
+  overflow-wrap: anywhere;
+}
 .ko-reading {
   font-size: 19px;
   color: var(--muted);

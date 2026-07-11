@@ -1,5 +1,5 @@
 import { type Deck, type DeckKind, type Kana } from '../../data/kana'
-import { glyphClassFor, jpTextFor } from '../../lib/deck'
+import { displayTextFor, glyphClassFor } from '../../lib/deck'
 import { kanaToHangul } from '../../lib/hangul'
 import { primeSpeech } from '../../lib/speak'
 import { KeyHint } from '../KeyHint'
@@ -25,7 +25,7 @@ export function IntroCard({
 }) {
   // Cloze intro shows the COMPLETE sentence so the pattern is learned before it
   // gets tested with a blank on later reviews.
-  const glyphText = jpTextFor(kana, deck.kind)
+  const glyphText = displayTextFor(kana, deck.kind)
   return (
     <section className="card intro">
       {(deck.kind === 'sentence' || deck.kind === 'cloze') && kana.note && (
@@ -33,6 +33,7 @@ export function IntroCard({
       )}
       <p className="prompt-label">{INTRO_LABEL[deck.kind]}</p>
       <div className={glyphClassFor(deck.kind)}>{glyphText}</div>
+      {kana.written && <div className="kana-reading">{kana.kana}</div>}
       {deck.koReading && <div className="ko-reading">{kanaToHangul(kana.kana)}</div>}
       <div className="romaji">{kana.romaji}</div>
       {kana.meaning && deck.kind !== 'kana' && <div className="meaning">{kana.meaning}</div>}

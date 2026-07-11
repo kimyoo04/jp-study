@@ -14,6 +14,15 @@ export function jpTextFor(item: Kana, kind: DeckKind): string {
   return kind === 'cloze' ? clozeFilled(item) : item.kana
 }
 
+/**
+ * The Japanese text shown as the main glyph. Prefers the real written form
+ * (with kanji) when present; otherwise falls back to the plain kana text.
+ * `jpTextFor` still gives the hiragana reading (and drives TTS/matching).
+ */
+export function displayTextFor(item: Kana, kind: DeckKind): string {
+  return item.written ?? jpTextFor(item, kind)
+}
+
 /** Clamp a target step index into the valid range [0, length - 1]. */
 export function clampIndex(target: number, length: number): number {
   return Math.max(0, Math.min(length - 1, target))

@@ -1,5 +1,5 @@
 import { type DeckKind, type Kana } from '../../data/kana'
-import { glyphClassFor } from '../../lib/deck'
+import { displayTextFor, glyphClassFor } from '../../lib/deck'
 import { kanaToHangul } from '../../lib/hangul'
 import { optionText, type Question } from '../../lib/quiz'
 import { ChoiceGrid } from '../ChoiceGrid'
@@ -69,13 +69,21 @@ export function Quiz({
           </button>
           {phase === 'feedback' && (
             // Reveal what was heard so the sound gets tied to its glyph.
-            <div className={glyphClassFor(deckKind)}>{question.answer.kana}</div>
+            <>
+              <div className={glyphClassFor(deckKind)}>
+                {displayTextFor(question.answer, deckKind)}
+              </div>
+              {question.answer.written && (
+                <div className="kana-reading">{question.answer.kana}</div>
+              )}
+            </>
           )}
         </>
       ) : (
         <>
           <p className="prompt-label">{label}</p>
-          <div className={glyphClassFor(deckKind)}>{question.answer.kana}</div>
+          <div className={glyphClassFor(deckKind)}>{displayTextFor(question.answer, deckKind)}</div>
+          {question.answer.written && <div className="kana-reading">{question.answer.kana}</div>}
           {koReading && <div className="ko-reading">{kanaToHangul(question.answer.kana)}</div>}
         </>
       )}
