@@ -17,7 +17,7 @@ interface Props {
 const REPEAT_GAP = 500
 const CARD_GAP = 700
 
-const RATES = [0.8, 1.0, 1.2] as const
+const RATES = [0.8, 1.0, 1.2, 1.5, 2.0] as const
 
 // What gets read for one card: Japanese first, then the Korean side.
 // Kana decks have no meaning, so the Korean side is the phonetic reading.
