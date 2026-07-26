@@ -132,7 +132,9 @@ export function Lesson({ items, pool, deck, listenMode, onComplete, onExit }: Pr
           e.preventDefault()
           goPrev()
         }
-      } else if (e.key === 'r' || e.key === 'R') {
+      } else if (e.key === 'r' || e.key === 'R' || e.code === 'KeyR') {
+        // Match the physical R key too: a Korean/Japanese IME rewrites e.key
+        // (to 'ㄱ' or 'Process'), so key-only matching silently fails.
         e.preventDefault()
         sayCurrent()
       } else if (step.question && phase === 'answer' && /^[1-9]$/.test(e.key)) {

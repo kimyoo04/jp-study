@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import type { Kana } from '../data/kana'
 import { playComplete } from '../lib/sound'
+import { KeyHint } from './KeyHint'
 import type { LessonResult } from './Lesson'
 
 interface Props {
@@ -15,6 +16,19 @@ export function Complete({ results, wrong, onReview, onAgain, onHome }: Props) {
   useEffect(() => {
     playComplete()
   }, [])
+
+  // Enter starts another round. Skip when a button is focused so its native
+  // activation (e.g. tabbing to 홈으로 then Enter) wins instead of double-firing.
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key !== 'Enter') return
+      if (document.activeElement instanceof HTMLButtonElement) return
+      e.preventDefault()
+      onAgain()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [onAgain])
 
   const graded = results.filter((r) => r.mode === 'quiz')
   const correct = graded.filter((r) => r.correct).length
@@ -59,8 +73,12 @@ export function Complete({ results, wrong, onReview, onAgain, onHome }: Props) {
             틀린 것만 복습 ({wrong.length})
           </button>
         )}
-        <button className={wrong.length > 0 ? 'btn-ghost' : 'btn-primary'} onClick={onAgain}>
-          한 판 더
+        <button
+          className={wrong.length > 0 ? 'btn-ghost' : 'btn-primary'}
+          onClick={onAgain}
+          aria-keyshortcuts="Enter"
+        >
+          한 판 더<KeyHint k="Enter" />
         </button>
         <button className="btn-ghost" onClick={onHome}>
           홈으로
