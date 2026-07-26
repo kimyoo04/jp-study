@@ -132,7 +132,11 @@ export function Lesson({ items, pool, deck, listenMode, onComplete, onExit }: Pr
           e.preventDefault()
           goPrev()
         }
-      } else if (e.key === 'r' || e.key === 'R' || e.code === 'KeyR') {
+      } else if (
+        (e.key === 'r' || e.key === 'R' || e.code === 'KeyR') &&
+        step.question?.qtype === 'listen'
+      ) {
+        // Replay only on listen questions, where the sound is the prompt.
         // Match the physical R key too: a Korean/Japanese IME rewrites e.key
         // (to 'ㄱ' or 'Process'), so key-only matching silently fails.
         e.preventDefault()
