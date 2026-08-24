@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { CLOZE, CLOZE_ROWS } from './cloze'
+import { BASE_CLOZE_ROWS, CLOZE, CLOZE_ROWS } from './cloze'
 import { BLANK, clozeFilled } from './kana'
 
 describe('cloze deck data', () => {
@@ -33,5 +33,12 @@ describe('cloze deck data', () => {
       expect(filled).not.toContain(BLANK)
       expect(filled).toContain(c.answer!)
     }
+  })
+
+  it('doubles the curated problems without duplicate Japanese keys', () => {
+    expect(CLOZE).toHaveLength(BASE_CLOZE_ROWS.flat().length * 2)
+    expect(CLOZE_ROWS).toHaveLength(BASE_CLOZE_ROWS.length)
+    const keys = CLOZE.map((item) => item.kana.replace(/[ 、。！？!?「」]/g, ''))
+    expect(new Set(keys).size).toBe(keys.length)
   })
 })

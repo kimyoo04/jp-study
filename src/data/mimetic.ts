@@ -1,8 +1,9 @@
 // 의태어·의성어 — 실회화·드라마 고빈도 표현만. 행 = 주제(오답 후보 그룹).
 // 단어 덱과 같은 'words' 종류라 "단어 → 뜻 고르기" 엔진을 재사용한다.
 import type { Kana } from './kana'
+import { MIMETIC_EXPANSION_ROWS } from './mimetic-expanded'
 
-export const MIMETIC_ROWS: Kana[][] = [
+export const BASE_MIMETIC_ROWS: Kana[][] = [
   // 감정 1
   [
     { kana: 'どきどき', romaji: 'dokidoki', meaning: '두근두근 (긴장/설렘)' },
@@ -86,6 +87,11 @@ export const MIMETIC_ROWS: Kana[][] = [
     { kana: 'こつこつ', romaji: 'kotsukotsu', meaning: '꾸준히' },
   ],
 ]
+
+export const MIMETIC_ROWS: Kana[][] = BASE_MIMETIC_ROWS.map((row, i) => [
+  ...row,
+  ...MIMETIC_EXPANSION_ROWS[i],
+])
 
 /** All mimetic words flattened in teaching order. */
 export const MIMETICS: Kana[] = MIMETIC_ROWS.flat()

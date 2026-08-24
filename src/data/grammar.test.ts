@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { ROW_OF } from './kana'
-import { GRAMMAR, GRAMMAR_ROWS } from './grammar'
+import { BASE_GRAMMAR_ROWS, GRAMMAR, GRAMMAR_ROWS } from './grammar'
 
 describe('grammar data', () => {
   it('every example has a sentence, romaji, meaning, and pattern note', () => {
@@ -28,6 +28,11 @@ describe('grammar data', () => {
   it('covers a solid set of patterns (>= 10 patterns, >= 40 sentences)', () => {
     expect(GRAMMAR_ROWS.length).toBeGreaterThanOrEqual(10)
     expect(GRAMMAR.length).toBeGreaterThanOrEqual(40)
+  })
+
+  it('doubles the curated examples without changing the pattern rows', () => {
+    expect(GRAMMAR).toHaveLength(BASE_GRAMMAR_ROWS.flat().length * 2)
+    expect(GRAMMAR_ROWS).toHaveLength(BASE_GRAMMAR_ROWS.length)
   })
 
   it('registers sentences in ROW_OF so distractors stay within a pattern', () => {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { DECKS, ROW_OF } from './kana'
-import { MIMETICS, MIMETIC_ROWS } from './mimetic'
+import { BASE_MIMETIC_ROWS, MIMETICS, MIMETIC_ROWS } from './mimetic'
 import { WORDS } from './words'
 import { LOANWORDS } from './loanwords'
 import { COUNTERS } from './counters'
@@ -43,5 +43,9 @@ describe('mimetic data', () => {
 
   it('has substantial coverage (>= 50 items)', () => {
     expect(MIMETICS.length).toBeGreaterThanOrEqual(50)
+  })
+
+  it('doubles the curated core with unique mimetic expressions', () => {
+    expect(MIMETICS.length).toBe(BASE_MIMETIC_ROWS.flat().length * 2)
   })
 })

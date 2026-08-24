@@ -2,8 +2,9 @@
 // 카드는 예문(kana) + romaji + 뜻(meaning) + 패턴 라벨(note). 'sentence' 종류 덱이라
 // "예문 → 뜻 고르기" 퀴즈를 쓰되 문장 크기로 렌더한다.
 import type { Kana } from './kana'
+import { GRAMMAR_EXPANSION_ROWS } from './grammar-expanded'
 
-export const GRAMMAR_ROWS: Kana[][] = [
+export const BASE_GRAMMAR_ROWS: Kana[][] = [
   // ～は～です : ~은/는 ~입니다
   [
     { kana: 'わたしは がくせいです', written: '私は学生です', romaji: 'watashi wa gakusei desu', meaning: '저는 학생입니다', note: '～は～です (~은/는 ~입니다)' },
@@ -923,6 +924,19 @@ export const GRAMMAR_ROWS: Kana[][] = [
     { kana: 'れんしゅうの おかげで じょうずに なりました', written: '練習のおかげで上手になりました', romaji: 'renshuu no okage de jouzu ni narimashita', meaning: '연습 덕분에 능숙해졌습니다', note: '～おかげで (~덕분에)' },
   ],
 ]
+
+const grammarExpansionByNote = new Map<string, Kana[]>()
+for (const item of GRAMMAR_EXPANSION_ROWS.flat()) {
+  const bucket = grammarExpansionByNote.get(item.note ?? '') ?? []
+  bucket.push(item)
+  grammarExpansionByNote.set(item.note ?? '', bucket)
+}
+
+/** Original and expanded examples stay grouped by grammar pattern. */
+export const GRAMMAR_ROWS: Kana[][] = BASE_GRAMMAR_ROWS.map((row) => {
+  const bucket = grammarExpansionByNote.get(row[0]?.note ?? '') ?? []
+  return [...row, ...bucket.splice(0, row.length)]
+})
 
 /** All example sentences flattened in teaching order. */
 export const GRAMMAR: Kana[] = GRAMMAR_ROWS.flat()

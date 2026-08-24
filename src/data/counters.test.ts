@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { DECKS, ROW_OF } from './kana'
-import { COUNTERS, COUNTER_ROWS } from './counters'
+import { BASE_COUNTER_ROWS, COUNTERS, COUNTER_ROWS } from './counters'
 import { WORDS } from './words'
 import { LOANWORDS } from './loanwords'
 
@@ -52,5 +52,9 @@ describe('counters data', () => {
 
   it('has substantial coverage (>= 100 items)', () => {
     expect(COUNTERS.length).toBeGreaterThanOrEqual(100)
+  })
+
+  it('doubles the curated core with reviewed counter forms', () => {
+    expect(COUNTERS.length).toBe(BASE_COUNTER_ROWS.flat().length * 2)
   })
 })

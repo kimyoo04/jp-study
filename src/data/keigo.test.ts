@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { DECKS, deckCategories } from './kana'
-import { KEIGO, KEIGO_ROWS } from './keigo'
+import { BASE_KEIGO_ROWS, KEIGO, KEIGO_ROWS } from './keigo'
 import { PHRASES } from './phrases'
 import { GRAMMAR } from './grammar'
 
@@ -41,5 +41,10 @@ describe('keigo data', () => {
     expect(get('まいります')).toBeDefined() // 겸양
     expect(get('おっしゃいます')).toBeDefined()
     expect(get('もうします')).toBeDefined()
+  })
+
+  it('doubles the curated expressions without changing category rows', () => {
+    expect(KEIGO).toHaveLength(BASE_KEIGO_ROWS.flat().length * 2)
+    expect(KEIGO_ROWS).toHaveLength(BASE_KEIGO_ROWS.length)
   })
 })

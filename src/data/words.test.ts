@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { ROW_OF } from './kana'
-import { WORDS, WORD_ROWS } from './words'
+import { BASE_WORD_ROWS, WORDS, WORD_ROWS } from './words'
 
 describe('words data', () => {
   it('every word has kana, romaji, and a Korean meaning', () => {
@@ -33,5 +33,11 @@ describe('words data', () => {
 
   it('has a substantial vocabulary (>= 180 words)', () => {
     expect(WORDS.length).toBeGreaterThanOrEqual(180)
+  })
+
+  it('doubles the curated core with unique expansion cards', () => {
+    const base = BASE_WORD_ROWS.flat()
+    expect(WORDS.length).toBe(base.length * 2)
+    expect(new Set(WORDS.map((word) => word.kana)).size).toBe(WORDS.length)
   })
 })

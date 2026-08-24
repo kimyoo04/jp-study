@@ -2,8 +2,9 @@
 // 'kanji' 종류 덱이라 "한자 → 뜻 고르기" 퀴즈를 쓰되 단일 글자를 크게 렌더한다.
 // 한자는 CJK 영역이라 가나/단어 키와 충돌하지 않는다.
 import type { Kana } from './kana'
+import { KANJI_EXPANSION_ROWS } from './kanji-expanded'
 
-export const KANJI_ROWS: Kana[][] = [
+export const BASE_KANJI_ROWS: Kana[][] = [
   // 숫자 1
   [
     { kana: '一', romaji: 'いち', meaning: '하나 / 1' },
@@ -750,5 +751,8 @@ export const KANJI_ROWS: Kana[][] = [
   ],
 ]
 
-/** All N5 kanji flattened in teaching order. */
+/** Curated kanji followed by grade/frequency-sorted KANJIDIC2 expansion rows. */
+export const KANJI_ROWS: Kana[][] = [...BASE_KANJI_ROWS, ...KANJI_EXPANSION_ROWS]
+
+/** All kanji flattened in teaching order. */
 export const KANJI: Kana[] = KANJI_ROWS.flat()

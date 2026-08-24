@@ -1,8 +1,9 @@
 // 외래어 (gairaigo) — 카타카나로 쓰는 외래어 단어. 카드는 글자 + romaji + 뜻.
 // words.ts와 같은 'words' 종류 덱이라 같은 "뜻 고르기" 퀴즈 엔진을 씀.
 import type { Kana } from './kana'
+import { LOANWORD_EXPANSION_ROWS } from './loanwords-expanded'
 
-export const LOANWORD_ROWS: Kana[][] = [
+export const BASE_LOANWORD_ROWS: Kana[][] = [
   // 음식 / 음료
   [
     { kana: 'コーヒー', romaji: 'koohii', meaning: '커피' },
@@ -494,6 +495,9 @@ export const LOANWORD_ROWS: Kana[][] = [
     { kana: 'ベビーカー', romaji: 'bebiikaa', meaning: '유모차' },
   ],
 ]
+
+/** Core list followed by the independently sourced JLPT expansion. */
+export const LOANWORD_ROWS: Kana[][] = [...BASE_LOANWORD_ROWS, ...LOANWORD_EXPANSION_ROWS]
 
 /** All loanwords flattened in teaching order. */
 export const LOANWORDS: Kana[] = LOANWORD_ROWS.flat()

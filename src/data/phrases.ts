@@ -2,8 +2,9 @@
 // 문법 덱과 같은 'sentence' 종류라 "문장 → 뜻 고르기" 엔진을 재사용한다.
 // note 자리에는 문법 패턴 대신 상황(인사/식당 등)을 표시한다.
 import type { Kana } from './kana'
+import { PHRASE_EXPANSION_ROWS } from './phrases-expanded'
 
-export const PHRASE_ROWS: Kana[][] = [
+export const BASE_PHRASE_ROWS: Kana[][] = [
   // 인사 / 첫 만남
   [
     { kana: 'はじめまして', romaji: 'hajimemashite', meaning: '처음 뵙겠습니다', note: '인사 / 첫 만남' },
@@ -838,6 +839,19 @@ export const PHRASE_ROWS: Kana[][] = [
     { kana: 'かさを もって いった ほうが いいです', written: '傘を持っていった方がいいです', romaji: 'kasa o motte itta hou ga ii desu', meaning: '우산 가져가는 게 좋아요', note: '날씨 예보' },
   ],
 ]
+
+const phraseExpansionByNote = new Map<string, Kana[]>()
+for (const item of PHRASE_EXPANSION_ROWS.flat()) {
+  const bucket = phraseExpansionByNote.get(item.note ?? '') ?? []
+  bucket.push(item)
+  phraseExpansionByNote.set(item.note ?? '', bucket)
+}
+
+/** Original and expanded phrases stay grouped by situation. */
+export const PHRASE_ROWS: Kana[][] = BASE_PHRASE_ROWS.map((row) => {
+  const bucket = phraseExpansionByNote.get(row[0]?.note ?? '') ?? []
+  return [...row, ...bucket.splice(0, row.length)]
+})
 
 /** All conversational phrases flattened in teaching order. */
 export const PHRASES: Kana[] = PHRASE_ROWS.flat()

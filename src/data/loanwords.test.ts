@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { ROW_OF } from './kana'
-import { LOANWORDS, LOANWORD_ROWS } from './loanwords'
+import { BASE_LOANWORD_ROWS, LOANWORDS, LOANWORD_ROWS } from './loanwords'
 import { WORDS } from './words'
 
 describe('loanwords data', () => {
@@ -36,5 +36,11 @@ describe('loanwords data', () => {
   it('has a few rows of vocabulary', () => {
     expect(LOANWORD_ROWS.length).toBeGreaterThanOrEqual(5)
     expect(LOANWORDS.length).toBeGreaterThanOrEqual(25)
+  })
+
+  it('doubles the curated core with unique expansion cards', () => {
+    const base = BASE_LOANWORD_ROWS.flat()
+    expect(LOANWORDS.length).toBe(base.length * 2)
+    expect(new Set(LOANWORDS.map((word) => word.kana)).size).toBe(LOANWORDS.length)
   })
 })

@@ -2,8 +2,9 @@
 // 행 = 조수사 하나(또는 묶음). 같은 행이 오답 후보가 되어 ひとり/ふたり처럼
 // 헷갈리는 읽기끼리 비교하며 연습하게 된다.
 import type { Kana } from './kana'
+import { COUNTER_EXPANSION_ROWS } from './counters-expanded'
 
-export const COUNTER_ROWS: Kana[][] = [
+export const BASE_COUNTER_ROWS: Kana[][] = [
   // 개수 〜つ
   [
     { kana: 'ひとつ', written: '一つ', romaji: 'hitotsu', meaning: '하나 (1개)' },
@@ -147,6 +148,11 @@ export const COUNTER_ROWS: Kana[][] = [
     { kana: 'なんがつ', written: '何月', romaji: 'nangatsu', meaning: '몇 월' },
   ],
 ]
+
+export const COUNTER_ROWS: Kana[][] = BASE_COUNTER_ROWS.map((row, i) => [
+  ...row,
+  ...COUNTER_EXPANSION_ROWS[i],
+])
 
 /** All counters flattened in teaching order. */
 export const COUNTERS: Kana[] = COUNTER_ROWS.flat()

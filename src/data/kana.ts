@@ -8,6 +8,7 @@ import { KEIGO_ROWS, KEIGO } from './keigo'
 import { GRAMMAR_ROWS, GRAMMAR } from './grammar'
 import { PHRASE_ROWS, PHRASES } from './phrases'
 import { KANJI_ROWS, KANJI } from './kanji'
+import { KANJI_EXPANSION_CATS } from './kanji-expanded'
 import { CLOZE_ROWS, CLOZE } from './cloze'
 
 export interface Kana {
@@ -276,7 +277,7 @@ export interface Category {
 }
 
 // Theme/category label per row for the row-based decks (1:1 with their rows).
-const WORD_CATS = [
+const BASE_WORD_CATS = [
   '인사말', '숫자', '생활', '시간', '색깔', '음식', '동물', '가족', '동사', '형용사',
   '요일', '신체', '자연 / 날씨', '장소', '동사 2', '형용사 2', '위치', '물건', '과일 / 채소',
   '교통', '동사 3', '형용사 3', '사람', '추상 / 생활 2', '동사 4', '형용사 4', '자연 2',
@@ -289,7 +290,11 @@ const WORD_CATS = [
   '동작 / 감정 동사', '위치 / 이동', '시간 3 / 시대',
   '동사 13', '동사 14', '형용사 / 상태 6', '추상 / 생활 4',
 ]
-const LOANWORD_CATS = [
+const WORD_CATS = [
+  ...BASE_WORD_CATS,
+  ...Array.from({ length: WORD_ROWS.length - BASE_WORD_CATS.length }, (_, i) => `JLPT 확장 ${i + 1}`),
+]
+const BASE_LOANWORD_CATS = [
   '음식 / 음료', '장소', '기기 / 디지털', '취미 / 스포츠', '의류 / 물건', '음식 2', '나라',
   '취미 / 스포츠 2', '생활 물건', '현대 / IT', '의류 2', '음식 / 음료 3', '나라 2', '스포츠 3',
   '직장 / 학교', '색 / 추상', '음식 2', '가전 / 기기 2', '장소 2', '직업 / 사람', '취미 / 일상 2',
@@ -298,6 +303,13 @@ const LOANWORD_CATS = [
   '여행 2', '감정 / 추상 3', '음식 5', '기기 3', '장소 3', '뷰티 / 패션 3', '추상 / 일 3',
   '자동차 / 교통 3',
   '디저트 / 간식 3', 'IT / 통신 3', '단위 / 수량', '생활용품 3', '쇼핑 / 패션 4',
+]
+const LOANWORD_CATS = [
+  ...BASE_LOANWORD_CATS,
+  ...Array.from(
+    { length: LOANWORD_ROWS.length - BASE_LOANWORD_CATS.length },
+    (_, i) => `JLPT 외래어 확장 ${i + 1}`,
+  ),
 ]
 const COUNTER_CATS = [
   '개수 〜つ', '사람 〜人', '날짜 1〜10일', '날짜 / 기간', '시간 〜時', '분 〜分',
@@ -318,6 +330,7 @@ const KANJI_CATS = [
   '신체 / 건강 3', '감정 2', '동작 4', '시간 / 순서 2', '지리', '자연 3', '물질 / 재료', '동작 5',
   '요리 동작', '사회 / 법', '사고 / 판단', '감각 2', '사람 / 관계 2', '시간 / 빈도 3', '상태 / 마무리',
   '추상 / 사물 4', '동사 11', '동사 12', '상태 / 형용 5', '사회 / 일 2',
+  ...KANJI_EXPANSION_CATS,
 ]
 
 export const DECKS: Deck[] = [

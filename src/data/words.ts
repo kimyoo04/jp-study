@@ -1,8 +1,9 @@
 // 기초 단어 / 인사말 (N5 수준). 카드는 글자(kana) + romaji + 뜻(meaning).
 // 행 구조는 가나와 동일하게 재사용 — 레슨 묶음과 같은 행 distractor에 쓰임.
 import type { Kana } from './kana'
+import { WORD_EXPANSION_ROWS } from './words-expanded'
 
-export const WORD_ROWS: Kana[][] = [
+export const BASE_WORD_ROWS: Kana[][] = [
   // 인사말
   [
     { kana: 'こんにちは', romaji: 'konnichiwa', meaning: '안녕하세요 (낮)' },
@@ -840,6 +841,9 @@ export const WORD_ROWS: Kana[][] = [
     { kana: 'げんいん', written: '原因', romaji: 'gen-in', meaning: '원인' },
   ],
 ]
+
+/** Core list followed by the independently sourced JLPT expansion. */
+export const WORD_ROWS: Kana[][] = [...BASE_WORD_ROWS, ...WORD_EXPANSION_ROWS]
 
 /** All words flattened in teaching order. */
 export const WORDS: Kana[] = WORD_ROWS.flat()

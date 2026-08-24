@@ -2,8 +2,9 @@
 // 문법·회화 덱과 같은 'sentence' 종류. note 자리에 경어 분류를 표시한다.
 // 회화 덱에 이미 있는 문장(いらっしゃいませ 등)과 중복되지 않게 구성.
 import type { Kana } from './kana'
+import { KEIGO_EXPANSION_ROWS } from './keigo-expanded'
 
-export const KEIGO_ROWS: Kana[][] = [
+export const BASE_KEIGO_ROWS: Kana[][] = [
   // 존경어 (상대 높임)
   [
     { kana: 'いらっしゃいます', romaji: 'irasshaimasu', meaning: '가십니다 / 오십니다 / 계십니다', note: '존경어 (상대 높임)' },
@@ -60,6 +61,19 @@ export const KEIGO_ROWS: Kana[][] = [
     { kana: 'とんでもないです', romaji: 'tondemonai desu', meaning: '별말씀을요', note: '정중한 질문 / 응답' },
   ],
 ]
+
+const keigoExpansionByNote = new Map<string, Kana[]>()
+for (const item of KEIGO_EXPANSION_ROWS.flat()) {
+  const bucket = keigoExpansionByNote.get(item.note ?? '') ?? []
+  bucket.push(item)
+  keigoExpansionByNote.set(item.note ?? '', bucket)
+}
+
+/** Original and expanded expressions stay grouped by keigo category. */
+export const KEIGO_ROWS: Kana[][] = BASE_KEIGO_ROWS.map((row) => {
+  const bucket = keigoExpansionByNote.get(row[0]?.note ?? '') ?? []
+  return [...row, ...bucket.splice(0, row.length)]
+})
 
 /** All keigo expressions flattened in teaching order. */
 export const KEIGO: Kana[] = KEIGO_ROWS.flat()

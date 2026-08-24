@@ -3,8 +3,9 @@
 // choices가 오답 3개다. 'cloze' 종류 덱이라 Lesson이 "문장 → 빈칸 고르기" 퀴즈를
 // 쓴다. romaji/meaning은 정답을 채운 완성 문장 기준. note는 문법 포인트(카테고리).
 import type { Kana } from './kana'
+import { CLOZE_EXPANSION_ROWS } from './cloze-expanded'
 
-export const CLOZE_ROWS: Kana[][] = [
+export const BASE_CLOZE_ROWS: Kana[][] = [
   // 조사 を — 목적어 표시
   [
     { kana: 'ごはん◯◯ たべます', romaji: 'gohan o tabemasu', meaning: '밥을 먹습니다', note: '조사 を (을/를)', answer: 'を', choices: ['に', 'で', 'と'] },
@@ -235,7 +236,7 @@ export const CLOZE_ROWS: Kana[][] = [
     { kana: 'がくせいを ◯◯', romaji: 'gakusei o matasemashita', meaning: '학생을 기다리게 했습니다', note: '사역 (～させる)', answer: 'またせました', choices: ['まちました', 'またれました', 'まって'] },
     { kana: 'むすこに へやを そうじ ◯◯', romaji: 'musuko ni heya o souji sasemashita', meaning: '아들에게 방을 청소시켰습니다', note: '사역 (～させる)', answer: 'させました', choices: ['しました', 'されました', 'して'] },
     { kana: 'せんせいは がくせいに ほんを ◯◯', romaji: 'sensei wa gakusei ni hon o yomasemashita', meaning: '선생님은 학생에게 책을 읽게 했습니다', note: '사역 (～させる)', answer: 'よませました', choices: ['よみました', 'よまれました', 'よんで'] },
-    { kana: 'ちょっと ◯◯ ください', romaji: 'chotto kangaesasete kudasai', meaning: '잠깐 생각하게 해 주세요', note: '사역 (～させる)', answer: 'かんがえさせて', choices: ['かんがえて', 'かんがえられて', 'かんがえます'] },
+    { kana: 'この もんだいは ちょっと ◯◯ ください', romaji: 'kono mondai wa chotto kangaesasete kudasai', meaning: '이 문제는 잠깐 생각하게 해 주세요', note: '사역 (～させる)', answer: 'かんがえさせて', choices: ['かんがえて', 'かんがえられて', 'かんがえます'] },
   ],
   // 의무·당위 — ～なければ / ～べき / ～はず
   [
@@ -358,5 +359,18 @@ export const CLOZE_ROWS: Kana[][] = [
     { kana: 'いしゃに いった ◯◯ いいですよ', romaji: 'isha ni itta hou ga ii desu yo', meaning: '의사에게 가는 편이 좋습니다', note: '조언 (たほうがいい)', answer: 'ほうが', choices: ['ことが', 'ように', 'ためが'] },
   ],
 ]
+
+const clozeExpansionByNote = new Map<string, Kana[]>()
+for (const item of CLOZE_EXPANSION_ROWS.flat()) {
+  const bucket = clozeExpansionByNote.get(item.note ?? '') ?? []
+  bucket.push(item)
+  clozeExpansionByNote.set(item.note ?? '', bucket)
+}
+
+/** Original and expanded problems stay grouped by grammar point. */
+export const CLOZE_ROWS: Kana[][] = BASE_CLOZE_ROWS.map((row) => {
+  const bucket = clozeExpansionByNote.get(row[0]?.note ?? '') ?? []
+  return [...row, ...bucket.splice(0, row.length)]
+})
 
 export const CLOZE: Kana[] = CLOZE_ROWS.flat()

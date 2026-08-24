@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { ROW_OF } from './kana'
-import { PHRASES, PHRASE_ROWS } from './phrases'
+import { BASE_PHRASE_ROWS, PHRASES, PHRASE_ROWS } from './phrases'
 import { GRAMMAR } from './grammar'
 
 describe('phrases data', () => {
@@ -23,7 +23,8 @@ describe('phrases data', () => {
     const s = PHRASES.map((p) => p.kana)
     expect(new Set(s).size).toBe(s.length)
     const grammar = new Set(GRAMMAR.map((g) => g.kana))
-    expect(PHRASES.every((p) => !grammar.has(p.kana))).toBe(true)
+    const collisions = PHRASES.filter((p) => grammar.has(p.kana)).map((p) => p.kana)
+    expect(collisions).toEqual([])
   })
 
   it('registers phrases in ROW_OF so distractors stay within a situation', () => {
@@ -36,5 +37,10 @@ describe('phrases data', () => {
   it('has a few situations of phrases', () => {
     expect(PHRASE_ROWS.length).toBeGreaterThanOrEqual(5)
     expect(PHRASES.length).toBeGreaterThanOrEqual(25)
+  })
+
+  it('doubles the curated phrases without changing situation rows', () => {
+    expect(PHRASES).toHaveLength(BASE_PHRASE_ROWS.flat().length * 2)
+    expect(PHRASE_ROWS).toHaveLength(BASE_PHRASE_ROWS.length)
   })
 })
