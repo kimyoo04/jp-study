@@ -4,6 +4,7 @@ import { resolve } from 'node:path'
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
+import { guidePages } from './scripts/guide-plugin'
 
 // GitHub Pages serves this repo under /jp-study/.
 // Every PWA path (base, SW scope, manifest start_url/scope) must carry that prefix.
@@ -58,9 +59,15 @@ export default defineConfig({
         // spaFallback() writes 404.html before generateSW globs the output, so
         // exclude it: it is a byte-for-byte copy of the already-precached
         // index.html and only exists for GitHub Pages' miss handler.
-        globIgnores: ['404.html'],
+        // 404.html: index.html 과 바이트 동일한 복사본.
+        // guide/**: 정적 콘텐츠 문서. 앱 오프라인 학습은 /learn 화면이 담당하므로
+        //   설치 용량을 176KB 늘리면서 중복 precache 할 이유가 없다.
+        globIgnores: ['404.html', 'guide/**'],
       },
     }),
+    // 정적 커리큘럼 페이지를 먼저 굽고(spaFallback 은 index.html 만 복사한다),
+    // 그 다음 404 fallback. 둘 다 generateSW 앞에서 돌므로 globIgnores 로 걸러진다.
+    guidePages(),
     spaFallback(),
   ],
   test: {
