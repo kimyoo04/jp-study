@@ -62,7 +62,8 @@ export default defineConfig({
         // 404.html: index.html 과 바이트 동일한 복사본.
         // guide/**: 정적 콘텐츠 문서. 앱 오프라인 학습은 /learn 화면이 담당하므로
         //   설치 용량을 176KB 늘리면서 중복 precache 할 이유가 없다.
-        globIgnores: ['404.html', 'guide/**'],
+        // og-image.png: 공유 미리보기용 239KB — 앱 화면에 안 쓰이므로 설치에서 뺀다.
+        globIgnores: ['404.html', 'guide/**', 'og-image.png'],
       },
     }),
     // 정적 커리큘럼 페이지를 먼저 굽고(spaFallback 은 index.html 만 복사한다),
