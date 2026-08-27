@@ -9,9 +9,17 @@
 //
 // 앱 라우트 /learn/week-N 은 canonical 로 여기(/guide/week-N/)를 가리킨다.
 //
-// 같은 플러그인이 sitemap.xml 도 쓴다: 색인 대상 URL 목록이 여기서 결정되고
-// (생성한 가이드 경로 + 앱 라우트) SSR 서버로 DECKS 를 이미 읽고 있기 때문이다.
-import { mkdirSync, writeFileSync } from 'node:fs'
+// 같은 플러그인이 두 가지를 더 쓴다:
+//
+// 1) 앱 라우트별 정적 HTML. GitHub Pages 는 404.html 을 HTTP 404 상태로 서빙하므로
+//    /deck/kanji 같은 경로가 SPA fallback 으로 화면은 떠도 상태 코드가 404 다 →
+//    색인되지 않고 사이트맵도 오류가 난다. 각 경로에 index.html 사본을 두면
+//    200 으로 응답한다. 사본의 head 는 lib/meta.ts 의 그 라우트 값으로 바꿔
+//    끼워서, JS 를 실행하지 않는 크롤러도 올바른 title·canonical 을 본다.
+//
+// 2) sitemap.xml. 색인 대상 URL 목록이 여기서 결정되고 SSR 로 DECKS·CURRICULUM 을
+//    이미 읽고 있기 때문이다.
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
@@ -278,6 +286,48 @@ ${urls}
 `
 }
 
+interface PageMeta {
+  title: string
+  description: string
+  canonical: string
+}
+
+/** dist/index.html 을 템플릿으로, 라우트에 맞는 head 값으로 갈아끼운 사본을 만든다. */
+function routeHtml(template: string, meta: PageMeta): string {
+  const swap = (html: string, pattern: RegExp, replacement: string) => {
+    if (!pattern.test(html)) {
+      throw new Error(`routeHtml: index.html 에서 ${pattern} 을 찾지 못했다`)
+    }
+    return html.replace(pattern, replacement)
+  }
+
+  let html = swap(template, /<title>[^<]*<\/title>/, `<title>${esc(meta.title)}</title>`)
+  html = swap(
+    html,
+    /<meta\s+name="description"\s+content="[^"]*"\s*\/>/,
+    `<meta name="description" content="${esc(meta.description)}" />`,
+  )
+  html = swap(
+    html,
+    /<link\s+rel="canonical"\s+href="[^"]*"\s*\/>/,
+    `<link rel="canonical" href="${esc(meta.canonical)}" />`,
+  )
+  for (const [attr, key] of [
+    ['property="og:title"', 'title'],
+    ['property="og:description"', 'description'],
+    ['property="og:url"', 'canonical'],
+    ['name="twitter:title"', 'title'],
+    ['name="twitter:description"', 'description'],
+  ] as const) {
+    html = swap(
+      html,
+      new RegExp(`<meta\\s+${attr.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s+content="[^"]*"\\s*\\/>`),
+      `<meta ${attr} content="${esc(meta[key])}" />`,
+    )
+  }
+  return html
+}
+
 export function guidePages(): Plugin {
   let config: ResolvedConfig
 
@@ -295,6 +345,9 @@ export function guidePages(): Plugin {
         root: config.root,
         logLevel: 'error',
         appType: 'custom',
+        // router/meta 는 import.meta.env.BASE_URL 로 경로를 만든다. 여기서 base 를
+        // 맞추지 않으면 '/' 가 들어와 경로와 canonical 이 조용히 어긋난다.
+        base: BASE,
         server: { middlewareMode: true },
         // 의존성 사전 번들링은 필요 없다. 켜두면 스캔이 서버 종료와 경합해서
         // "Request is outdated" 로 빌드를 실패시킨다.
@@ -329,12 +382,42 @@ export function guidePages(): Plugin {
         const { DECKS } = (await server.ssrLoadModule('/src/data/kana.ts')) as {
           DECKS: { id: string }[]
         }
+
+        // ── 앱 라우트별 정적 HTML ──────────────────────────────────────────
+        const { pathOf } = (await server.ssrLoadModule('/src/lib/router.ts')) as {
+          pathOf: (loc: unknown) => string
+        }
+        const { metaFor } = (await server.ssrLoadModule('/src/lib/meta.ts')) as {
+          metaFor: (loc: unknown) => PageMeta
+        }
+
+        const locations: unknown[] = [
+          { screen: 'search' },
+          { screen: 'learn' },
+          { screen: 'jlpt-home' },
+          // 첫 덱은 루트 자신 — index.html 이 이미 그 메타를 갖고 있다.
+          ...DECKS.slice(1).map((d) => ({ screen: 'home', deckId: d.id })),
+          ...CURRICULUM.map((w) => ({ screen: 'learn-reader', week: w.week })),
+        ]
+
+        const template = readFileSync(resolve(outDir, 'index.html'), 'utf8')
+        for (const loc of locations) {
+          const path = pathOf(loc) // 예: /jp-study/deck/kanji
+          if (!path.startsWith(BASE)) {
+            throw new Error(`seo-static-pages: pathOf 가 base 밖의 경로를 냈다: ${path}`)
+          }
+          const dir = resolve(outDir, path.slice(BASE.length))
+          mkdirSync(dir, { recursive: true })
+          writeFileSync(resolve(dir, 'index.html'), routeHtml(template, metaFor(loc)))
+        }
+
         writeFileSync(
           resolve(outDir, 'sitemap.xml'),
           sitemapXml(guidePaths, DECKS.map((d) => d.id)),
         )
         config.logger.info(
-          `seo-static-pages: ${guidePaths.length} guide pages, sitemap written`,
+          `seo-static-pages: ${guidePaths.length} guide pages, ` +
+            `${locations.length} route pages, sitemap written`,
         )
       } finally {
         await server.close()

@@ -82,7 +82,19 @@ export default defineConfig({
         // guide/**: 정적 콘텐츠 문서. 앱 오프라인 학습은 /learn 화면이 담당하므로
         //   설치 용량을 176KB 늘리면서 중복 precache 할 이유가 없다.
         // og-image.png: 공유 미리보기용 239KB — 앱 화면에 안 쓰이므로 설치에서 뺀다.
-        globIgnores: ['404.html', 'guide/**', 'og-image.png', 'screenshot-*.png'],
+        // 라우트별 사본(deck/**, learn/**, jlpt/**, search/**)은 GitHub Pages 가
+        // 200 을 주게 하려고 두는 것뿐이다. 오프라인 내비게이션은 SW 의
+        // NavigationRoute 가 index.html 로 처리하므로 precache 할 필요가 없다.
+        globIgnores: [
+          '404.html',
+          'guide/**',
+          'og-image.png',
+          'screenshot-*.png',
+          'deck/**',
+          'learn/**',
+          'jlpt/**',
+          'search/**',
+        ],
       },
     }),
     // 정적 커리큘럼 페이지를 먼저 굽고(spaFallback 은 index.html 만 복사한다),
