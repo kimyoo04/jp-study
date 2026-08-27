@@ -53,6 +53,25 @@ export default defineConfig({
           { src: 'icon-512.png', sizes: '512x512', type: 'image/png' },
           { src: 'icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
+        // 스토어형 설치 UI(Chrome 리치 설치 프롬프트, Play Store PWA 등록)가
+        // 요구하는 항목. 없으면 설치 배너가 최소 형태로만 뜬다.
+        categories: ['education', 'books'],
+        screenshots: [
+          {
+            src: 'screenshot-home.png',
+            sizes: '1080x1920',
+            type: 'image/png',
+            form_factor: 'narrow',
+            label: '덱을 고르고 오늘의 레슨을 시작하는 홈 화면',
+          },
+          {
+            src: 'screenshot-lesson.png',
+            sizes: '1080x1920',
+            type: 'image/png',
+            form_factor: 'narrow',
+            label: '한자 카드를 4지선다로 푸는 레슨 화면',
+          },
+        ],
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,woff2,mp3}'],
@@ -63,7 +82,7 @@ export default defineConfig({
         // guide/**: 정적 콘텐츠 문서. 앱 오프라인 학습은 /learn 화면이 담당하므로
         //   설치 용량을 176KB 늘리면서 중복 precache 할 이유가 없다.
         // og-image.png: 공유 미리보기용 239KB — 앱 화면에 안 쓰이므로 설치에서 뺀다.
-        globIgnores: ['404.html', 'guide/**', 'og-image.png'],
+        globIgnores: ['404.html', 'guide/**', 'og-image.png', 'screenshot-*.png'],
       },
     }),
     // 정적 커리큘럼 페이지를 먼저 굽고(spaFallback 은 index.html 만 복사한다),

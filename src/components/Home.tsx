@@ -3,6 +3,11 @@ import { learnedCount, learnedCountFor, type Progress } from '../lib/srs'
 
 const TOTAL_ALL = DECKS.reduce((n, d) => n + d.kana.length, 0)
 
+const BASE = import.meta.env.BASE_URL
+
+// 학습 콘텐츠를 마지막으로 검토한 날. 덱·커리큘럼을 손볼 때 같이 올린다.
+const CONTENT_REVIEWED = '2026-08-28'
+
 interface Props {
   progress: Progress
   persistent: boolean
@@ -179,6 +184,38 @@ export function Home({
           <span className="tile-sub">듣기·독해 미니 모의고사로 실력 체크</span>
         </button>
       </div>
+
+      {/* 이 앱이 무엇이고 콘텐츠를 누가 언제 손봤는지 밝힌다. 학습 콘텐츠는
+          신뢰성 판단이 붙는 분야라(구글 QRG) 저자·검토 시점이 없으면 근거가
+          없다. 읽는 사람에게도 필요한 정보다. */}
+      <footer className="home-about">
+        <h2>にほんご Pocket 은 어떤 앱인가요</h2>
+        <p>
+          한국어 화자가 일본어를 혼자 시작할 때 필요한 순서대로 짜인 학습 앱입니다. 히라가나·카타카나
+          104자에서 시작해 단어·외래어·조수사·의태어·문법·회화·경어·한자·빈칸 채우기까지 총{' '}
+          <strong>{TOTAL_ALL.toLocaleString()}개</strong> 문항을 간격 반복(SRS)으로 익힙니다.
+          문항은 출제 간격이 정답률에 따라 벌어지고, 틀린 것만 따로 모아 복습합니다.
+        </p>
+        <p>
+          설치 없이 브라우저에서 쓰고, 한 번 열어 두면 오프라인에서도 학습이 이어집니다. 학습
+          기록은 이 기기에만 저장되며 서버로 전송되지 않습니다. 계정도 광고도 없습니다.
+        </p>
+        <ul className="home-about-links">
+          <li>
+            <a href={`${BASE}guide/`}>일본어 12주 학습 커리큘럼 읽기</a>
+          </li>
+          <li>
+            <a href={`${BASE}grammar-patterns.html`}>회화 문법 패턴 56개 정리</a>
+          </li>
+          <li>
+            <a href="https://github.com/kimyoo04/jp-study">만든 사람 · 소스 코드 (GitHub)</a>
+          </li>
+        </ul>
+        <p className="home-about-meta">
+          제작·콘텐츠 검수 <strong>kimyoo04</strong> · 학습 콘텐츠 최종 검토{' '}
+          <time dateTime={CONTENT_REVIEWED}>{CONTENT_REVIEWED}</time>
+        </p>
+      </footer>
     </main>
   )
 }

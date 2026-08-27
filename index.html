@@ -39,6 +39,51 @@
       content="히라가나부터 한자·문법·JLPT까지. 6,000개 이상 문항을 간격 반복으로."
     />
     <meta name="twitter:image" content="https://kimyoo04.github.io/jp-study/og-image.png" />
+
+    <!-- 정적으로 둔다: JS 를 실행하지 않는 크롤러도 읽는다. 주차별 Course /
+         LearningResource 마크업은 빌드 시 생성되는 /guide/ 페이지들이 갖는다. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "にほんご Pocket",
+        "alternateName": "니혼고 포켓",
+        "url": "https://kimyoo04.github.io/jp-study/",
+        "description": "히라가나·카타카나부터 한자·문법·경어·JLPT까지, 폰 한 손으로 하는 일본어 독학 앱. 6,000개 이상 문항을 간격 반복(SRS)으로 익힙니다.",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Any (Progressive Web App)",
+        "browserRequirements": "JavaScript 필요. 설치 후 오프라인 동작.",
+        "inLanguage": "ko",
+        "teaches": [
+          "히라가나",
+          "카타카나",
+          "일본어 한자",
+          "일본어 문법",
+          "일본어 경어",
+          "일본어 회화",
+          "JLPT N5",
+          "JLPT N4"
+        ],
+        "learningResourceType": "flashcard app",
+        "educationalLevel": "JLPT N5-N4",
+        "isAccessibleForFree": true,
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" },
+        "image": "https://kimyoo04.github.io/jp-study/og-image.png",
+        "screenshot": "https://kimyoo04.github.io/jp-study/screenshot-home.png",
+        "hasPart": [
+          {
+            "@type": "Course",
+            "name": "일본어 12주 학습 커리큘럼",
+            "url": "https://kimyoo04.github.io/jp-study/guide/"
+          },
+          {
+            "@type": "LearningResource",
+            "name": "일본어 회화 문법 패턴 56개",
+            "url": "https://kimyoo04.github.io/jp-study/grammar-patterns.html"
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
