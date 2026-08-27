@@ -30,6 +30,9 @@
 * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
+  /* 뷰포트에서 user-scalable=no 를 뺀 대신(WCAG 1.4.4 준수) 여기서 더블탭
+     줌만 막는다. 핀치 줌은 그대로 살아 있다. */
+  touch-action: manipulation;
 }
 
 :focus-visible {
