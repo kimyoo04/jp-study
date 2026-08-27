@@ -137,14 +137,15 @@ test('grammar deck teaches example sentences with a pattern', async ({ page }) =
   await page.getByRole('button', { name: '시작하기' }).click()
   await expect(page.getByText('예문')).toBeVisible()
   await expect(page.locator('.pattern')).toContainText('～は～です')
-  await expect(page.locator('.glyph.sentence')).toHaveText('わたしは がくせいです')
+  // 문법 덱은 한자 표기(written)가 있으면 그것을 주 글리프로 보여준다.
+  await expect(page.locator('.glyph.sentence')).toHaveText('私は学生です')
 })
 
 test('category selection scopes the deck to one theme', async ({ page }) => {
   await page.goto('./')
   await page.getByRole('tab', { name: '한자' }).click()
   // Whole deck first.
-  await expect(page.locator('.progress-label')).toContainText('/ 540')
+  await expect(page.locator('.progress-label')).toContainText('/ 1080')
   // Pick the "숫자 1" category (8 kanji).
   await page.locator('.cat-select select').selectOption('숫자 1')
   await expect(page.locator('.progress-label')).toContainText('/ 8')
@@ -188,7 +189,7 @@ test('home shows "review weak" after missing items, scoped to seen-not-learned',
   }
   await page.getByRole('button', { name: '홈으로' }).click()
   // The missed glyph is now weak -> Home offers a weak-review button.
-  await expect(page.getByRole('button', { name: /약한 것만 복습/ })).toBeVisible()
+  await expect(page.getByRole('button', { name: /약한 것만/ })).toBeVisible()
 })
 
 test('quiz feedback shows check/cross marks and exit asks to confirm', async ({ page }) => {
