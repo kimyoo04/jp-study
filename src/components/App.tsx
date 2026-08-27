@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { DECKS, deckCategories, type Deck, type Kana } from '../data/kana'
 import { useProgress } from '../hooks/useProgress'
 import { useSettings } from '../hooks/useSettings'
@@ -18,15 +18,18 @@ import {
 import { Home } from './Home'
 import { Lesson, type LessonResult } from './Lesson'
 import { Complete } from './Complete'
-import { Search } from './Search'
-import { JlptHome } from './JlptHome'
-import { JlptExam } from './JlptExam'
-import { JlptReport } from './JlptReport'
-import { Learn } from './Learn'
-import { LearnReader } from './LearnReader'
 import { ListenPlayer } from './ListenPlayer'
-import { CURRICULUM, type CurriculumWeek } from '../data/curriculum'
 import type { JlptLevel, JlptPart, ScoredItem } from '../data/jlpt/types'
+
+// 홈에서 바로 필요하지 않고, 각자 무거운 데이터를 끌고 오는 화면들은 지연
+// 로딩한다. 개념 학습은 curriculum.ts(gzip 24KB), JLPT 는 문제 은행(13KB)을
+// 함께 떼어낸다. 홈·레슨(핵심 경로)은 그대로 초기 번들에 둔다.
+const Search = lazy(() => import('./Search').then((m) => ({ default: m.Search })))
+const Learn = lazy(() => import('./Learn').then((m) => ({ default: m.Learn })))
+const LearnReader = lazy(() => import('./LearnReader').then((m) => ({ default: m.LearnReader })))
+const JlptHome = lazy(() => import('./JlptHome').then((m) => ({ default: m.JlptHome })))
+const JlptExam = lazy(() => import('./JlptExam').then((m) => ({ default: m.JlptExam })))
+const JlptReport = lazy(() => import('./JlptReport').then((m) => ({ default: m.JlptReport })))
 
 // 주소를 가지는 화면(lib/router.ts의 Location)과 일시적 화면(진행 중 상태가
 // URL에 담기지 않아 복원 불가)이 섞여 있다. 어느 쪽인지는 router.ts 주석 참고.
@@ -43,14 +46,14 @@ type Screen =
   | 'listen-play'
 
 /** 일시적 화면이 뒤로가기로 빠져나갈 부모 Location. */
-function parentOf(screen: Screen, deckId: Deck['id'], week: CurriculumWeek | null): Location {
+function parentOf(screen: Screen, deckId: Deck['id'], week: number | null): Location {
   switch (screen) {
     case 'search':
       return { screen: 'search' }
     case 'learn':
       return { screen: 'learn' }
     case 'learn-reader':
-      return week ? { screen: 'learn-reader', week: week.week } : { screen: 'learn' }
+      return week ? { screen: 'learn-reader', week } : { screen: 'learn' }
     case 'jlpt-home':
     case 'jlpt-exam':
     case 'jlpt-report':
@@ -84,12 +87,11 @@ export function App() {
   // transitions stay here).
   const jlpt = useJlptExam()
 
-  // 개념 학습(커리큘럼) 상태.
-  const [learnWeek, setLearnWeek] = useState<CurriculumWeek | null>(() => {
+  // 개념 학습(커리큘럼) 상태. 주차 번호만 들고 있는다 — 주차 데이터는 지연
+  // 로딩되는 LearnReader 청크 안에서 해석한다.
+  const [learnWeek, setLearnWeek] = useState<number | null>(() => {
     const loc = currentLocation()
-    return loc.screen === 'learn-reader'
-      ? (CURRICULUM.find((w) => w.week === loc.week) ?? null)
-      : null
+    return loc.screen === 'learn-reader' ? loc.week : null
   })
 
   // Listen mode needs a Japanese TTS voice. Voices load asynchronously (Chrome),
@@ -125,9 +127,7 @@ export function App() {
         setCategoryName(null) // 카테고리는 URL에 없으므로 덱이 바뀌면 전체로
       }
     }
-    if (loc.screen === 'learn-reader') {
-      setLearnWeek(CURRICULUM.find((w) => w.week === loc.week) ?? null)
-    }
+    if (loc.screen === 'learn-reader') setLearnWeek(loc.week)
   }, [])
 
   // 뒤로/앞으로: 주소가 곧 화면이다. 일시적 화면은 부모 경로를 쌓으므로
@@ -232,8 +232,8 @@ export function App() {
     goTransient('complete')
   }
 
-  function startJlpt(level: JlptLevel) {
-    if (jlpt.start(level)) goTransient('jlpt-exam')
+  async function startJlpt(level: JlptLevel) {
+    if (await jlpt.start(level)) goTransient('jlpt-exam')
   }
 
   function resumeJlpt() {
@@ -319,48 +319,50 @@ export function App() {
           onHome={exitTransient}
         />
       )}
-      {screen === 'search' && <Search onExit={() => go(homeLocation)} />}
-      {screen === 'learn' && (
-        <Learn
-          onOpenWeek={(w) => go({ screen: 'learn-reader', week: w.week })}
-          onExit={() => go(homeLocation)}
-        />
-      )}
-      {screen === 'learn-reader' && learnWeek && (
-        <LearnReader week={learnWeek} onExit={() => go({ screen: 'learn' })} />
-      )}
-      {screen === 'jlpt-home' && (
-        <JlptHome
-          voiceReady={voiceReady}
-          onStart={startJlpt}
-          onResume={resumeJlpt}
-          onExit={() => go(homeLocation)}
-        />
-      )}
-      {screen === 'jlpt-exam' && (
-        <JlptExam
-          level={jlpt.level}
-          items={jlpt.items}
-          initialAnswers={jlpt.answers}
-          initialIdx={jlpt.idx}
-          startedAt={jlpt.startedAt}
-          voiceReady={voiceReady}
-          onComplete={finishJlpt}
-          onExit={exitTransient}
-        />
-      )}
-      {screen === 'jlpt-report' && jlpt.result && (
-        <JlptReport
-          level={jlpt.level}
-          result={jlpt.result}
-          items={jlpt.items}
-          answers={jlpt.answers}
-          durationSec={jlpt.durationSec}
-          onStudyWeak={studyWeakPart}
-          onRetake={() => startJlpt(jlpt.level)}
-          onHome={() => go(homeLocation)}
-        />
-      )}
+      <Suspense fallback={<div className="screen screen-loading" aria-busy="true" />}>
+        {screen === 'search' && <Search onExit={() => go(homeLocation)} />}
+        {screen === 'learn' && (
+          <Learn
+            onOpenWeek={(week) => go({ screen: 'learn-reader', week })}
+            onExit={() => go(homeLocation)}
+          />
+        )}
+        {screen === 'learn-reader' && learnWeek !== null && (
+          <LearnReader week={learnWeek} onExit={() => go({ screen: 'learn' })} />
+        )}
+        {screen === 'jlpt-home' && (
+          <JlptHome
+            voiceReady={voiceReady}
+            onStart={(level) => void startJlpt(level)}
+            onResume={resumeJlpt}
+            onExit={() => go(homeLocation)}
+          />
+        )}
+        {screen === 'jlpt-exam' && (
+          <JlptExam
+            level={jlpt.level}
+            items={jlpt.items}
+            initialAnswers={jlpt.answers}
+            initialIdx={jlpt.idx}
+            startedAt={jlpt.startedAt}
+            voiceReady={voiceReady}
+            onComplete={finishJlpt}
+            onExit={exitTransient}
+          />
+        )}
+        {screen === 'jlpt-report' && jlpt.result && (
+          <JlptReport
+            level={jlpt.level}
+            result={jlpt.result}
+            items={jlpt.items}
+            answers={jlpt.answers}
+            durationSec={jlpt.durationSec}
+            onStudyWeak={studyWeakPart}
+            onRetake={() => void startJlpt(jlpt.level)}
+            onHome={() => go(homeLocation)}
+          />
+        )}
+      </Suspense>
     </div>
   )
 }

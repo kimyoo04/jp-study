@@ -4,7 +4,6 @@
 // 본다. 화면이 바뀔 때 title·description·canonical·og:*를 같이 갱신해 두면
 // 두 경로 모두 화면에 맞는 정보를 얻는다.
 import { DECKS } from '../data/kana'
-import { CURRICULUM } from '../data/curriculum'
 import { pathOf, type Location } from './router'
 
 export const ORIGIN = 'https://kimyoo04.github.io'
@@ -54,16 +53,15 @@ export function metaFor(loc: Location): PageMeta {
           '1~8주 N5 기초 한 바퀴, 9~12주 N4 핵심 문형. 주차별로 발음·문형·어휘 개념을 읽고 바로 퀴즈로 넘어갑니다.',
         canonical: abs('/jp-study/guide/'),
       }
-    case 'learn-reader': {
-      const week = CURRICULUM.find((w) => w.week === loc.week)
+    // 주차 제목·요약은 CURRICULUM 에 있지만 여기서 import 하면 71KB 가 초기
+    // 번들에 붙는다. 색인 대표는 canonical 이 가리키는 정적 /guide/week-N/ 이고
+    // 그 페이지가 완전한 제목·설명을 갖는다. 앱 탭 제목은 주차 번호로 충분하다.
+    case 'learn-reader':
       return {
-        title: week
-          ? `${week.week}주차: ${week.title} — 일본어 12주 커리큘럼`
-          : `일본어 12주 학습 커리큘럼 — ${SITE_NAME}`,
-        description: week ? `${week.subtitle}. 목표: ${week.goal}` : '일본어 12주 학습 커리큘럼.',
+        title: `${loc.week}주차 — 일본어 12주 학습 커리큘럼`,
+        description: `일본어 12주 학습 커리큘럼 ${loc.week}주차 개념 정리. 읽고 바로 퀴즈로 넘어갑니다.`,
         canonical: abs(guidePath(loc.week)),
       }
-    }
     case 'jlpt-home':
       return {
         title: `JLPT 모의고사 (N5·N4) — ${SITE_NAME}`,

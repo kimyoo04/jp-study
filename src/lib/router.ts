@@ -11,7 +11,6 @@
 // 그래서 popstate는 항상 "경로 → Location"으로만 해석한다. 일시적 화면으로
 // 되돌아가는 경우가 없으니 복원 불가 상태를 만들 수 없다.
 import { DECKS, type DeckId } from '../data/kana'
-import { CURRICULUM } from '../data/curriculum'
 
 /** Vite의 base('/jp-study/'). 개발 서버에서도 같은 접두사로 서빙된다. */
 const BASE = import.meta.env.BASE_URL
@@ -56,9 +55,11 @@ export function parsePath(pathname: string): Location {
   if (segments[0] === 'jlpt') return { screen: 'jlpt-home' }
   if (segments[0] === 'learn') {
     if (!segments[1]) return { screen: 'learn' }
+    // 주차 존재 여부는 검사하지 않는다 — CURRICULUM 을 여기서 import 하면 71KB
+    // 데이터가 초기 번들에 묶여 지연 로딩이 무의미해진다. 없는 주차는 화면
+    // (LearnReader)이 목차로 돌려보낸다.
     const week = Number(/^week-(\d+)$/.exec(segments[1])?.[1])
-    const found = CURRICULUM.some((w) => w.week === week)
-    return found ? { screen: 'learn-reader', week } : { screen: 'learn' }
+    return Number.isInteger(week) && week >= 1 ? { screen: 'learn-reader', week } : { screen: 'learn' }
   }
   return HOME
 }

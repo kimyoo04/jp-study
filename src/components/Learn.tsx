@@ -1,7 +1,7 @@
-import { CURRICULUM, type CurriculumWeek } from '../data/curriculum'
+import { CURRICULUM } from '../data/curriculum'
 
 interface Props {
-  onOpenWeek: (week: CurriculumWeek) => void
+  onOpenWeek: (week: number) => void
   onExit: () => void
 }
 
@@ -22,7 +22,7 @@ export function Learn({ onOpenWeek, onExit }: Props) {
       <ul className="learn-weeks">
         {CURRICULUM.map((w) => (
           <li key={w.id}>
-            <button className="learn-week-card" onClick={() => onOpenWeek(w)}>
+            <button className="learn-week-card" onClick={() => onOpenWeek(w.week)}>
               <div className="learn-week-head">
                 <span className="learn-week-no">{w.week}주차</span>
                 <span className="learn-week-count">{w.pages.length}페이지</span>

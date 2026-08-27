@@ -2,7 +2,6 @@
 // data + scoring/persistence; the App keeps the screen transitions so each
 // action returns whether it succeeded (empty pool / no saved exam → false).
 import { useState } from 'react'
-import { JLPT_POOL } from '../data/jlpt'
 import type { JlptLevel, ScoredItem } from '../data/jlpt/types'
 import {
   appendResult,
@@ -24,7 +23,11 @@ export function useJlptExam() {
 
   // Build and start a fresh exam. Returns false (and changes nothing) when the
   // pool can't fill an exam for this level.
-  function start(forLevel: JlptLevel): boolean {
+  //
+  // 문제 은행은 여기서 동적으로 불러온다(gzip 13KB). 시험을 시작하지 않는
+  // 사용자는 내려받지 않고, JLPT 홈을 이미 열었다면 같은 청크가 캐시에 있다.
+  async function start(forLevel: JlptLevel): Promise<boolean> {
+    const { JLPT_POOL } = await import('../data/jlpt')
     const exam = buildExam(forLevel, JLPT_POOL)
     if (exam.length === 0) return false
     clearProgress()

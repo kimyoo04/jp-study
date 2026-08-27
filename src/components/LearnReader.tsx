@@ -1,6 +1,25 @@
 import { useEffect, useRef, useState } from 'react'
-import type { CurriculumWeek } from '../data/curriculum'
+import { CURRICULUM, type CurriculumWeek } from '../data/curriculum'
 import { Markdown } from './Markdown'
+
+interface LearnReaderProps {
+  /** 주차 번호. 라우터는 존재 여부를 검사하지 않는다(커리큘럼 데이터를 이
+   *  지연 청크 안에 두기 위해) — 여기서 찾고, 없으면 목차로 돌려보낸다. */
+  week: number
+  onExit: () => void
+}
+
+/**
+ * 주차 번호를 실제 주차로 해석하는 껍데기. 본문 컴포넌트를 조건부로 렌더하지
+ * 않고 여기서 갈라서, 훅 순서가 흔들릴 여지를 없앤다.
+ */
+export function LearnReader({ week, onExit }: LearnReaderProps) {
+  const found = CURRICULUM.find((w) => w.week === week)
+  useEffect(() => {
+    if (!found) onExit()
+  }, [found, onExit])
+  return found ? <WeekReader week={found} onExit={onExit} /> : null
+}
 
 interface Props {
   week: CurriculumWeek
@@ -8,7 +27,7 @@ interface Props {
 }
 
 // 한 주차의 개념 페이지를 마크다운 뷰어로 한 장씩 넘겨 읽는다.
-export function LearnReader({ week, onExit }: Props) {
+function WeekReader({ week, onExit }: Props) {
   const [idx, setIdx] = useState(0)
   const page = week.pages[idx]
   const total = week.pages.length

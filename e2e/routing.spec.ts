@@ -45,6 +45,14 @@ test('curriculum week is addressable and canonical points at the static guide', 
   )
 })
 
+test('an out-of-range week falls back to the curriculum index', async ({ page }) => {
+  // 라우터는 주차 상한을 검사하지 않는다(초기 번들에서 커리큘럼을 떼기 위해).
+  // 되돌려 보내는 건 LearnReader 의 일 — 그게 실제로 동작하는지 본다.
+  await page.goto('./learn/week-99')
+  await expect(page.getByRole('heading', { name: '개념 학습' })).toBeVisible()
+  await expect(page).toHaveURL(/\/jp-study\/learn$/)
+})
+
 test('curriculum index and JLPT home are addressable', async ({ page }) => {
   await page.goto('./learn')
   await expect(page).toHaveTitle(/12주/)

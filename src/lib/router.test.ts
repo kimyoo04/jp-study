@@ -48,11 +48,21 @@ describe('pathOf / parsePath', () => {
     }
   })
 
-  it('falls back to the curriculum index for an out-of-range week', () => {
+  it('rejects a week that is not a positive integer', () => {
+    for (const bad of ['week-0', 'week-abc', 'week--1', 'week-']) {
+      expect(parsePath(`${BASE}learn/${bad}`)).toEqual({ screen: 'learn' })
+    }
+  })
+
+  it('accepts an out-of-range week without loading the curriculum', () => {
+    // 라우터는 주차 존재 여부를 검사하지 않는다 — CURRICULUM 을 import 하면
+    // 71KB 가 초기 번들에 묶인다. 목차로 돌려보내는 건 LearnReader 의 일이고
+    // e2e(routing.spec.ts)가 그 동작을 확인한다.
     const beyond = Math.max(...CURRICULUM.map((w) => w.week)) + 1
-    expect(parsePath(`${BASE}learn/week-${beyond}`)).toEqual({ screen: 'learn' })
-    expect(parsePath(`${BASE}learn/week-0`)).toEqual({ screen: 'learn' })
-    expect(parsePath(`${BASE}learn/week-abc`)).toEqual({ screen: 'learn' })
+    expect(parsePath(`${BASE}learn/week-${beyond}`)).toEqual({
+      screen: 'learn-reader',
+      week: beyond,
+    })
   })
 
   it('gives each curriculum week its own path', () => {
