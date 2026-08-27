@@ -1,0 +1,16 @@
+# 주의: GitHub Pages 프로젝트 사이트는 이 파일을 /jp-study/robots.txt 로 서빙한다.
+# 크롤러는 루트(https://kimyoo04.github.io/robots.txt)만 읽으므로 이 파일은
+# 실제 크롤링 정책에 영향을 주지 않는다. 루트는 kimyoo04.github.io 리포 소유다.
+# 커스텀 도메인을 붙이면 그때부터 유효해진다. 그때까지 사이트맵은 Search Console
+# 에 직접 제출해서 쓴다.
+#
+# robots.txt 가 없는 상태(현재 루트 404)는 "전체 허용"으로 해석되므로 색인에
+# 불리하지 않다.
+
+User-agent: *
+Allow: /
+
+# 검색 UI 는 색인할 내용이 없다(사이트맵에도 없음).
+Disallow: /jp-study/search
+
+Sitemap: https://kimyoo04.github.io/jp-study/sitemap.xml

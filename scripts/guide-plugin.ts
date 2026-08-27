@@ -8,6 +8,9 @@
 // 파서를 두 벌 두지 않으므로 앱 화면과 정적 페이지의 마크업이 벌어질 수 없다.
 //
 // 앱 라우트 /learn/week-N 은 canonical 로 여기(/guide/week-N/)를 가리킨다.
+//
+// 같은 플러그인이 sitemap.xml 도 쓴다: 색인 대상 URL 목록이 여기서 결정되고
+// (생성한 가이드 경로 + 앱 라우트) SSR 서버로 DECKS 를 이미 읽고 있기 때문이다.
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { createElement } from 'react'
@@ -222,14 +225,64 @@ ${links}
   })
 }
 
-/** 생성된 가이드 경로 목록(사이트맵 플러그인이 읽는다). */
-export const guidePaths: string[] = []
+interface SitemapEntry {
+  path: string
+  priority: string
+  changefreq: 'weekly' | 'monthly'
+}
+
+/**
+ * 사이트맵에 넣을 주소.
+ * 넣는 기준: JS 없이도 내용이 있거나, 콜드 로드로 같은 화면이 복원되는 주소.
+ * 빼는 것:
+ *  - /search        검색 UI. 색인할 내용이 없다.
+ *  - /learn/week-N  canonical 이 /guide/week-N/ 을 가리킨다(중복).
+ *  - 카테고리        URL로 노출하지 않는다. 300개가 넘고 전부 얇은 페이지가 된다.
+ */
+function sitemapXml(guidePaths: string[], deckIds: string[]): string {
+  const entries: SitemapEntry[] = [
+    { path: BASE, priority: '1.0', changefreq: 'weekly' },
+    { path: `${BASE}grammar-patterns.html`, priority: '0.9', changefreq: 'monthly' },
+    ...guidePaths.map((path) => ({
+      path,
+      priority: path.endsWith('guide/') ? '0.9' : '0.8',
+      changefreq: 'monthly' as const,
+    })),
+    { path: `${BASE}learn`, priority: '0.7', changefreq: 'monthly' },
+    { path: `${BASE}jlpt`, priority: '0.7', changefreq: 'monthly' },
+    // 첫 덱은 루트와 같은 주소(pathOf 참고) — 중복을 피해 건너뛴다.
+    ...deckIds.slice(1).map((id) => ({
+      path: `${BASE}deck/${id}`,
+      priority: '0.6',
+      changefreq: 'monthly' as const,
+    })),
+  ]
+
+  const lastmod = new Date().toISOString().slice(0, 10)
+  const urls = entries
+    .map(
+      (e) =>
+        `  <url>\n` +
+        `    <loc>${ORIGIN}${e.path}</loc>\n` +
+        `    <lastmod>${lastmod}</lastmod>\n` +
+        `    <changefreq>${e.changefreq}</changefreq>\n` +
+        `    <priority>${e.priority}</priority>\n` +
+        `  </url>`,
+    )
+    .join('\n')
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls}
+</urlset>
+`
+}
 
 export function guidePages(): Plugin {
   let config: ResolvedConfig
 
   return {
-    name: 'static-curriculum-guide',
+    name: 'seo-static-pages',
     apply: 'build',
     configResolved(resolved) {
       config = resolved
@@ -261,9 +314,8 @@ export function guidePages(): Plugin {
         const guideDir = resolve(outDir, 'guide')
         mkdirSync(guideDir, { recursive: true })
 
-        guidePaths.length = 0
+        const guidePaths: string[] = [`${BASE}guide/`]
         writeFileSync(resolve(guideDir, 'index.html'), indexPage(CURRICULUM))
-        guidePaths.push(`${BASE}guide/`)
 
         for (const week of CURRICULUM) {
           const rendered = week.pages.map((page) =>
@@ -274,7 +326,16 @@ export function guidePages(): Plugin {
           writeFileSync(resolve(dir, 'index.html'), weekPage(week, rendered, CURRICULUM))
           guidePaths.push(`${BASE}guide/week-${week.week}/`)
         }
-        config.logger.info(`static-curriculum-guide: ${guidePaths.length} pages`)
+        const { DECKS } = (await server.ssrLoadModule('/src/data/kana.ts')) as {
+          DECKS: { id: string }[]
+        }
+        writeFileSync(
+          resolve(outDir, 'sitemap.xml'),
+          sitemapXml(guidePaths, DECKS.map((d) => d.id)),
+        )
+        config.logger.info(
+          `seo-static-pages: ${guidePaths.length} guide pages, sitemap written`,
+        )
       } finally {
         await server.close()
       }
