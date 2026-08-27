@@ -8,7 +8,7 @@ test('home renders search and sfx toggle in the top bar', async ({ page }) => {
   await page.addInitScript(() => localStorage.clear())
   await page.goto('./')
 
-  await expect(page.getByRole('heading', { name: 'にほんご Pocket' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'にほんご Pocket', exact: true })).toBeVisible()
   await expect(page.getByRole('button', { name: '검색' })).toBeVisible()
   // sfx toggle label flips with state (끄기/켜기) — match either.
   await expect(page.getByRole('button', { name: /효과음/ })).toBeVisible()

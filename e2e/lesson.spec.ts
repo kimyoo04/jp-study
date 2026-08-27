@@ -6,7 +6,7 @@ test('complete a cold-start lesson and persist progress', async ({ page }) => {
   await page.addInitScript(() => localStorage.clear())
   await page.goto('./')
 
-  await expect(page.getByRole('heading', { name: 'にほんご Pocket' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'にほんご Pocket', exact: true })).toBeVisible()
   await page.getByRole('button', { name: '시작하기' }).click()
 
   // 6 intro cards -> click 다음 six times.
@@ -98,7 +98,7 @@ test('search finds items across decks by romaji, meaning, and glyph', async ({ p
 
   // Close returns Home.
   await page.getByRole('button', { name: '닫기' }).click()
-  await expect(page.getByRole('heading', { name: 'にほんご Pocket' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'にほんご Pocket', exact: true })).toBeVisible()
 })
 
 test('katakana deck teaches katakana glyphs', async ({ page }) => {

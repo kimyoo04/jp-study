@@ -32,7 +32,7 @@ test('deep link opens the deck it names', async ({ page }) => {
 
 test('unknown paths boot the app on home and normalise the URL', async ({ page }) => {
   await page.goto('./no/such/page')
-  await expect(page.getByRole('heading', { name: 'にほんご Pocket' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'にほんご Pocket', exact: true })).toBeVisible()
   await expect(page).toHaveURL(/\/jp-study\/$/)
 })
 
@@ -72,7 +72,7 @@ test('search screen is addressable and exits back to home', async ({ page }) => 
 
   await page.goBack()
   await expect(page).toHaveURL(/\/jp-study\/$/)
-  await expect(page.getByRole('heading', { name: 'にほんご Pocket' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'にほんご Pocket', exact: true })).toBeVisible()
 })
 
 test('every screen sets a description and canonical', async ({ page }) => {
