@@ -1,10 +1,12 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { DECKS, deckCategories, type Deck, type Kana } from '../data/kana'
 import { useProgress } from '../hooks/useProgress'
 import { useSettings } from '../hooks/useSettings'
 import { useJlptExam } from '../hooks/useJlptExam'
 import { hasJaVoice, hasKoVoice, loadVoices } from '../lib/speak'
 import { swApplyUpdate, swOnUpdate } from '../lib/sw'
+import { applyMeta, metaFor } from '../lib/meta'
+import { currentLocation, pathOf, type Location } from '../lib/router'
 import {
   applyAnswer,
   introducedCard,
@@ -23,9 +25,11 @@ import { JlptReport } from './JlptReport'
 import { Learn } from './Learn'
 import { LearnReader } from './LearnReader'
 import { ListenPlayer } from './ListenPlayer'
-import type { CurriculumWeek } from '../data/curriculum'
+import { CURRICULUM, type CurriculumWeek } from '../data/curriculum'
 import type { JlptLevel, JlptPart, ScoredItem } from '../data/jlpt/types'
 
+// 주소를 가지는 화면(lib/router.ts의 Location)과 일시적 화면(진행 중 상태가
+// URL에 담기지 않아 복원 불가)이 섞여 있다. 어느 쪽인지는 router.ts 주석 참고.
 type Screen =
   | 'home'
   | 'lesson'
@@ -38,15 +42,38 @@ type Screen =
   | 'learn-reader'
   | 'listen-play'
 
+/** 일시적 화면이 뒤로가기로 빠져나갈 부모 Location. */
+function parentOf(screen: Screen, deckId: Deck['id'], week: CurriculumWeek | null): Location {
+  switch (screen) {
+    case 'search':
+      return { screen: 'search' }
+    case 'learn':
+      return { screen: 'learn' }
+    case 'learn-reader':
+      return week ? { screen: 'learn-reader', week: week.week } : { screen: 'learn' }
+    case 'jlpt-home':
+    case 'jlpt-exam':
+    case 'jlpt-report':
+      return { screen: 'jlpt-home' }
+    // home + 홈에서 파생된 일시적 화면(레슨·완료·흘려듣기)
+    default:
+      return { screen: 'home', deckId }
+  }
+}
+
 export function App() {
   const { progress, persistent, update } = useProgress()
   const { settings, toggleSfx, toggleListen } = useSettings()
   // A new deploy waits until the user is back on Home (no mid-lesson reloads).
   const [updateReady, setUpdateReady] = useState(false)
   useEffect(() => swOnUpdate(setUpdateReady), [])
-  const [deck, setDeck] = useState<Deck>(DECKS[0])
+  // 첫 렌더는 주소창에서 읽는다: 딥링크·북마크·404.html 부팅이 같은 화면을 연다.
+  const [deck, setDeck] = useState<Deck>(() => {
+    const loc = currentLocation()
+    return (loc.screen === 'home' ? DECKS.find((d) => d.id === loc.deckId) : undefined) ?? DECKS[0]
+  })
   const [categoryName, setCategoryName] = useState<string | null>(null) // null = 전체
-  const [screen, setScreen] = useState<Screen>('home')
+  const [screen, setScreen] = useState<Screen>(() => currentLocation().screen)
   const [items, setItems] = useState<LessonItem[]>([])
   const [results, setResults] = useState<LessonResult[]>([])
   // A review session (weak/wrong items) is a fixed set that must NOT advance the
@@ -58,7 +85,12 @@ export function App() {
   const jlpt = useJlptExam()
 
   // 개념 학습(커리큘럼) 상태.
-  const [learnWeek, setLearnWeek] = useState<CurriculumWeek | null>(null)
+  const [learnWeek, setLearnWeek] = useState<CurriculumWeek | null>(() => {
+    const loc = currentLocation()
+    return loc.screen === 'learn-reader'
+      ? (CURRICULUM.find((w) => w.week === loc.week) ?? null)
+      : null
+  })
 
   // Listen mode needs a Japanese TTS voice. Voices load asynchronously (Chrome),
   // so detect once on mount and gate the toggle on the result.
@@ -79,9 +111,76 @@ export function App() {
     return cat ? cat.kana : deck.kana
   }, [categories, categoryName, deck])
 
+  // 최신 덱을 popstate 핸들러(마운트 시 한 번만 등록)에서 읽기 위한 거울.
+  const deckRef = useRef(deck)
+  deckRef.current = deck
+
+  /** 주소창의 Location을 화면 상태에 반영한다. 콜드 로드와 popstate가 공유. */
+  const applyLocation = useCallback((loc: Location) => {
+    setScreen(loc.screen)
+    if (loc.screen === 'home' && loc.deckId !== deckRef.current.id) {
+      const d = DECKS.find((x) => x.id === loc.deckId)
+      if (d) {
+        setDeck(d)
+        setCategoryName(null) // 카테고리는 URL에 없으므로 덱이 바뀌면 전체로
+      }
+    }
+    if (loc.screen === 'learn-reader') {
+      setLearnWeek(CURRICULUM.find((w) => w.week === loc.week) ?? null)
+    }
+  }, [])
+
+  // 뒤로/앞으로: 주소가 곧 화면이다. 일시적 화면은 부모 경로를 쌓으므로
+  // 되돌아온 경로는 항상 복원 가능한 Location으로 해석된다.
+  useEffect(() => {
+    const onPop = () => applyLocation(currentLocation())
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [applyLocation])
+
+  // 정규화: /deck/hiragana → / , 미지의 경로(404.html 부팅) → / 로 주소를 맞춘다.
+  useEffect(() => {
+    const canonicalPath = pathOf(currentLocation())
+    if (canonicalPath !== window.location.pathname) {
+      window.history.replaceState(null, '', canonicalPath)
+    }
+  }, [])
+
+  /** 주소 있는 화면으로 이동: 상태와 주소를 함께 바꾼다. */
+  function go(loc: Location, opts?: { replace?: boolean }) {
+    applyLocation(loc)
+    const path = pathOf(loc)
+    if (path === window.location.pathname) return
+    if (opts?.replace) window.history.replaceState(null, '', path)
+    else window.history.pushState(null, '', path)
+  }
+
+  /**
+   * 일시적 화면(레슨·시험 등)으로 이동. 진행 중 상태가 URL에 담기지 않으므로
+   * 부모 경로를 한 칸 쌓기만 한다 → 뒤로가기가 부모 화면으로 빠진다.
+   */
+  function goTransient(next: Screen) {
+    window.history.pushState(null, '', pathOf(parentOf(next, deckRef.current.id, learnWeek)))
+    setScreen(next)
+  }
+
+  /** 일시적 화면 종료: 쌓아둔 항목을 소비해 부모로 돌아간다(popstate가 처리). */
+  function exitTransient() {
+    window.history.back()
+  }
+
+  const homeLocation = useMemo<Location>(() => ({ screen: 'home', deckId: deck.id }), [deck.id])
+
+  // 화면이 바뀌면 title·description·canonical·og:*를 같이 갱신한다.
+  // 일시적 화면은 부모의 메타를 쓴다(공유 미리보기가 레슨 중간을 가리키지 않도록).
+  useEffect(() => {
+    applyMeta(metaFor(parentOf(screen, deck.id, learnWeek)))
+  }, [screen, deck.id, learnWeek])
+
+  // 덱 전환은 주소 변경으로만 처리한다(applyLocation이 덱과 카테고리를 맞춘다).
+  // 탭은 자주 눌리므로 push 대신 replace 로 히스토리를 채우지 않는다.
   function selectDeck(d: Deck) {
-    setDeck(d)
-    setCategoryName(null) // reset category when switching decks
+    go({ screen: 'home', deckId: d.id }, { replace: true })
   }
 
   // Start a fixed lesson over the current scope: due reviews then new cards,
@@ -91,13 +190,13 @@ export function App() {
     if (next.length === 0) return
     setIsReview(false)
     setItems(next)
-    setScreen('lesson')
+    goTransient('lesson')
   }
 
   // Passive listen: auto-play the current scope (no quizzing, no progress change).
   function startListen() {
     if (scopeKana.length === 0) return
-    setScreen('listen-play')
+    goTransient('listen-play')
   }
 
   // Review only the given kana (e.g. the ones missed last lesson), all as quizzes.
@@ -106,7 +205,7 @@ export function App() {
     if (kana.length === 0) return
     setIsReview(true)
     setItems(kana.map((k) => ({ kana: k, mode: 'quiz' })))
-    setScreen('lesson')
+    goTransient('lesson')
   }
 
   function finishLesson(lessonResults: LessonResult[]) {
@@ -130,15 +229,15 @@ export function App() {
       lastPlayed: new Date().toISOString().slice(0, 10),
     })
     setResults(lessonResults)
-    setScreen('complete')
+    goTransient('complete')
   }
 
   function startJlpt(level: JlptLevel) {
-    if (jlpt.start(level)) setScreen('jlpt-exam')
+    if (jlpt.start(level)) goTransient('jlpt-exam')
   }
 
   function resumeJlpt() {
-    if (jlpt.resume()) setScreen('jlpt-exam')
+    if (jlpt.resume()) goTransient('jlpt-exam')
   }
 
   // Map a weak JLPT part to the existing deck that best practices it, so the
@@ -152,18 +251,14 @@ export function App() {
         : part === 'reading'
           ? 'phrases'
           : 'words' // vocab + listening practice on the words deck
-    const target = DECKS.find((d) => d.id === deckId)
-    if (target) {
-      setDeck(target)
-      setCategoryName(null)
-    }
     if (part === 'listening' && !settings.listen && voiceReady) toggleListen()
-    setScreen('home')
+    const target = DECKS.find((d) => d.id === deckId)
+    go({ screen: 'home', deckId: target?.id ?? deck.id })
   }
 
   function finishJlpt(examItems: ScoredItem[], answers: (number | null)[]) {
     jlpt.finish(examItems, answers)
-    setScreen('jlpt-report')
+    goTransient('jlpt-report')
   }
 
   const wrong = results.filter((r) => r.mode === 'quiz' && !r.correct).map((r) => r.kana)
@@ -190,11 +285,11 @@ export function App() {
           listen={settings.listen}
           onToggleListen={toggleListen}
           listenAvailable={voiceReady}
-          onSearch={() => setScreen('search')}
+          onSearch={() => go({ screen: 'search' })}
           onStart={startLesson}
           onListen={startListen}
-          onJlpt={() => setScreen('jlpt-home')}
-          onLearn={() => setScreen('learn')}
+          onJlpt={() => go({ screen: 'jlpt-home' })}
+          onLearn={() => go({ screen: 'learn' })}
         />
       )}
       {screen === 'listen-play' && (
@@ -202,7 +297,7 @@ export function App() {
           items={scopeKana}
           deck={deck}
           koReady={koReady}
-          onExit={() => setScreen('home')}
+          onExit={exitTransient}
         />
       )}
       {screen === 'lesson' && (
@@ -211,7 +306,7 @@ export function App() {
           pool={scopeKana}
           deck={deck}
           listenMode={listenMode}
-          onExit={() => setScreen('home')}
+          onExit={exitTransient}
           onComplete={finishLesson}
         />
       )}
@@ -221,28 +316,25 @@ export function App() {
           wrong={wrong}
           onReview={() => startReview(wrong)}
           onAgain={startLesson}
-          onHome={() => setScreen('home')}
+          onHome={exitTransient}
         />
       )}
-      {screen === 'search' && <Search onExit={() => setScreen('home')} />}
+      {screen === 'search' && <Search onExit={() => go(homeLocation)} />}
       {screen === 'learn' && (
         <Learn
-          onOpenWeek={(w) => {
-            setLearnWeek(w)
-            setScreen('learn-reader')
-          }}
-          onExit={() => setScreen('home')}
+          onOpenWeek={(w) => go({ screen: 'learn-reader', week: w.week })}
+          onExit={() => go(homeLocation)}
         />
       )}
       {screen === 'learn-reader' && learnWeek && (
-        <LearnReader week={learnWeek} onExit={() => setScreen('learn')} />
+        <LearnReader week={learnWeek} onExit={() => go({ screen: 'learn' })} />
       )}
       {screen === 'jlpt-home' && (
         <JlptHome
           voiceReady={voiceReady}
           onStart={startJlpt}
           onResume={resumeJlpt}
-          onExit={() => setScreen('home')}
+          onExit={() => go(homeLocation)}
         />
       )}
       {screen === 'jlpt-exam' && (
@@ -254,7 +346,7 @@ export function App() {
           startedAt={jlpt.startedAt}
           voiceReady={voiceReady}
           onComplete={finishJlpt}
-          onExit={() => setScreen('jlpt-home')}
+          onExit={exitTransient}
         />
       )}
       {screen === 'jlpt-report' && jlpt.result && (
@@ -266,7 +358,7 @@ export function App() {
           durationSec={jlpt.durationSec}
           onStudyWeak={studyWeakPart}
           onRetake={() => startJlpt(jlpt.level)}
-          onHome={() => setScreen('home')}
+          onHome={() => go(homeLocation)}
         />
       )}
     </div>

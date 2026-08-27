@@ -50,8 +50,10 @@ test('exam progress resumes after reload', async ({ page }) => {
   await page.getByRole('button', { name: '다음' }).click()
   await expect(page.getByText('2/28')).toBeVisible()
 
+  // The exam screen lives under the /jlpt URL, so a reload lands on JLPT home
+  // rather than the app root — no need to navigate back into it.
   await page.reload()
-  await page.getByRole('button', { name: 'JLPT 모의고사' }).click()
-  // Home offers to resume where we left off.
+  await expect(page).toHaveURL(/\/jp-study\/jlpt$/)
+  // JLPT home offers to resume where we left off.
   await expect(page.getByRole('button', { name: /이어서/ })).toBeVisible()
 })
