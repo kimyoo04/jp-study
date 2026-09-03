@@ -227,6 +227,9 @@ body {
   border-radius: 999px;
   overflow: hidden;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+  /* flex 로 두면 홈의 진행바가 익힘 + 배우는 중 두 칸을 나란히 담을 수 있다.
+     한 칸만 넣는 다른 진행바(레슨·시험·리더)는 그대로 동작한다. */
+  display: flex;
 }
 .progress-bar.slim {
   height: 8px;
@@ -234,9 +237,63 @@ body {
 }
 .progress-fill {
   height: 100%;
+  flex: 0 0 auto;
   background: var(--primary);
   border-radius: 999px;
   transition: width 0.3s ease;
+}
+/* 아직 익히지 않은, 만난 적 있는 카드(box 1–2).
+   면 색만 한 단계 낮추면(--surface-2) 홈 대비가 1.27:1 로 사실상 안 보인다.
+   그래서 줄무늬로 구분한다 — 획은 밝아서 보이고(≈6.6:1), 꽉 찬 익힘 칸과
+   질감이 달라 두 칸이 색 밝기만으로 갈리지 않는다. */
+.progress-fill.learning {
+  background:
+    repeating-linear-gradient(135deg, var(--primary-text) 0 3px, transparent 3px 7px),
+    var(--track);
+}
+
+/* 두 칸의 이름과 수. 색만으로 구분하지 않기 위한 필수 요소다. */
+/* 레슨 끝 화면의 델타 한 줄: 무엇이 얼마나 늘었는지 이 화면에서 말한다. */
+.complete-delta {
+  margin: -8px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.complete-delta strong {
+  color: var(--primary-text);
+}
+
+.progress-legend {
+  display: flex;
+  gap: 14px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.progress-legend li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.progress-legend li::before {
+  content: '';
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+.legend-learned::before {
+  background: var(--primary);
+}
+.legend-learning::before {
+  /* 진행바의 줄무늬와 같은 질감(원 안이라 각도만 맞춘다). */
+  background:
+    repeating-linear-gradient(135deg, var(--primary-text) 0 2px, transparent 2px 4px),
+    var(--track);
 }
 .progress-sub {
   color: var(--muted);
@@ -462,6 +519,92 @@ body {
   justify-content: center;
   gap: 18px;
   text-align: center;
+}
+
+/* 퀴즈 카드는 3단이다: 프롬프트(남는 높이 전부) · 보기 격자 · 계속 자리.
+   프롬프트가 남는 높이를 다 먹으므로 피드백에서 답 패널이 붙어도 보기 격자는
+   제자리에 있다 — 방금 누른 타일이 손가락 아래에서 움직이지 않는다. */
+.quiz-prompt {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+/* 계속 버튼 자리는 답하기 전에도 확보한다(버튼 min-height 56px과 같은 값). */
+.quiz-continue {
+  width: 100%;
+  min-height: 56px;
+  flex: 0 0 auto;
+}
+
+/* 채점 후의 답 패널: 무엇이 정답이고 어떻게 읽는지, 그리고 다시 듣기. */
+.quiz-answer {
+  width: 100%;
+  max-width: 340px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.quiz-answer-head {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--correct);
+}
+/* 오답은 색 + 기호(✗) 둘 다로 구분한다 — 마크업의 ✓/✗가 색 단독을 막는다. */
+.quiz-answer.missed .quiz-answer-head {
+  color: var(--wrong);
+}
+.quiz-answer-head strong {
+  color: var(--text);
+  font-size: 18px;
+}
+.quiz-answer-reading {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.answer-hangul {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--primary-text);
+}
+.answer-romaji {
+  font-size: 15px;
+  color: var(--muted);
+}
+.quiz-answer-meaning {
+  margin: 0;
+  font-size: 15px;
+  color: var(--text);
+}
+.answer-replay {
+  /* 아이콘 + 라벨의 가로 알약. 44px 터치 타깃을 지키면서 패널 안에 들어간다. */
+  width: auto;
+  min-height: 44px;
+  padding: 10px 18px;
+  margin-top: 4px;
+  font-size: 15px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--text);
+}
+@media (hover: hover) and (pointer: fine) {
+  /* 폭이 내용에 맞는 알약이라 .btn-ghost 의 절대배치 배지(right:10px)가 라벨
+     위에 겹친다. 이 버튼에서만 배지를 다시 인라인으로 흘린다. */
+  .answer-replay .key-hint {
+    position: static;
+    margin-left: 8px;
+  }
 }
 
 /* ---- Listen player (passive auto-play) ---- */
@@ -1011,22 +1154,68 @@ body {
   background: var(--surface-2);
   color: var(--text);
 }
+/* 결과 화면의 히어로는 점수다. `.card` 를 쓰지 않는다 — `.card{flex:1}` 이
+   남는 높이를 다 먹어 위아래로 200px 짜리 빈 띠 두 개를 만들었다. */
+.jlpt-result-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.jlpt-score-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.jlpt-score-big {
+  font-size: 56px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.jlpt-score-of {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.jlpt-score-pct {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary-text);
+  font-variant-numeric: tabular-nums;
+}
+.jlpt-passline {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* 다음에 집중할 곳. 카드 면은 주되 남는 높이는 먹지 않는다. */
 .jlpt-hero {
-  gap: 8px;
+  width: 100%;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 18px;
+  background: var(--surface);
+  border-radius: var(--radius);
   text-align: center;
 }
 .jlpt-hero-title {
-  font-size: 20px;
+  margin: 0;
+  font-size: 17px;
   font-weight: 800;
 }
 .jlpt-hero-sub {
+  margin: 0;
   color: var(--muted);
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.5;
-}
-.jlpt-score-pct {
-  color: var(--muted);
-  font-size: 0.6em;
 }
 .jlpt-bars {
   display: flex;

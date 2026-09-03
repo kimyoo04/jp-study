@@ -47,7 +47,9 @@ CSS 변수가 단일 출처(single source of truth)다. 새 화면은 새 색/�
 | `.link` | 텍스트 아이콘 버튼(✕ 등), 48px 터치 타깃 |
 | `.options` + `.opt` | 4지선다 그리드(2열). `ChoiceGrid` 컴포넌트가 렌더 |
 | `.opt.correct` / `.opt.wrong` / `.opt.dim` / `.opt.selected` | 옵션 상태 |
-| `.progress-bar` (+`.slim`) + `.progress-fill` (+`.weak`) | 진행/점수 막대 |
+| `.progress-bar` (+`.slim`) + `.progress-fill` (+`.weak`/`.learning`) | 진행/점수 막대. 홈은 두 칸(익힘·배우는 중) |
+| `.progress-legend` + `.legend-learned` / `.legend-learning` | 진행바 두 칸의 이름·수(색 단독 금지 대응) |
+| `.quiz-prompt` / `.quiz-answer` / `.quiz-continue` | 퀴즈 카드 3단: 프롬프트 · 채점 후 답 패널 · 계속 자리 |
 | `.lesson-top` + `.counter` + `.nav-arrow` | 화면 상단 바: ✕ · ‹뒤로 · 진행바 · n/총 카운터 (Lesson·ListenPlayer 공유 마크업) |
 | `.cloze-sentence` + `.cloze-gap` / `.cloze-fill` | 빈칸 문장: 빈칸(◯◯)을 답 전/후로 렌더 |
 | `.modal-backdrop` + `.modal` | 확인 다이얼로그 |
@@ -75,6 +77,24 @@ CSS 변수가 단일 출처(single source of truth)다. 새 화면은 새 색/�
 **키보드 컨트롤:** 모든 동작은 키보드로도 가능하다(화면 버튼과 1:1 대응, `aria-keyshortcuts` 병기).
 - 퀴즈: `1`–`4` 보기 선택 · `Enter`/`Space` 다음·계속 · `←` 이전 단계 · `R` 다시 듣기 · `Esc` 나가기
 - 흘려듣기: `Space` 재생/일시정지 · `←`/`→` 이전·다음 카드 · `↑`/`↓` 10개 점프 · `Esc` 나가기
+
+**진도는 두 칸으로 말한다.** `LEARNED_BOX = 3`(`src/lib/srs.ts`)이라 카드가 "익힘"에
+닿기까지 레슨이 세 번쯤 필요하다. 익힘만 보여주면 한 판을 다 푼 사람에게도 `0 / n` 이
+뜨고, 방금 배운 글자가 "약한 것"으로 불린다. 그래서 홈 진행바는 **익힘**(`box ≥ 3`,
+꽉 찬 `--primary`)과 **배우는 중**(`box 1–2`, `--primary-text` 줄무늬)을 나란히 그리고,
+`.progress-legend` 로 각 칸의 이름과 수를 붙인다. 복습 타일 이름은 `🔁 복습할 것` —
+"약한 것"이라는 판정어를 쓰지 않는다.
+
+**채점 후에는 항상 가르친다.** 퀴즈 피드백(`.quiz-answer`)은 정답 글자 · 한글 읽기 ·
+로마자 · (있으면) 뜻 · 🔊 다시 듣기를 함께 낸다. 색칠된 타일과 `계속` 버튼만 두지
+않는다 — 주의가 가장 높은 순간이다. `계속` 자리(`.quiz-continue`, min-height 56px)는
+답하기 전에도 비워둔다: 버튼이 새로 나타나며 보기 격자를 밀어 올리면 방금 누른
+자리에 다른 버튼이 들어온다.
+
+**시험 결과의 히어로는 점수다.** `JlptReport` 는 점수 → 합격선 참고선(`PASS_PCT`,
+`src/lib/jlpt.ts`) → 집중할 곳 순서로 낸다. 주 버튼은 항상 `오답 다시 보기` 이고
+`다시 풀기` 는 보조다. 판정이 애매(`inconclusive`)해도 학습 CTA 는 남긴다 —
+가장 낮은 파트로 보내되 "약점"이라고 단정하지 않는다.
 
 **공유 컴포넌트:** 4지선다는 `ChoiceGrid`(`src/components/ChoiceGrid.tsx`)를 쓴다.
 `mode="answer"`(채점 없이 선택)와 `mode="feedback"`(정답/오답 표시)를 지원 —

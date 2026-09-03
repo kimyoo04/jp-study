@@ -1,12 +1,18 @@
-// JLPT diagnostic report. Leads with where to focus next (or an honest
-// "inconclusive" when parts are within a question of each other), then a
-// per-part breakdown. Weakness is shown by text + number, never color alone.
-// "오답 다시 보기" reveals every missed item with your pick vs the correct answer.
+// JLPT diagnostic report. Leads with the SCORE and a pass-mark reference, then
+// where to focus next (or an honest "inconclusive" when parts are within a
+// question of each other), then a per-part breakdown. Weakness is shown by
+// text + number, never color alone.
+//
+// 이 화면은 앱에서 가장 공이 많이 드는 과제의 끝점이다. 그래서 두 가지를
+// 지킨다: (1) 점수가 히어로다 — 예전엔 점수가 muted 이고 "약점이 아직 안
+// 좁혀졌어요" 같은 부정 문구가 가장 크고 밝았다. (2) 주 버튼은 항상
+// "오답 다시 보기" 다 — 방금 틀린 28문항을 다시 풀라고 권하는 게 아니라,
+// 무엇을 틀렸는지 보여주는 것이 이 지점에서 유일하게 가르치는 행동이다.
 
 import { useState } from 'react'
 import type { JlptLevel, ScoredItem } from '../data/jlpt/types'
 import { JLPT_PART_KO, JLPT_PART_LABEL } from '../data/jlpt/types'
-import { PART_ORDER, type ExamResult } from '../lib/jlpt'
+import { PART_ORDER, PASS_PCT, type ExamResult } from '../lib/jlpt'
 import { ChoiceGrid } from './ChoiceGrid'
 
 interface Props {
@@ -38,7 +44,16 @@ export function JlptReport({
 }: Props) {
   const { partScores, total, weakestPart, inconclusive } = result
   const pct = total.total > 0 ? Math.round((total.correct / total.total) * 100) : 0
+  const passPct = PASS_PCT[level]
   const [reviewing, setReviewing] = useState(false)
+
+  // 판정이 애매할 때도 공부하러 갈 곳은 준다. 가장 낮은 파트를 고르되,
+  // "가장 낮음"이라고만 말하고 "약점"이라고 단정하지 않는다.
+  const lowestPart = PART_ORDER.filter((p) => partScores[p].total > 0).sort(
+    (a, b) =>
+      partScores[a].correct / partScores[a].total - partScores[b].correct / partScores[b].total,
+  )[0]
+  const studyPart = weakestPart ?? lowestPart ?? null
 
   // Items the user missed (wrong pick or left blank) — the teaching moments.
   const wrong = items
@@ -79,13 +94,21 @@ export function JlptReport({
 
   return (
     <main className="screen complete">
-      <p className="prompt-label">{level} 진단 결과</p>
-      <div className="score">
-        {total.correct} / {total.total} <span className="jlpt-score-pct">({pct}%)</span>
+      <h2 className="jlpt-result-title">{level} 진단 결과</h2>
+      <div className="jlpt-score-hero">
+        <div className="jlpt-score-big">
+          {total.correct} <span className="jlpt-score-of">/ {total.total}</span>
+        </div>
+        <div className="jlpt-score-pct">{pct}%</div>
+        {/* 기준선 없는 백분율은 측정이 아니라 벌점으로 읽힌다. */}
+        <p className="jlpt-passline">
+          참고: 실제 {level} 종합 합격선은 약 {passPct}%
+          {pct >= passPct ? ' — 지금 그 위예요' : ''}
+        </p>
       </div>
       {durationSec ? <p className="jlpt-duration">소요 시간 {fmtTime(durationSec)}</p> : null}
 
-      <div className="card jlpt-hero">
+      <div className="jlpt-hero">
         {inconclusive ? (
           <>
             <p className="jlpt-hero-title">약점이 아직 안 좁혀졌어요</p>
@@ -130,16 +153,16 @@ export function JlptReport({
 
       <div className="complete-actions">
         {wrong.length > 0 && (
-          <button className="btn-ghost" onClick={() => setReviewing(true)}>
+          <button className="btn-primary" onClick={() => setReviewing(true)}>
             오답 다시 보기 ({wrong.length})
           </button>
         )}
-        {!inconclusive && weakestPart && (
-          <button className="btn-primary" onClick={() => onStudyWeak(weakestPart)}>
-            {JLPT_PART_KO[weakestPart]} 더 공부하기 →
+        {studyPart && (
+          <button className="btn-ghost" onClick={() => onStudyWeak(studyPart)}>
+            {JLPT_PART_KO[studyPart]} 더 공부하기 →
           </button>
         )}
-        <button className={inconclusive ? 'btn-primary' : 'btn-ghost'} onClick={onRetake}>
+        <button className="btn-ghost" onClick={onRetake}>
           다시 풀기
         </button>
         <button className="btn-ghost" onClick={onHome}>

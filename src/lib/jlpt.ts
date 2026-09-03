@@ -116,6 +116,16 @@ export interface ExamResult {
 }
 
 /**
+ * 실제 JLPT 종합 합격선(총점 대비 %). N5 80/180 · N4 90/180 · N3 95/180 ·
+ * N2 90/180 에서 계산했다.
+ *
+ * 이 앱의 모의고사는 문항 수가 훨씬 적어 실제 시험과 등가가 아니다. 그래도
+ * 적어둔다 — 기준점이 없으면 "18%" 라는 숫자가 측정값이 아니라 그냥 벌점으로
+ * 읽힌다. 화면에서는 항상 "참고" 라는 단서를 함께 보여준다.
+ */
+export const PASS_PCT: Record<JlptLevel, number> = { N5: 44, N4: 50, N3: 53, N2: 50 }
+
+/**
  * Score answers (null = unanswered = wrong). Per-part percent decides the weak
  * area. If the two weakest parts are within one question's worth of each other,
  * the result is inconclusive — better than a confidently wrong weakness label.

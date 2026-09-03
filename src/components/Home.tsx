@@ -1,5 +1,11 @@
 import { DECKS, type Category, type Deck, type Kana } from '../data/kana'
-import { learnedCount, learnedCountFor, type Progress } from '../lib/srs'
+import {
+  learnedCount,
+  learnedCountFor,
+  learningCount,
+  learningCountFor,
+  type Progress,
+} from '../lib/srs'
 
 const TOTAL_ALL = DECKS.reduce((n, d) => n + d.kana.length, 0)
 
@@ -59,8 +65,14 @@ export function Home({
 }: Props) {
   const total = scopeKana.length
   const learned = learnedCountFor(progress, scopeKana)
+  // 배우는 중(box 1–2)과 익힘(box 3+)을 따로 센다. 익힘만 보여주면 카드가 box 3에
+  // 닿기까지 레슨 3회쯤 걸려서, 한 판을 다 푼 사람에게도 "0 / n" 이 뜬다.
+  const learning = learningCountFor(progress, scopeKana)
   const pct = Math.round((learned / total) * 100)
+  const learningPct = Math.round((learning / total) * 100)
   const learnedAll = learnedCount(progress)
+  const learningAll = learningCount(progress)
+  const seenAll = learnedAll + learningAll
   const scopeLabel = categoryName ?? deck.label
 
   return (
@@ -83,7 +95,14 @@ export function Home({
         <h1 className="logo">にほんご Pocket</h1>
         <p className="tagline">히라가나부터, 한 손으로</p>
         <p className="overall">
-          전체 <strong>{learnedAll}</strong> / {TOTAL_ALL} 익힘
+          {seenAll > 0 ? (
+            <>
+              만난 글자 <strong>{seenAll}</strong> / {TOTAL_ALL} · 익힘{' '}
+              <strong>{learnedAll}</strong>
+            </>
+          ) : (
+            <>전체 {TOTAL_ALL.toLocaleString()}문항</>
+          )}
         </p>
       </header>
 
@@ -132,12 +151,22 @@ export function Home({
         <div className="progress-label">
           <span>{scopeLabel}</span>
           <span>
-            {learned} / {total}
+            {learned + learning} / {total}
           </span>
         </div>
-        <div className="progress-bar">
+        <div
+          className="progress-bar"
+          role="img"
+          aria-label={`${scopeLabel} ${total}개 중 익힘 ${learned}개, 배우는 중 ${learning}개`}
+        >
           <div className="progress-fill" style={{ width: `${pct}%` }} />
+          <div className="progress-fill learning" style={{ width: `${learningPct}%` }} />
         </div>
+        {/* 두 칸을 색으로만 구분하지 않는다 — 칸마다 이름과 수를 붙인다. */}
+        <ul className="progress-legend" aria-hidden="true">
+          <li className="legend-learned">익힘 {learned}</li>
+          <li className="legend-learning">배우는 중 {learning}</li>
+        </ul>
         <div className="progress-sub">
           {progress.lessonsDone > 0 ? `레슨 ${progress.lessonsDone}회 완료` : '아직 시작 전'}
         </div>
@@ -158,7 +187,9 @@ export function Home({
         </button>
 
         <button className="btn-primary" onClick={onStart}>
-          {learned > 0 ? '오늘의 레슨' : '시작하기'}
+          {/* 만난 적이 있으면 "오늘의 레슨". 예전엔 `learned > 0` 이라, 레슨을
+              끝내고 돌아와도 box 3 에 닿기 전까지 계속 "시작하기" 였다. */}
+          {learned + learning > 0 ? '오늘의 레슨' : '시작하기'}
         </button>
 
         <div className="home-tiles">
@@ -168,7 +199,7 @@ export function Home({
           </button>
           {weakCount > 0 && (
             <button className="tile" onClick={onReviewWeak}>
-              <span className="tile-title">🔁 약한 것만</span>
+              <span className="tile-title">🔁 복습할 것</span>
               <span className="tile-sub">{weakCount}개</span>
             </button>
           )}

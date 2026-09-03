@@ -32,7 +32,9 @@ test('run a full N5 diagnostic and see the report', async ({ page }) => {
 
   // Report screen.
   await expect(page.getByText(/진단 결과/)).toBeVisible()
-  await expect(page.locator('.score')).toContainText('/ 28')
+  // 점수가 히어로다(.jlpt-score-hero). 기준선도 함께 보여야 한다.
+  await expect(page.locator('.jlpt-score-hero')).toContainText('/ 28')
+  await expect(page.locator('.jlpt-passline')).toContainText('합격선')
 })
 
 test('exam progress resumes after reload', async ({ page }) => {

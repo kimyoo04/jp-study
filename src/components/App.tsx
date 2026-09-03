@@ -314,6 +314,9 @@ export function App() {
         <Complete
           results={results}
           wrong={wrong}
+          progress={progress}
+          scopeKana={scopeKana}
+          scopeLabel={categoryName ?? deck.label}
           onReview={() => startReview(wrong)}
           onAgain={startLesson}
           onHome={exitTransient}

@@ -134,9 +134,10 @@ export function Lesson({ items, pool, deck, listenMode, onComplete, onExit }: Pr
         }
       } else if (
         (e.key === 'r' || e.key === 'R' || e.code === 'KeyR') &&
-        step.question?.qtype === 'listen'
+        (step.question?.qtype === 'listen' || (step.question && phase === 'feedback'))
       ) {
-        // Replay only on listen questions, where the sound is the prompt.
+        // Replay on listen questions (where the sound is the prompt) and on any
+        // graded step, matching the 🔊 in the feedback panel.
         // Match the physical R key too: a Korean/Japanese IME rewrites e.key
         // (to 'ㄱ' or 'Process'), so key-only matching silently fails.
         e.preventDefault()
@@ -179,6 +180,7 @@ export function Lesson({ items, pool, deck, listenMode, onComplete, onExit }: Pr
           card={step.item.kana}
           deckKind={deck.kind}
           koReading={!!deck.koReading}
+          canSpeak={hasJaVoice()}
           phase={phase}
           picked={picked}
           onReplay={sayCurrent}

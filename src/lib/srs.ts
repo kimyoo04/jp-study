@@ -80,6 +80,27 @@ export function learnedCountFor(progress: Progress, deckKana: Kana[]): number {
 }
 
 /**
+ * "배우는 중": met at least once but not yet at LEARNED_BOX (box 1..2).
+ *
+ * Exists because `learnedCount` alone makes the first three sessions read as
+ * zero progress — a card needs the intro plus two correct answers to reach box
+ * 3, so a beginner who just finished a full lesson would see "0 / 6040 익힘"
+ * and conclude nothing happened. The progress bar shows both segments so the
+ * work done in session one is visible without lying about what's memorized.
+ */
+export function learningCountFor(progress: Progress, deckKana: Kana[]): number {
+  return deckKana.filter((k) => {
+    const c = progress.kana[k.kana]
+    return !!c && c.seen > 0 && c.box < LEARNED_BOX
+  }).length
+}
+
+/** `learningCountFor` across every deck (the Home headline). */
+export function learningCount(progress: Progress): number {
+  return Object.values(progress.kana).filter((c) => c.seen > 0 && c.box < LEARNED_BOX).length
+}
+
+/**
  * Weakest items in a deck: seen at least once but not yet learned (box < 3),
  * worst first (lowest box, then most misses). Used by the Home "review weak" button.
  */

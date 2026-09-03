@@ -15,7 +15,7 @@ test('complete a cold-start lesson and persist progress', async ({ page }) => {
     await page.getByRole('button', { name: '다음' }).click()
   }
 
-  await expect(page.getByRole('heading', { name: '레슨 완료!' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /레슨 완료!$/ })).toBeVisible()
   await page.getByRole('button', { name: '홈으로' }).click()
 
   await expect(page.getByText('레슨 1회 완료')).toBeVisible()
@@ -33,7 +33,7 @@ test('quiz is playable from the keyboard', async ({ page }) => {
     await expect(page.getByText('새 글자')).toBeVisible()
     await page.keyboard.press('Enter')
   }
-  await expect(page.getByRole('heading', { name: '레슨 완료!' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /레슨 완료!$/ })).toBeVisible()
 
   // Lesson 2 = quizzes over the introduced glyphs. A number key picks an option,
   // which flips the step to feedback (계속 appears).
@@ -188,8 +188,8 @@ test('home shows "review weak" after missing items, scoped to seen-not-learned',
     await page.getByRole('button', { name: '계속' }).click()
   }
   await page.getByRole('button', { name: '홈으로' }).click()
-  // The missed glyph is now weak -> Home offers a weak-review button.
-  await expect(page.getByRole('button', { name: /약한 것만/ })).toBeVisible()
+  // The missed glyph is not yet learned -> Home offers a review button.
+  await expect(page.getByRole('button', { name: /복습할 것/ })).toBeVisible()
 })
 
 test('quiz feedback shows check/cross marks and exit asks to confirm', async ({ page }) => {
@@ -223,7 +223,7 @@ test('complete screen shows review button after a wrong answer', async ({ page }
     await page.getByRole('button', { name: '계속' }).click()
   }
   // Complete: chips + review button for the 1 miss.
-  await expect(page.getByText('레슨 완료!')).toBeVisible()
+  await expect(page.getByText(/레슨 완료!$/)).toBeVisible()
   const review = page.getByRole('button', { name: /틀린 것만 복습/ })
   await expect(review).toBeVisible()
   await review.click()

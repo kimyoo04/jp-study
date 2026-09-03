@@ -1,18 +1,34 @@
 import { useEffect } from 'react'
-import type { Kana } from '../data/kana'
+import { DECKS, type Kana } from '../data/kana'
 import { playComplete } from '../lib/sound'
+import { learnedCountFor, learningCountFor, type Progress } from '../lib/srs'
 import { KeyHint } from './KeyHint'
 import type { LessonResult } from './Lesson'
+
+const TOTAL_ALL = DECKS.reduce((n, d) => n + d.kana.length, 0)
 
 interface Props {
   results: LessonResult[]
   wrong: Kana[]
+  /** 이번 레슨이 반영된 진도. 끝 화면에서 델타를 말하기 위해 필요하다. */
+  progress: Progress
+  scopeKana: Kana[]
+  scopeLabel: string
   onReview: () => void
   onAgain: () => void
   onHome: () => void
 }
 
-export function Complete({ results, wrong, onReview, onAgain, onHome }: Props) {
+export function Complete({
+  results,
+  wrong,
+  progress,
+  scopeKana,
+  scopeLabel,
+  onReview,
+  onAgain,
+  onHome,
+}: Props) {
   useEffect(() => {
     playComplete()
   }, [])
@@ -46,10 +62,16 @@ export function Complete({ results, wrong, onReview, onAgain, onHome }: Props) {
   }
   const wrongSet = new Set(wrong.map((k) => k.kana))
 
+  // 이 화면은 레슨의 끝점이다 — 무엇이 얼마나 늘었는지 말하지 않으면 사용자는
+  // 홈으로 돌아가 스스로 숫자를 찾아 비교해야 한다(직전 값은 기억에만 있다).
+  const introduced = results.filter((r) => r.mode === 'intro').length
+  const scopeSeen = learnedCountFor(progress, scopeKana) + learningCountFor(progress, scopeKana)
+  const seenAll = Object.values(progress.kana).filter((c) => c.seen > 0).length
+
   return (
     <main className="screen complete">
       <div className="celebrate">{allRight ? '🎉' : '✨'}</div>
-      <h2>레슨 완료!</h2>
+      <h2>{scopeLabel} 레슨 완료!</h2>
       {total > 0 ? (
         <p className="score">
           정답 {correct} / {total}
@@ -57,6 +79,15 @@ export function Complete({ results, wrong, onReview, onAgain, onHome }: Props) {
       ) : (
         <p className="score">새 글자를 배웠어요</p>
       )}
+
+      <p className="complete-delta">
+        {introduced > 0 && (
+          <>
+            <strong>{introduced}자</strong> 새로 만남 ·{' '}
+          </>
+        )}
+        {scopeLabel} {scopeSeen} / {scopeKana.length} · 전체 {seenAll} / {TOTAL_ALL}
+      </p>
 
       <div className="chips" aria-label="이번에 배운 글자">
         {studied.map((k) => (
