@@ -144,21 +144,28 @@ body {
 .overall strong {
   color: var(--primary-text);
 }
+/* 배너 색은 토큰으로 파생한다 — 예전엔 hex 5개를 직접 박아뒀고, 그건
+   DESIGN.md 안티패턴 목록의 첫 항목이다. 면은 배경 위에 색을 아주 얇게
+   얹고, 글자는 해당 색조를 그대로 쓴다(대비는 아래 값으로 확인). */
 .banner {
-  background: #3a2a00;
-  color: #ffd27c;
+  /* 주의 배너: --wrong 계열. 글자 6.34:1 on --bg. */
+  background: color-mix(in srgb, var(--wrong) 12%, var(--bg));
+  color: var(--wrong);
+  border: 1px solid color-mix(in srgb, var(--wrong) 30%, var(--bg));
   border-radius: 12px;
   padding: 12px 14px;
   font-size: 14px;
   text-align: center;
 }
-/* Tappable "new deploy available" banner — applies the waiting SW on tap. */
+/* Tappable "new deploy available" banner — applies the waiting SW on tap.
+   안내(정보)라서 주의색이 아니라 주 색조를 쓴다 — 예전엔 노란 경고 배너와
+   같은 계열이라 "뭔가 잘못됐다"로 읽혔다. */
 .banner.update {
   display: block;
   width: 100%;
-  background: #14323a;
-  color: #8be9fd;
-  border: 1px solid #1f4a55;
+  background: color-mix(in srgb, var(--primary) 14%, var(--bg));
+  color: var(--primary-text);
+  border: 1px solid color-mix(in srgb, var(--primary) 34%, var(--bg));
   font-family: inherit;
   font-weight: 600;
   cursor: pointer;
@@ -544,12 +551,25 @@ body {
     top: 6px;
     left: 10px;
   }
-  /* Compact icon / pill buttons (✕ ← ‹ › «10): small top-right corner badge. */
+  /* Compact icon / pill buttons (✕ ← ‹ › «10). 48px 박스 안에 26px 글리프가
+     가운데 있어 코너에 배지를 놓으면 글리프와 겹친다(측정: Esc 배지와 ✕ 가
+     x 521–534 구간에서 겹침). 버튼 위쪽 바깥으로 빼고 가로 가운데 정렬한다. */
   .link .key-hint,
   .nav-arrow .key-hint,
   .listen-jump .key-hint {
-    top: 0;
-    right: 0;
+    /* 버튼 위쪽 바깥에 완전히 올린다. 코너에 두면 26px 글리프의 잉크 박스와
+       겹치고(측정: 배지 t26–b43 vs 글리프 t37–b67), 조금 올리는 것만으로는
+       6px 가 남는다. `bottom: 100%` 면 버튼 상단선 위로 완전히 빠진다. */
+    top: auto;
+    bottom: 100%;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+  /* 배지가 버튼 위로 나가므로 그만큼 여유를 준다(데스크톱에서만 적용). */
+  .lesson-top,
+  .listen-jump-row {
+    padding-top: 18px;
   }
 }
 .card {
@@ -1600,12 +1620,18 @@ body {
   border-top: 1px solid var(--surface-2);
   margin: 20px 0;
 }
+/* 콜아웃. 3px 색 측면 테두리를 쓰지 않는다 — 카드·콜아웃 한쪽에 두꺼운
+   색 띠를 두는 건 impeccable craft floor 가 기본 거부로 지정한 패턴이다.
+   면과 1px 윤곽으로 구분하고, 강조는 첫 줄(`.md-callout strong`)이 맡는다. */
 .md-callout {
   margin: 14px 0;
   padding: 12px 14px;
   background: var(--surface);
-  border-left: 3px solid var(--primary);
-  border-radius: 0 var(--radius) var(--radius) 0;
+  border: 1px solid color-mix(in srgb, var(--primary) 30%, var(--surface));
+  border-radius: var(--radius);
+}
+.md-callout strong {
+  color: var(--primary-text);
 }
 .md-callout p {
   margin: 4px 0;

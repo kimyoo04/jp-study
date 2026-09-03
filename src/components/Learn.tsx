@@ -5,7 +5,7 @@ interface Props {
   onExit: () => void
 }
 
-// 커리큘럼 홈 — 8주 학습 개념을 주차 카드로 보여준다.
+// 커리큘럼 홈 — 12주 학습 개념을 주차 카드로 보여준다.
 export function Learn({ onOpenWeek, onExit }: Props) {
   return (
     <main className="screen learn">
