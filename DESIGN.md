@@ -52,7 +52,8 @@ CSS 변수가 단일 출처(single source of truth)다. 새 화면은 새 색/�
 | `.quiz-prompt` / `.quiz-answer` / `.quiz-continue` | 퀴즈 카드 3단: 프롬프트 · 채점 후 답 패널 · 계속 자리 |
 | `.lesson-top` + `.counter` + `.nav-arrow` | 화면 상단 바: ✕ · ‹뒤로 · 진행바 · n/총 카운터 (Lesson·ListenPlayer 공유 마크업) |
 | `.cloze-sentence` + `.cloze-gap` / `.cloze-fill` | 빈칸 문장: 빈칸(◯◯)을 답 전/후로 렌더 |
-| `.modal-backdrop` + `.modal` | 확인 다이얼로그 |
+| `.modal-backdrop` + `.modal` | 확인 다이얼로그. **`Modal` 컴포넌트로만 쓴다** |
+| `.screen-title` | 상단 바 안의 화면 제목(h1) |
 | `.chip` / `.chips` | 작은 태그(문장 조각, 카테고리) |
 | `.banner` (+`.update`) | 경고/안내 배너. `.update`는 탭 가능한 "새 버전" 알림 — 누르면 대기 중인 서비스워커를 적용 |
 | `.sr-only` | 스크린리더 전용 |
@@ -123,16 +124,37 @@ tabindex(선택된 탭만 0), `←`/`→`/`Home`/`End` 로 이동, 키보드로 
 대상이라 `/deck/cloze` 로 들어왔을 때 선택된 탭이 화면 밖에 있으면 안 된다.
 뷰포트 520px 이상에서는 스크롤을 접고 두 줄로 감아 11개 덱을 모두 보여준다.
 
+**다이얼로그는 `Modal`(`src/components/Modal.tsx`)로만 만든다.** 배경에 role 만
+붙인 마크업을 직접 쓰지 않는다. `Modal` 이 보장하는 것: `role="dialog"` +
+`aria-modal` + 제목 연결(`aria-labelledby`) · 진입 포커스 · **포커스 트랩**
+(Tab/Shift+Tab 순환, 밖으로 새면 되돌림) · `Esc` 닫기(capture 단계에서 받아
+레슨·시험의 전역 단축키보다 먼저 처리) · 닫을 때 **열기 전 포커스 복원**.
+복원 대상은 첫 렌더 중에 붙잡는다 — `useEffect` 에서 읽으면 React 가 커밋
+단계에서 `autoFocus` 를 이미 적용한 뒤라 모달 안쪽 버튼을 저장하게 된다.
+파괴적 확인창은 `closeOnBackdrop` 을 켜지 않는다.
+
+**모든 화면에 `h1` 이 하나 있다.** 상단 바에 자리가 있으면 `.screen-title`,
+없으면 `.sr-only` 로 넣는다. `.counter`(13px muted 우측정렬)를 화면 제목으로
+쓰지 않는다 — 페이지에서 가장 작은 글자가 페이지 이름이 된다.
+
+**상태가 바뀌면 알린다.** `role="status"`: 퀴즈 피드백 · 레슨 완료 델타 ·
+시험 문항 위치(sr-only) · 리포트 점수 · 검색 결과 수 · 흘려듣기 재생 상태 ·
+저장 불가 배너. 화면에 이미 보이는 숫자는 시각적으로 중복 표기하지 않고
+`.sr-only` 로만 읽어준다.
+
 **아직 못 지킨 곳(측정값, 다음 라운드 대상).** 위 규칙은 목표이고, 현재 코드에는
 다음 위반이 남아 있다 — 새로 만드는 UI 는 이 목록을 늘리지 않는다:
-- 44px 미만 터치 타깃: `.jlpt-nav-toggle` 36px · `.seg-item` 30px ·
-  `.listen-jump` 30px · `.listen-chip` 39px · `.search-speak` 30×37px ·
-  `.jlpt-nav-cell` 43.7px. (`.deck-tab`·카테고리 `select` 는 44px 로 고쳤다.)
-- `h1` 없는 화면: Lesson · Complete · ListenPlayer · Search · JlptHome ·
-  JlptExam · JlptReport (`learn/week-1`은 h1 없이 h2 로 시작).
-- JLPT 문항목록 모달에 `role="dialog"`·`aria-modal`·포커스 트랩이 없고 `Esc`가 안 먹는다.
-- `aria-live` 없는 상태 변화: 레슨 완료 · 시험 보기 선택 · 리포트 · 검색 결과 수.
-- `prefers-reduced-motion` 미대응 — `pop`·`shake`·진행바 트랜지션이 항상 실행된다.
+- (터치 타깃·`h1`·모달·`aria-live`·`prefers-reduced-motion` 은 전부 해결됨.
+  5개 라우트 + 레슨/시험/모달/완료 측정 결과 44px 미만 0개, `h1` 누락 0개,
+  제목 레벨 건너뜀 0개.)
+- Search 는 여전히 막다른 길이다 — 결과에서 "이 덱으로 가기"·"이것만 학습하기"
+  가 없고, 행 자체를 누를 수 없다(🔊만 인터랙티브).
+- `LearnReader` 에 읽음·이어보기 상태가 없다(12주 49페이지). 발음을 가르치는
+  화면인데 오디오 버튼도 없다.
+- 퀴즈 카드의 답 패널과 보기 격자 사이 빈 공간이 넓다(`.jlpt-q` 는 451px).
+- `.banner`·`.banner.update` 가 hex 5개를 하드코딩한다(자기 안티패턴 위반).
+- 이모지 라벨의 선행 공백이 접힌다(`🎧듣고 풀기`).
+- `.link`·`.nav-arrow` 의 `.key-hint` 배지가 ✕·화살표 글리프와 겹친다.
 
 ## 안티 패턴(피할 것)
 - 새 임의 hex 색(토큰 안 쓰기).

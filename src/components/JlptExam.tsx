@@ -8,6 +8,7 @@ import type { JlptLevel, ScoredItem } from '../data/jlpt/types'
 import { JLPT_PART_KO } from '../data/jlpt/types'
 import { saveProgress } from '../lib/jlpt'
 import { JlptQuestionView } from './JlptQuestionView'
+import { Modal } from './Modal'
 
 interface Props {
   level: JlptLevel
@@ -95,6 +96,7 @@ export function JlptExam({
 
   return (
     <main className="screen lesson">
+      <h1 className="sr-only">{level} 모의고사</h1>
       <div className="lesson-top">
         <button className="link" onClick={() => setConfirmExit(true)} aria-label="나가기">
           ✕
@@ -116,6 +118,14 @@ export function JlptExam({
 
       <p className="jlpt-part-tag">
         {JLPT_PART_KO[item.part]} · {level}
+      </p>
+
+      {/* 이전/다음·문항 목록으로 이동하면 카드가 통째로 바뀌는데 아무 알림이
+          없었다. 화면에는 이미 `▦ n/총`(문항 목록 버튼)이 있으니 시각적으로
+          또 적지 않고, 스크린리더에만 위치를 읽어준다. 보기 선택 자체는
+          ChoiceGrid 의 aria-pressed 가 알려준다. */}
+      <p className="sr-only" role="status">
+        {idx + 1}번 문항, 총 {items.length}문항, {JLPT_PART_KO[item.part]}
       </p>
 
       <JlptQuestionView
@@ -141,67 +151,74 @@ export function JlptExam({
       </div>
 
       {navOpen && (
-        <div className="modal-backdrop" role="dialog" aria-modal="true" onClick={() => setNavOpen(false)}>
-          <div className="modal jlpt-nav-modal" onClick={(e) => e.stopPropagation()}>
-            <p className="modal-title">문항 목록</p>
-            <p className="modal-body">
-              답함 {answers.length - unanswered} · 미응답 {unanswered}
-            </p>
-            <div className="jlpt-nav-grid">
-              {items.map((_, i) => {
-                const state = i === idx ? 'current' : answers[i] !== null ? 'done' : 'todo'
-                return (
-                  <button
-                    key={i}
-                    className={`jlpt-nav-cell ${state}`}
-                    onClick={() => go(i)}
-                    aria-label={`${i + 1}번${answers[i] !== null ? ', 답함' : ', 미응답'}`}
-                  >
-                    {i + 1}
-                  </button>
-                )
-              })}
-            </div>
-            <button className="btn-ghost" onClick={() => setNavOpen(false)}>
-              닫기
-            </button>
+        <Modal
+          title="문항 목록"
+          className="jlpt-nav-modal"
+          onClose={() => setNavOpen(false)}
+          closeOnBackdrop
+        >
+          <p className="modal-body">
+            답함 {answers.length - unanswered} · 미응답 {unanswered}
+          </p>
+          <div className="jlpt-nav-grid">
+            {items.map((_, i) => {
+              // 현재 문항이면서 답한 상태를 둘 다 표시한다. 예전엔 삼항이
+              // 'current' 에서 끊겨 답한 현재 문항이 미응답처럼 보였고
+              // `.jlpt-nav-cell.done.current` 는 죽은 CSS 였다.
+              const answered = answers[i] !== null
+              const cls = [
+                'jlpt-nav-cell',
+                answered ? 'done' : 'todo',
+                i === idx ? 'current' : '',
+              ]
+                .filter(Boolean)
+                .join(' ')
+              return (
+                <button
+                  key={i}
+                  className={cls}
+                  onClick={() => go(i)}
+                  aria-current={i === idx ? 'true' : undefined}
+                  aria-label={`${i + 1}번${answered ? ', 답함' : ', 미응답'}${i === idx ? ', 현재 문항' : ''}`}
+                >
+                  {i + 1}
+                </button>
+              )
+            })}
           </div>
-        </div>
+          <button className="btn-ghost" onClick={() => setNavOpen(false)}>
+            닫기
+          </button>
+        </Modal>
       )}
 
       {confirmExit && (
-        <div className="modal-backdrop" role="dialog" aria-modal="true">
-          <div className="modal">
-            <p className="modal-title">나가시겠어요?</p>
-            <p className="modal-body">진행 상황은 저장돼요. 나중에 이어서 풀 수 있어요.</p>
-            <button className="btn-primary" onClick={() => setConfirmExit(false)} autoFocus>
-              계속하기
-            </button>
-            <button className="btn-ghost" onClick={onExit}>
-              나가기
-            </button>
-          </div>
-        </div>
+        <Modal title="나가시겠어요?" onClose={() => setConfirmExit(false)}>
+          <p className="modal-body">진행 상황은 저장돼요. 나중에 이어서 풀 수 있어요.</p>
+          <button className="btn-primary" onClick={() => setConfirmExit(false)} autoFocus>
+            계속하기
+          </button>
+          <button className="btn-ghost" onClick={onExit}>
+            나가기
+          </button>
+        </Modal>
       )}
 
       {confirmSubmit && (
-        <div className="modal-backdrop" role="dialog" aria-modal="true">
-          <div className="modal">
-            <p className="modal-title">제출할까요?</p>
-            <p className="modal-body">
-              미응답 {unanswered}문항이 있어요. 안 푼 문제는 오답 처리돼요.
-            </p>
-            <button className="btn-primary" onClick={gotoFirstUnanswered} autoFocus>
-              안 푼 문제로 가기
-            </button>
-            <button className="btn-ghost" onClick={() => onComplete(items, answers)}>
-              그래도 제출
-            </button>
-            <button className="btn-ghost" onClick={() => setConfirmSubmit(false)}>
-              취소
-            </button>
-          </div>
-        </div>
+        <Modal title="제출할까요?" onClose={() => setConfirmSubmit(false)}>
+          <p className="modal-body">
+            미응답 {unanswered}문항이 있어요. 안 푼 문제는 오답 처리돼요.
+          </p>
+          <button className="btn-primary" onClick={gotoFirstUnanswered} autoFocus>
+            안 푼 문제로 가기
+          </button>
+          <button className="btn-ghost" onClick={() => onComplete(items, answers)}>
+            그래도 제출
+          </button>
+          <button className="btn-ghost" onClick={() => setConfirmSubmit(false)}>
+            취소
+          </button>
+        </Modal>
       )}
     </main>
   )

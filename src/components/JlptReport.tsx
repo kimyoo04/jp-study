@@ -67,7 +67,7 @@ export function JlptReport({
           <button className="link" onClick={() => setReviewing(false)} aria-label="결과로">
             ←
           </button>
-          <span className="counter">오답 {wrong.length}</span>
+          <h1 className="screen-title">오답 다시 보기 {wrong.length}문항</h1>
         </div>
         {wrong.map(({ item, picked }) => (
           <section className="card jlpt-review-item" key={item.id}>
@@ -94,8 +94,8 @@ export function JlptReport({
 
   return (
     <main className="screen complete">
-      <h2 className="jlpt-result-title">{level} 진단 결과</h2>
-      <div className="jlpt-score-hero">
+      <h1 className="jlpt-result-title">{level} 진단 결과</h1>
+      <div className="jlpt-score-hero" role="status">
         <div className="jlpt-score-big">
           {total.correct} <span className="jlpt-score-of">/ {total.total}</span>
         </div>

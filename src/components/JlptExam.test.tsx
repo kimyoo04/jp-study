@@ -35,9 +35,17 @@ function setup(overrides: Partial<Parameters<typeof JlptExam>[0]> = {}) {
 describe('JlptExam flow', () => {
   it('shows the part tag, prompt, and progress counter', () => {
     setup()
-    expect(screen.getByText(/문자·어휘/)).toBeInTheDocument()
+    // 파트 이름은 눈에 보이는 태그와 스크린리더용 위치 안내 두 곳에 나온다.
+    expect(screen.getByText('문자·어휘 · N5')).toBeInTheDocument()
     expect(screen.getByText('Q-one')).toBeInTheDocument()
-    expect(screen.getByText(/1\/2/)).toBeInTheDocument()
+    // 화면에 보이는 카운터는 문항 목록 버튼 하나뿐이다(중복 표기 안 함).
+    expect(screen.getByRole('button', { name: '문항 목록' })).toHaveTextContent('1/2')
+  })
+
+  // 이동은 카드를 통째로 바꾸므로 스크린리더에 위치를 알린다.
+  it('announces the current question position to screen readers', () => {
+    setup()
+    expect(screen.getByRole('status')).toHaveTextContent('1번 문항, 총 2문항, 문자·어휘')
   })
 
   it('advances to the next item and persists progress', () => {
@@ -75,8 +83,11 @@ describe('JlptExam flow', () => {
   it('navigator opens, shows answered state, and jumps', () => {
     setup({ initialAnswers: [2, null] })
     fireEvent.click(screen.getByRole('button', { name: '문항 목록' }))
-    // 2번 is unanswered, 1번 answered
-    expect(screen.getByLabelText('1번, 답함')).toBeInTheDocument()
+    // 2번 is unanswered, 1번 answered — 1번은 현재 문항이기도 하다.
+    // (예전엔 삼항이 'current' 에서 끊겨 답한 현재 문항이 미응답처럼 보였다.)
+    const cur = screen.getByLabelText('1번, 답함, 현재 문항')
+    expect(cur.className).toContain('done')
+    expect(cur.className).toContain('current')
     fireEvent.click(screen.getByLabelText('2번, 미응답'))
     expect(screen.getByText('Q-two')).toBeInTheDocument()
   })

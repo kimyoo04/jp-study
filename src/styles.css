@@ -50,6 +50,21 @@
   outline: none;
 }
 
+/* 동작 축소를 켠 사용자에게는 모든 전환·애니메이션을 사실상 끈다.
+   진행바 채움(width), 정답 pop, 오답 shake 가 전부 여기 걸린다. 0 이 아니라
+   0.01ms 인 이유: transitionend/animationend 를 기다리는 코드가 생겨도
+   이벤트는 그대로 발생한다. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 html,
 body,
 #root {
@@ -271,6 +286,14 @@ body {
 }
 
 /* 두 칸의 이름과 수. 색만으로 구분하지 않기 위한 필수 요소다. */
+/* h2 → h1 로 올렸으므로(문서에 h1 이 없던 화면) 크기를 명시한다.
+   브라우저 기본 h1 은 2em·큰 마진이라 그대로 두면 레이아웃이 튄다. */
+.complete-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+}
+
 /* 레슨 끝 화면의 델타 한 줄: 무엇이 얼마나 늘었는지 이 화면에서 말한다. */
 .complete-delta {
   margin: -8px 0 0;
@@ -661,7 +684,10 @@ body {
   background: transparent;
   color: var(--text);
   border-radius: 8px;
-  padding: 6px 12px;
+  /* 44px 터치 타깃(측정 30px). 흘려듣기는 한 손으로 쓰는 화면이다. */
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 12px;
   font-size: 14px;
   font-variant-numeric: tabular-nums;
   cursor: pointer;
@@ -688,7 +714,10 @@ body {
   background: transparent;
   color: var(--text);
   border-radius: 8px;
-  padding: 6px 10px;
+  /* 44px 터치 타깃(측정 30px). */
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 10px;
   font-size: 14px;
   cursor: pointer;
 }
@@ -702,6 +731,8 @@ body {
   background: transparent;
   color: var(--text);
   border-radius: 10px;
+  /* 44px 터치 타깃(측정 39px). */
+  min-height: 44px;
   padding: 10px 14px;
   font-size: 14px;
   text-align: left;
@@ -771,6 +802,16 @@ body {
   color: var(--primary-text);
   font-weight: 700;
 }
+/* 상단 바 안의 화면 제목. `.counter`(13px muted 우측정렬)를 제목으로 쓰던
+   자리를 대체한다 — 크기는 상단 바에 맞게 조용하지만 실제 h1 이다. */
+.screen-title {
+  margin: 0;
+  flex: 1;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -1077,7 +1118,13 @@ body {
   border: none;
   font-size: 20px;
   cursor: pointer;
-  padding: 4px;
+  /* 44px 터치 타깃(측정 30×37px). 결과 행마다 하나씩 있는 유일한 컨트롤이다. */
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
 }
 
 /* ---- JLPT mode ---- */
@@ -1277,12 +1324,13 @@ body {
   color: var(--muted);
   border: none;
   border-radius: 999px;
-  padding: 6px 12px;
+  /* 44px 터치 타깃(측정 36px). 28문항 사이를 오가는 유일한 입구다. */
+  min-height: 44px;
+  padding: 0 12px;
   font-size: 13px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   cursor: pointer;
-  min-height: 36px;
 }
 /* Top-align question content so one-line items don't float in dead center. */
 .jlpt-q {
@@ -1319,6 +1367,9 @@ body {
 }
 .jlpt-nav-cell {
   aspect-ratio: 1;
+  /* 44px 터치 타깃(측정 43.7px — 6열 그리드라 폭에서 아슬하게 미달했다). */
+  min-width: 44px;
+  min-height: 44px;
   border: 2px solid var(--surface-2);
   border-radius: 10px;
   background: var(--surface);
@@ -1337,8 +1388,11 @@ body {
   border-color: var(--text);
   color: var(--text);
 }
+/* 답한 현재 문항: 채움(done)은 유지하고 현재 표시는 테두리로 얹는다.
+   이제 마크업이 두 클래스를 함께 내보내므로 실제로 쓰이는 규칙이다. */
 .jlpt-nav-cell.done.current {
   color: #fff;
+  border-color: var(--text);
 }
 
 /* ---- JLPT answer review ---- */
@@ -1460,6 +1514,8 @@ body {
   min-width: 0;
 }
 .reader-week {
+  /* h1 이지만 상단 바 한 줄에 들어가야 한다 — 브라우저 기본 2em·마진을 끈다. */
+  margin: 0;
   font-size: 15px;
   font-weight: 800;
   white-space: nowrap;

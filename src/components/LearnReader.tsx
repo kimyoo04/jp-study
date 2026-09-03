@@ -48,7 +48,11 @@ function WeekReader({ week, onExit }: Props) {
           ✕
         </button>
         <div className="reader-head-text">
-          <span className="reader-week">{week.week}주차 · {week.title}</span>
+          {/* 주차 제목이 이 화면의 h1 이다. 예전엔 span 이라 문서에 h1 이 없고
+              본문이 h2(`.md-h1`)부터 시작했다 — 제목 탐색이 죽는 구조였다. */}
+          <h1 className="reader-week">
+            {week.week}주차 · {week.title}
+          </h1>
           <span className="reader-page-no">
             {idx + 1} / {total}
           </span>

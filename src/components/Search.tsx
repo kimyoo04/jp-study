@@ -13,6 +13,9 @@ export function Search({ onExit }: Props) {
 
   return (
     <main className="screen search">
+      {/* 검색창이 시각적 제목 역할을 하므로 h1 은 스크린리더 전용으로 둔다.
+          그래도 문서에 h1 은 있어야 한다 — 없으면 제목 탐색이 죽는다. */}
+      <h1 className="sr-only">검색</h1>
       <div className="search-top">
         <button className="link" onClick={onExit} aria-label="닫기">
           ✕
@@ -41,7 +44,9 @@ export function Search({ onExit }: Props) {
         </p>
       ) : (
         <>
-          <p className="search-count">{results.length}개 결과</p>
+          <p className="search-count" role="status">
+            {results.length}개 결과
+          </p>
           <ul className="search-results">
             {results.map((r, i) => {
               const isKanji = r.deckKind === 'kanji'

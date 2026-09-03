@@ -71,7 +71,7 @@ export function Complete({
   return (
     <main className="screen complete">
       <div className="celebrate">{allRight ? '🎉' : '✨'}</div>
-      <h2>{scopeLabel} 레슨 완료!</h2>
+      <h1 className="complete-title">{scopeLabel} 레슨 완료!</h1>
       {total > 0 ? (
         <p className="score">
           정답 {correct} / {total}
@@ -80,7 +80,8 @@ export function Complete({
         <p className="score">새 글자를 배웠어요</p>
       )}
 
-      <p className="complete-delta">
+      {/* 화면이 통째로 바뀌는 지점이라 결과를 한 번 읽어준다(측정: 알림 없음). */}
+      <p className="complete-delta" role="status">
         {introduced > 0 && (
           <>
             <strong>{introduced}자</strong> 새로 만남 ·{' '}

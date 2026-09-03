@@ -165,6 +165,9 @@ export function Lesson({ items, pool, deck, listenMode, onComplete, onExit }: Pr
 
   return (
     <main className="screen lesson">
+      {/* 상단 바는 ✕·←·진행바·카운터로 가득해 제목을 시각적으로 넣을 자리가
+          없다. 그래도 문서에 h1 은 있어야 한다 — 없으면 제목 탐색이 죽는다. */}
+      <h1 className="sr-only">{deck.label} 레슨</h1>
       <ProgressHeader
         index={index}
         total={steps.length}

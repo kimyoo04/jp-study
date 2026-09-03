@@ -21,7 +21,9 @@ export function JlptHome({ voiceReady, onStart, onResume, onExit }: Props) {
         <button className="link" onClick={onExit} aria-label="뒤로">
           ✕
         </button>
-        <span className="counter">JLPT 모의고사</span>
+        {/* 예전엔 화면 제목이 `.counter`(13px muted, 우측정렬 tabular-nums)였다 —
+            페이지에서 가장 작은 글자가 페이지 이름이고, h1 이 아예 없었다. */}
+        <h1 className="screen-title">JLPT 모의고사</h1>
       </div>
 
       <p className="prompt-label">레벨을 고르세요</p>
