@@ -13,8 +13,15 @@
   --bg: #0f1020;
   --surface: #1b1c3a;
   --surface-2: #26284d;
-  --primary: #7c5cff;
-  --primary-press: #6647e6;
+  /* 보라는 용도에 따라 두 토큰으로 갈린다. 하나로 쓰면 WCAG AA 를 못 넘긴다:
+     예전 #7c5cff 는 위에 얹은 흰 글자가 4.35:1(17px/700 은 large text 가 아니므로
+     4.5:1 필요), 반대로 어두운 면 위의 보라 글자가 3.79–4.33:1 이었다.
+     - --primary       면(칠)·테두리·진행바 전용. 흰 글자 5.55:1.
+     - --primary-text  어두운 면 위의 보라 "글자" 전용. bg 6.98 / surface 6.11 /
+                       surface-2 5.21:1. 배경으로 쓰지 않는다(너무 밝다). */
+  --primary: #6a45f5;
+  --primary-text: #a78bff;
+  --primary-press: #5730c8;
   --text: #f4f4ff;
   --muted: #a4a6c8;
   --correct: #3ddc84;
@@ -120,7 +127,7 @@ body {
   font-variant-numeric: tabular-nums;
 }
 .overall strong {
-  color: var(--primary);
+  color: var(--primary-text);
 }
 .banner {
   background: #3a2a00;
@@ -363,17 +370,19 @@ body {
   color: var(--muted);
 }
 .mode-toggle.on .mode-toggle-state {
-  color: var(--primary);
+  color: var(--primary-text);
 }
 
 /* ---- Lesson ---- */
-/* Quiz & listen lock to the viewport: header anchored at the top, controls at
-   the bottom, the card flexes in between. No page scroll → no overscroll bounce
-   while answering or listening. */
+/* Quiz & listen fill the viewport: header anchored at the top, controls at the
+   bottom, the card flexes in between. `overscroll-behavior: none` alone kills
+   the bounce while answering — `overflow: hidden` would additionally trap the
+   content, so short viewports (landscape, split-screen) and large text zoom
+   scroll normally instead of clipping the last options and 계속 out of reach. */
 .lesson,
 .listen-play {
-  height: 100dvh;
-  overflow: hidden;
+  min-height: 100dvh;
+  overflow-y: auto;
   overscroll-behavior: none;
 }
 .lesson-top {
@@ -457,7 +466,7 @@ body {
 
 /* ---- Listen player (passive auto-play) ---- */
 .listen-card .speaking {
-  color: var(--primary);
+  color: var(--primary-text);
   transition: color 0.15s ease;
 }
 .listen-status {
@@ -538,8 +547,8 @@ body {
   cursor: pointer;
 }
 .listen-chip.on {
-  border-color: var(--primary);
-  color: var(--primary);
+  border-color: var(--primary-text);
+  color: var(--primary-text);
 }
 .listen-chip:disabled {
   opacity: 0.4;
@@ -577,19 +586,19 @@ body {
   gap: 2px;
 }
 .cloze-gap {
-  color: var(--primary);
-  border-bottom: 3px solid var(--primary);
+  color: var(--primary-text);
+  border-bottom: 3px solid var(--primary-text);
   letter-spacing: 2px;
   padding: 0 4px;
 }
 .cloze-fill {
-  color: var(--primary);
-  border-bottom: 3px solid var(--primary);
+  color: var(--primary-text);
+  border-bottom: 3px solid var(--primary-text);
   padding: 0 4px;
 }
 .pattern {
   background: var(--surface-2);
-  color: var(--primary);
+  color: var(--primary-text);
   font-weight: 700;
   font-size: 15px;
   padding: 8px 14px;
@@ -598,7 +607,7 @@ body {
 }
 .romaji {
   font-size: 28px;
-  color: var(--primary);
+  color: var(--primary-text);
   font-weight: 700;
 }
 .sr-only {
@@ -631,10 +640,17 @@ body {
   font-size: 20px;
   color: var(--text);
 }
+/* 아이콘 전용 원형 버튼. 텍스트 라벨은 넣지 않는다 — 96px 원 안에서 줄바꿈되며
+   아래 힌트 줄을 덮는다. 이름은 aria-label, 설명은 옆/아래 힌트가 맡는다. */
 .big-audio {
   font-size: 40px;
   width: 96px;
   height: 96px;
+  flex: 0 0 auto;
+  padding: 0;
+  line-height: 1;
+  display: grid;
+  place-items: center;
   border-radius: 50%;
   background: var(--surface);
 }
@@ -1199,7 +1215,7 @@ body {
   align-items: center;
 }
 .learn-week-no {
-  color: var(--primary);
+  color: var(--primary-text);
   font-size: 13px;
   font-weight: 800;
   letter-spacing: 0.04em;

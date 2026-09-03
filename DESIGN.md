@@ -17,8 +17,9 @@ CSS 변수가 단일 출처(single source of truth)다. 새 화면은 새 색/�
 | `--bg` | `#0f1020` | 페이지 배경 |
 | `--surface` | `#1b1c3a` | 카드·버튼·옵션 기본 면 |
 | `--surface-2` | `#26284d` | 한 단계 밝은 면(선택 상태, 지문 박스) |
-| `--primary` | `#7c5cff` | 주 액션·진행바·강조 |
-| `--primary-press` | `#6647e6` | 주 버튼 눌림 그림자 |
+| `--primary` | `#6a45f5` | 주 액션·진행바·강조 — **면(칠)·테두리 전용** |
+| `--primary-text` | `#a78bff` | 어두운 면 위의 보라 **글자** 전용(배경으로 쓰지 않는다) |
+| `--primary-press` | `#5730c8` | 주 버튼 눌림 그림자 |
 | `--text` | `#f4f4ff` | 본문 |
 | `--muted` | `#a4a6c8` | 보조 텍스트·라벨 |
 | `--correct` | `#3ddc84` | 정답 |
@@ -28,6 +29,9 @@ CSS 변수가 단일 출처(single source of truth)다. 새 화면은 새 색/�
 | `--screen-top` | `40px` | 모든 화면 공통 상단 오프셋 |
 
 색은 항상 위 변수로 참조한다. 하드코딩 hex 금지(정답/오답 안쪽 글자색 같은 대비용 예외만).
+
+**보라는 용도에 따라 토큰이 갈린다.** 하나로 쓰면 WCAG AA 를 넘지 못한다 — 예전 `#7c5cff` 는 위에 얹은 흰 글자가 4.35:1(17px/700 은 large text 가 아니라 4.5:1 필요),
+반대로 어두운 면 위의 보라 글자가 3.79–4.33:1 이었다. 그래서 `color:` 로 쓸 때는 `--primary-text`, `background`·`border-color`·진행바에는 `--primary` 를 쓴다.
 
 ## 타이포
 - 폰트: 시스템 스택(`system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif`). 일본어 글리프는 OS 폰트에 위임.
@@ -54,9 +58,15 @@ CSS 변수가 단일 출처(single source of truth)다. 새 화면은 새 색/�
 **레슨 네비게이션:** 한 레슨은 최대 6문제(밀린 복습 우선, 그다음 신규)로 고정된다.
 상단 `‹`로 이미 푼 단계를 복습할 수 있다. 답은 단계 위치로 인덱싱돼 앞뒤로 오가도 보존된다.
 
-**플레이 화면 뷰포트 고정:** 퀴즈(`.lesson`)·흘려듣기(`.listen-play`)는 `100dvh` +
-`overflow: hidden` + `overscroll-behavior: none`. 상단(헤더)·하단(컨트롤)을 기준으로
-배치하고 가운데 카드가 남는 공간을 채운다 — 페이지 스크롤도, 위아래 오버스크롤 바운스도 없다.
+**플레이 화면 뷰포트:** 퀴즈(`.lesson`)·흘려듣기(`.listen-play`)는 `min-height: 100dvh` +
+`overflow-y: auto` + `overscroll-behavior: none`. 상단(헤더)·하단(컨트롤)을 기준으로
+배치하고 가운데 카드가 남는 공간을 채운다 — 위아래 오버스크롤 바운스는 `overscroll-behavior`가
+막는다.
+
+뷰포트를 `height` + `overflow: hidden`으로 **잠그지 않는다.** 잠그면 화면이 짧을 때
+(가로 모드·분할 화면) 또는 글자 크기를 150–200%로 키웠을 때 보기 3·4번과 `계속` 버튼이
+잘려 나가고 스크롤도 되지 않아 **레슨을 끝낼 수 없게 된다.** 바운스 방지는
+`overscroll-behavior: none`만으로 충분하다.
 
 **새 배포 적용:** PWA는 `registerType: 'prompt'`. 새 서비스워커는 대기시키고,
 사용자가 홈으로 돌아왔을 때만 `.banner.update`를 눌러 적용한다(`src/lib/sw.ts`) —
@@ -75,10 +85,26 @@ CSS 변수가 단일 출처(single source of truth)다. 새 화면은 새 색/�
 "준비 중"처럼 비활성 + 안내 문구를 갖는다. 음성(TTS) 없는 기기 폴백을 항상 고려.
 
 ## 접근성
+- **대비 WCAG AA**: 본문 ≥ 4.5:1, large text(≥24px, 또는 ≥18.66px bold) ≥ 3:1.
+  보라는 용도별 토큰으로 지킨다 — 면 위 흰 글자 `--primary` 5.55:1, 어두운 면 위
+  보라 글자 `--primary-text` 5.21–6.98:1. **새 색을 얹기 전에 비율을 계산한다.**
 - 터치 타깃 ≥ 44px(주 버튼 56px, 아이콘 48px).
 - 의미는 색 + 텍스트/아이콘 병기. 색 단독 금지.
 - 오디오 버튼엔 `aria-label`, 무음 기기엔 텍스트 폴백.
 - 피드백은 `role="status"` + `.sr-only`로 안내.
+- 아이콘 전용 원형 버튼(`.big-audio`)엔 텍스트 라벨을 넣지 않는다 — 원을 넘쳐
+  아래 줄을 덮는다. 이름은 `aria-label`, 설명은 힌트 줄이 맡는다.
+
+**아직 못 지킨 곳(측정값, 다음 라운드 대상).** 위 규칙은 목표이고, 현재 코드에는
+다음 위반이 남아 있다 — 새로 만드는 UI 는 이 목록을 늘리지 않는다:
+- 44px 미만 터치 타깃: `.deck-tab` 39px(11개) · `.jlpt-nav-toggle` 36px ·
+  `.seg-item` 30px · `.listen-jump` 30px · `.listen-chip` 39px ·
+  `.search-speak` 30×37px · `.jlpt-nav-cell` 43.7px.
+- `h1` 없는 화면: Lesson · Complete · ListenPlayer · Search · JlptHome ·
+  JlptExam · JlptReport (`learn/week-1`은 h1 없이 h2 로 시작).
+- JLPT 문항목록 모달에 `role="dialog"`·`aria-modal`·포커스 트랩이 없고 `Esc`가 안 먹는다.
+- `aria-live` 없는 상태 변화: 레슨 완료 · 시험 보기 선택 · 리포트 · 검색 결과 수.
+- `prefers-reduced-motion` 미대응 — `pop`·`shake`·진행바 트랜지션이 항상 실행된다.
 
 ## 안티 패턴(피할 것)
 - 새 임의 hex 색(토큰 안 쓰기).

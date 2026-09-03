@@ -37,10 +37,12 @@ export function JlptQuestionView({ item, selected, voiceReady, onPick }: Props) 
           }}
           aria-label="듣기"
         >
-          🔊 듣기
+          {/* 아이콘만 — 라벨을 원 안에 넣으면 96px 원을 넘쳐 아래 힌트를 덮는다.
+              버튼 이름은 aria-label이, 보이는 설명은 힌트 줄이 맡는다(레슨과 동일). */}
+          🔊
         </button>
         {voiceReady ? (
-          <p className="jlpt-audio-hint">탭하면 다시 들을 수 있어요</p>
+          <p className="jlpt-audio-hint">탭해서 듣기 · 여러 번 들을 수 있어요</p>
         ) : (
           // No ja voice on this device: show the script as text so the item is
           // still answerable (the report flags that listening ran without audio).
