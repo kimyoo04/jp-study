@@ -115,11 +115,19 @@ CSS 변수가 단일 출처(single source of truth)다. 새 화면은 새 색/�
 - 아이콘 전용 원형 버튼(`.big-audio`)엔 텍스트 라벨을 넣지 않는다 — 원을 넘쳐
   아래 줄을 덮는다. 이름은 `aria-label`, 설명은 힌트 줄이 맡는다.
 
+**덱 탭은 완전한 tablist 다.** `role="tablist"` 를 붙였으면 그 관례를 다 지킨다 —
+`aria-controls` 로 실제 `role="tabpanel"`(`#deck-panel`)을 가리키고, roving
+tabindex(선택된 탭만 0), `←`/`→`/`Home`/`End` 로 이동, 키보드로 옮겼을 때만
+포커스가 새 탭을 따라간다(딥링크·클릭에서는 포커스를 훔치지 않는다).
+활성 탭은 `scrollIntoView({inline:'center'})` 로 끌어온다 — 덱 URL 은 공유·색인
+대상이라 `/deck/cloze` 로 들어왔을 때 선택된 탭이 화면 밖에 있으면 안 된다.
+뷰포트 520px 이상에서는 스크롤을 접고 두 줄로 감아 11개 덱을 모두 보여준다.
+
 **아직 못 지킨 곳(측정값, 다음 라운드 대상).** 위 규칙은 목표이고, 현재 코드에는
 다음 위반이 남아 있다 — 새로 만드는 UI 는 이 목록을 늘리지 않는다:
-- 44px 미만 터치 타깃: `.deck-tab` 39px(11개) · `.jlpt-nav-toggle` 36px ·
-  `.seg-item` 30px · `.listen-jump` 30px · `.listen-chip` 39px ·
-  `.search-speak` 30×37px · `.jlpt-nav-cell` 43.7px.
+- 44px 미만 터치 타깃: `.jlpt-nav-toggle` 36px · `.seg-item` 30px ·
+  `.listen-jump` 30px · `.listen-chip` 39px · `.search-speak` 30×37px ·
+  `.jlpt-nav-cell` 43.7px. (`.deck-tab`·카테고리 `select` 는 44px 로 고쳤다.)
 - `h1` 없는 화면: Lesson · Complete · ListenPlayer · Search · JlptHome ·
   JlptExam · JlptReport (`learn/week-1`은 h1 없이 h2 로 시작).
 - JLPT 문항목록 모달에 `role="dialog"`·`aria-modal`·포커스 트랩이 없고 `Esc`가 안 먹는다.

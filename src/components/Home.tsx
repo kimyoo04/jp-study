@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { DECKS, type Category, type Deck, type Kana } from '../data/kana'
 import {
   learnedCount,
@@ -75,6 +76,38 @@ export function Home({
   const seenAll = learnedAll + learningAll
   const scopeLabel = categoryName ?? deck.label
 
+  // 활성 탭을 보이는 곳으로 끌어온다. 덱 URL 은 공유·색인 대상인데(사이트맵
+  // 27개), 스크롤러가 왼쪽에 고정돼 있어 /deck/cloze 같은 딥링크로 들어오면
+  // 선택된 탭이 화면 밖에 있고 "아무 탭도 선택 안 된" 상태로 보였다.
+  const activeTabRef = useRef<HTMLButtonElement>(null)
+  // 화살표로 옮겼을 때만 포커스를 따라 보낸다. roving tabindex 라서 선택이
+  // 바뀌면 이전 탭은 tabIndex=-1 이 되는데, 포커스가 거기 남으면 사용자는
+  // 탭 위젯 안에서 키보드로 오갈 수 없게 된다. 반대로 딥링크·클릭으로
+  // 들어온 경우엔 포커스를 훔치지 않는다.
+  const focusActiveTab = useRef(false)
+  useEffect(() => {
+    activeTabRef.current?.scrollIntoView({ inline: 'center', block: 'nearest' })
+    if (focusActiveTab.current) {
+      activeTabRef.current?.focus()
+      focusActiveTab.current = false
+    }
+  }, [deck.id])
+
+  // role="tablist" 를 붙였으면 화살표로 움직여야 한다 — 스크린리더 사용자는
+  // 탭 위젯에서 그 동작을 기대한다. Home/End 도 함께 받는다.
+  function onTabKey(e: React.KeyboardEvent<HTMLDivElement>) {
+    const i = DECKS.findIndex((d) => d.id === deck.id)
+    let next = -1
+    if (e.key === 'ArrowRight') next = (i + 1) % DECKS.length
+    else if (e.key === 'ArrowLeft') next = (i - 1 + DECKS.length) % DECKS.length
+    else if (e.key === 'Home') next = 0
+    else if (e.key === 'End') next = DECKS.length - 1
+    else return
+    e.preventDefault()
+    focusActiveTab.current = true
+    onSelectDeck(DECKS[next])
+  }
+
   return (
     <main className="screen home">
       <div className="home-topbar">
@@ -118,20 +151,30 @@ export function Home({
         </button>
       )}
 
-      <div className="deck-switch" role="tablist" aria-label="문자 선택">
-        {DECKS.map((d) => (
-          <button
-            key={d.id}
-            role="tab"
-            aria-selected={d.id === deck.id}
-            className={d.id === deck.id ? 'deck-tab active' : 'deck-tab'}
-            onClick={() => onSelectDeck(d)}
-          >
-            {d.label}
-          </button>
-        ))}
+      <div className="deck-switch" role="tablist" aria-label="덱 선택" onKeyDown={onTabKey}>
+        {DECKS.map((d) => {
+          const selected = d.id === deck.id
+          return (
+            <button
+              key={d.id}
+              ref={selected ? activeTabRef : undefined}
+              role="tab"
+              id={`deck-tab-${d.id}`}
+              aria-selected={selected}
+              aria-controls="deck-panel"
+              // 탭 위젯의 관례: 선택된 탭만 탭 순서에 남고, 나머지는 화살표로 간다.
+              tabIndex={selected ? 0 : -1}
+              className={selected ? 'deck-tab active' : 'deck-tab'}
+              onClick={() => onSelectDeck(d)}
+            >
+              {d.label}
+            </button>
+          )
+        })}
       </div>
 
+      {/* role="tab" 이 가리키는 실제 패널. 덱을 고르면 이 아래 내용이 바뀐다. */}
+      <div id="deck-panel" role="tabpanel" aria-labelledby={`deck-tab-${deck.id}`}>
       <label className="cat-select">
         <span className="cat-select-label">카테고리</span>
         <select
@@ -171,6 +214,7 @@ export function Home({
           {progress.lessonsDone > 0 ? `레슨 ${progress.lessonsDone}회 완료` : '아직 시작 전'}
         </div>
       </section>
+      </div>
 
       <div className="home-actions">
         <button

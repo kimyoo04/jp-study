@@ -157,9 +157,11 @@ body {
   padding: 5px;
   overflow-x: auto;
   scrollbar-width: none;
-  /* fade the right edge to hint there are more decks to scroll to */
-  -webkit-mask-image: linear-gradient(to right, #000 88%, transparent);
-  mask-image: linear-gradient(to right, #000 88%, transparent);
+  /* 양쪽 끝을 흐린다 — 오른쪽만 흐리면 왼쪽에 가려진 덱이 있다는 신호가 없다.
+     활성 탭은 JS 가 가운데로 끌어오므로(Home.tsx) 어느 방향이든 가려질 수 있다. */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6% 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 6% 94%, transparent);
+  scroll-behavior: smooth;
 }
 .deck-switch::-webkit-scrollbar {
   display: none;
@@ -171,7 +173,9 @@ body {
   color: var(--muted);
   font-size: 14px;
   font-weight: 700;
-  padding: 11px 14px;
+  /* 44px 터치 타깃(예전 11px 패딩 → 39px). DESIGN.md 의 자기 기준이다. */
+  min-height: 44px;
+  padding: 0 14px;
   border-radius: 999px;
   cursor: pointer;
   white-space: nowrap;
@@ -179,6 +183,18 @@ body {
 .deck-tab.active {
   background: var(--primary);
   color: white;
+}
+/* 열 폭이 나면 스크롤을 접고 두 줄로 감는다 — 데스크톱에서 480px 컬럼 옆에
+   960px 를 비워두고 덱 절반(문법·경어·한자·빈칸 등)을 숨길 이유가 없다. */
+@media (min-width: 520px) {
+  .deck-switch {
+    flex-wrap: wrap;
+    overflow-x: visible;
+    justify-content: center;
+    -webkit-mask-image: none;
+    mask-image: none;
+    border-radius: var(--radius);
+  }
 }
 
 .cat-select {
@@ -202,7 +218,9 @@ body {
   color: var(--text);
   border: none;
   border-radius: 8px;
-  padding: 10px 12px;
+  /* 44px 터치 타깃(측정 40px). 26–44개 옵션을 여는 유일한 입구다. */
+  min-height: 44px;
+  padding: 0 12px;
   font-size: 15px;
   font-weight: 600;
   font-family: inherit;
