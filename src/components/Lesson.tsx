@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { clozeFilled, type Deck, type Kana } from '../data/kana'
+import { clozeFilled, deckRowOf, type Deck, type Kana } from '../data/kana'
 import type { LessonItem, LessonMode } from '../lib/srs'
 import { buildQuestion, isCorrect, pickQType, type Question } from '../lib/quiz'
 import { clampIndex } from '../lib/deck'
@@ -40,9 +40,12 @@ export function Lesson({ items, pool, deck, listenMode, onComplete, onExit }: Pr
     return items.map((item) => {
       if (item.mode === 'intro') return { item }
       const qtype = pickQType(deck.kind, listenMode, voice, quizN++)
-      return { item, question: buildQuestion(item.kana, qtype, deck.kind, pool) }
+      return {
+        item,
+        question: buildQuestion(item.kana, qtype, deck.kind, pool, { rowOf: deckRowOf(deck) }),
+      }
     })
-  }, [items, pool, deck.kind, listenMode])
+  }, [items, pool, deck, listenMode])
 
   const [index, setIndex] = useState(0)
   // Answers are keyed by step index (not appended) so the user can move back and

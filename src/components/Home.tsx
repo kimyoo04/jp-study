@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
-import { DECKS, type Category, type Deck, type Kana } from '../data/kana'
+import { DECK_META, type DeckMeta } from '../data/decks'
+import type { Category, Deck, DeckId, Kana } from '../data/kana'
 import { CONTENT_REVIEWED, TOTAL_ITEMS } from '../lib/meta'
 import {
   learnedCount,
@@ -16,8 +17,14 @@ interface Props {
   persistent: boolean
   updateReady: boolean
   onApplyUpdate: () => void
-  deck: Deck
-  onSelectDeck: (d: Deck) => void
+  /** 활성 덱의 문항 데이터. 지연 로드 중이면 null — 그동안은 메타로 그린다. */
+  deck: Deck | null
+  /** 활성 덱의 메타(이름·문항 수). 데이터 없이도 항상 있다. */
+  deckMeta: DeckMeta
+  /** 덱 데이터를 못 받았다. 같은 세션에서는 새로고침만이 복구 수단이다. */
+  deckError: boolean
+  onRetryDeck: () => void
+  onSelectDeck: (id: DeckId) => void
   categories: Category[]
   categoryName: string | null
   onSelectCategory: (name: string | null) => void
@@ -42,6 +49,9 @@ export function Home({
   updateReady,
   onApplyUpdate,
   deck,
+  deckMeta,
+  deckError,
+  onRetryDeck,
   onSelectDeck,
   categories,
   categoryName,
@@ -60,17 +70,20 @@ export function Home({
   onJlpt,
   onLearn,
 }: Props) {
-  const total = scopeKana.length
+  // 덱 데이터가 오기 전에도 전체 문항 수는 메타로 안다 — 진도 카드가 "0 / 0"
+  // 으로 깜빡이지 않게 카테고리 전체일 때는 메타 수를 쓴다.
+  const loading = deck === null
+  const total = loading ? deckMeta.count : scopeKana.length
   const learned = learnedCountFor(progress, scopeKana)
   // 배우는 중(box 1–2)과 익힘(box 3+)을 따로 센다. 익힘만 보여주면 카드가 box 3에
   // 닿기까지 레슨 3회쯤 걸려서, 한 판을 다 푼 사람에게도 "0 / n" 이 뜬다.
   const learning = learningCountFor(progress, scopeKana)
-  const pct = Math.round((learned / total) * 100)
-  const learningPct = Math.round((learning / total) * 100)
+  const pct = total > 0 ? Math.round((learned / total) * 100) : 0
+  const learningPct = total > 0 ? Math.round((learning / total) * 100) : 0
   const learnedAll = learnedCount(progress)
   const learningAll = learningCount(progress)
   const seenAll = learnedAll + learningAll
-  const scopeLabel = categoryName ?? deck.label
+  const scopeLabel = categoryName ?? deckMeta.label
 
   // 활성 탭을 보이는 곳으로 끌어온다. 덱 URL 은 공유·색인 대상인데(사이트맵
   // 27개), 스크롤러가 왼쪽에 고정돼 있어 /deck/cloze 같은 딥링크로 들어오면
@@ -87,21 +100,21 @@ export function Home({
       activeTabRef.current?.focus()
       focusActiveTab.current = false
     }
-  }, [deck.id])
+  }, [deckMeta.id])
 
   // role="tablist" 를 붙였으면 화살표로 움직여야 한다 — 스크린리더 사용자는
   // 탭 위젯에서 그 동작을 기대한다. Home/End 도 함께 받는다.
   function onTabKey(e: React.KeyboardEvent<HTMLDivElement>) {
-    const i = DECKS.findIndex((d) => d.id === deck.id)
+    const i = DECK_META.findIndex((d) => d.id === deckMeta.id)
     let next = -1
-    if (e.key === 'ArrowRight') next = (i + 1) % DECKS.length
-    else if (e.key === 'ArrowLeft') next = (i - 1 + DECKS.length) % DECKS.length
+    if (e.key === 'ArrowRight') next = (i + 1) % DECK_META.length
+    else if (e.key === 'ArrowLeft') next = (i - 1 + DECK_META.length) % DECK_META.length
     else if (e.key === 'Home') next = 0
-    else if (e.key === 'End') next = DECKS.length - 1
+    else if (e.key === 'End') next = DECK_META.length - 1
     else return
     e.preventDefault()
     focusActiveTab.current = true
-    onSelectDeck(DECKS[next])
+    onSelectDeck(DECK_META[next].id)
   }
 
   return (
@@ -148,8 +161,8 @@ export function Home({
       )}
 
       <div className="deck-switch" role="tablist" aria-label="덱 선택" onKeyDown={onTabKey}>
-        {DECKS.map((d) => {
-          const selected = d.id === deck.id
+        {DECK_META.map((d) => {
+          const selected = d.id === deckMeta.id
           return (
             <button
               key={d.id}
@@ -161,7 +174,7 @@ export function Home({
               // 탭 위젯의 관례: 선택된 탭만 탭 순서에 남고, 나머지는 화살표로 간다.
               tabIndex={selected ? 0 : -1}
               className={selected ? 'deck-tab active' : 'deck-tab'}
-              onClick={() => onSelectDeck(d)}
+              onClick={() => onSelectDeck(d.id)}
             >
               <span lang={d.labelLang}>{d.label}</span>
             </button>
@@ -174,15 +187,18 @@ export function Home({
         id="deck-panel"
         className="deck-panel"
         role="tabpanel"
-        aria-labelledby={`deck-tab-${deck.id}`}
+        aria-labelledby={`deck-tab-${deckMeta.id}`}
       >
       <label className="cat-select">
         <span className="cat-select-label">카테고리</span>
+        {/* 카테고리는 덱 데이터에서 나온다 — 오기 전에는 "전체"만 두고 잠근다.
+            문항 수는 메타로 미리 보여준다(빈 괄호가 깜빡이지 않게). */}
         <select
           value={categoryName ?? ''}
           onChange={(e) => onSelectCategory(e.target.value || null)}
+          disabled={loading}
         >
-          <option value="">전체 ({deck.kana.length})</option>
+          <option value="">전체 ({deckMeta.count})</option>
           {categories.map((c) => (
             <option key={c.name} value={c.name}>
               {c.name} ({c.kana.length})
@@ -231,14 +247,26 @@ export function Home({
           <span className="mode-toggle-state">{listen ? '켜짐' : '꺼짐'}</span>
         </button>
 
-        <button className="btn-primary" onClick={onStart}>
-          {/* 만난 적이 있으면 "오늘의 레슨". 예전엔 `learned > 0` 이라, 레슨을
-              끝내고 돌아와도 box 3 에 닿기 전까지 계속 "시작하기" 였다. */}
-          {learned + learning > 0 ? '오늘의 레슨' : '시작하기'}
-        </button>
+        {/* 덱 데이터가 오기 전에 누르면 아무 일도 안 일어난다(출제할 문항이
+            없다) → 눌리지 않게 하고 그 이유를 말한다. 대개 프리페치가 이미
+            끝나 있어 이 상태는 보이지 않는다.
+            실패했을 때 "불러오는 중…" 을 계속 두면 영원히 기다리게 된다 —
+            브라우저가 실패한 청크 요청을 기억하므로 이 세션에서 재시도는
+            성공하지 않는다(data/decks.ts). 그래서 새로고침을 내놓는다. */}
+        {deckError ? (
+          <button className="btn-primary" onClick={onRetryDeck}>
+            {deckMeta.label} 덱을 못 받았어요 — 새로고침
+          </button>
+        ) : (
+          <button className="btn-primary" onClick={onStart} disabled={loading}>
+            {/* 만난 적이 있으면 "오늘의 레슨". 예전엔 `learned > 0` 이라, 레슨을
+                끝내고 돌아와도 box 3 에 닿기 전까지 계속 "시작하기" 였다. */}
+            {loading ? '불러오는 중…' : learned + learning > 0 ? '오늘의 레슨' : '시작하기'}
+          </button>
+        )}
 
         <div className="home-tiles">
-          <button className="tile" onClick={onListen} disabled={!listenAvailable}>
+          <button className="tile" onClick={onListen} disabled={!listenAvailable || loading}>
             <span className="tile-title">🎧 흘려듣기</span>
             <span className="tile-sub">{total}개</span>
           </button>

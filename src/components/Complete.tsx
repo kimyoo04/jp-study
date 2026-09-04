@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
-import { DECKS, type Kana } from '../data/kana'
+import { TOTAL_ITEMS } from '../data/decks'
+import type { Kana } from '../data/kana'
 import { playComplete } from '../lib/sound'
 import { learnedCountFor, learningCountFor, type Progress } from '../lib/srs'
 import { KeyHint } from './KeyHint'
 import type { LessonResult } from './Lesson'
 
-const TOTAL_ALL = DECKS.reduce((n, d) => n + d.kana.length, 0)
 
 interface Props {
   results: LessonResult[]
@@ -87,7 +87,7 @@ export function Complete({
             <strong>{introduced}자</strong> 새로 만남 ·{' '}
           </>
         )}
-        {scopeLabel} {scopeSeen} / {scopeKana.length} · 전체 {seenAll} / {TOTAL_ALL}
+        {scopeLabel} {scopeSeen} / {scopeKana.length} · 전체 {seenAll} / {TOTAL_ITEMS}
       </p>
 
       <div className="chips" aria-label="이번에 배운 글자">

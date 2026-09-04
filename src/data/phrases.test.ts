@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { ROW_OF } from './kana'
+import { rowMapOf } from './kana'
 import { BASE_PHRASE_ROWS, PHRASES, PHRASE_ROWS } from './phrases'
 import { GRAMMAR } from './grammar'
 
@@ -27,8 +27,8 @@ describe('phrases data', () => {
     expect(collisions).toEqual([])
   })
 
-  it('registers phrases in ROW_OF so distractors stay within a situation', () => {
-    const row = ROW_OF['はじめまして']
+  it('registers phrases in the deck row map so distractors stay within a situation', () => {
+    const row = rowMapOf(PHRASE_ROWS)['はじめまして']
     expect(row).toBeDefined()
     expect(row.some((p) => p.kana === 'おげんきですか')).toBe(true) // same 인사 row
     expect(row.some((p) => p.kana === 'いくらですか')).toBe(false) // different row

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { ROW_OF } from './kana'
+import { rowMapOf } from './kana'
 import { BASE_GRAMMAR_ROWS, GRAMMAR, GRAMMAR_ROWS } from './grammar'
 
 describe('grammar data', () => {
@@ -35,8 +35,8 @@ describe('grammar data', () => {
     expect(GRAMMAR_ROWS).toHaveLength(BASE_GRAMMAR_ROWS.length)
   })
 
-  it('registers sentences in ROW_OF so distractors stay within a pattern', () => {
-    const row = ROW_OF['わたしは がくせいです']
+  it('registers sentences in the deck row map so distractors stay within a pattern', () => {
+    const row = rowMapOf(GRAMMAR_ROWS)['わたしは がくせいです']
     expect(row).toBeDefined()
     // same ～は～です row, different sentence
     expect(row.some((g) => g.kana === 'これは ほんです')).toBe(true)

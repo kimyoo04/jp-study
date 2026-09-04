@@ -1,6 +1,13 @@
-import { describe, expect, it } from 'vitest'
-import { DECKS, HIRAGANA, ROW_OF } from '../data/kana'
+import { beforeAll, describe, expect, it } from 'vitest'
+import { loadAllDecks } from '../data/decks'
+import { deckRowOf, HIRAGANA, KANA_ROW_OF, type Deck } from '../data/kana'
 import { buildQuestion, isCorrect, optionText, pickDistractors, pickQType } from './quiz'
+
+// 덱 데이터는 지연 로드다(data/decks.ts) — 전 덱을 훑는 테스트는 먼저 받는다.
+let DECKS: Deck[]
+beforeAll(async () => {
+  DECKS = await loadAllDecks()
+})
 
 // Deterministic rng for stable assertions.
 function seeded(seed: number): () => number {
@@ -24,7 +31,7 @@ describe('pickDistractors', () => {
   it('prefers same-row distractors first', () => {
     // あ row is [あいうえお]; with count 2 both should come from that row.
     const d = pickDistractors(A, 2, HIRAGANA, seeded(7))
-    const rowKana = ROW_OF['あ'].map((k) => k.kana)
+    const rowKana = KANA_ROW_OF['あ'].map((k) => k.kana)
     expect(d.every((k) => rowKana.includes(k.kana))).toBe(true)
   })
 
@@ -32,20 +39,20 @@ describe('pickDistractors', () => {
     // Row has 4 non-answer members; asking for 6 forces global fill.
     const d = pickDistractors(A, 6, HIRAGANA, seeded(3))
     expect(d).toHaveLength(6)
-    const rowKana = ROW_OF['あ'].map((k) => k.kana)
+    const rowKana = KANA_ROW_OF['あ'].map((k) => k.kana)
     expect(d.some((k) => !rowKana.includes(k.kana))).toBe(true)
   })
 })
 
 describe('buildQuestion', () => {
   it('produces 4 options including the answer', () => {
-    const q = buildQuestion(A, 'read', 'kana', HIRAGANA, seeded(2))
+    const q = buildQuestion(A, 'read', 'kana', HIRAGANA, { rng: seeded(2) })
     expect(q.options).toHaveLength(4)
     expect(q.options.some((o) => o.kana === 'あ')).toBe(true)
   })
 
   it('isCorrect matches only the answer', () => {
-    const q = buildQuestion(A, 'listen', 'kana', HIRAGANA, seeded(5))
+    const q = buildQuestion(A, 'listen', 'kana', HIRAGANA, { rng: seeded(5) })
     expect(isCorrect(q, A)).toBe(true)
     const wrong = q.options.find((o) => o.kana !== 'あ')!
     expect(isCorrect(q, wrong)).toBe(false)
@@ -54,14 +61,14 @@ describe('buildQuestion', () => {
   it('never offers ぢ as a distractor for じ in a read quiz (both "ji")', () => {
     const ji = HIRAGANA.find((k) => k.kana === 'じ')!
     for (let seed = 1; seed <= 50; seed++) {
-      const q = buildQuestion(ji, 'read', 'kana', HIRAGANA, seeded(seed))
+      const q = buildQuestion(ji, 'read', 'kana', HIRAGANA, { rng: seeded(seed) })
       expect(q.options.filter((o) => o.romaji === 'ji')).toHaveLength(1)
     }
   })
 
   it('cloze builds options from the card answer + choices, not a pool', () => {
     const card = { kana: 'ごはん◯◯ たべます', romaji: 'gohan o tabemasu', answer: 'を', choices: ['に', 'で', 'と'] }
-    const q = buildQuestion(card, 'cloze', 'cloze', [], seeded(3))
+    const q = buildQuestion(card, 'cloze', 'cloze', [], { rng: seeded(3) })
     expect(q.options).toHaveLength(4)
     const texts = q.options.map((o) => optionText(o, 'cloze', 'cloze'))
     expect(new Set(texts)).toEqual(new Set(['を', 'に', 'で', 'と']))
@@ -80,7 +87,7 @@ describe('buildQuestion', () => {
         d.kind === 'kana' ? ['read'] : d.kind === 'kanji' ? ['meaning', 'read'] : ['meaning']
       for (const qtype of qtypes) {
         d.kana.forEach((k, i) => {
-          const q = buildQuestion(k, qtype, d.kind, d.kana, seeded(i + 1))
+          const q = buildQuestion(k, qtype, d.kind, d.kana, { rng: seeded(i + 1), rowOf: deckRowOf(d) })
           const texts = q.options.map((o) => optionText(o, qtype, d.kind))
           expect(new Set(texts).size, `${d.id}:${k.kana} -> ${texts.join('|')}`).toBe(texts.length)
         })

@@ -1,16 +1,23 @@
-import { describe, expect, it } from 'vitest'
+import { beforeAll, describe, expect, it } from 'vitest'
+import { DECK_META, loadAllDecks } from './decks'
 import {
   ALL_ROWS,
   DAKUTEN_ROWS,
-  DECKS,
   deckCategories,
   HIRAGANA,
   HIRAGANA_BASE,
   HIRAGANA_ROWS,
+  KANA_ROW_OF,
   KATAKANA,
-  ROW_OF,
   YOON_ROWS,
+  type Deck,
 } from './kana'
+
+// 덱 데이터는 지연 로드다(decks.ts) — 전 덱을 훑는 테스트는 먼저 받는다.
+let DECKS: Deck[]
+beforeAll(async () => {
+  DECKS = await loadAllDecks()
+})
 
 describe('kana data', () => {
   it('has the expected counts (base 46, dakuten 25, yoon 33)', () => {
@@ -26,16 +33,16 @@ describe('kana data', () => {
     expect(HIRAGANA[71].kana).toBe('きゃ') // first yoon
   })
 
-  it('every kana maps to its own row in ROW_OF', () => {
+  it('every kana maps to its own row in the kana row map', () => {
     for (const k of HIRAGANA) {
-      const row = ROW_OF[k.kana]
+      const row = KANA_ROW_OF[k.kana]
       expect(row, `missing row for ${k.kana}`).toBeDefined()
       expect(row.some((r) => r.kana === k.kana)).toBe(true)
     }
   })
 
   it('yoon distractors resolve to other yoon in the same row', () => {
-    const row = ROW_OF['きゃ']
+    const row = KANA_ROW_OF['きゃ']
     expect(row.map((k) => k.kana)).toEqual(['きゃ', 'きゅ', 'きょ'])
   })
 
@@ -67,8 +74,8 @@ describe('katakana (derived from hiragana)', () => {
     expect(kya.kana).toBe('キャ')
   })
 
-  it('katakana chars are present in ROW_OF', () => {
-    for (const k of KATAKANA) expect(ROW_OF[k.kana]).toBeDefined()
+  it('katakana chars are present in the kana row map', () => {
+    for (const k of KATAKANA) expect(KANA_ROW_OF[k.kana]).toBeDefined()
   })
 })
 
@@ -105,7 +112,8 @@ describe('deckCategories', () => {
 
 describe('decks', () => {
   it('exposes all eleven decks with the right kinds', () => {
-    expect(DECKS.map((d) => d.id)).toEqual([
+    // 메타는 동기다 — 데이터 없이도 탭·라우팅·<title>이 이걸로 돌아간다.
+    expect(DECK_META.map((d) => d.id)).toEqual([
       'hiragana',
       'katakana',
       'words',
@@ -118,7 +126,7 @@ describe('decks', () => {
       'kanji',
       'cloze',
     ])
-    const kinds = Object.fromEntries(DECKS.map((d) => [d.id, d.kind]))
+    const kinds = Object.fromEntries(DECK_META.map((d) => [d.id, d.kind]))
     expect(kinds).toEqual({
       hiragana: 'kana',
       katakana: 'kana',
@@ -145,6 +153,25 @@ describe('decks', () => {
   it('flattens rows into the deck kana in teaching order', () => {
     for (const d of DECKS) {
       expect(d.kana.length, `${d.id} kana/rows`).toBe(d.rows.flat().length)
+    }
+  })
+
+  it('keeps DECK_META counts in sync with the loaded payloads', () => {
+    // count 는 손으로 쓴 상수다(데이터 없이도 탭·설명에 쓰이므로). 덱 항목을
+    // 늘리고 여기를 안 고치면 화면이 틀린 수를 말한다 → 여기서 잡는다.
+    for (const meta of DECK_META) {
+      const deck = DECKS.find((d) => d.id === meta.id)!
+      expect(deck.kana.length, `${meta.id} count`).toBe(meta.count)
+    }
+  })
+
+  it('agrees with DECK_META on labels and kinds', () => {
+    for (const meta of DECK_META) {
+      const deck = DECKS.find((d) => d.id === meta.id)!
+      expect(deck.label, `${meta.id} label`).toBe(meta.label)
+      expect(deck.kind, `${meta.id} kind`).toBe(meta.kind)
+      expect(deck.labelLang, `${meta.id} labelLang`).toBe(meta.labelLang)
+      expect(deck.koReading, `${meta.id} koReading`).toBe(meta.koReading)
     }
   })
 })

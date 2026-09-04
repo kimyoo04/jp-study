@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest'
 import { CURRICULUM } from '../data/curriculum'
-import { DECKS } from '../data/kana'
+import { DECK_META } from '../data/decks'
 import { HOME, indexedPath, parsePath, pathOf, type Location } from './router'
 
 const BASE = import.meta.env.BASE_URL
 
-// DECKS[0] 항목이 곧 HOME 이므로 따로 넣지 않는다(경로가 겹친다).
+// DECK_META[0] 항목이 곧 HOME 이므로 따로 넣지 않는다(경로가 겹친다).
 const ADDRESSABLE: Location[] = [
-  ...DECKS.map((d) => ({ screen: 'home', deckId: d.id }) as Location),
+  ...DECK_META.map((d) => ({ screen: 'home', deckId: d.id }) as Location),
   { screen: 'search' },
   { screen: 'learn' },
   ...CURRICULUM.map((w) => ({ screen: 'learn-reader', week: w.week }) as Location),
@@ -34,7 +34,7 @@ describe('pathOf / parsePath', () => {
 
   it('keeps the first deck on the bare base path', () => {
     expect(pathOf(HOME)).toBe(BASE)
-    expect(pathOf({ screen: 'home', deckId: DECKS[0].id })).toBe(BASE)
+    expect(pathOf({ screen: 'home', deckId: DECK_META[0].id })).toBe(BASE)
   })
 
   it('parses the base path with or without a trailing slash', () => {

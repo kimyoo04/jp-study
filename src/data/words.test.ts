@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { ROW_OF } from './kana'
+import { rowMapOf } from './kana'
 import { BASE_WORD_ROWS, WORDS, WORD_ROWS } from './words'
 
 describe('words data', () => {
@@ -16,9 +16,9 @@ describe('words data', () => {
     expect(new Set(chars).size).toBe(chars.length)
   })
 
-  it('registers word rows in ROW_OF for distractor grouping', () => {
+  it('registers word rows in the deck row map for distractor grouping', () => {
     // いち is in the numbers row; its distractors should be other numbers.
-    const row = ROW_OF['いち']
+    const row = rowMapOf(WORD_ROWS)['いち']
     expect(row).toBeDefined()
     expect(row.some((k) => k.kana === 'に')).toBe(true)
     expect(row.some((k) => k.kana === 'こんにちは')).toBe(false)

@@ -1,15 +1,5 @@
 // Hiragana — gojūon (五十音) order. Each inner array is one row (행),
 // reused by both lesson sequencing and distractor selection (same-row first).
-import { WORD_ROWS, WORDS } from './words'
-import { LOANWORD_ROWS, LOANWORDS } from './loanwords'
-import { COUNTER_ROWS, COUNTERS } from './counters'
-import { MIMETIC_ROWS, MIMETICS } from './mimetic'
-import { KEIGO_ROWS, KEIGO } from './keigo'
-import { GRAMMAR_ROWS, GRAMMAR } from './grammar'
-import { PHRASE_ROWS, PHRASES } from './phrases'
-import { KANJI_ROWS, KANJI } from './kanji'
-import { KANJI_EXPANSION_CATS } from './kanji-expanded'
-import { CLOZE_ROWS, CLOZE } from './cloze'
 
 export interface Kana {
   kana: string
@@ -217,26 +207,40 @@ export const KATAKANA_ROWS: Kana[][] = ALL_ROWS.map((row) =>
 /** All katakana (base + dakuten + yoon) flattened in teaching order. */
 export const KATAKANA: Kana[] = KATAKANA_ROWS.flat()
 
-/** Row lookup for a given kana char (all scripts + words) — used by distractor selection. */
-export const ROW_OF: Record<string, Kana[]> = (() => {
+/**
+ * 행(row) 조회 맵. 오답 선택지를 "같은 행 먼저"로 뽑는 데 쓴다(lib/quiz.ts).
+ *
+ * 예전에는 모든 덱의 행을 한 맵에 합쳐 뒀다 — 그래서 kana.ts 가 11개 덱 데이터를
+ * 전부 정적 import 해야 했고, 초기 번들이 996KB 가 됐다. 실제로는 오답을 뽑을 때
+ * 정답이 항상 "활성 덱" 소속이므로 덱별 맵이면 충분하다.
+ * (부수 효과로 덱 간에 같은 문자가 있을 때 마지막 덱이 이기던 문제도 없어진다.)
+ */
+export function rowMapOf(rows: Kana[][]): Record<string, Kana[]> {
   const map: Record<string, Kana[]> = {}
-  for (const row of [
-    ...ALL_ROWS,
-    ...KATAKANA_ROWS,
-    ...WORD_ROWS,
-    ...LOANWORD_ROWS,
-    ...COUNTER_ROWS,
-    ...MIMETIC_ROWS,
-    ...KEIGO_ROWS,
-    ...GRAMMAR_ROWS,
-    ...PHRASE_ROWS,
-    ...KANJI_ROWS,
-  ])
-    for (const k of row) map[k.kana] = row
+  for (const row of rows) for (const k of row) map[k.kana] = row
   return map
-})()
+}
 
-// ---- Decks ----------------------------------------------------------------
+/** 가나 두 덱의 행 맵. 초기 번들에 남는 유일한 덱 데이터다. */
+export const KANA_ROW_OF: Record<string, Kana[]> = rowMapOf([...ALL_ROWS, ...KATAKANA_ROWS])
+
+// 덱별 행 맵을 한 번만 만들어 재사용한다. 덱 객체는 모듈 스코프에 하나뿐이라
+// (data/decks.ts 의 캐시) WeakMap 키로 안정적이다.
+const rowMaps = new WeakMap<Deck, Record<string, Kana[]>>()
+
+/** 이 덱의 행 맵. 오답 선택지를 "같은 행 먼저"로 뽑는 데 쓴다(lib/quiz.ts). */
+export function deckRowOf(deck: Deck): Record<string, Kana[]> {
+  let map = rowMaps.get(deck)
+  if (!map) {
+    map = rowMapOf(deck.rows)
+    rowMaps.set(deck, map)
+  }
+  return map
+}
+
+// ---- Deck model -----------------------------------------------------------
+// 덱 "정의"(어떤 덱이 있고 어떻게 불러오는지)는 ./decks.ts 에 있다. 여기에는
+// 모델과, 초기 번들에 남는 가나 두 덱의 데이터만 둔다.
 export type DeckId =
   | 'hiragana'
   | 'katakana'
@@ -280,76 +284,7 @@ export interface Category {
   kana: Kana[]
 }
 
-// Theme/category label per row for the row-based decks (1:1 with their rows).
-const BASE_WORD_CATS = [
-  '인사말', '숫자', '생활', '시간', '색깔', '음식', '동물', '가족', '동사', '형용사',
-  '요일', '신체', '자연 / 날씨', '장소', '동사 2', '형용사 2', '위치', '물건', '과일 / 채소',
-  '교통', '동사 3', '형용사 3', '사람', '추상 / 생활 2', '동사 4', '형용사 4', '자연 2',
-  '식재료', '집 / 방', '빈도 / 시간 2', '동사 5', '동사 6', '맛 / 형용사 5', 'な형용사',
-  '마음 / 몸', '의문사', '부사', '직업 / 사람 2', '학교 / 공부', '동물 2', 'する 동사',
-  '감정 형용사', '색 / 모양', '시간 / 날짜', '방향 / 위치 2', '식사 / 음식 4', '동사 7',
-  'な형용사 / 형용사 7', '추상 / 분야', '사물 2', '동사 8', '형용사 8', '신체 3', '자연 3 / 날씨',
-  '추상 2', '장소 3', '부사 2', '접속사', '동사 9', '색 형용사', '일본 요리', '생활 동작 2',
-  '수량 / 정도', '동사 10', 'な형용사 2', '추상 3', '건강 / 몸', '도구 / 사물 3', '가족 / 관계 2',
-  '동작 / 감정 동사', '위치 / 이동', '시간 3 / 시대',
-  '동사 13', '동사 14', '형용사 / 상태 6', '추상 / 생활 4',
-]
-const WORD_CATS = [
-  ...BASE_WORD_CATS,
-  ...Array.from({ length: WORD_ROWS.length - BASE_WORD_CATS.length }, (_, i) => `JLPT 확장 ${i + 1}`),
-]
-const BASE_LOANWORD_CATS = [
-  '음식 / 음료', '장소', '기기 / 디지털', '취미 / 스포츠', '의류 / 물건', '음식 2', '나라',
-  '취미 / 스포츠 2', '생활 물건', '현대 / IT', '의류 2', '음식 / 음료 3', '나라 2', '스포츠 3',
-  '직장 / 학교', '색 / 추상', '음식 2', '가전 / 기기 2', '장소 2', '직업 / 사람', '취미 / 일상 2',
-  '음식 3', 'IT / 통신 2', '패션 / 뷰티', '교통 / 여행', '비즈니스 / 추상', '식당 / 메뉴',
-  '가전 / 생활 2', '스포츠 / 취미 4', '음악 / 엔터', '추상 2', '음식 4', '패션 2', '직장 2',
-  '여행 2', '감정 / 추상 3', '음식 5', '기기 3', '장소 3', '뷰티 / 패션 3', '추상 / 일 3',
-  '자동차 / 교통 3',
-  '디저트 / 간식 3', 'IT / 통신 3', '단위 / 수량', '생활용품 3', '쇼핑 / 패션 4',
-]
-const LOANWORD_CATS = [
-  ...BASE_LOANWORD_CATS,
-  ...Array.from(
-    { length: LOANWORD_ROWS.length - BASE_LOANWORD_CATS.length },
-    (_, i) => `JLPT 외래어 확장 ${i + 1}`,
-  ),
-]
-const COUNTER_CATS = [
-  '개수 〜つ', '사람 〜人', '날짜 1〜10일', '날짜 / 기간', '시간 〜時', '분 〜分',
-  '장 〜枚', '병/자루 〜本', '잔 〜杯 / 개 〜個', '마리 〜匹', '횟수 〜回', '나이 〜歳', '월 〜月',
-]
-const MIMETIC_CATS = [
-  '감정 1', '감정 2', '몸 상태', '날씨 / 공기', '음식 식감', '말 / 표정',
-  '동작 / 태도', '상태 / 모양', '움직임 / 일상',
-]
-const KANJI_CATS = [
-  '숫자 1', '숫자 2 / 돈', '요일 / 시간', '사람 / 크기', '위치', '방위 / 자연', '신체 / 기본',
-  '동사 1', '동사 2 / 생활', '형용사 / 정도', '명사 1', '명사 2', '시간 / 날짜 2', '가족',
-  '동사 3', '동사 4', '형용사 / 상태', '형용사 2 / 날씨', '장소 / 행정', '자연 2', '동사 5',
-  '동사 6', '신체 / 건강 2', '음식 2', '색 / 형용 3', '추상 명사', '사회 / 일', '학교 / 공부 2',
-  '동사 7', '동사 8', '감정', '유무 / 형용 4', '수량 / 순서', '방향 / 위치 2', '추상 2',
-  '물건 / 의류 2', '날씨 / 계절 2', '동물', '식재료 2', '신체 3', '동작 3', '성격 / 성질',
-  '장소 / 시설', '추상 3', '학교 / 공부 3', '직업 / 산업', '돈 / 경제', '교통 / 이동 2',
-  '신체 / 건강 3', '감정 2', '동작 4', '시간 / 순서 2', '지리', '자연 3', '물질 / 재료', '동작 5',
-  '요리 동작', '사회 / 법', '사고 / 판단', '감각 2', '사람 / 관계 2', '시간 / 빈도 3', '상태 / 마무리',
-  '추상 / 사물 4', '동사 11', '동사 12', '상태 / 형용 5', '사회 / 일 2',
-  ...KANJI_EXPANSION_CATS,
-]
 
-export const DECKS: Deck[] = [
-  { id: 'hiragana', label: 'ひらがな', labelLang: 'ja', kind: 'kana', rows: ALL_ROWS, kana: HIRAGANA },
-  { id: 'katakana', label: 'カタカナ', labelLang: 'ja', kind: 'kana', rows: KATAKANA_ROWS, kana: KATAKANA },
-  { id: 'words', label: '단어', kind: 'words', rows: WORD_ROWS, kana: WORDS, catLabels: WORD_CATS },
-  { id: 'loanwords', label: '외래어', kind: 'words', rows: LOANWORD_ROWS, kana: LOANWORDS, catLabels: LOANWORD_CATS },
-  { id: 'counters', label: '조수사', kind: 'words', rows: COUNTER_ROWS, kana: COUNTERS, catLabels: COUNTER_CATS },
-  { id: 'mimetic', label: '의태어', kind: 'words', rows: MIMETIC_ROWS, kana: MIMETICS, catLabels: MIMETIC_CATS },
-  { id: 'grammar', label: '문법', kind: 'sentence', rows: GRAMMAR_ROWS, kana: GRAMMAR },
-  { id: 'phrases', label: '회화', kind: 'sentence', rows: PHRASE_ROWS, kana: PHRASES, koReading: true },
-  { id: 'keigo', label: '경어', kind: 'sentence', rows: KEIGO_ROWS, kana: KEIGO, koReading: true },
-  { id: 'kanji', label: '한자', kind: 'kanji', rows: KANJI_ROWS, kana: KANJI, catLabels: KANJI_CATS },
-  { id: 'cloze', label: '빈칸', kind: 'cloze', rows: CLOZE_ROWS, kana: CLOZE },
-]
 
 /**
  * Categories a deck can be filtered to.

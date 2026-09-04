@@ -1,5 +1,12 @@
-import { describe, expect, it } from 'vitest'
-import { DECKS, deckCategories } from './kana'
+import { beforeAll, describe, expect, it } from 'vitest'
+import { loadAllDecks } from './decks'
+import { deckCategories, type Deck } from './kana'
+
+// 덱 데이터는 지연 로드다(decks.ts) — 전 덱을 훑는 테스트는 먼저 받는다.
+let DECKS: Deck[]
+beforeAll(async () => {
+  DECKS = await loadAllDecks()
+})
 import { BASE_WORD_ROWS, WORDS } from './words'
 import { BASE_LOANWORD_ROWS, LOANWORDS } from './loanwords'
 import { BASE_COUNTER_ROWS, COUNTERS } from './counters'

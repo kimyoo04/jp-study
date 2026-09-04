@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { DECKS, ROW_OF } from './kana'
+import { rowMapOf } from './kana'
+import { deck as MIMETIC_DECK } from './decks/mimetic'
 import { BASE_MIMETIC_ROWS, MIMETICS, MIMETIC_ROWS } from './mimetic'
 import { WORDS } from './words'
 import { LOANWORDS } from './loanwords'
@@ -26,16 +27,16 @@ describe('mimetic data', () => {
     }
   })
 
-  it('registers rows in ROW_OF for distractor grouping', () => {
+  it('registers rows in the deck row map for distractor grouping', () => {
     // どきどき is in the 감정 row; distractors should be other feelings.
-    const row = ROW_OF['どきどき']
+    const row = rowMapOf(MIMETIC_ROWS)['どきどき']
     expect(row).toBeDefined()
     expect(row.some((k) => k.kana === 'わくわく')).toBe(true)
     expect(row.some((k) => k.kana === 'もちもち')).toBe(false)
   })
 
   it('is registered as a deck with category labels matching rows', () => {
-    const deck = DECKS.find((d) => d.id === 'mimetic')!
+    const deck = MIMETIC_DECK
     expect(deck).toBeDefined()
     expect(deck.kind).toBe('words')
     expect(deck.catLabels?.length).toBe(MIMETIC_ROWS.length)

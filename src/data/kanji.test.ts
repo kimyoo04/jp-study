@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { DECKS, ROW_OF, deckCategories } from './kana'
+import { deckCategories, rowMapOf } from './kana'
+import { deck as KANJI_DECK } from './decks/kanji'
 import { BASE_KANJI_ROWS, KANJI, KANJI_ROWS } from './kanji'
 import { HIRAGANA } from './kana'
 
@@ -22,8 +23,8 @@ describe('kanji data', () => {
     expect(KANJI.every((k) => !kanaSet.has(k.kana))).toBe(true)
   })
 
-  it('registers kanji in ROW_OF so distractors stay within a theme', () => {
-    const row = ROW_OF['一'] // numbers row
+  it('registers kanji in the deck row map so distractors stay within a theme', () => {
+    const row = rowMapOf(KANJI_ROWS)['一'] // numbers row
     expect(row).toBeDefined()
     expect(row.some((k) => k.kana === '二')).toBe(true)
     expect(row.some((k) => k.kana === '山')).toBe(false)
@@ -36,7 +37,7 @@ describe('kanji data', () => {
 
   it('doubles the curated kanji with unique expansion glyphs', () => {
     expect(KANJI).toHaveLength(BASE_KANJI_ROWS.flat().length * 2)
-    const deck = DECKS.find((item) => item.id === 'kanji')!
+    const deck = KANJI_DECK
     expect(deckCategories(deck)).toHaveLength(KANJI_ROWS.length)
   })
 })

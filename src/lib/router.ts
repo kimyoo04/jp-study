@@ -10,7 +10,8 @@
 //
 // 그래서 popstate는 항상 "경로 → Location"으로만 해석한다. 일시적 화면으로
 // 되돌아가는 경우가 없으니 복원 불가 상태를 만들 수 없다.
-import { DECKS, type DeckId } from '../data/kana'
+import { DECK_META } from '../data/decks'
+import type { DeckId } from '../data/kana'
 
 /** Vite의 base('/jp-study/'). 개발 서버에서도 같은 접두사로 서빙된다. */
 const BASE = import.meta.env.BASE_URL
@@ -22,13 +23,13 @@ export type Location =
   | { screen: 'learn-reader'; week: number }
   | { screen: 'jlpt-home' }
 
-export const HOME: Location = { screen: 'home', deckId: DECKS[0].id }
+export const HOME: Location = { screen: 'home', deckId: DECK_META[0].id }
 
 /** Location → 절대 경로(base 포함). 홈의 첫 덱은 접미사 없는 루트로 둔다. */
 export function pathOf(loc: Location): string {
   switch (loc.screen) {
     case 'home':
-      return loc.deckId === DECKS[0].id ? BASE : `${BASE}deck/${loc.deckId}`
+      return loc.deckId === DECK_META[0].id ? BASE : `${BASE}deck/${loc.deckId}`
     case 'search':
       return `${BASE}search`
     case 'learn':
@@ -61,7 +62,7 @@ export function parsePath(pathname: string): Location {
   if (segments.length === 0) return HOME
 
   if (segments[0] === 'deck' && segments[1]) {
-    const deck = DECKS.find((d) => d.id === segments[1])
+    const deck = DECK_META.find((d) => d.id === segments[1])
     return deck ? { screen: 'home', deckId: deck.id } : HOME
   }
   if (segments[0] === 'search') return { screen: 'search' }

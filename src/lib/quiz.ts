@@ -2,7 +2,7 @@
 // (more confusable -> better practice), then fill from the rest. No side effects;
 // randomness is injected so tests are deterministic.
 import type { DeckKind, Kana } from '../data/kana'
-import { HIRAGANA, ROW_OF } from '../data/kana'
+import { HIRAGANA, KANA_ROW_OF } from '../data/kana'
 import { shuffle, type Rng } from './rng'
 
 export type QType = 'read' | 'listen' | 'meaning' | 'cloze'
@@ -58,9 +58,12 @@ export function optionLang(qtype: QType, deckKind: DeckKind): 'ja' | undefined {
 }
 
 /**
- * Pick `count` distractors for `answer`: same row first, then global fill.
+ * Pick `count` distractors for `answer`: same row first, then pool fill.
  * `textOf` is the displayed text — candidates that would render identically to
  * the answer (or to an already-picked distractor) are skipped.
+ *
+ * `rowOf` 는 그 덱의 행 맵이다(data/kana.ts 의 rowMapOf). 예전에는 모든 덱을
+ * 합친 전역 맵을 참조해서, 이 모듈이 11개 덱 데이터 전체에 의존했다.
  */
 export function pickDistractors(
   answer: Kana,
@@ -68,8 +71,9 @@ export function pickDistractors(
   pool: Kana[] = HIRAGANA,
   rng: Rng = Math.random,
   textOf: (k: Kana) => string = (k) => k.kana,
+  rowOf: Record<string, Kana[]> = KANA_ROW_OF,
 ): Kana[] {
-  const sameRow = (ROW_OF[answer.kana] ?? []).filter((k) => k.kana !== answer.kana)
+  const sameRow = (rowOf[answer.kana] ?? []).filter((k) => k.kana !== answer.kana)
   const others = pool.filter(
     (k) => k.kana !== answer.kana && !sameRow.some((s) => s.kana === k.kana),
   )
@@ -87,13 +91,19 @@ export function pickDistractors(
   return picked
 }
 
+export interface BuildOpts {
+  rng?: Rng
+  optionCount?: number
+  /** 이 덱의 행 맵(data/kana.ts 의 deckRowOf). 없으면 가나 덱 맵을 쓴다. */
+  rowOf?: Record<string, Kana[]>
+}
+
 export function buildQuestion(
   answer: Kana,
   qtype: QType,
   deckKind: DeckKind = 'kana',
   pool: Kana[] = HIRAGANA,
-  rng: Rng = Math.random,
-  optionCount = 4,
+  { rng = Math.random, optionCount = 4, rowOf = KANA_ROW_OF }: BuildOpts = {},
 ): Question {
   // Cloze cards carry their own answer fragment + fixed distractors, so options
   // come from the card itself rather than a shared pool. The answer option's
@@ -105,7 +115,7 @@ export function buildQuestion(
     return { qtype, answer: correct, options: shuffle([correct, ...distractors], rng) }
   }
   const textOf = (k: Kana) => optionText(k, qtype, deckKind)
-  const distractors = pickDistractors(answer, optionCount - 1, pool, rng, textOf)
+  const distractors = pickDistractors(answer, optionCount - 1, pool, rng, textOf, rowOf)
   const options = shuffle([answer, ...distractors], rng)
   return { qtype, answer, options }
 }

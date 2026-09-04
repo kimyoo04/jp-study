@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { ROW_OF } from './kana'
+import { rowMapOf } from './kana'
 import { BASE_LOANWORD_ROWS, LOANWORDS, LOANWORD_ROWS } from './loanwords'
 import { WORDS } from './words'
 
@@ -26,8 +26,8 @@ describe('loanwords data', () => {
     expect(LOANWORDS.every((w) => !native.has(w.kana))).toBe(true)
   })
 
-  it('registers loanword rows in ROW_OF for same-row distractors', () => {
-    const row = ROW_OF['コーヒー'] // food/drink row
+  it('registers loanword rows in the deck row map for same-row distractors', () => {
+    const row = rowMapOf(LOANWORD_ROWS)['コーヒー'] // food/drink row
     expect(row).toBeDefined()
     expect(row.some((k) => k.kana === 'ジュース')).toBe(true)
     expect(row.some((k) => k.kana === 'ホテル')).toBe(false)

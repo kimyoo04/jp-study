@@ -632,14 +632,12 @@ export function guidePages(): Plugin {
         const jlptExamItems =
           Object.values(EXAM_PLAN).reduce((a, b) => a + b, 0) + readingSubs
 
-        const { DECKS } = (await server.ssrLoadModule('/src/data/kana.ts')) as {
-          DECKS: { id: string; label: string; kana: unknown[] }[]
+        // 덱 메타는 동기다 — 정적 페이지·사이트맵을 만들려고 6,040문항을
+        // SSR 로 읽을 필요가 없다(data/decks.ts).
+        const { DECK_META } = (await server.ssrLoadModule('/src/data/decks.ts')) as {
+          DECK_META: DeckMeta[]
         }
-        const decks: DeckMeta[] = DECKS.map((d) => ({
-          id: d.id,
-          label: d.label,
-          count: d.kana.length,
-        }))
+        const decks = DECK_META
 
         // ── 앱 라우트별 정적 HTML ──────────────────────────────────────────
         const { pathOf } = (await server.ssrLoadModule('/src/lib/router.ts')) as {

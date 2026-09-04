@@ -1,5 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { DECKS, deckCategories, type Deck, type Kana } from '../data/kana'
+import { DECK_META, loadDeck, loadedDeck, metaOf, prefetchDecks } from '../data/decks'
+import { deckCategories, type Deck, type DeckId, type Kana } from '../data/kana'
 import { useProgress } from '../hooks/useProgress'
 import { useSettings } from '../hooks/useSettings'
 import { useJlptExam } from '../hooks/useJlptExam'
@@ -71,10 +72,47 @@ export function App() {
   const [updateReady, setUpdateReady] = useState(false)
   useEffect(() => swOnUpdate(setUpdateReady), [])
   // 첫 렌더는 주소창에서 읽는다: 딥링크·북마크·404.html 부팅이 같은 화면을 연다.
-  const [deck, setDeck] = useState<Deck>(() => {
+  //
+  // 덱은 "id(동기) + payload(비동기)"로 나뉜다. 덱 데이터는 지연 로드되므로
+  // (data/decks.ts) 문항 배열이 아직 없을 수 있다 — 그동안에도 탭·제목·문항 수는
+  // 메타로 그린다. deckId 가 진실이고 deck 은 그 id 의 payload 가 도착했을 때만
+  // 채워진다.
+  const [deckId, setDeckId] = useState<DeckId>(() => {
     const loc = currentLocation()
-    return (loc.screen === 'home' ? DECKS.find((d) => d.id === loc.deckId) : undefined) ?? DECKS[0]
+    return loc.screen === 'home' ? loc.deckId : DECK_META[0].id
   })
+  const [loaded, setLoaded] = useState<Deck | null>(() => loadedDeck(deckId) ?? null)
+  // 청크 로드 실패(오프라인·배포 교체 등). 같은 세션에서 재시도가 불가능하므로
+  // (data/decks.ts 참고) 화면은 새로고침 버튼을 낸다.
+  const [deckError, setDeckError] = useState(false)
+  // id 와 payload 가 어긋난 순간(전환 직후)에는 payload 를 없는 것으로 본다.
+  const deck = loaded?.id === deckId ? loaded : null
+  const deckMeta = metaOf(deckId)
+
+  useEffect(() => {
+    const hit = loadedDeck(deckId)
+    if (hit) {
+      setLoaded(hit)
+      setDeckError(false)
+      return
+    }
+    let live = true
+    setDeckError(false)
+    void loadDeck(deckId).then(
+      (d) => {
+        if (live) setLoaded(d)
+      },
+      () => {
+        if (live) setDeckError(true)
+      },
+    )
+    return () => {
+      live = false
+    }
+  }, [deckId])
+
+  // 첫 페인트 뒤 유휴 시간에 나머지 덱을 미리 받는다 → 탭 전환이 즉시 끝난다.
+  useEffect(() => prefetchDecks(), [])
   const [categoryName, setCategoryName] = useState<string | null>(null) // null = 전체
   const [screen, setScreen] = useState<Screen>(() => currentLocation().screen)
   const [items, setItems] = useState<LessonItem[]>([])
@@ -106,26 +144,24 @@ export function App() {
   }, [])
   const listenMode = settings.listen && voiceReady
 
-  const categories = useMemo(() => deckCategories(deck), [deck])
+  const categories = useMemo(() => (deck ? deckCategories(deck) : []), [deck])
   // The kana the lesson/progress is scoped to: the chosen category, or the whole deck.
   const scopeKana = useMemo(() => {
+    if (!deck) return []
     const cat = categories.find((c) => c.name === categoryName)
     return cat ? cat.kana : deck.kana
   }, [categories, categoryName, deck])
 
-  // 최신 덱을 popstate 핸들러(마운트 시 한 번만 등록)에서 읽기 위한 거울.
-  const deckRef = useRef(deck)
-  deckRef.current = deck
+  // 최신 덱 id 를 popstate 핸들러(마운트 시 한 번만 등록)에서 읽기 위한 거울.
+  const deckIdRef = useRef(deckId)
+  deckIdRef.current = deckId
 
   /** 주소창의 Location을 화면 상태에 반영한다. 콜드 로드와 popstate가 공유. */
   const applyLocation = useCallback((loc: Location) => {
     setScreen(loc.screen)
-    if (loc.screen === 'home' && loc.deckId !== deckRef.current.id) {
-      const d = DECKS.find((x) => x.id === loc.deckId)
-      if (d) {
-        setDeck(d)
-        setCategoryName(null) // 카테고리는 URL에 없으므로 덱이 바뀌면 전체로
-      }
+    if (loc.screen === 'home' && loc.deckId !== deckIdRef.current) {
+      setDeckId(loc.deckId)
+      setCategoryName(null) // 카테고리는 URL에 없으므로 덱이 바뀌면 전체로
     }
     if (loc.screen === 'learn-reader') setLearnWeek(loc.week)
   }, [])
@@ -160,7 +196,7 @@ export function App() {
    * 부모 경로를 한 칸 쌓기만 한다 → 뒤로가기가 부모 화면으로 빠진다.
    */
   function goTransient(next: Screen) {
-    window.history.pushState(null, '', pathOf(parentOf(next, deckRef.current.id, learnWeek)))
+    window.history.pushState(null, '', pathOf(parentOf(next, deckIdRef.current, learnWeek)))
     setScreen(next)
   }
 
@@ -169,18 +205,18 @@ export function App() {
     window.history.back()
   }
 
-  const homeLocation = useMemo<Location>(() => ({ screen: 'home', deckId: deck.id }), [deck.id])
+  const homeLocation = useMemo<Location>(() => ({ screen: 'home', deckId }), [deckId])
 
   // 화면이 바뀌면 title·description·canonical·og:*를 같이 갱신한다.
   // 일시적 화면은 부모의 메타를 쓴다(공유 미리보기가 레슨 중간을 가리키지 않도록).
   useEffect(() => {
-    applyMeta(metaFor(parentOf(screen, deck.id, learnWeek)))
-  }, [screen, deck.id, learnWeek])
+    applyMeta(metaFor(parentOf(screen, deckId, learnWeek)))
+  }, [screen, deckId, learnWeek])
 
   // 덱 전환은 주소 변경으로만 처리한다(applyLocation이 덱과 카테고리를 맞춘다).
   // 탭은 자주 눌리므로 push 대신 replace 로 히스토리를 채우지 않는다.
-  function selectDeck(d: Deck) {
-    go({ screen: 'home', deckId: d.id }, { replace: true })
+  function selectDeck(id: DeckId) {
+    go({ screen: 'home', deckId: id }, { replace: true })
   }
 
   // Start a fixed lesson over the current scope: due reviews then new cards,
@@ -245,15 +281,14 @@ export function App() {
   // additionally flips on 듣기 모드). The user starts the lesson from Home —
   // selecting the deck and starting in one tick would feed Lesson a stale deck.
   function studyWeakPart(part: JlptPart) {
-    const deckId =
+    const target: DeckId =
       part === 'grammar'
         ? 'grammar'
         : part === 'reading'
           ? 'phrases'
           : 'words' // vocab + listening practice on the words deck
     if (part === 'listening' && !settings.listen && voiceReady) toggleListen()
-    const target = DECKS.find((d) => d.id === deckId)
-    go({ screen: 'home', deckId: target?.id ?? deck.id })
+    go({ screen: 'home', deckId: target })
   }
 
   function finishJlpt(examItems: ScoredItem[], answers: (number | null)[]) {
@@ -273,6 +308,9 @@ export function App() {
           updateReady={updateReady}
           onApplyUpdate={swApplyUpdate}
           deck={deck}
+          deckMeta={deckMeta}
+          deckError={deckError}
+          onRetryDeck={() => window.location.reload()}
           onSelectDeck={selectDeck}
           categories={categories}
           categoryName={categoryName}
@@ -292,7 +330,7 @@ export function App() {
           onLearn={() => go({ screen: 'learn' })}
         />
       )}
-      {screen === 'listen-play' && (
+      {screen === 'listen-play' && deck && (
         <ListenPlayer
           items={scopeKana}
           deck={deck}
@@ -300,7 +338,7 @@ export function App() {
           onExit={exitTransient}
         />
       )}
-      {screen === 'lesson' && (
+      {screen === 'lesson' && deck && (
         <Lesson
           items={items}
           pool={scopeKana}
@@ -316,7 +354,7 @@ export function App() {
           wrong={wrong}
           progress={progress}
           scopeKana={scopeKana}
-          scopeLabel={categoryName ?? deck.label}
+          scopeLabel={categoryName ?? deckMeta.label}
           onReview={() => startReview(wrong)}
           onAgain={startLesson}
           onHome={exitTransient}

@@ -3,13 +3,16 @@
 // CSR 앱이라 Googlebot이 렌더링한 스냅샷과 링크 공유 미리보기가 같은 <head>를
 // 본다. 화면이 바뀔 때 title·description·canonical·og:*를 같이 갱신해 두면
 // 두 경로 모두 화면에 맞는 정보를 얻는다.
+import { DECK_META, TOTAL_ITEMS } from '../data/decks'
 import { JLPT_LEVELS } from '../data/jlpt/types'
-import { DECKS } from '../data/kana'
 import { indexedPath, type Location } from './router'
 
 export const ORIGIN = 'https://kimyoo04.github.io'
 export const SITE_NAME = 'にほんご Pocket'
 export const OG_IMAGE = `${ORIGIN}/jp-study/og-image.jpg`
+
+/** 전체 문항 수. 화면·정적 본문·설명이 같은 수를 써야 하므로 여기서도 낸다. */
+export { TOTAL_ITEMS }
 
 /**
  * 학습 콘텐츠를 마지막으로 검토한 날. 덱·커리큘럼을 손볼 때 같이 올린다.
@@ -17,9 +20,6 @@ export const OG_IMAGE = `${ORIGIN}/jp-study/og-image.jpg`
  * 여기 한 곳에 둔다.
  */
 export const CONTENT_REVIEWED = '2026-08-28'
-
-/** 전체 문항 수. "6,000개 이상" 같은 어림수가 굳지 않게 데이터에서 센다. */
-export const TOTAL_ITEMS = DECKS.reduce((n, d) => n + d.kana.length, 0)
 
 export interface PageMeta {
   title: string
@@ -38,17 +38,17 @@ export function metaFor(loc: Location): PageMeta {
 
   switch (loc.screen) {
     case 'home': {
-      const deck = DECKS.find((d) => d.id === loc.deckId) ?? DECKS[0]
-      const isRoot = loc.deckId === DECKS[0].id
+      const deck = DECK_META.find((d) => d.id === loc.deckId) ?? DECK_META[0]
+      const isRoot = loc.deckId === DECK_META[0].id
       return {
         title: isRoot
           ? `${SITE_NAME} — 폰으로 하는 일본어 독학`
-          : `${deck.label} ${deck.kana.length}개 연습 — ${SITE_NAME}`,
+          : `${deck.label} ${deck.count}개 연습 — ${SITE_NAME}`,
         description: isRoot
           ? `히라가나부터 한자·문법·경어·JLPT ${JLPT_LEVELS[JLPT_LEVELS.length - 1]}까지 ` +
             `${TOTAL_ITEMS.toLocaleString('en-US')}문항을 간격 반복(SRS)으로. ` +
             '설치 없이 오프라인에서도 되는 무료 일본어 독학 앱.'
-          : `일본어 ${deck.label} ${deck.kana.length}개를 간격 반복(SRS) 퀴즈로 익힙니다. 듣기 모드와 흘려듣기를 함께 지원합니다.`,
+          : `일본어 ${deck.label} ${deck.count}개를 간격 반복(SRS) 퀴즈로 익힙니다. 듣기 모드와 흘려듣기를 함께 지원합니다.`,
         canonical: abs(indexedPath(loc)),
       }
     }

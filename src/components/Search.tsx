@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react'
-import { searchItems } from '../lib/search'
+import { useEffect, useMemo, useState } from 'react'
+import { loadSearchIndex, searchItems, type SearchEntry } from '../lib/search'
 import { primeSpeech, speakItem } from '../lib/speak'
 
 interface Props {
@@ -8,7 +8,19 @@ interface Props {
 
 export function Search({ onExit }: Props) {
   const [query, setQuery] = useState('')
-  const results = useMemo(() => searchItems(query), [query])
+  // 인덱스는 전 덱을 필요로 한다(lib/search.ts). 화면이 열릴 때 받는다 —
+  // 덱 데이터는 지연 로드이고, 대개 프리페치가 이미 끝나 있어 즉시 해결된다.
+  const [index, setIndex] = useState<SearchEntry[] | null>(null)
+  useEffect(() => {
+    let live = true
+    void loadSearchIndex().then((i) => {
+      if (live) setIndex(i)
+    })
+    return () => {
+      live = false
+    }
+  }, [])
+  const results = useMemo(() => (index ? searchItems(query, index) : []), [query, index])
   const trimmed = query.trim()
 
   return (
@@ -37,6 +49,11 @@ export function Search({ onExit }: Props) {
           히라가나·한자·단어·표현을 한 번에 검색해요.
           <br />
           예: <code>ねこ</code>, <code>neko</code>, <code>고양이</code>, <code>一</code>
+        </p>
+      ) : index === null ? (
+        // 인덱스가 아직 안 왔다 — "결과 없음"으로 말하면 거짓이 된다.
+        <p className="search-hint" role="status">
+          검색 준비 중…
         </p>
       ) : results.length === 0 ? (
         <p className="search-hint">

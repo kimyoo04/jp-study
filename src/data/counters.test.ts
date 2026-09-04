@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { DECKS, ROW_OF } from './kana'
+import { rowMapOf } from './kana'
+import { deck as COUNTERS_DECK } from './decks/counters'
 import { BASE_COUNTER_ROWS, COUNTERS, COUNTER_ROWS } from './counters'
 import { WORDS } from './words'
 import { LOANWORDS } from './loanwords'
@@ -25,9 +26,9 @@ describe('counters data', () => {
     }
   })
 
-  it('registers counter rows in ROW_OF for distractor grouping', () => {
+  it('registers counter rows in the deck row map for distractor grouping', () => {
     // ひとり is in the 〜人 row; its distractors should be other 〜人 readings.
-    const row = ROW_OF['ひとり']
+    const row = rowMapOf(COUNTER_ROWS)['ひとり']
     expect(row).toBeDefined()
     expect(row.some((k) => k.kana === 'ふたり')).toBe(true)
     expect(row.some((k) => k.kana === 'ついたち')).toBe(false)
@@ -44,7 +45,7 @@ describe('counters data', () => {
   })
 
   it('is registered as a deck with category labels matching rows', () => {
-    const deck = DECKS.find((d) => d.id === 'counters')!
+    const deck = COUNTERS_DECK
     expect(deck).toBeDefined()
     expect(deck.kind).toBe('words')
     expect(deck.catLabels?.length).toBe(COUNTER_ROWS.length)

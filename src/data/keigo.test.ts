@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { DECKS, deckCategories } from './kana'
+import { deckCategories } from './kana'
+import { deck as KEIGO_DECK } from './decks/keigo'
 import { BASE_KEIGO_ROWS, KEIGO, KEIGO_ROWS } from './keigo'
 import { PHRASES } from './phrases'
 import { GRAMMAR } from './grammar'
@@ -27,7 +28,7 @@ describe('keigo data', () => {
   })
 
   it('is registered as a sentence deck grouped by note categories', () => {
-    const deck = DECKS.find((d) => d.id === 'keigo')!
+    const deck = KEIGO_DECK
     expect(deck).toBeDefined()
     expect(deck.kind).toBe('sentence')
     const cats = deckCategories(deck)
