@@ -15,7 +15,8 @@ interface Props {
 }
 
 export function JlptQuestionView({ item, selected, voiceReady, onPick }: Props) {
-  const choices = item.choices.map((text, i) => ({ key: String(i), text }))
+  // JLPT 문항은 지문·프롬프트·보기가 모두 일본어다(파트 무관).
+  const choices = item.choices.map((text, i) => ({ key: String(i), text, lang: 'ja' }))
   const grid = (
     <ChoiceGrid
       options={choices}
@@ -28,7 +29,9 @@ export function JlptQuestionView({ item, selected, voiceReady, onPick }: Props) 
   if (item.part === 'listening') {
     return (
       <section className="card quiz jlpt-q">
-        <p className="prompt-label">{item.prompt}</p>
+        <p className="prompt-label" lang="ja">
+          {item.prompt}
+        </p>
         <button
           className="btn-ghost big-audio"
           onClick={() => {
@@ -46,7 +49,11 @@ export function JlptQuestionView({ item, selected, voiceReady, onPick }: Props) 
         ) : (
           // No ja voice on this device: show the script as text so the item is
           // still answerable (the report flags that listening ran without audio).
-          item.script && <p className="jlpt-script-fallback">{item.script}</p>
+          item.script && (
+            <p className="jlpt-script-fallback" lang="ja">
+              {item.script}
+            </p>
+          )
         )}
         {grid}
       </section>
@@ -56,8 +63,14 @@ export function JlptQuestionView({ item, selected, voiceReady, onPick }: Props) 
   if (item.part === 'reading') {
     return (
       <section className="card quiz jlpt-q">
-        {item.passage && <p className="jlpt-passage">{item.passage}</p>}
-        <p className="prompt-label">{item.prompt}</p>
+        {item.passage && (
+          <p className="jlpt-passage" lang="ja">
+            {item.passage}
+          </p>
+        )}
+        <p className="prompt-label" lang="ja">
+          {item.prompt}
+        </p>
         {grid}
       </section>
     )
@@ -66,11 +79,13 @@ export function JlptQuestionView({ item, selected, voiceReady, onPick }: Props) 
   // vocab | grammar (cloze or ordering)
   return (
     <section className="card quiz jlpt-q">
-      <p className="jlpt-prompt">{item.prompt}</p>
+      <p className="jlpt-prompt" lang="ja">
+        {item.prompt}
+      </p>
       {item.segments && (
         <div className="jlpt-segments" aria-label="문장 조각">
           {item.segments.map((seg, i) => (
-            <span className="chip" key={i}>
+            <span className="chip" key={i} lang="ja">
               {seg}
             </span>
           ))}

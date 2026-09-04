@@ -1,7 +1,7 @@
 import { type DeckKind, type Kana } from '../../data/kana'
 import { displayTextFor, glyphClassFor } from '../../lib/deck'
 import { kanaToHangul } from '../../lib/hangul'
-import { optionText, type Question } from '../../lib/quiz'
+import { optionLang, optionText, type Question } from '../../lib/quiz'
 import { ChoiceGrid } from '../ChoiceGrid'
 import { KeyHint } from '../KeyHint'
 import { ClozeSentence } from './ClozeSentence'
@@ -81,11 +81,13 @@ export function Quiz({
           {phase === 'feedback' && (
             // Reveal what was heard so the sound gets tied to its glyph.
             <>
-              <div className={glyphClassFor(deckKind)}>
+              <div className={glyphClassFor(deckKind)} lang="ja">
                 {displayTextFor(question.answer, deckKind)}
               </div>
               {question.answer.written && (
-                <div className="kana-reading">{question.answer.kana}</div>
+                <div className="kana-reading" lang="ja">
+                  {question.answer.kana}
+                </div>
               )}
             </>
           )}
@@ -93,8 +95,14 @@ export function Quiz({
       ) : (
         <>
           <p className="prompt-label">{label}</p>
-          <div className={glyphClassFor(deckKind)}>{displayTextFor(question.answer, deckKind)}</div>
-          {question.answer.written && <div className="kana-reading">{question.answer.kana}</div>}
+          <div className={glyphClassFor(deckKind)} lang="ja">
+            {displayTextFor(question.answer, deckKind)}
+          </div>
+          {question.answer.written && (
+            <div className="kana-reading" lang="ja">
+              {question.answer.kana}
+            </div>
+          )}
           {koReading && <div className="ko-reading">{kanaToHangul(question.answer.kana)}</div>}
         </>
       )}
@@ -106,7 +114,7 @@ export function Quiz({
         <div className={isRight ? 'quiz-answer' : 'quiz-answer missed'}>
           <p className="quiz-answer-head">
             {isRight ? '✓ 정답' : '✗ 정답은'}{' '}
-            <strong>{displayTextFor(question.answer, deckKind)}</strong>
+            <strong lang="ja">{displayTextFor(question.answer, deckKind)}</strong>
           </p>
           <p className="quiz-answer-reading">
             <span className="answer-hangul">{hangul}</span>
@@ -131,6 +139,7 @@ export function Quiz({
         options={question.options.map((opt) => ({
           key: opt.kana,
           text: optionText(opt, qtype, deckKind),
+          lang: optionLang(qtype, deckKind),
         }))}
         mode={phase === 'feedback' ? 'feedback' : 'answer'}
         selectedKey={picked?.kana ?? null}

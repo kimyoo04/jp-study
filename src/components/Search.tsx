@@ -53,7 +53,9 @@ export function Search({ onExit }: Props) {
               return (
                 <li key={`${r.deckId}-${r.kana.kana}-${i}`} className="search-row">
                   <div className="search-row-main">
-                    <span className="search-kana">{r.kana.kana}</span>
+                    <span className="search-kana" lang="ja">
+                      {r.kana.kana}
+                    </span>
                     <span className="search-romaji">{r.kana.romaji}</span>
                     {r.kana.meaning && <span className="search-meaning">{r.kana.meaning}</span>}
                   </div>

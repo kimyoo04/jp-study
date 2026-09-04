@@ -72,11 +72,21 @@ export function JlptReport({
         {wrong.map(({ item, picked }) => (
           <section className="card jlpt-review-item" key={item.id}>
             <p className="jlpt-part-tag">{JLPT_PART_KO[item.part]}</p>
-            {item.passage && <p className="jlpt-passage">{item.passage}</p>}
-            {item.script && <p className="jlpt-script-fallback">🔊 {item.script}</p>}
-            <p className="jlpt-prompt">{item.prompt}</p>
+            {item.passage && (
+              <p className="jlpt-passage" lang="ja">
+                {item.passage}
+              </p>
+            )}
+            {item.script && (
+              <p className="jlpt-script-fallback">
+                🔊 <span lang="ja">{item.script}</span>
+              </p>
+            )}
+            <p className="jlpt-prompt" lang="ja">
+              {item.prompt}
+            </p>
             <ChoiceGrid
-              options={item.choices.map((text, i) => ({ key: String(i), text }))}
+              options={item.choices.map((text, i) => ({ key: String(i), text, lang: 'ja' }))}
               mode="feedback"
               selectedKey={picked === null ? null : String(picked)}
               correctKey={String(item.answer)}

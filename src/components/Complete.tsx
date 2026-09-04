@@ -94,7 +94,7 @@ export function Complete({
         {studied.map((k) => (
           <span key={k.kana} className={wrongSet.has(k.kana) ? 'chip miss' : 'chip'}>
             {/* Cloze items show the answer fragment; a full blanked sentence won't fit a chip. */}
-            {k.answer ?? k.kana}
+            <span lang="ja">{k.answer ?? k.kana}</span>
           </span>
         ))}
       </div>

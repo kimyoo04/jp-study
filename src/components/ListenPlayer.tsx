@@ -206,7 +206,9 @@ export function ListenPlayer({ items, deck, koReady, onExit }: Props) {
         </button>
         {/* 무엇을 듣고 있는지 이 화면에 적는다 — 예전엔 어느 덱인지 알 방법이
             없었고, 문서에 h1 도 없었다. */}
-        <h1 className="screen-title">{deck.label} 흘려듣기</h1>
+        <h1 className="screen-title">
+          <span lang={deck.labelLang}>{deck.label}</span> 흘려듣기
+        </h1>
         <div className="progress-bar slim">
           <div className="progress-fill" style={{ width: `${progressPct}%` }} />
         </div>

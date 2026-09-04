@@ -163,7 +163,7 @@ export function Home({
               className={selected ? 'deck-tab active' : 'deck-tab'}
               onClick={() => onSelectDeck(d)}
             >
-              {d.label}
+              <span lang={d.labelLang}>{d.label}</span>
             </button>
           )
         })}

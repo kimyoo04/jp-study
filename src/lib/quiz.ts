@@ -48,6 +48,16 @@ export function optionText(opt: Kana, qtype: QType, deckKind: DeckKind): string 
 }
 
 /**
+ * 보기 텍스트의 언어. optionText 와 같은 분기를 따른다 — 여기서 갈라지면
+ * 화면이 일본어 보기를 한국어로 표시(읽기)하게 된다.
+ */
+export function optionLang(qtype: QType, deckKind: DeckKind): 'ja' | undefined {
+  if (qtype === 'cloze') return 'ja'
+  if (qtype === 'read' || qtype === 'meaning') return undefined
+  return deckKind === 'kana' ? 'ja' : undefined
+}
+
+/**
  * Pick `count` distractors for `answer`: same row first, then global fill.
  * `textOf` is the displayed text — candidates that would render identically to
  * the answer (or to an already-picked distractor) are skipped.

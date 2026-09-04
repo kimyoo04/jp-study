@@ -5,7 +5,7 @@ import { BLANK, type Kana } from '../../data/kana'
 export function ClozeSentence({ card, reveal }: { card: Kana; reveal: boolean }) {
   const [before, after] = card.kana.split(BLANK)
   return (
-    <div className="glyph sentence cloze-sentence">
+    <div className="glyph sentence cloze-sentence" lang="ja">
       <span>{before}</span>
       {reveal ? (
         <span className="cloze-fill">{card.answer}</span>

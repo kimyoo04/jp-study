@@ -116,7 +116,8 @@ function shell(opts: {
 <meta property="og:title" content="${esc(opts.title)}" />
 <meta property="og:description" content="${esc(opts.description)}" />
 <meta property="og:url" content="${esc(opts.canonical)}" />
-<meta property="og:image" content="${ORIGIN}${BASE}og-image.png" />
+<meta property="og:image" content="${ORIGIN}${BASE}og-image.jpg" />
+<meta property="og:image:type" content="image/jpeg" />
 <meta name="twitter:card" content="summary_large_image" />
 <style>${STYLE}</style>
 <script type="application/ld+json">${JSON.stringify(opts.jsonLd)}</script>

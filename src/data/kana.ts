@@ -264,6 +264,10 @@ export function clozeFilled(card: Kana): string {
 export interface Deck {
   id: DeckId
   label: string
+  /** 'ja' when `label` is Japanese (ひらがな·カタカナ). 나머지 덱 이름은 한국어다.
+   *  문서가 lang="ko" 라서, 표시하지 않으면 스크린 리더가 일본어 덱 이름을
+   *  한국어 음성으로 읽는다. */
+  labelLang?: 'ja'
   kind: DeckKind
   rows: Kana[][]
   kana: Kana[] // teaching order; also the distractor pool for this deck
@@ -334,8 +338,8 @@ const KANJI_CATS = [
 ]
 
 export const DECKS: Deck[] = [
-  { id: 'hiragana', label: 'ひらがな', kind: 'kana', rows: ALL_ROWS, kana: HIRAGANA },
-  { id: 'katakana', label: 'カタカナ', kind: 'kana', rows: KATAKANA_ROWS, kana: KATAKANA },
+  { id: 'hiragana', label: 'ひらがな', labelLang: 'ja', kind: 'kana', rows: ALL_ROWS, kana: HIRAGANA },
+  { id: 'katakana', label: 'カタカナ', labelLang: 'ja', kind: 'kana', rows: KATAKANA_ROWS, kana: KATAKANA },
   { id: 'words', label: '단어', kind: 'words', rows: WORD_ROWS, kana: WORDS, catLabels: WORD_CATS },
   { id: 'loanwords', label: '외래어', kind: 'words', rows: LOANWORD_ROWS, kana: LOANWORDS, catLabels: LOANWORD_CATS },
   { id: 'counters', label: '조수사', kind: 'words', rows: COUNTER_ROWS, kana: COUNTERS, catLabels: COUNTER_CATS },

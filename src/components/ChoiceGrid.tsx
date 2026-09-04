@@ -7,6 +7,9 @@ import { KeyHint } from './KeyHint'
 export interface Choice {
   key: string // stable identity (kana string, or stringified index)
   text: string // what the button shows
+  /** 'ja' when the text is Japanese. 문서는 lang="ko" 라서, 표시하지 않으면
+   *  스크린 리더가 일본어 보기를 한국어 음성으로 읽는다. */
+  lang?: string
 }
 
 interface Props {
@@ -50,7 +53,9 @@ export function ChoiceGrid({ options, mode, selectedKey, correctKey, showShortcu
             onClick={() => onPick(opt.key)}
           >
             {showShortcuts && !feedback && i < 9 && <KeyHint k={String(i + 1)} />}
-            <span className="opt-text">{opt.text}</span>
+            <span className="opt-text" lang={opt.lang}>
+              {opt.text}
+            </span>
             {mark && (
               <span className="opt-mark" aria-hidden="true">
                 {mark}

@@ -9,7 +9,7 @@ import { indexedPath, type Location } from './router'
 
 export const ORIGIN = 'https://kimyoo04.github.io'
 export const SITE_NAME = 'にほんご Pocket'
-export const OG_IMAGE = `${ORIGIN}/jp-study/og-image.png`
+export const OG_IMAGE = `${ORIGIN}/jp-study/og-image.jpg`
 
 /**
  * 학습 콘텐츠를 마지막으로 검토한 날. 덱·커리큘럼을 손볼 때 같이 올린다.
