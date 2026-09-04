@@ -28,6 +28,27 @@
   --wrong: #ff5c7c;
   --track: #14152b; /* empty progress groove — darker than surface so 0% reads as empty */
   --radius: 16px;
+  /* 간격 스케일. 4px 기반 + 라벨 줄용 2px 미세 단계.
+     예전에는 gap 이 2·4·6·8·10·12·14·16·18·20 으로 10종 흩어져 있었다 —
+     스케일이 없으니 요소마다 값을 즉흥으로 골랐고, 그러다 #deck-panel 래퍼처럼
+     아무 값도 안 붙은 자리가 생겼다(카테고리 선택과 진도 카드가 붙어 버린 원인).
+
+     쓰는 규칙:
+     - --space-3xl  화면 안 "구역"이 바뀔 때 (홈 하단 소개 블록)
+     - --space-xl   화면 안 "블록" 사이 (.screen 의 gap)
+     - --space-lg   카드 내부의 큰 단락 사이
+     - --space-md   한 블록 안에서 묶인 요소 사이 (덱 패널, 보기 격자)
+     - --space-sm   한 줄 안에서 나란한 요소 사이 (칩, 범례)
+     - --space-xs   아이콘과 글자처럼 거의 붙는 짝
+     - --space-2xs  라벨과 값처럼 한 덩어리로 읽혀야 하는 두 줄 */
+  --space-2xs: 2px;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 20px;
+  --space-2xl: 24px;
+  --space-3xl: 32px;
   /* Shared top offset so every screen's top row lines up. Clears the device
      status bar / notch via the safe-area inset, with a 20px floor so non-notched
      and desktop (inset = 0) don't collapse to a cramped 12px. */
@@ -95,8 +116,8 @@ body {
   /* Horizontal padding respects the landscape notch (safe-area left/right) with
      a 20px floor, so portrait is unchanged and landscape content isn't clipped. */
   padding: var(--screen-top) max(20px, env(safe-area-inset-right))
-    calc(24px + env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
-  gap: 20px;
+    calc(var(--space-2xl) + env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+  gap: var(--space-xl);
 }
 
 /* ---- Home ---- */
@@ -129,7 +150,7 @@ body {
   font-family: 'Zen Maru Gothic', system-ui, sans-serif;
   font-weight: 700;
   font-size: 28px;
-  margin: 0 0 4px;
+  margin: 0 0 var(--space-xs);
 }
 .tagline {
   color: var(--muted);
@@ -138,7 +159,7 @@ body {
 .overall {
   color: var(--muted);
   font-size: 14px;
-  margin: 10px 0 0;
+  margin: var(--space-md) 0 0;
   font-variant-numeric: tabular-nums;
 }
 .overall strong {
@@ -173,7 +194,7 @@ body {
 }
 .deck-switch {
   display: flex;
-  gap: 6px;
+  gap: var(--space-sm);
   background: var(--surface);
   border-radius: 999px;
   padding: 5px;
@@ -219,10 +240,20 @@ body {
   }
 }
 
+/* 덱 탭이 가리키는 패널(role="tabpanel"). ARIA 를 위해 넣은 래퍼라 여태
+   레이아웃 값이 하나도 없었다 → 안에 든 카테고리 선택과 진도 카드가 서로
+   붙어 버렸다(.screen 의 gap 은 이 래퍼 "바깥"에만 걸린다).
+   블록 사이(--space-xl)보다 좁게 둔다 — 둘은 "이 덱의 상태" 한 덩어리다. */
+.deck-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
 .cat-select {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-md);
   background: var(--surface);
   border-radius: 12px;
   padding: 8px 14px;
@@ -258,7 +289,7 @@ body {
   display: flex;
   justify-content: space-between;
   font-weight: 600;
-  margin-bottom: 10px;
+  margin-bottom: var(--space-md);
   font-variant-numeric: tabular-nums;
 }
 .progress-bar {
@@ -314,8 +345,8 @@ body {
 
 .progress-legend {
   display: flex;
-  gap: 14px;
-  margin: 10px 0 0;
+  gap: var(--space-lg);
+  margin: var(--space-md) 0 0;
   padding: 0;
   list-style: none;
   color: var(--muted);
@@ -325,7 +356,7 @@ body {
 .progress-legend li {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-sm);
 }
 .progress-legend li::before {
   content: '';
@@ -346,7 +377,7 @@ body {
 .progress-sub {
   color: var(--muted);
   font-size: 13px;
-  margin-top: 10px;
+  margin-top: var(--space-md);
 }
 
 /* ---- Buttons ---- */
@@ -394,32 +425,32 @@ body {
   justify-content: center;
 }
 
-/* Bottom action group: hero CTA + compact secondary tiles, tighter than the
-   20px screen gap so the entry blocks stop eating half the phone. */
+/* Bottom action group: hero CTA + compact secondary tiles. 블록 "안"이 화면
+   gap(--space-xl)보다 좁아서(--space-md) 진입 블록이 화면 절반을 먹지 않는다.
+   블록 "밖" 간격은 .screen 의 gap 이 정한다 — 여기서 margin 으로 더하지 않는다. */
 .home-actions {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-top: 4px;
+  gap: var(--space-md);
 }
 .home-tiles {
   display: grid;
   /* auto-fit so a lone tile (no weak-review) fills the row instead of leaving a gap */
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 10px;
+  gap: var(--space-md);
 }
 .tile {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
+  gap: var(--space-2xs);
   border: 1px solid var(--surface-2);
   border-radius: 14px;
   background: var(--surface);
   color: var(--text);
   font-weight: 700;
-  padding: 10px 12px;
+  padding: var(--space-md);
   min-height: 56px;
   cursor: pointer;
 }
@@ -445,7 +476,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: var(--space-md);
   width: 100%;
   border: 1px solid var(--surface-2);
   border-radius: var(--radius);
@@ -493,7 +524,7 @@ body {
 .lesson-top {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-md);
 }
 .lesson-top .link:disabled {
   opacity: 0.25;
@@ -578,7 +609,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 18px;
+  gap: var(--space-lg);
   text-align: center;
 }
 
@@ -593,7 +624,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 18px;
+  gap: var(--space-lg);
 }
 /* 계속 버튼 자리는 답하기 전에도 확보한다(버튼 min-height 56px과 같은 값). */
 .quiz-continue {
@@ -612,7 +643,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-sm);
 }
 .quiz-answer-head {
   margin: 0;
@@ -632,7 +663,7 @@ body {
   margin: 0;
   display: flex;
   align-items: baseline;
-  gap: 10px;
+  gap: var(--space-md);
 }
 .answer-hangul {
   font-size: 26px;
@@ -653,7 +684,7 @@ body {
   width: auto;
   min-height: 44px;
   padding: 10px 18px;
-  margin-top: 4px;
+  margin-top: var(--space-xs);
   font-size: 15px;
   border-radius: 999px;
   background: var(--surface-2);
@@ -682,8 +713,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  margin: 8px 0 12px;
+  gap: var(--space-lg);
+  margin: var(--space-sm) 0 var(--space-md);
 }
 .listen-controls .nav-arrow {
   font-size: 32px;
@@ -695,8 +726,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  margin: 0 0 16px;
+  gap: var(--space-sm);
+  margin: 0 0 var(--space-lg);
 }
 .listen-jump {
   position: relative;
@@ -715,19 +746,19 @@ body {
 .listen-options {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--space-md);
 }
 .listen-opt {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: var(--space-md);
   color: var(--muted);
   font-size: 14px;
 }
 .seg {
   display: flex;
-  gap: 4px;
+  gap: var(--space-xs);
 }
 .seg-item {
   border: 1px solid var(--surface-2);
@@ -795,7 +826,7 @@ body {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 2px;
+  gap: var(--space-2xs);
 }
 .cloze-gap {
   color: var(--primary-text);
@@ -880,8 +911,8 @@ body {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 8px;
+  gap: var(--space-md);
+  margin-top: var(--space-sm);
 }
 .opt {
   position: relative;
@@ -982,7 +1013,7 @@ body {
   max-width: 320px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--space-md);
   text-align: center;
 }
 .modal-title {
@@ -992,7 +1023,7 @@ body {
 }
 .modal-body {
   color: var(--muted);
-  margin: 0 0 6px;
+  margin: 0 0 var(--space-sm);
 }
 
 /* ---- Complete ---- */
@@ -1012,9 +1043,9 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 8px;
+  gap: var(--space-sm);
   max-width: 320px;
-  margin: 4px 0 8px;
+  margin: var(--space-xs) 0 var(--space-sm);
 }
 .chip {
   background: var(--surface);
@@ -1032,7 +1063,7 @@ body {
   max-width: 280px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-sm);
 }
 .complete-actions .btn-primary,
 .complete-actions .btn-ghost {
@@ -1042,12 +1073,12 @@ body {
 /* ---- Search ---- */
 .search {
   justify-content: flex-start;
-  gap: 14px;
+  gap: var(--space-lg);
 }
 .search-top {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-sm);
 }
 .search-input {
   flex: 1;
@@ -1068,7 +1099,7 @@ body {
   font-size: 15px;
   line-height: 1.7;
   text-align: center;
-  margin-top: 32px;
+  margin-top: var(--space-3xl);
 }
 .search-hint code {
   background: var(--surface);
@@ -1088,14 +1119,14 @@ body {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-sm);
   overflow-y: auto;
 }
 .search-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: var(--space-md);
   background: var(--surface);
   border-radius: 12px;
   padding: 12px 14px;
@@ -1104,7 +1135,7 @@ body {
   display: flex;
   align-items: baseline;
   flex-wrap: wrap;
-  gap: 4px 10px;
+  gap: var(--space-xs) var(--space-md);
   min-width: 0;
 }
 .search-kana {
@@ -1122,7 +1153,7 @@ body {
 .search-row-side {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-sm);
   flex: 0 0 auto;
 }
 .search-badge {
@@ -1160,7 +1191,7 @@ body {
   line-height: 1.6;
   font-weight: 700;
   text-align: center;
-  margin: 8px 0;
+  margin: var(--space-sm) 0;
 }
 .jlpt-passage,
 .jlpt-script-fallback {
@@ -1180,13 +1211,13 @@ body {
 .jlpt-segments {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: var(--space-sm);
   justify-content: center;
-  margin-bottom: 4px;
+  margin-bottom: var(--space-xs);
 }
 .jlpt-nav {
   display: flex;
-  gap: 12px;
+  gap: var(--space-md);
   width: 100%;
 }
 .jlpt-nav .btn-primary,
@@ -1196,7 +1227,7 @@ body {
 .jlpt-levels {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-md);
   width: 100%;
 }
 /* Compact row: level name on the left, action(s) on the right. */
@@ -1205,7 +1236,7 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: var(--space-md);
   padding: 14px 18px;
   background: var(--surface);
   border-radius: var(--radius);
@@ -1221,7 +1252,7 @@ body {
 }
 .jlpt-level-actions {
   display: flex;
-  gap: 8px;
+  gap: var(--space-sm);
 }
 .jlpt-level-btn {
   border: none;
@@ -1251,7 +1282,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: var(--space-2xs);
 }
 .jlpt-score-big {
   font-size: 56px;
@@ -1272,7 +1303,7 @@ body {
   font-variant-numeric: tabular-nums;
 }
 .jlpt-passline {
-  margin: 6px 0 0;
+  margin: var(--space-sm) 0 0;
   font-size: 13px;
   color: var(--muted);
   line-height: 1.5;
@@ -1285,7 +1316,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-sm);
   padding: 16px 18px;
   background: var(--surface);
   border-radius: var(--radius);
@@ -1305,14 +1336,14 @@ body {
 .jlpt-bars {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: var(--space-lg);
   width: 100%;
 }
 .jlpt-bar-row {
   display: grid;
   grid-template-columns: 88px 1fr 48px;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-md);
 }
 .jlpt-bar-label {
   font-size: 14px;
@@ -1356,7 +1387,7 @@ body {
 .jlpt-q {
   justify-content: flex-start;
   padding-top: 8px;
-  gap: 16px;
+  gap: var(--space-lg);
 }
 .jlpt-audio-hint {
   color: var(--muted);
@@ -1381,9 +1412,9 @@ body {
 .jlpt-nav-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 8px;
+  gap: var(--space-sm);
   width: 100%;
-  margin: 4px 0 12px;
+  margin: var(--space-xs) 0 var(--space-md);
 }
 .jlpt-nav-cell {
   aspect-ratio: 1;
@@ -1424,7 +1455,7 @@ body {
   flex: none;
   align-items: stretch;
   text-align: left;
-  gap: 12px;
+  gap: var(--space-md);
   padding: 16px;
   background: var(--surface);
   border-radius: var(--radius);
@@ -1453,7 +1484,7 @@ body {
 .reader-top {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-md);
 }
 .learn-title {
   font-size: 22px;
@@ -1472,13 +1503,13 @@ body {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-md);
 }
 .learn-week-card {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-sm);
   text-align: left;
   background: var(--surface);
   border: none;
@@ -1519,7 +1550,7 @@ body {
   color: var(--text);
   font-size: 13px;
   line-height: 1.5;
-  margin-top: 2px;
+  margin-top: var(--space-2xs);
   opacity: 0.85;
 }
 
@@ -1530,7 +1561,7 @@ body {
 .reader-head-text {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--space-2xs);
   min-width: 0;
 }
 .reader-week {
@@ -1561,7 +1592,7 @@ body {
 }
 .reader-nav {
   display: flex;
-  gap: 12px;
+  gap: var(--space-md);
 }
 .reader-nav .btn-primary,
 .reader-nav .btn-ghost {
@@ -1599,7 +1630,7 @@ body {
   padding-left: 20px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-sm);
 }
 .md-list li {
   line-height: 1.6;
@@ -1668,33 +1699,33 @@ body {
 /* 홈 하단 소개 — 앱이 무엇이고 콘텐츠를 누가 언제 검토했는지 밝히는 블록.
    본문 톤이라 버튼 영역과 확실히 분리하고 글자를 한 단 낮춘다. */
 .home-about {
-  margin: 34px 0 8px;
-  padding-top: 22px;
+  margin: var(--space-3xl) 0 var(--space-sm);
+  padding-top: var(--space-2xl);
   border-top: 1px solid var(--surface-2);
   color: var(--muted);
   font-size: 13.5px;
   line-height: 1.75;
 }
 .home-about h2 {
-  margin: 0 0 10px;
+  margin: 0 0 var(--space-md);
   color: var(--text);
   font-size: 15px;
   font-weight: 700;
 }
 .home-about p {
-  margin: 0 0 12px;
+  margin: 0 0 var(--space-md);
 }
 .home-about strong {
   color: var(--text);
   font-weight: 700;
 }
 .home-about-links {
-  margin: 0 0 14px;
+  margin: 0 0 var(--space-lg);
   padding: 0;
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-sm);
 }
 .home-about-links a {
   color: var(--text);

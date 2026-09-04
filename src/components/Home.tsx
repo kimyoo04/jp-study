@@ -170,7 +170,12 @@ export function Home({
       </div>
 
       {/* role="tab" 이 가리키는 실제 패널. 덱을 고르면 이 아래 내용이 바뀐다. */}
-      <div id="deck-panel" role="tabpanel" aria-labelledby={`deck-tab-${deck.id}`}>
+      <div
+        id="deck-panel"
+        className="deck-panel"
+        role="tabpanel"
+        aria-labelledby={`deck-tab-${deck.id}`}
+      >
       <label className="cat-select">
         <span className="cat-select-label">카테고리</span>
         <select
