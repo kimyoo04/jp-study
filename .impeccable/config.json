@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "layout-transition",
+        "value": "*",
+        "files": [
+          "src/styles.css"
+        ],
+        "createdAt": "2026-09-04T17:48:19.991Z",
+        "reason": "진도바는 익힘·배우는 중 두 칸이 flex 로 나란히 붙어 폭 합이 전체가 되는 구조다. transform 은 레이아웃에 영향이 없어 첫 칸을 줄여도 둘째 칸이 따라오지 않고, 둘째 칸의 줄무늬 그라데이션(색 단독 구분 금지 대응)은 scaleX 로 각도·간격이 찌그러진다. 규칙의 대안이 이 구조에 적용 불가. 레슨 종료 시 1회 300ms 이고 prefers-reduced-motion 에서 이미 꺼진다."
+      }
+    ]
+  }
+}

@@ -46,7 +46,14 @@ interface CurriculumWeek {
 const esc = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
-/** 정적 문서용 스타일. 앱 번들과 무관하게 JS 없이 그대로 읽히도록 인라인한다. */
+/**
+ * 정적 문서용 스타일. 앱 번들과 무관하게 JS 없이 그대로 읽히도록 인라인한다.
+ *
+ * 콜아웃은 측면 띠를 쓰지 않는다 — 면과 1px 윤곽으로 구분하고 강조는 첫 줄
+ * (.md-callout strong)이 맡는다. 앱 쪽(styles.css)에서 같은 결정을 내렸는데
+ * (커밋 58f5c42) 이 사본만 남아 있어서, 같은 Markdown 이 두 곳에서 다르게
+ * 보이고 있었다.
+ */
 const STYLE = `
 :root{--paper:#f7f3e9;--ink:#25231f;--muted:#716d64;--line:#ddd6c7;--red:#dc5a46;--blue:#365f74;--white:#fffdf7}
 *{box-sizing:border-box}
@@ -73,7 +80,9 @@ section.page > h2.page-title{margin:0 0 4px;font-size:13px;font-weight:800;lette
 .md-list{margin:0 0 16px;padding-left:22px}
 .md-list li{margin:0 0 6px}
 .md-hr{margin:28px 0;border:0;border-top:1px solid var(--line)}
-.md-callout{margin:0 0 16px;padding:14px 16px;background:#f0ebe0;border-left:3px solid var(--blue);border-radius:0 10px 10px 0}
+.md-callout{margin:0 0 16px;padding:14px 16px;background:#f0ebe0;
+  border:1px solid color-mix(in srgb,var(--blue) 30%,var(--paper));border-radius:10px}
+.md-callout strong{color:var(--blue)}
 .md-callout p{margin:0 0 6px}.md-callout p:last-child{margin:0}
 .md-table-wrap{overflow-x:auto;margin:0 0 18px}
 .md-table{width:100%;border-collapse:collapse;font-size:15px;background:var(--white)}
