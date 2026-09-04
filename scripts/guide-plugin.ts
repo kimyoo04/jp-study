@@ -19,6 +19,7 @@
 //
 // 2) sitemap.xml. 색인 대상 URL 목록이 여기서 결정되고 SSR 로 DECKS·CURRICULUM 을
 //    이미 읽고 있기 때문이다.
+import { execFileSync } from 'node:child_process'
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { createElement } from 'react'
@@ -234,9 +235,38 @@ ${links}
 }
 
 interface SitemapEntry {
+  /** 슬래시로 끝나는 최종 주소 — 리다이렉트되지 않는 형태여야 한다. */
   path: string
-  priority: string
-  changefreq: 'weekly' | 'monthly'
+  /** 이 주소의 내용을 만드는 소스 파일들. lastmod 를 여기서 뽑는다. */
+  sources: string[]
+}
+
+/**
+ * 마지막 실질 변경일(W3C date). 내용을 만드는 소스의 git 커밋 날짜를 쓴다.
+ *
+ * 빌드 시각(new Date())을 쓰면 배포마다 27개 URL 전부가 "방금 바뀜"이라고
+ * 주장한다. 구글은 검증되지 않는 lastmod 를 무시하므로, 그건 값이 있으나
+ * 없는 것과 같다. git 을 못 쓰는 환경(tarball 배포 등)에서는 거짓말 대신
+ * 태그를 생략한다 — lastmod 없는 사이트맵은 완전히 정상이다.
+ */
+function lastmodOf(root: string, sources: string[]): string | null {
+  if (sources.length === 0) return null
+  try {
+    const out = execFileSync('git', ['log', '-1', '--format=%cs', '--', ...sources], {
+      cwd: root,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim()
+    return /^\d{4}-\d{2}-\d{2}$/.test(out) ? out : null
+  } catch {
+    return null
+  }
+}
+
+/** 덱 내용을 담은 소스. 가나 두 덱만 kana.ts 를 공유하고 나머지는 이름이 같다. */
+function deckSources(id: string): string[] {
+  if (id === 'hiragana' || id === 'katakana') return ['src/data/kana.ts']
+  return [`src/data/${id}.ts`, `src/data/${id}-expanded.ts`]
 }
 
 /**
@@ -244,39 +274,35 @@ interface SitemapEntry {
  * 넣는 기준: JS 없이도 내용이 있거나, 콜드 로드로 같은 화면이 복원되는 주소.
  * 빼는 것:
  *  - /search        검색 UI. 색인할 내용이 없다.
+ *  - /learn         canonical 이 /guide/ 를 가리킨다(meta.ts) → 색인 대표가 아니다.
  *  - /learn/week-N  canonical 이 /guide/week-N/ 을 가리킨다(중복).
  *  - 카테고리        URL로 노출하지 않는다. 300개가 넘고 전부 얇은 페이지가 된다.
+ *
+ * priority·changefreq 는 넣지 않는다. 구글이 무시하는 값이라 파일만 키운다.
  */
-function sitemapXml(guidePaths: string[], deckIds: string[]): string {
+function sitemapXml(root: string, guidePaths: string[], deckIds: string[]): string {
   const entries: SitemapEntry[] = [
-    { path: BASE, priority: '1.0', changefreq: 'weekly' },
-    { path: `${BASE}grammar-patterns.html`, priority: '0.9', changefreq: 'monthly' },
-    ...guidePaths.map((path) => ({
-      path,
-      priority: path.endsWith('guide/') ? '0.9' : '0.8',
-      changefreq: 'monthly' as const,
-    })),
-    { path: `${BASE}learn`, priority: '0.7', changefreq: 'monthly' },
-    { path: `${BASE}jlpt`, priority: '0.7', changefreq: 'monthly' },
+    { path: BASE, sources: ['src/components/Home.tsx', 'src/data/kana.ts'] },
+    { path: `${BASE}grammar-patterns.html`, sources: ['public/grammar-patterns.html'] },
+    ...guidePaths.map((path) => ({ path, sources: ['src/data/curriculum.ts'] })),
+    { path: `${BASE}jlpt/`, sources: ['src/data/jlpt'] },
     // 첫 덱은 루트와 같은 주소(pathOf 참고) — 중복을 피해 건너뛴다.
     ...deckIds.slice(1).map((id) => ({
-      path: `${BASE}deck/${id}`,
-      priority: '0.6',
-      changefreq: 'monthly' as const,
+      path: `${BASE}deck/${id}/`,
+      sources: deckSources(id),
     })),
   ]
 
-  const lastmod = new Date().toISOString().slice(0, 10)
   const urls = entries
-    .map(
-      (e) =>
+    .map((e) => {
+      const lastmod = lastmodOf(root, e.sources)
+      return (
         `  <url>\n` +
         `    <loc>${ORIGIN}${e.path}</loc>\n` +
-        `    <lastmod>${lastmod}</lastmod>\n` +
-        `    <changefreq>${e.changefreq}</changefreq>\n` +
-        `    <priority>${e.priority}</priority>\n` +
-        `  </url>`,
-    )
+        (lastmod ? `    <lastmod>${lastmod}</lastmod>\n` : '') +
+        `  </url>`
+      )
+    })
     .join('\n')
 
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -413,7 +439,7 @@ export function guidePages(): Plugin {
 
         writeFileSync(
           resolve(outDir, 'sitemap.xml'),
-          sitemapXml(guidePaths, DECKS.map((d) => d.id)),
+          sitemapXml(config.root, guidePaths, DECKS.map((d) => d.id)),
         )
         config.logger.info(
           `seo-static-pages: ${guidePaths.length} guide pages, ` +

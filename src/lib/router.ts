@@ -40,6 +40,19 @@ export function pathOf(loc: Location): string {
   }
 }
 
+/**
+ * 색인 대표 주소(canonical·사이트맵용).
+ *
+ * 라우트별 정적 사본은 `<경로>/index.html` 로 굽는다 → GitHub Pages 는 슬래시
+ * 없는 `/deck/kanji` 를 `/deck/kanji/` 로 301 넘긴다. 그래서 pathOf 를 그대로
+ * canonical 이나 사이트맵에 쓰면 "리다이렉트되는 주소를 색인 대표로 선언"하는
+ * 셈이 된다. 앱 내비게이션은 parsePath 가 슬래시를 무시하므로 pathOf 를 쓴다.
+ */
+export function indexedPath(loc: Location): string {
+  const path = pathOf(loc)
+  return path.endsWith('/') ? path : `${path}/`
+}
+
 /** 경로 → Location. 알 수 없는 경로는 홈으로 떨어진다(404.html 부팅 포함). */
 export function parsePath(pathname: string): Location {
   const rest = pathname.startsWith(BASE) ? pathname.slice(BASE.length) : pathname.replace(/^\//, '')

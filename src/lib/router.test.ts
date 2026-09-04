@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { CURRICULUM } from '../data/curriculum'
 import { DECKS } from '../data/kana'
-import { HOME, parsePath, pathOf, type Location } from './router'
+import { HOME, indexedPath, parsePath, pathOf, type Location } from './router'
 
 const BASE = import.meta.env.BASE_URL
 
@@ -68,5 +68,20 @@ describe('pathOf / parsePath', () => {
   it('gives each curriculum week its own path', () => {
     const paths = CURRICULUM.map((w) => pathOf({ screen: 'learn-reader', week: w.week }))
     expect(new Set(paths).size).toBe(CURRICULUM.length)
+  })
+
+  it('gives every indexed path a trailing slash', () => {
+    // GitHub Pages 는 <경로>/index.html 을 슬래시 없는 주소로 요청하면 301 을
+    // 준다. canonical·사이트맵이 그 슬래시 없는 형태를 쓰면 "리다이렉트되는
+    // 주소"를 색인 대표로 선언하는 셈이 된다.
+    for (const loc of ADDRESSABLE) {
+      expect(indexedPath(loc)).toMatch(/\/$/)
+    }
+  })
+
+  it('keeps the indexed path parseable back to the same screen', () => {
+    for (const loc of ADDRESSABLE) {
+      expect(parsePath(indexedPath(loc))).toEqual(loc)
+    }
   })
 })

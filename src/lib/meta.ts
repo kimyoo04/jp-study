@@ -4,7 +4,7 @@
 // 본다. 화면이 바뀔 때 title·description·canonical·og:*를 같이 갱신해 두면
 // 두 경로 모두 화면에 맞는 정보를 얻는다.
 import { DECKS } from '../data/kana'
-import { pathOf, type Location } from './router'
+import { indexedPath, type Location } from './router'
 
 export const ORIGIN = 'https://kimyoo04.github.io'
 export const SITE_NAME = 'にほんご Pocket'
@@ -36,7 +36,7 @@ export function metaFor(loc: Location): PageMeta {
         description: isRoot
           ? '히라가나·카타카나부터 한자·문법·경어·JLPT까지, 폰 한 손으로 하는 일본어 독학 앱. 6,000개 이상 문항을 간격 반복(SRS)으로 익히고 오프라인에서도 학습합니다.'
           : `일본어 ${deck.label} ${deck.kana.length}개를 간격 반복(SRS) 퀴즈로 익힙니다. 듣기 모드와 흘려듣기를 함께 지원합니다.`,
-        canonical: abs(pathOf(loc)),
+        canonical: abs(indexedPath(loc)),
       }
     }
     case 'search':
@@ -44,7 +44,7 @@ export function metaFor(loc: Location): PageMeta {
         title: `검색 — ${SITE_NAME}`,
         description:
           '히라가나·카타카나·한자·단어·회화 문형을 한국어 뜻이나 발음으로 바로 찾습니다. 6,000개 이상 학습 항목을 한 번에 검색합니다.',
-        canonical: abs(pathOf(loc)),
+        canonical: abs(indexedPath(loc)),
       }
     case 'learn':
       return {
@@ -67,7 +67,7 @@ export function metaFor(loc: Location): PageMeta {
         title: `JLPT 모의고사 (N5·N4) — ${SITE_NAME}`,
         description:
           'JLPT N5·N4 문자어휘·문법·독해·듣기 미니 모의고사. 파트별 점수와 약점 파트를 바로 확인하고 해당 덱으로 이어서 학습합니다.',
-        canonical: abs(pathOf(loc)),
+        canonical: abs(indexedPath(loc)),
       }
   }
 }
