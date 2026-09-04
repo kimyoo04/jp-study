@@ -5,6 +5,15 @@
 // (読解). Same English word, two concepts — keep them apart.
 
 export type JlptLevel = 'N5' | 'N4' | 'N3' | 'N2'
+
+/**
+ * 화면에 보이는 순서(쉬운 것부터). 제목·설명·정적 본문이 모두 이 배열을 읽으므로
+ * 레벨을 늘리면 메타데이터가 따라온다.
+ *
+ * types.ts 에 두는 이유: meta.ts 가 이걸 import 하는데, index.ts 에서 가져오면
+ * JLPT_POOL(문항 4레벨 분량)이 초기 번들에 묶인다.
+ */
+export const JLPT_LEVELS: JlptLevel[] = ['N5', 'N4', 'N3', 'N2']
 export type JlptPart = 'vocab' | 'grammar' | 'reading' | 'listening'
 
 export const JLPT_PART_LABEL: Record<JlptPart, string> = {

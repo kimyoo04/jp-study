@@ -3,12 +3,20 @@
 // CSR 앱이라 Googlebot이 렌더링한 스냅샷과 링크 공유 미리보기가 같은 <head>를
 // 본다. 화면이 바뀔 때 title·description·canonical·og:*를 같이 갱신해 두면
 // 두 경로 모두 화면에 맞는 정보를 얻는다.
+import { JLPT_LEVELS } from '../data/jlpt/types'
 import { DECKS } from '../data/kana'
 import { indexedPath, type Location } from './router'
 
 export const ORIGIN = 'https://kimyoo04.github.io'
 export const SITE_NAME = 'にほんご Pocket'
 export const OG_IMAGE = `${ORIGIN}/jp-study/og-image.png`
+
+/**
+ * 학습 콘텐츠를 마지막으로 검토한 날. 덱·커리큘럼을 손볼 때 같이 올린다.
+ * 화면(Home)과 빌드 시 정적 본문(guide-plugin)이 같은 값을 찍어야 하므로
+ * 여기 한 곳에 둔다.
+ */
+export const CONTENT_REVIEWED = '2026-08-28'
 
 export interface PageMeta {
   title: string
@@ -62,11 +70,14 @@ export function metaFor(loc: Location): PageMeta {
         description: `일본어 12주 학습 커리큘럼 ${loc.week}주차 개념 정리. 읽고 바로 퀴즈로 넘어갑니다.`,
         canonical: abs(guidePath(loc.week)),
       }
+    // 레벨은 데이터에서 읽는다 — n3·n2 를 추가했는데 여기 문구가 'N5·N4' 로
+    // 남아 있어서, 실제로는 네 레벨을 제공하면서 두 레벨만 광고하고 있었다.
     case 'jlpt-home':
       return {
-        title: `JLPT 모의고사 (N5·N4) — ${SITE_NAME}`,
+        title: `JLPT 모의고사 (${JLPT_LEVELS.join('·')}) — ${SITE_NAME}`,
         description:
-          'JLPT N5·N4 문자어휘·문법·독해·듣기 미니 모의고사. 파트별 점수와 약점 파트를 바로 확인하고 해당 덱으로 이어서 학습합니다.',
+          `JLPT ${JLPT_LEVELS.join('·')} 문자어휘·문법·독해·청해 미니 모의고사. ` +
+          '파트별 점수와 약점 파트를 바로 확인하고 해당 덱으로 이어서 학습합니다.',
         canonical: abs(indexedPath(loc)),
       }
   }

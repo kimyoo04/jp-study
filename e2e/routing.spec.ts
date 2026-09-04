@@ -97,3 +97,33 @@ test('every screen sets a description and canonical', async ({ page }) => {
     await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', /og-image/)
   }
 })
+
+// JS 를 실행하지 않는 크롤러(GPTBot·ClaudeBot·PerplexityBot·CCBot)가 보는 것.
+// request.get 은 브라우저 렌더 없이 원본 HTML 만 받으므로 그들과 같은 시야다.
+test('serves real content without running JavaScript', async ({ request, baseURL }) => {
+  const cases = [
+    { path: '', h1: /폰으로 하는 일본어 독학/, minChars: 900 },
+    { path: 'deck/kanji/', h1: /한자 \d+개 연습/, minChars: 300 },
+    { path: 'jlpt/', h1: /JLPT N5·N4·N3·N2 미니 모의고사/, minChars: 300 },
+  ]
+  for (const c of cases) {
+    const html = await (await request.get(`${baseURL}${c.path}`)).text()
+    const body = html.slice(html.indexOf('<body')).replace(/<style[\s\S]*?<\/style>/g, '')
+    const text = body.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+
+    expect(body).toMatch(/<h1[^>]*>/)
+    expect(text).toMatch(c.h1)
+    expect(text.length).toBeGreaterThan(c.minChars)
+  }
+})
+
+test('links every deck and curriculum week from the pre-JS home', async ({ request, baseURL }) => {
+  // 홈이 정적으로 내보내는 내부 링크 — 크롤러가 나머지 페이지를 찾는 경로다.
+  const html = await (await request.get(`${baseURL}`)).text()
+  for (const id of ['katakana', 'words', 'grammar', 'kanji', 'cloze']) {
+    expect(html).toContain(`href="/jp-study/deck/${id}/"`)
+  }
+  for (const week of [1, 6, 12]) {
+    expect(html).toContain(`href="/jp-study/guide/week-${week}/"`)
+  }
+})

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { DECKS, type Category, type Deck, type Kana } from '../data/kana'
+import { CONTENT_REVIEWED } from '../lib/meta'
 import {
   learnedCount,
   learnedCountFor,
@@ -11,9 +12,6 @@ import {
 const TOTAL_ALL = DECKS.reduce((n, d) => n + d.kana.length, 0)
 
 const BASE = import.meta.env.BASE_URL
-
-// 학습 콘텐츠를 마지막으로 검토한 날. 덱·커리큘럼을 손볼 때 같이 올린다.
-const CONTENT_REVIEWED = '2026-08-28'
 
 interface Props {
   progress: Progress
