@@ -18,6 +18,9 @@ export const OG_IMAGE = `${ORIGIN}/jp-study/og-image.png`
  */
 export const CONTENT_REVIEWED = '2026-08-28'
 
+/** 전체 문항 수. "6,000개 이상" 같은 어림수가 굳지 않게 데이터에서 센다. */
+export const TOTAL_ITEMS = DECKS.reduce((n, d) => n + d.kana.length, 0)
+
 export interface PageMeta {
   title: string
   description: string
@@ -42,7 +45,9 @@ export function metaFor(loc: Location): PageMeta {
           ? `${SITE_NAME} — 폰으로 하는 일본어 독학`
           : `${deck.label} ${deck.kana.length}개 연습 — ${SITE_NAME}`,
         description: isRoot
-          ? '히라가나·카타카나부터 한자·문법·경어·JLPT까지, 폰 한 손으로 하는 일본어 독학 앱. 6,000개 이상 문항을 간격 반복(SRS)으로 익히고 오프라인에서도 학습합니다.'
+          ? `히라가나부터 한자·문법·경어·JLPT ${JLPT_LEVELS[JLPT_LEVELS.length - 1]}까지 ` +
+            `${TOTAL_ITEMS.toLocaleString('en-US')}문항을 간격 반복(SRS)으로. ` +
+            '설치 없이 오프라인에서도 되는 무료 일본어 독학 앱.'
           : `일본어 ${deck.label} ${deck.kana.length}개를 간격 반복(SRS) 퀴즈로 익힙니다. 듣기 모드와 흘려듣기를 함께 지원합니다.`,
         canonical: abs(indexedPath(loc)),
       }
@@ -51,7 +56,7 @@ export function metaFor(loc: Location): PageMeta {
       return {
         title: `검색 — ${SITE_NAME}`,
         description:
-          '히라가나·카타카나·한자·단어·회화 문형을 한국어 뜻이나 발음으로 바로 찾습니다. 6,000개 이상 학습 항목을 한 번에 검색합니다.',
+          `히라가나·카타카나·한자·단어·회화 문형을 한국어 뜻이나 발음으로 바로 찾습니다. ${TOTAL_ITEMS.toLocaleString('en-US')}개 학습 항목을 한 번에 검색합니다.`,
         canonical: abs(indexedPath(loc)),
       }
     case 'learn':

@@ -474,6 +474,53 @@ function proxyBody(heading: string, lead: string, target: string, targetLabel: s
   )
 }
 
+/**
+ * index.html 의 정적 JSON-LD 가 코드에서 계산한 값과 어긋나지 않는지 확인한다.
+ *
+ * 그 블록은 JS 없이 읽혀야 하므로 손으로 쓴 상수다 → 덱을 늘리거나 JLPT 레벨을
+ * 추가하면 조용히 낡는다. 실제로 n3·n2 를 추가했는데 educationalLevel 이
+ * 'JLPT N5-N4' 로 남아 있었다. 빌드를 멈춰서 알린다.
+ */
+function verifyStaticSchema(
+  html: string,
+  facts: { totalItems: number; topLevel: string; reviewed: string },
+): void {
+  const block = /<script type="application\/ld\+json">([\s\S]*?)<\/script>/.exec(html)?.[1]
+  if (!block) throw new Error('verifyStaticSchema: index.html 에 JSON-LD 가 없다')
+
+  const schema = JSON.parse(block) as {
+    description?: string
+    educationalLevel?: string
+    dateModified?: string
+    teaches?: string[]
+  }
+  const total = facts.totalItems.toLocaleString('en-US')
+  const problems: string[] = []
+
+  if (!schema.description?.includes(total)) {
+    problems.push(`description 에 전체 문항 수(${total})가 없다`)
+  }
+  if (!schema.description?.includes(facts.topLevel)) {
+    problems.push(`description 에 최상위 JLPT 레벨(${facts.topLevel})이 없다`)
+  }
+  if (!schema.educationalLevel?.endsWith(facts.topLevel)) {
+    problems.push(
+      `educationalLevel 이 '${schema.educationalLevel}' — ${facts.topLevel} 로 끝나야 한다`,
+    )
+  }
+  if (!schema.teaches?.includes(`JLPT ${facts.topLevel}`)) {
+    problems.push(`teaches 에 'JLPT ${facts.topLevel}' 이 없다`)
+  }
+  if (schema.dateModified !== facts.reviewed) {
+    problems.push(`dateModified 가 '${schema.dateModified}' — CONTENT_REVIEWED(${facts.reviewed})와 다르다`)
+  }
+  if (problems.length > 0) {
+    throw new Error(
+      `verifyStaticSchema: index.html 의 JSON-LD 가 낡았다 —\n  - ${problems.join('\n  - ')}`,
+    )
+  }
+}
+
 /** dist/index.html 을 템플릿으로, 라우트에 맞는 head 값으로 갈아끼운 사본을 만든다. */
 function routeHtml(template: string, meta: PageMeta, body: string): string {
   const swap = (html: string, pattern: RegExp, replacement: string) => {
@@ -597,11 +644,12 @@ export function guidePages(): Plugin {
         const { pathOf } = (await server.ssrLoadModule('/src/lib/router.ts')) as {
           pathOf: (loc: unknown) => string
         }
-        const { metaFor, CONTENT_REVIEWED } = (await server.ssrLoadModule(
+        const { metaFor, CONTENT_REVIEWED, TOTAL_ITEMS } = (await server.ssrLoadModule(
           '/src/lib/meta.ts',
         )) as {
           metaFor: (loc: unknown) => PageMeta
           CONTENT_REVIEWED: string
+          TOTAL_ITEMS: number
         }
 
         /** 라우트별 정적 본문. 색인 대표가 아닌 화면은 대표 주소로 보낸다. */
@@ -655,6 +703,11 @@ export function guidePages(): Plugin {
 
         // 템플릿을 먼저 읽는다 — 아래에서 index.html 자체를 덮어쓴다.
         const template = readFileSync(resolve(outDir, 'index.html'), 'utf8')
+        verifyStaticSchema(template, {
+          totalItems: TOTAL_ITEMS,
+          topLevel: JLPT_LEVELS[JLPT_LEVELS.length - 1],
+          reviewed: CONTENT_REVIEWED,
+        })
         for (const loc of locations) {
           const path = pathOf(loc) // 예: /jp-study/deck/kanji
           if (!path.startsWith(BASE)) {

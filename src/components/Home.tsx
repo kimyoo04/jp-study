@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { DECKS, type Category, type Deck, type Kana } from '../data/kana'
-import { CONTENT_REVIEWED } from '../lib/meta'
+import { CONTENT_REVIEWED, TOTAL_ITEMS } from '../lib/meta'
 import {
   learnedCount,
   learnedCountFor,
@@ -8,8 +8,6 @@ import {
   learningCountFor,
   type Progress,
 } from '../lib/srs'
-
-const TOTAL_ALL = DECKS.reduce((n, d) => n + d.kana.length, 0)
 
 const BASE = import.meta.env.BASE_URL
 
@@ -128,11 +126,11 @@ export function Home({
         <p className="overall">
           {seenAll > 0 ? (
             <>
-              만난 글자 <strong>{seenAll}</strong> / {TOTAL_ALL} · 익힘{' '}
+              만난 글자 <strong>{seenAll}</strong> / {TOTAL_ITEMS} · 익힘{' '}
               <strong>{learnedAll}</strong>
             </>
           ) : (
-            <>전체 {TOTAL_ALL.toLocaleString()}문항</>
+            <>전체 {TOTAL_ITEMS.toLocaleString()}문항</>
           )}
         </p>
       </header>
@@ -266,7 +264,7 @@ export function Home({
         <p>
           한국어 화자가 일본어를 혼자 시작할 때 필요한 순서대로 짜인 학습 앱입니다. 히라가나·카타카나
           104자에서 시작해 단어·외래어·조수사·의태어·문법·회화·경어·한자·빈칸 채우기까지 총{' '}
-          <strong>{TOTAL_ALL.toLocaleString()}개</strong> 문항을 간격 반복(SRS)으로 익힙니다.
+          <strong>{TOTAL_ITEMS.toLocaleString()}개</strong> 문항을 간격 반복(SRS)으로 익힙니다.
           문항은 출제 간격이 정답률에 따라 벌어지고, 틀린 것만 따로 모아 복습합니다.
         </p>
         <p>

@@ -11,12 +11,15 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <title>にほんご Pocket — 폰으로 하는 일본어 독학</title>
 
-    <!-- 정적 기본값. 라우트별 값은 lib/meta.ts 가 화면 전환 때 갈아끼운다.
-         공유 미리보기 크롤러(카카오·슬랙·트위터)는 JS를 실행하지 않으므로
-         여기 값이 그대로 쓰인다 → 홈 기준으로 채워 둔다. -->
+    <!-- 정적 기본값. 빌드 때 guide-plugin 이 이 값들을 metaFor({home}) 결과로
+         갈아끼우고, 실행 중에는 lib/meta.ts 가 화면 전환마다 갱신한다. 그래서
+         여기 값은 dev 서버와 "혹시 빌드 치환이 어긋났을 때"의 기준선이다.
+         description 계열 4개는 metaFor({home}) 와 같은 문구로 맞춰 둔다 —
+         예전에는 og:description·twitter:description 만 짧은 변형이라
+         같은 페이지가 경로에 따라 다른 설명을 냈다. -->
     <meta
       name="description"
-      content="히라가나·카타카나부터 한자·문법·경어·JLPT까지, 폰 한 손으로 하는 일본어 독학 앱. 6,000개 이상 문항을 간격 반복(SRS)으로 익히고 오프라인에서도 학습합니다."
+      content="히라가나부터 한자·문법·경어·JLPT N2까지 6,040문항을 간격 반복(SRS)으로. 설치 없이 오프라인에서도 되는 무료 일본어 독학 앱."
     />
     <link rel="canonical" href="https://kimyoo04.github.io/jp-study/" />
     <meta property="og:type" content="website" />
@@ -25,7 +28,7 @@
     <meta property="og:title" content="にほんご Pocket — 폰으로 하는 일본어 독학" />
     <meta
       property="og:description"
-      content="히라가나부터 한자·문법·JLPT까지. 6,000개 이상 문항을 간격 반복으로. 설치 없이 브라우저에서, 오프라인에서도."
+      content="히라가나부터 한자·문법·경어·JLPT N2까지 6,040문항을 간격 반복(SRS)으로. 설치 없이 오프라인에서도 되는 무료 일본어 독학 앱."
     />
     <meta property="og:url" content="https://kimyoo04.github.io/jp-study/" />
     <meta property="og:image" content="https://kimyoo04.github.io/jp-study/og-image.png" />
@@ -36,12 +39,20 @@
     <meta name="twitter:title" content="にほんご Pocket — 폰으로 하는 일본어 독학" />
     <meta
       name="twitter:description"
-      content="히라가나부터 한자·문법·JLPT까지. 6,000개 이상 문항을 간격 반복으로."
+      content="히라가나부터 한자·문법·경어·JLPT N2까지 6,040문항을 간격 반복(SRS)으로. 설치 없이 오프라인에서도 되는 무료 일본어 독학 앱."
     />
     <meta name="twitter:image" content="https://kimyoo04.github.io/jp-study/og-image.png" />
 
     <!-- 정적으로 둔다: JS 를 실행하지 않는 크롤러도 읽는다. 주차별 Course /
-         LearningResource 마크업은 빌드 시 생성되는 /guide/ 페이지들이 갖는다. -->
+         LearningResource 마크업은 빌드 시 생성되는 /guide/ 페이지들이 갖는다.
+
+         hasPart 의 Course·LearningResource 는 name·url 만 있던 껍데기였다.
+         구글 Course 리치 결과는 name·description·provider 를 요구하므로
+         구조는 유효해도 대상이 될 수 없었다. 세 항목을 채운다.
+
+         author·dateModified 는 화면 하단의 "제작·콘텐츠 검수 / 최종 검토"
+         표기와 같은 사실을 기계가 읽을 수 있게 한 것이다(lib/meta.ts 의
+         CONTENT_REVIEWED 와 같은 날짜를 쓴다). -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -49,7 +60,7 @@
         "name": "にほんご Pocket",
         "alternateName": "니혼고 포켓",
         "url": "https://kimyoo04.github.io/jp-study/",
-        "description": "히라가나·카타카나부터 한자·문법·경어·JLPT까지, 폰 한 손으로 하는 일본어 독학 앱. 6,000개 이상 문항을 간격 반복(SRS)으로 익힙니다.",
+        "description": "히라가나부터 한자·문법·경어·JLPT N2까지 6,040문항을 간격 반복(SRS)으로 익히는 무료 일본어 독학 앱. 설치 없이 브라우저에서 쓰고 오프라인에서도 학습이 이어집니다.",
         "applicationCategory": "EducationalApplication",
         "operatingSystem": "Any (Progressive Web App)",
         "browserRequirements": "JavaScript 필요. 설치 후 오프라인 동작.",
@@ -57,29 +68,71 @@
         "teaches": [
           "히라가나",
           "카타카나",
+          "일본어 단어",
+          "일본어 외래어",
+          "일본어 조수사",
+          "일본어 의태어",
           "일본어 한자",
           "일본어 문법",
           "일본어 경어",
           "일본어 회화",
           "JLPT N5",
-          "JLPT N4"
+          "JLPT N4",
+          "JLPT N3",
+          "JLPT N2"
         ],
         "learningResourceType": "flashcard app",
-        "educationalLevel": "JLPT N5-N4",
+        "educationalLevel": "JLPT N5-N2",
+        "featureList": [
+          "간격 반복(SRS) 4지선다 퀴즈",
+          "오답만 모아 복습",
+          "일본어 음성 듣고 풀기 · 흘려듣기",
+          "JLPT N5·N4·N3·N2 미니 모의고사",
+          "12주 커리큘럼 개념 학습",
+          "오프라인 학습 (PWA)",
+          "계정 없음 · 학습 기록 기기 내 저장"
+        ],
         "isAccessibleForFree": true,
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" },
         "image": "https://kimyoo04.github.io/jp-study/og-image.png",
         "screenshot": "https://kimyoo04.github.io/jp-study/screenshot-home.png",
+        "author": {
+          "@type": "Person",
+          "name": "kimyoo04",
+          "url": "https://github.com/kimyoo04"
+        },
+        "dateModified": "2026-08-28",
+        "isFamilyFriendly": true,
         "hasPart": [
           {
             "@type": "Course",
             "name": "일본어 12주 학습 커리큘럼",
-            "url": "https://kimyoo04.github.io/jp-study/guide/"
+            "description": "1~8주 N5 기초 한 바퀴(발음·조사·동사 활용·형용사), 9~12주 N4 핵심 문형. 주차별 개념 설명과 예문을 읽고 바로 퀴즈로 넘어갑니다.",
+            "url": "https://kimyoo04.github.io/jp-study/guide/",
+            "inLanguage": "ko",
+            "teaches": "Japanese language (JLPT N5 to N4)",
+            "educationalLevel": "JLPT N5-N4",
+            "isAccessibleForFree": true,
+            "provider": {
+              "@type": "Organization",
+              "name": "にほんご Pocket",
+              "url": "https://kimyoo04.github.io/jp-study/"
+            },
+            "hasCourseInstance": {
+              "@type": "CourseInstance",
+              "courseMode": "online",
+              "courseWorkload": "P12W"
+            }
           },
           {
             "@type": "LearningResource",
             "name": "일본어 회화 문법 패턴 56개",
-            "url": "https://kimyoo04.github.io/jp-study/grammar-patterns.html"
+            "description": "일본어 회화에서 반복되는 문법 패턴 56개를 예문과 함께 정리한 문서. 패턴별로 쓰임과 활용 형태를 한국어 설명으로 붙였습니다.",
+            "url": "https://kimyoo04.github.io/jp-study/grammar-patterns.html",
+            "inLanguage": "ko",
+            "learningResourceType": "reference",
+            "educationalLevel": "JLPT N5-N4",
+            "isAccessibleForFree": true
           }
         ]
       }
