@@ -24,20 +24,29 @@ pnpm preview      # 빌드 결과 미리보기
 
 ```
 src/
-  data/kana.ts        가나 + 11개 덱 정의(DECKS) + 카테고리 분류(deckCategories)
-  data/*.ts           덱 콘텐츠 — words/loanwords/counters/mimetic/grammar/
-                      phrases/keigo/kanji/cloze(빈칸)
+  data/kana.ts        가나 104자 + 덱/카드 타입(Deck·DeckId·DeckKind·Kana)
+  data/decks.ts       덱 레지스트리 — 동기 메타(DECK_META)와 지연 로더(loadDeck) 분리
+  data/decks/*.ts     덱별 지연 로드 청크 (words/loanwords/counters/mimetic/
+                      grammar/phrases/keigo/kanji/cloze) — 카테고리 라벨 포함
+  data/*.ts           덱 콘텐츠 원본 (`*-expanded.ts` 는 2배 확장분)
   data/curriculum.ts  12주 개념 학습 커리큘럼(마크다운)
-  data/jlpt/          JLPT 문제 은행(n5~n2) + 시험 타입
+  data/jlpt/          JLPT 문제 은행(n5~n2) + 시험 타입 — 레벨별 동적 로드
   lib/srs.ts          순수 SRS (박스/interval/due/레슨 선택) — 부수효과 없음
   lib/quiz.ts         순수 문제 생성 (distractor 같은 행 우선; 빈칸은 카드 자체 선택지)
   lib/jlpt.ts         JLPT 시험 구성·채점·진행 저장
+  lib/router.ts       URL ⇄ 화면 매핑 (주소를 갖는 화면 / 일시적 화면 구분)
+  lib/meta.ts         라우트별 title·description·canonical·og:* 갱신
   lib/deck.ts         덱 종류별 뷰 헬퍼 (글리프 클래스/일본어 텍스트/인덱스 클램프)
   lib/search.ts       전 덱 통합 검색 (romaji/뜻/글자)
+  lib/storage.ts      localStorage 래퍼 (사파리 프라이빗/쿼터 오류 시 메모리로 강등)
+  lib/sw.ts           서비스워커 업데이트 채널 (레슨 중 자동 새로고침 방지)
+  lib/rng.ts          공용 난수·셔플 (테스트에서 주입 가능)
   lib/speak.ts        Web Speech API 발음, sound.ts 효과음, hangul.ts 가나→한글
   hooks/              useProgress(진도) / useSettings(설정) / useJlptExam(JLPT 상태)
-  components/         App(화면 전환) / Home / Lesson(+lesson/ 하위) / Complete /
-                      Search / ListenPlayer / Jlpt*(시험) / Learn·LearnReader(개념)
+  components/         App(라우팅) / Home / Lesson(+lesson/ 하위) / ProgressHeader /
+                      Complete / Search / ListenPlayer / Jlpt*(시험) /
+                      Learn·LearnReader(개념) / Markdown / Modal / ChoiceGrid / KeyHint
+scripts/guide-plugin.ts  빌드 시 정적 HTML 생성 Vite 플러그인 (아래 "정적 생성")
 ```
 
 도메인 로직(`lib/srs.ts`, `lib/quiz.ts`, `lib/jlpt.ts`)은 순수 함수라 목킹 없이 단위 테스트됩니다.
@@ -45,6 +54,19 @@ src/
 한자 확장 데이터의 글자·읽기·영어 원뜻은 EDRDG의
 [KANJIDIC2](https://www.edrdg.org/wiki/index.php/KANJIDIC2)를 기반으로 하며
 CC BY-SA 4.0 조건을 따릅니다. 한국어 뜻은 학습용으로 간결하게 번역했습니다.
+
+## 정적 생성
+
+앱은 CSR이라 JS를 실행하지 않는 크롤러에게는 빈 문서로 보인다. `scripts/guide-plugin.ts`가
+빌드 시 세 가지를 굽는다.
+
+- `/guide/week-N/` — 12주 커리큘럼 본문. 앱의 `Markdown` 컴포넌트를 그대로
+  `renderToStaticMarkup` 하므로 화면과 마크업이 벌어지지 않는다. 앱 라우트
+  `/learn/week-N`은 canonical로 여기를 가리킨다.
+- 앱 라우트별 `index.html` 사본 — GitHub Pages는 404.html을 HTTP 404로 서빙해서
+  `/deck/kanji` 같은 경로가 화면은 떠도 색인되지 않는다. 사본을 두면 200으로 응답하고,
+  head는 `lib/meta.ts`의 그 라우트 값으로, 본문에는 덱 문항 목록이 정적으로 들어간다.
+- `sitemap.xml` — 색인 대상 URL과 `lastmod`(git 커밋일).
 
 ## 배포
 
@@ -79,9 +101,17 @@ CC BY-SA 4.0 조건을 따릅니다. 한국어 뜻은 학습용으로 간결하�
 - v21: 전 덱 통합 검색 (romaji·뜻·글자로 즉시 검색) ✅
 - v22: JLPT 모의고사 — N5~N2 4파트 진단, 문항 네비게이터·카운트업 타이머·오답 복습, 약점 파트→덱 점프 ✅
 - v23: 개념 학습 — 12주 커리큘럼 마크다운 리더 ✅
-- v24: 흘려듣기 — 자동재생 듣기 모드, 속도 0.8/1.0/1.2, 10/50 건너뛰기 ✅
+- v24: 흘려듣기 — 자동재생 듣기 모드, 속도 0.8~2.0배, 10/50 건너뛰기 ✅
 - v25: 빈칸(穴埋め) 객관식 덱 추가 → 11덱. 220문항(N5~N3 문법)으로 확장 ✅
 - v26: 코드 리팩토링(공용 헬퍼·Lesson 분리·useJlptExam 훅). 레슨은 6문제 고정 유지(세션 연속화·단계 스킵은 도입 후 롤백) ✅
-- v27 (현재): 키보드 컨트롤(퀴즈·흘려듣기 단축키 + 힌트) · UI 다듬기(나가기 버튼 히트영역, 오버스크롤 바운스 제거, 객관식 텍스트/마크 축소) · 새 배포 알림 배너(레슨 중 자동 새로고침 방지, 홈에서 적용) ✅
+- v27: 키보드 컨트롤(퀴즈·흘려듣기 단축키 + 힌트) · UI 다듬기(나가기 버튼 히트영역, 오버스크롤 바운스 제거, 객관식 텍스트/마크 축소) · 새 배포 알림 배너(레슨 중 자동 새로고침 방지, 홈에서 적용) ✅
 - v28: 고정 문자 덱을 제외한 9개 콘텐츠 덱을 각각 정확히 2배로 확장 — 총 6,040항목. 통합 중복·필드·카테고리·오답 감사 추가 ✅
-- v29+: 학습 통계, 레벨별 콘텐츠 lazy-load
+- v29: 화면마다 URL 부여 — 딥링크·뒤로가기·라우트별 메타(`lib/router.ts`·`lib/meta.ts`),
+  GitHub Pages SPA 404 대응(라우트별 정적 HTML 사본) ✅
+- v30: 검색 노출 — 12주 커리큘럼 정적 페이지(`/guide/week-N/`), sitemap·robots,
+  JSON-LD(WebApplication·Course), OG 이미지·공유 미리보기, 덱 페이지에 문항 목록 정적 노출 ✅
+- v31: 접근성·디자인 정리 — 모달 포커스 트랩·터치 타깃·동작 축소, 대비 AA,
+  덱 탭 tablist 관례, 4px 간격 스케일 토큰화, `lang="ja"` ✅
+- v32 (현재): 성능 — 커리큘럼·JLPT 문제은행 분리에 이어 덱 데이터 지연 로드
+  (`data/decks.ts` 메타/로더 분리, 엔트리 gzip 265KB → 65KB) ✅
+- v33+: 학습 통계

@@ -10,14 +10,14 @@ Deferred work captured during reviews. Each item has enough context to pick up c
 ### ~~DESIGN.md 작성~~  ✅ 2026-06-16
 `DESIGN.md` 작성 완료(토큰·컴포넌트 어휘·접근성·안티패턴).
 
-### 레벨별 콘텐츠 lazy-load  ⚡ 트리거 충족(2026-06)
-- **What:** JLPT 레벨 데이터(N5/N4/N3/N2)를 동적 import로 분할 로드.
-- **Why:** 현재 `src/data/jlpt/index.ts`에서 N5~N2를 eager import. 빌드 시 "chunks > 500 kB" 경고가 뜬다.
-- **Pros:** 초기 로드 가벼워짐. PWA 첫 진입 속도 유지.
-- **Cons:** 코드 스플리팅 + 로딩 상태 UI 추가.
-- **Context:** /plan-eng-review 성능 섹션에서 식별. N5 MVP에선 조기최적화였으나 **N5~N2 4레벨이 모두 추가돼 트리거 조건이 충족됨** — 이제 착수 가능.
+### ~~레벨별 콘텐츠 lazy-load~~  ✅ 2026-09-05
+JLPT 문제은행·커리큘럼 분리(0733090)에 이어 덱 데이터도 지연 로드로 전환(74a5cb7).
+`src/data/decks.ts`가 동기 메타(`DECK_META` — 탭·문항 수·라우팅·<title>·사이트맵)와
+비동기 로더(`loadDeck`)를 분리하고, 덱별 청크는 `src/data/decks/*.ts`. 엔트리 gzip 265KB → 65KB.
 
-### 공유 상단 바(ProgressHeader) 추출
-- **What:** `.lesson-top`(✕ + ‹ + 진행바 + 카운터) 마크업이 `Lesson.tsx`와 `ListenPlayer.tsx`에 중복. 공용 `ProgressHeader` 컴포넌트로 추출.
+### 공유 상단 바(ProgressHeader) — ListenPlayer 적용 남음  ◐ 부분 완료
+- **What:** `src/components/ProgressHeader.tsx`는 추출됐지만 `Lesson.tsx`만 쓴다.
+  `ListenPlayer.tsx:203`은 여전히 `.lesson-top` 마크업을 직접 들고 있다 — 여기도 갈아끼우면 끝.
 - **Why:** 두 화면이 같은 헤더 마크업을 따로 들고 있다(리팩토링 중 식별).
-- **Context:** kr-study `docs/study-session.md` §6이 같은 정리를 한 선례. ConfirmDialog(=현 `ExitConfirm`)도 함께 일반화 가능.
+- **Context:** kr-study `docs/study-session.md` §6이 같은 정리를 한 선례.
+  ConfirmDialog(=현 `lesson/ExitConfirm`, `Modal` 기반)도 함께 일반화 가능.
