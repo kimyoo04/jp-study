@@ -264,10 +264,14 @@ function lastmodOf(root: string, sources: string[]): string | null {
   }
 }
 
-/** 덱 내용을 담은 소스. 가나 두 덱만 kana.ts 를 공유하고 나머지는 이름이 같다. */
+/**
+ * 덱 페이지의 내용을 만드는 소스. 문항 데이터(src/data/<id>.ts)와 덱 정의
+ * (src/data/decks/<id>.ts — 이름·카테고리 라벨) 둘 다 페이지에 나타난다.
+ * 가나 두 덱은 문항이 kana.ts 에, 정의가 decks.ts 에 있다.
+ */
 function deckSources(id: string): string[] {
-  if (id === 'hiragana' || id === 'katakana') return ['src/data/kana.ts']
-  return [`src/data/${id}.ts`, `src/data/${id}-expanded.ts`]
+  if (id === 'hiragana' || id === 'katakana') return ['src/data/kana.ts', 'src/data/decks.ts']
+  return [`src/data/${id}.ts`, `src/data/${id}-expanded.ts`, `src/data/decks/${id}.ts`]
 }
 
 /**
@@ -283,7 +287,7 @@ function deckSources(id: string): string[] {
  */
 function sitemapXml(root: string, guidePaths: string[], deckIds: string[]): string {
   const entries: SitemapEntry[] = [
-    { path: BASE, sources: ['src/components/Home.tsx', 'src/data/kana.ts'] },
+    { path: BASE, sources: ['src/components/Home.tsx', 'src/data/decks.ts'] },
     { path: `${BASE}grammar-patterns.html`, sources: ['public/grammar-patterns.html'] },
     ...guidePaths.map((path) => ({ path, sources: ['src/data/curriculum.ts'] })),
     { path: `${BASE}jlpt/`, sources: ['src/data/jlpt'] },
