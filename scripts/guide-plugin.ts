@@ -352,8 +352,13 @@ const PRE_APP_STYLE = `
 .pre-app p{margin:0 0 14px}
 .pre-app ul{margin:0 0 18px;padding-left:20px}
 .pre-app li{margin:0 0 6px}
+.pre-app h3{margin:22px 0 8px;font-size:15px;color:#cdbfff;font-weight:700}
 .pre-app a{color:#a78bff}
 .pre-app .note{color:#a4a6c8;font-size:14px}
+.pre-app .tbl{overflow-x:auto;margin:0 0 18px}
+.pre-app table{border-collapse:collapse;font-size:14px;width:100%}
+.pre-app th,.pre-app td{border:1px solid #2b2b48;padding:6px 10px;text-align:left;vertical-align:top}
+.pre-app th{background:#1a1a30;font-weight:700;color:#cdbfff}
 `
 
 /**
@@ -370,6 +375,159 @@ const PRE_APP_STYLE = `
  */
 function staticBody(inner: string): string {
   return `<div class="pre-app"><style>${PRE_APP_STYLE}</style>\n${inner}\n</div>`
+}
+
+/**
+ * 정적 본문에 싣는 문항 수 상한.
+ *
+ * 왜 상한을 두는가: 덱 하나가 1,216문항이라 전부 실으면 프리렌더 HTML 이
+ * 수백 KB 가 된다. 이 블록의 목적은 덱을 통째로 복제하는 것이 아니라, JS 를
+ * 실행하지 않는 크롤러에게 "이 페이지가 실제로 무엇을 담고 있는지" 보여줄
+ * 표본을 주는 것이다. 표본은 카테고리 순서(= 앱의 학습 순서)대로 앞에서 자른다
+ * — 무작위로 뽑으면 배포마다 내용이 흔들려 lastmod 와 어긋난다.
+ *
+ * 가나 덱은 예외로 전량 싣는다. 104자 표는 그 자체가 완결된 참고 자료이고,
+ * 잘라 놓으면 오히려 쓸모가 없다.
+ */
+const SAMPLE_LIMIT = 80
+
+interface KanaItem {
+  kana: string
+  written?: string
+  romaji: string
+  meaning?: string
+  answer?: string
+}
+interface DeckData {
+  id: string
+  label: string
+  kind: 'kana' | 'words' | 'sentence' | 'kanji' | 'cloze'
+  kana: KanaItem[]
+}
+interface DeckCategory {
+  name: string
+  kana: KanaItem[]
+}
+
+interface Column {
+  head: string
+  /** 셀 값. 빈 문자열이면 빈 칸으로 둔다. */
+  cell: (k: KanaItem) => string
+  /** 일본어 칸 — 문서가 lang="ko" 라서 표시하지 않으면 스크린 리더가 한국어로 읽는다. */
+  ja?: boolean
+}
+
+/**
+ * 덱 종류별 표 열.
+ *
+ * `written` 은 한자 표기, `kana` 는 그 읽기다(kana.ts 의 Kana 참고). 한자 덱만
+ * 규칙이 다르다 — 글자가 `kana` 에, 음·훈 읽기가 `romaji` 에 들어 있다.
+ */
+function columnsFor(kind: DeckData['kind'], items: KanaItem[], filled: (k: KanaItem) => string): Column[] {
+  switch (kind) {
+    case 'kana':
+      return [
+        { head: '글자', cell: (k) => k.kana, ja: true },
+        { head: '로마자', cell: (k) => k.romaji },
+      ]
+    case 'kanji':
+      return [
+        { head: '한자', cell: (k) => k.kana, ja: true },
+        { head: '읽기', cell: (k) => k.romaji, ja: true },
+        { head: '뜻', cell: (k) => k.meaning ?? '' },
+      ]
+    case 'cloze':
+      return [
+        { head: '문장', cell: filled, ja: true },
+        { head: '답', cell: (k) => k.answer ?? '', ja: true },
+        { head: '뜻', cell: (k) => k.meaning ?? '' },
+      ]
+    default: {
+      // words·sentence. 읽기 열은 한자 표기가 하나라도 있을 때만 만든다 —
+      // 전부 가나로 쓰는 덱(의태어·경어 일부)에서는 일본어 열과 같은 값이 된다.
+      const hasWritten = items.some((k) => k.written)
+      return [
+        { head: '일본어', cell: (k) => k.written ?? k.kana, ja: true },
+        ...(hasWritten
+          ? [{ head: '읽기', cell: (k: KanaItem) => (k.written ? k.kana : ''), ja: true }]
+          : []),
+        { head: '로마자', cell: (k) => k.romaji },
+        { head: '뜻', cell: (k) => k.meaning ?? '' },
+      ]
+    }
+  }
+}
+
+function sampleTable(items: KanaItem[], cols: Column[]): string {
+  const head = cols.map((c) => `<th>${esc(c.head)}</th>`).join('')
+  const rows = items
+    .map((k) => {
+      const tds = cols
+        .map((c) => {
+          const v = c.cell(k)
+          if (!v) return '<td></td>'
+          return `<td>${c.ja ? `<span lang="ja">${esc(v)}</span>` : esc(v)}</td>`
+        })
+        .join('')
+      return `<tr>${tds}</tr>`
+    })
+    .join('\n')
+  return `<div class="tbl"><table><thead><tr>${head}</tr></thead>\n<tbody>\n${rows}\n</tbody></table></div>`
+}
+
+/**
+ * 덱 문항을 실제로 담은 정적 블록.
+ *
+ * 여태 덱 페이지의 프리렌더 본문은 소개 세 문장과 다른 덱 링크가 전부였다 →
+ * 11개 페이지가 서로 거의 같은 글이었고, 6,040문항 중 HTML 에 드러난 항목은
+ * 0개였다. 크롤러와 AI 검색이 인용할 실체가 없었다는 뜻이다.
+ *
+ * 카테고리를 h3 로 쪼개는 이유도 같다. 표 하나에 80줄을 몰아넣으면 문서에
+ * 경계가 없어서 부분 인용이 어렵다.
+ */
+function deckSampleHtml(
+  deck: DeckData,
+  categories: DeckCategory[],
+  filled: (k: KanaItem) => string,
+): string {
+  const total = deck.kana.length
+  const limit = deck.kind === 'kana' ? total : SAMPLE_LIMIT
+
+  const groups: DeckCategory[] = []
+  let shown = 0
+  for (const cat of categories) {
+    if (shown >= limit) break
+    const items = cat.kana.slice(0, limit - shown)
+    if (items.length === 0) continue
+    groups.push({ name: cat.name, kana: items })
+    shown += items.length
+  }
+  if (shown === 0) return ''
+
+  const cols = columnsFor(deck.kind, groups.flatMap((g) => g.kana), filled)
+  const all = shown >= total
+  const label = esc(deck.label)
+
+  // 가나 덱은 행(あ행·か행…)이 카테고리라 h3 로 쪼개면 5줄짜리 표 21개가 된다.
+  // 오십음도는 한 장일 때 참고 자료로 쓸모가 있으므로 그대로 붙인다.
+  const body =
+    deck.kind === 'kana'
+      ? sampleTable(
+          groups.flatMap((g) => g.kana),
+          cols,
+        )
+      : groups
+          .map((g) => `<h3>${esc(g.name)}</h3>\n${sampleTable(g.kana, cols)}`)
+          .join('\n')
+
+  const heading = all
+    ? `<h2>일본어 <span lang="ja">${label}</span> ${total}개 전체 목록</h2>`
+    : `<h2>일본어 <span lang="ja">${label}</span> 목록 — ${total}개 중 ${shown}개</h2>`
+  const lead = all
+    ? `<p>이 덱의 ${total}개를 학습 순서대로 모두 실었습니다. 아래 표를 먼저 훑고, 앱에서 같은 항목을 4지선다로 반복하면 됩니다.</p>`
+    : `<p>전체 ${total}개 가운데 앞선 ${shown}개를 학습 순서대로 실었습니다. 나머지는 앱에서 이어집니다 — 표를 먼저 훑고 같은 항목을 4지선다로 반복하는 순서가 가장 빠릅니다.</p>`
+
+  return `${heading}\n${lead}\n${body}`
 }
 
 /** 덱 목록. 첫 덱은 루트 자신이므로 주소가 BASE 다(router.pathOf 와 같은 규칙). */
@@ -399,7 +557,12 @@ const BYLINE = (reviewed: string) =>
   `<time datetime="${reviewed}">${reviewed}</time></p>`
 
 /** 홈(루트)의 정적 본문. 화면의 .home-about 문구와 같은 내용을 담는다. */
-function homeBody(decks: DeckMeta[], all: CurriculumWeek[], reviewed: string): string {
+function homeBody(
+  decks: DeckMeta[],
+  all: CurriculumWeek[],
+  reviewed: string,
+  sample: string,
+): string {
   const total = decks.reduce((n, d) => n + d.count, 0).toLocaleString('en-US')
   return staticBody(
     `<h1>にほんご Pocket — 폰으로 하는 일본어 독학</h1>
@@ -412,6 +575,7 @@ function homeBody(decks: DeckMeta[], all: CurriculumWeek[], reviewed: string): s
 학습 기록은 이 기기에만 저장되며 서버로 전송되지 않습니다. 계정도 광고도 없습니다.</p>
 <h2>무엇을 배우나요</h2>
 ${deckListHtml(decks)}
+${sample}
 <h2>일본어 12주 학습 커리큘럼</h2>
 <p>1~8주 N5 기초 한 바퀴, 9~12주 N4 핵심 문형. 주차별 개념을 읽고 바로 퀴즈로 넘어갑니다.</p>
 ${weekListHtml(all)}
@@ -427,13 +591,14 @@ ${BYLINE(reviewed)}`,
 }
 
 /** 덱 화면의 정적 본문. */
-function deckBody(deck: DeckMeta, decks: DeckMeta[], reviewed: string): string {
+function deckBody(deck: DeckMeta, decks: DeckMeta[], reviewed: string, sample: string): string {
   return staticBody(
     `<h1>일본어 <span lang="ja">${esc(deck.label)}</span> ${deck.count}개 연습</h1>
 <p>일본어 <span lang="ja">${esc(deck.label)}</span> ${deck.count}개를 4지선다 퀴즈로 익힙니다.
 정답률에 따라 출제 간격이 벌어지는 간격 반복(SRS)이라 이미 외운 항목은 덜 나오고
 틀린 항목만 다시 모입니다. 듣고 풀기와 흘려듣기(음성 재생)를 함께 지원하고,
 설치 없이 오프라인에서도 이어서 학습합니다.</p>
+${sample}
 <h2>다른 덱</h2>
 ${deckListHtml(decks)}
 <h2>개념부터 보려면</h2>
@@ -645,12 +810,31 @@ export function guidePages(): Plugin {
         const jlptExamItems =
           Object.values(EXAM_PLAN).reduce((a, b) => a + b, 0) + readingSubs
 
-        // 덱 메타는 동기다 — 정적 페이지·사이트맵을 만들려고 6,040문항을
-        // SSR 로 읽을 필요가 없다(data/decks.ts).
-        const { DECK_META } = (await server.ssrLoadModule('/src/data/decks.ts')) as {
+        // 덱 메타는 동기다 — 라우팅·제목·사이트맵은 이것만으로 돌아간다.
+        const { DECK_META, loadDeck } = (await server.ssrLoadModule('/src/data/decks.ts')) as {
           DECK_META: DeckMeta[]
+          loadDeck: (id: string) => Promise<DeckData>
         }
         const decks = DECK_META
+
+        // 문항 데이터는 정적 본문에 표본을 실으려고 여기서만 읽는다. 브라우저
+        // 번들에는 영향이 없다 — 앱은 여전히 화면에 필요할 때 청크를 받는다.
+        const { deckCategories, clozeFilled } = (await server.ssrLoadModule(
+          '/src/data/kana.ts',
+        )) as {
+          deckCategories: (d: DeckData) => DeckCategory[]
+          clozeFilled: (k: KanaItem) => string
+        }
+        const samples = new Map<string, string>()
+        for (const meta of decks) {
+          const data = await loadDeck(meta.id)
+          if (data.kana.length !== meta.count) {
+            throw new Error(
+              `seo-static-pages: ${meta.id} 문항 수가 메타(${meta.count})와 다르다 — ${data.kana.length}`,
+            )
+          }
+          samples.set(meta.id, deckSampleHtml(data, deckCategories(data), clozeFilled))
+        }
 
         // ── 앱 라우트별 정적 HTML ──────────────────────────────────────────
         const { pathOf } = (await server.ssrLoadModule('/src/lib/router.ts')) as {
@@ -670,9 +854,10 @@ export function guidePages(): Plugin {
             case 'home': {
               const deck = decks.find((d) => d.id === loc.deckId)
               if (!deck) throw new Error(`bodyFor: 모르는 덱 ${loc.deckId}`)
+              const sample = samples.get(deck.id) ?? ''
               return deck.id === decks[0].id
-                ? homeBody(decks, CURRICULUM, CONTENT_REVIEWED)
-                : deckBody(deck, decks, CONTENT_REVIEWED)
+                ? homeBody(decks, CURRICULUM, CONTENT_REVIEWED, sample)
+                : deckBody(deck, decks, CONTENT_REVIEWED, sample)
             }
             case 'jlpt-home':
               return jlptBody(JLPT_LEVELS, jlptExamItems, jlptBank.length, CONTENT_REVIEWED)
