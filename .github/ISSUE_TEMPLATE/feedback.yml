@@ -1,0 +1,36 @@
+name: 서비스 개선 건의
+description: にほんご Pocket을 사용하며 느낀 불편이나 개선 아이디어를 알려주세요.
+title: "[개선] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        의견을 남겨 주셔서 감사합니다. 학습 중 어떤 점이 불편했는지 알려주시면 개선에 큰 도움이 됩니다.
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: 어떤 종류의 의견인가요?
+      options:
+        - 학습 콘텐츠
+        - 사용성 및 디자인
+        - 새로운 기능
+        - 오류 제보
+        - 기타
+    validations:
+      required: true
+
+  - type: textarea
+    id: feedback
+    attributes:
+      label: 의견을 들려주세요
+      description: 현재 겪는 불편과 원하는 모습을 함께 적어주시면 이해하기 쉬워요.
+      placeholder: 어떤 상황에서 무엇이 불편했고, 어떻게 바뀌면 좋을지 적어주세요.
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: 참고할 내용이 있나요?
+      description: 사용한 기기, 브라우저, 화면 캡처 등 도움이 될 정보를 자유롭게 남겨주세요.

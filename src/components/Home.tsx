@@ -315,6 +315,15 @@ export function Home({
             <a href="https://github.com/kimyoo04/jp-study">만든 사람 · 소스 코드 (GitHub)</a>
           </li>
         </ul>
+        <a
+          className="feedback-link"
+          href="https://github.com/kimyoo04/jp-study/issues/new?template=feedback.yml"
+          target="_blank"
+          rel="noreferrer"
+        >
+          서비스 개선 건의하기
+          <span aria-hidden="true">↗</span>
+        </a>
         <p className="home-about-meta">
           제작·콘텐츠 검수 <strong>kimyoo04</strong> · 학습 콘텐츠 최종 검토{' '}
           <time dateTime={CONTENT_REVIEWED}>{CONTENT_REVIEWED}</time>

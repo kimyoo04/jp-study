@@ -13,3 +13,15 @@ test('home renders search and sfx toggle in the top bar', async ({ page }) => {
   // sfx toggle label flips with state (끄기/켜기) — match either.
   await expect(page.getByRole('button', { name: /효과음/ })).toBeVisible()
 })
+
+test('home offers a GitHub issue link for service feedback', async ({ page }) => {
+  await page.goto('./')
+
+  const feedback = page.getByRole('link', { name: /서비스 개선 건의하기/ })
+  await expect(feedback).toBeVisible()
+  await expect(feedback).toHaveAttribute(
+    'href',
+    'https://github.com/kimyoo04/jp-study/issues/new?template=feedback.yml',
+  )
+  await expect(feedback).toHaveAttribute('target', '_blank')
+})
