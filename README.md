@@ -1,6 +1,13 @@
 # にほんご Pocket
 
-폰으로 하는 일본어 독학 — 히라가나부터 JLPT까지. React + Vite + PWA, GitHub Pages 정적 호스팅.
+[![배포](https://github.com/kimyoo04/jp-study/actions/workflows/deploy.yml/badge.svg)](https://github.com/kimyoo04/jp-study/actions/workflows/deploy.yml)
+[![GitHub Issues](https://img.shields.io/github/issues/kimyoo04/jp-study)](https://github.com/kimyoo04/jp-study/issues)
+
+폰으로 하는 일본어 독학 — 히라가나부터 JLPT까지.
+
+**[지금 사용해 보기](https://kimyoo04.github.io/jp-study/)** · [개선 건의하기](https://github.com/kimyoo04/jp-study/issues/new?template=feedback.yml) · [소스 코드](https://github.com/kimyoo04/jp-study)
+
+React + Vite로 만든 모바일 우선 PWA입니다. GitHub Pages에서 정적으로 제공하며, 별도 계정이나 백엔드 없이 브라우저에서 바로 사용할 수 있습니다.
 
 듀오링고 스타일 레슨, 즉각 효과음 피드백, 브라우저 내장 일본어 발음(TTS),
 가벼운 Leitner 간격반복(SRS). 백엔드 없음 — 진도는 브라우저 localStorage에 저장.
@@ -8,6 +15,17 @@
 **11개 덱**(가나·단어·외래어·조수사·의태어·문법·회화·경어·한자·빈칸, 6,040항목) +
 **JLPT 모의고사**(N5~N2 진단) + **흘려듣기**(자동재생) + **개념 학습**(12주 커리큘럼) +
 **전 덱 검색**. 한 레슨은 최대 6문제(밀린 복습 우선, 그다음 신규)로 진행한다.
+
+## 주요 기능
+
+- 가나·단어·문법·회화·한자 등 11개 덱을 원하는 범위로 학습
+- Leitner 방식 SRS로 복습 시점을 자동 선택하고, 틀린 문항을 따로 복습
+- 브라우저 음성(TTS)을 활용한 듣고 풀기·흘려듣기 모드
+- N5~N2 미니 모의고사와 파트별 결과·복습 안내
+- 12주 커리큘럼과 통합 검색
+- 설치 가능한 PWA와 오프라인 학습
+
+진도와 설정은 브라우저의 `localStorage`에만 저장됩니다. 서버로 학습 기록을 보내거나 계정을 만들지 않습니다.
 
 ## 개발
 
@@ -19,6 +37,20 @@ pnpm test:e2e     # E2E (Playwright) — 최초 1회: pnpm exec playwright insta
 pnpm build        # 프로덕션 빌드 -> dist/
 pnpm preview      # 빌드 결과 미리보기
 ```
+
+Node.js 22와 pnpm 10 환경을 권장합니다. E2E 테스트를 처음 실행할 때만
+`pnpm exec playwright install chromium`으로 브라우저를 설치하세요.
+
+## 기여하기
+
+버그 제보, 학습 콘텐츠 수정, 새 기능 제안 모두 환영합니다.
+
+1. [Issues](https://github.com/kimyoo04/jp-study/issues)에서 기존 논의를 먼저 확인하거나 [서비스 개선 건의 양식](https://github.com/kimyoo04/jp-study/issues/new?template=feedback.yml)을 작성합니다.
+2. 저장소를 Fork한 뒤 `feat/짧은-설명` 또는 `fix/짧은-설명` 브랜치를 만듭니다.
+3. 변경 후 `pnpm test`, 필요하면 `pnpm test:e2e`, `pnpm build`를 실행합니다.
+4. 변경 이유와 테스트 결과를 적어 Pull Request를 보냅니다.
+
+콘텐츠를 추가할 때는 기존 덱의 타입과 필드 형식을 따르고, 중복·오답 선택지·카테고리를 함께 점검해 주세요. 작은 수정도 환영하며, 구현 전에 Issue로 방향을 상의해도 좋습니다.
 
 ## 구조
 
